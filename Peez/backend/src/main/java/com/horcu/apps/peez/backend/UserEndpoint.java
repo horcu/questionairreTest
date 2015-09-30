@@ -31,6 +31,8 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
         name = "userApi",
         version = "v1",
         resource = "user",
+     //   clientIds = {Ids.WEB_CLIENT_ID, Ids.ANDROID_CLIENT_ID, Ids.IOS_CLIENT_ID},
+//        audiences = {Ids.ANDROID_AUDIENCE},
         namespace = @ApiNamespace(
                 ownerDomain = "models.backend.peez.apps.horcu.com",
                 ownerName = "models.backend.peez.apps.horcu.com",
@@ -42,11 +44,6 @@ public class UserEndpoint {
     private static final Logger logger = Logger.getLogger(UserEndpoint.class.getName());
 
     private static final int DEFAULT_LIST_LIMIT = 20;
-
-    static {
-        // Typically you would register this inside an OfyServive wrapper. See: https://code.google.com/p/objectify-appengine/wiki/BestPractices
-        ObjectifyService.register(User.class);
-    }
 
     /**
      * Returns the {@link User} with the corresponding ID.

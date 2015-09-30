@@ -11,17 +11,17 @@ import com.googlecode.objectify.annotation.Index;
 @Entity
 public class User {
 
-    @Id
-    Long id;
+    @Id Long id;
+
     @Index
    public String userName;
    public String alias;
-   private float cash;
-   private String email;
-   private String phone;
-   private SimpleDate joined;
-   private Long rank;
-   private String registrationId;
+   public double cash;
+   public String email;
+   public String phone;
+   public String joined;
+   public Long rank;
+   public String registrationId;
     // you can add more fields...
 
     public User() {
@@ -35,11 +35,11 @@ public class User {
         this.alias = alias;
     }
 
-    public float getCash() {
+    public double getCash() {
         return cash;
     }
 
-    public void setCash(float cash) {
+    public void setCash(double cash) {
         this.cash = cash;
     }
 
@@ -59,11 +59,11 @@ public class User {
         this.phone = phone;
     }
 
-    public SimpleDate getJoined() {
+    public String getJoined() {
         return joined;
     }
 
-    public void setJoined(SimpleDate joined) {
+    public void setJoined(String joined) {
         this.joined = joined;
     }
 

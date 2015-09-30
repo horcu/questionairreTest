@@ -32,6 +32,8 @@ import static com.horcu.apps.peez.backend.OfyService.ofy;
 @Api(
         name = "registration",
         version = "v1",
+//        clientIds = {Ids.WEB_CLIENT_ID, Ids.ANDROID_CLIENT_ID, Ids.IOS_CLIENT_ID},
+//        audiences = {Ids.ANDROID_AUDIENCE},
         namespace = @ApiNamespace(
                 ownerDomain = "backend.peez.apps.horcu.com",
                 ownerName = "backend.peez.apps.horcu.com",
