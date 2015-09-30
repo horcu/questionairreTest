@@ -1,4 +1,4 @@
-package com.horcu.apps.peez.backend;
+package com.horcu.apps.peez.backend.models;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
