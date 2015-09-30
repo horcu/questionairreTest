@@ -11,6 +11,7 @@ import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.response.CollectionResponse;
 import com.horcu.apps.peez.backend.models.RegistrationRecord;
+import com.horcu.apps.peez.backend.utilities.consts;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -32,8 +33,9 @@ import static com.horcu.apps.peez.backend.OfyService.ofy;
 @Api(
         name = "registration",
         version = "v1",
-//        clientIds = {Ids.WEB_CLIENT_ID, Ids.ANDROID_CLIENT_ID, Ids.IOS_CLIENT_ID},
-//        audiences = {Ids.ANDROID_AUDIENCE},
+        clientIds = {consts.WEB_CLIENT_IDS,
+                consts.ANDROID_CLIENT_IDS},
+        audiences = {consts.WEB_CLIENT_IDS},
         namespace = @ApiNamespace(
                 ownerDomain = "backend.peez.apps.horcu.com",
                 ownerName = "backend.peez.apps.horcu.com",

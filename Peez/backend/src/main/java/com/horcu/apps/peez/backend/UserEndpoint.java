@@ -7,9 +7,9 @@ import com.google.api.server.spi.response.CollectionResponse;
 import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.QueryResultIterator;
-import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.cmd.Query;
 import com.horcu.apps.peez.backend.models.User;
+import com.horcu.apps.peez.backend.utilities.consts;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +31,9 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
         name = "userApi",
         version = "v1",
         resource = "user",
-     //   clientIds = {Ids.WEB_CLIENT_ID, Ids.ANDROID_CLIENT_ID, Ids.IOS_CLIENT_ID},
-//        audiences = {Ids.ANDROID_AUDIENCE},
+        clientIds = {consts.WEB_CLIENT_IDS,
+                     consts.ANDROID_CLIENT_IDS},
+        audiences = {consts.WEB_CLIENT_IDS},
         namespace = @ApiNamespace(
                 ownerDomain = "models.backend.peez.apps.horcu.com",
                 ownerName = "models.backend.peez.apps.horcu.com",

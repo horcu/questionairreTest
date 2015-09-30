@@ -12,4 +12,7 @@ public class consts {
    //urls for dev/prod
    public static  String DEV_URL = "http://localhost:8099/_ah/api/";
    public static  String PROD_URL = "https://ballrz-7d916.appspot.com/";
+
+
+
 }
