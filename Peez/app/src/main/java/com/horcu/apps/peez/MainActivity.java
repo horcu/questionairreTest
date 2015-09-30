@@ -16,22 +16,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.TextView;
-
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
-
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
+import com.horcu.apps.common.utilities.consts;
 import com.horcu.apps.peez.backend.models.userApi.UserApi;
 import com.horcu.apps.peez.backend.models.userApi.model.User;
-import com.horcu.apps.peez.utils.consts;
-
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -84,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 if(myApiService == null) {
                     UserApi.Builder builder = new UserApi.Builder(AndroidHttp.newCompatibleTransport()
                             , new AndroidJsonFactory(), null)
-                            .setRootUrl("http://10.0.2.2:8080/_ah/api/")
+                            .setRootUrl(consts.DEV_MODE ? consts.DEV_URL : consts.PROD_URL)
                             .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
                                 @Override
                                 public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
