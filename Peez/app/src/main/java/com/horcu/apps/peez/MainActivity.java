@@ -1,5 +1,8 @@
 package com.horcu.apps.peez;
 
+import android.accounts.AccountManager;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -19,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 import com.horcu.apps.common.utilities.consts;
@@ -43,75 +47,36 @@ public class MainActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            // Create the adapter that will return a fragment for each of the three
+            // primary sections of the activity.
+            mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        //put this in an Async task
-        // look at the original balln app for the proper way to handle errors in an asyc task
-        new AsyncTask<Void, Void, Void>() {
+            // Set up the ViewPager with the sections adapter.
+            mViewPager = (ViewPager) findViewById(R.id.container);
+            mViewPager.setAdapter(mSectionsPagerAdapter);
 
-            private  UserApi myApiService = null;
 
-            protected Void doInBackground(Void... params) {
-                User user = new User();
-                user.setAlias("peze");                       // set the email address as the alias then ask the user to change it later in a noninvasive way
-                user.setCash(consts.STARTING_CASH);
-                user.setEmail("horatio.cummings@gmail.com"); // get this automatically after logging in;
-                user.setJoined("2015-09-02"); // set this to today unless the user is already a member
-                user.setRank((long) 100000000);
-                user.setPhone("540 915 2215");               // get this programmatically
-                user.setRegistrationId("regid");             // this will be supplied after calling register in an asyc task before this one
-
-                if(myApiService == null) {
-                    UserApi.Builder builder = new UserApi.Builder(AndroidHttp.newCompatibleTransport()
-                            , new AndroidJsonFactory(), null)
-                            .setRootUrl(consts.DEV_MODE ? consts.DEV_URL : consts.PROD_URL)
-                            .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
-                                @Override
-                                public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
-                                    abstractGoogleClientRequest.setDisableGZipContent(true);
-                                }
-                            });
-                    myApiService = builder.build();
+            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
                 }
-
-                try {
-                     myApiService.insert(user).execute();
-                } catch (IOException e) {
-                   // return Collections.EMPTY_LIST;
-                }
-                return null;
-            }
-
-            protected void onPostExecute(String msg) {
-               Snackbar.make(mViewPager,"user registered successfuly",Snackbar.LENGTH_LONG).show();
-            }
-        }.execute();
-
-        //end async task
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+            });
 
     }
+
+
 
 
     @Override

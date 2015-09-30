@@ -4,6 +4,7 @@ package com.horcu.apps.common.utilities;
  * Created by hacz on 9/30/2015.
  */
 public class consts {
+   public static final String PREF_ACCOUNT_NAME = "pref_acct_name";
    public static  double STARTING_CASH = 50.00;
 
    //turn dev mode on and off
