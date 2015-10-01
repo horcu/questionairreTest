@@ -1,6 +1,7 @@
 package com.horcu.apps.peez;
 
 import android.accounts.AccountManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -9,8 +10,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
@@ -19,15 +20,19 @@ import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 import com.horcu.apps.common.utilities.consts;
 import com.horcu.apps.peez.backend.models.userApi.UserApi;
 import com.horcu.apps.peez.backend.models.userApi.model.User;
+import com.horcu.apps.peez.backend.registration.Registration;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PrelimActivity extends AppCompatActivity {
     private SharedPreferences settings;
     private GoogleAccountCredential credential;
     private String accountName;
     static final int REQUEST_ACCOUNT_PICKER = 2;
-    private  UserApi myApiService = null;
+    private  UserApi userApi = null;
+    private Registration registrationApi = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,18 +47,9 @@ public class PrelimActivity extends AppCompatActivity {
 
         setSelectedAccountName(settings.getString(consts.PREF_ACCOUNT_NAME, null));
 
-        if(myApiService == null) {
-            UserApi.Builder builder = new UserApi.Builder(AndroidHttp.newCompatibleTransport()
-                    , new AndroidJsonFactory(), null)
-                    .setRootUrl(consts.DEV_MODE ? consts.DEV_URL : consts.PROD_URL)
-                    .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
-                        @Override
-                        public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
-                            abstractGoogleClientRequest.setDisableGZipContent(true);
-                        }
-                    });
-            myApiService = builder.build();
-        }
+        BuildRegistrationApiService();
+        BuildUserApiService();
+
 
         if (credential.getSelectedAccountName() == null) {
             chooseAccount();
@@ -62,44 +58,130 @@ public class PrelimActivity extends AppCompatActivity {
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
 
-            //put this in an Async task
-            // look at the original balln app for the proper way to handle errors in an asyc task
-            new AsyncTask<Void, Void, String>() {
+            //dev
+            final User user = new User();
+            user.setId(credential.getSelectedAccount().name);
+            user.setAlias("peze");                       // set the email address as the alias then ask the user to change it later in a noninvasive way
+            user.setCash(consts.STARTING_CASH);
+            user.setEmail("horatio.cummings@gmail.com"); // get this automatically after logging in;
+            user.setJoined("2015-09-02"); // set this to today unless the user is already a member
+            user.setRank((long) 100000000);
+            user.setPhone("540 915 2215");               // get this programmatically
 
-                protected String doInBackground(Void... params) {
-                    User user = new User();
-                    user.setAlias("peze");                       // set the email address as the alias then ask the user to change it later in a noninvasive way
-                    user.setCash(consts.STARTING_CASH);
-                    user.setEmail("horatio.cummings@gmail.com"); // get this automatically after logging in;
-                    user.setJoined("2015-09-02"); // set this to today unless the user is already a member
-                    user.setRank((long) 100000000);
-                    user.setPhone("540 915 2215");               // get this programmatically
-                    user.setRegistrationId("regid");             // this will be supplied after calling register in an asyc task before this one
+            RegisterDeviceAsync(fab, user, this);
 
-                    try {
-                        myApiService.insert(user).execute();
-                    } catch (IOException e) {
-                        // return Collections.EMPTY_LIST;
+        }
+        //fab.setVisibility(View.GONE);
+    }
+
+    private void RegisterDeviceAsync(final FloatingActionButton fab, final User user, final Context ctx) {
+        new AsyncTask<Void, Void, String> (){
+            Registration regService = null;
+             GoogleCloudMessaging gcm;
+             Context context = ctx;
+
+            final String SENDER_ID = consts.SENDER_ID;
+
+            protected String doInBackground(Void... params) {
+                if (regService == null) {
+                    Registration.Builder builder = new Registration.Builder(AndroidHttp.newCompatibleTransport(),
+                            new AndroidJsonFactory(), null)
+                            // Need setRootUrl and setGoogleClientRequestInitializer only for local testing,
+                            // otherwise they can be skipped
+                            .setRootUrl(consts.DEV_MODE
+                                    ? consts.DEV_URL
+                                    : consts.PROD_URL)
+                            .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
+                                @Override
+                                public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest)
+                                        throws IOException {
+                                    abstractGoogleClientRequest.setDisableGZipContent(true);
+                                }
+                            });
+                     regService = builder.build();
+                }
+
+                String msg;
+                try {
+                    if (gcm == null) {
+                        gcm = GoogleCloudMessaging.getInstance(context);
                     }
-                    return "success";
+                    String regId = gcm.register(SENDER_ID);
+                    msg = "Device registered, registration ID=" + regId;
+
+                    regService.register(regId).execute();
+
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    msg = "Error: " + ex.getMessage();
                 }
+                return msg;
+            }
 
-                protected void onPostExecute(String msg) {
-                    Snackbar.make(fab,"user registered successfuly",Snackbar.LENGTH_LONG).show();
+            protected void onPostExecute(String regId) {
+                AddUserAsync(fab,user, regId);
+               Snackbar.make(fab, "device registered with id:" + regId, Snackbar.LENGTH_LONG).show();
+               Snackbar.make(fab, "adding user", Snackbar.LENGTH_LONG).show();
+                Logger.getLogger("REGISTRATION").log(Level.INFO, regId);
+            }
+        }.execute();
+    }
+
+    private void AddUserAsync(final FloatingActionButton fab, final User user, final String regId) {
+
+        new AsyncTask<Void, Void, String>() {
+
+            protected String doInBackground(Void... params) {
+                       // this will be supplied after calling register in an asyc task before this one
+
+                try {
+                    user.setRegistrationId(regId);
+                    userApi.insert(user).execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    // return Collections.EMPTY_LIST;
                 }
-            }.execute();
+                return "success";
+            }
 
-            //end async task
+            protected void onPostExecute(String msg) {
+                Snackbar.make(fab, "user registration successfully", Snackbar.LENGTH_LONG).show();
+                Logger.getLogger("ADDED USER").log(Level.INFO, msg);
+            }
+        }.execute();
+    }
 
+    private void BuildRegistrationApiService() {
+        if(registrationApi == null) {
+            Registration.Builder builder = new Registration.Builder(AndroidHttp.newCompatibleTransport()
+                    , new AndroidJsonFactory(), null)
+                    .setRootUrl(consts.DEV_MODE
+                            ? consts.DEV_URL
+                            : consts.PROD_URL)
+                    .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
+                        @Override
+                        public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
+                            abstractGoogleClientRequest.setDisableGZipContent(true);
+                        }
+                    });
+            registrationApi = builder.build();
+        }
+    }
 
-
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }
-            });
+    private void BuildUserApiService() {
+        if(userApi == null) {
+            UserApi.Builder builder = new UserApi.Builder(AndroidHttp.newCompatibleTransport()
+                    , new AndroidJsonFactory(), null)
+                    .setRootUrl(consts.DEV_MODE
+                            ? consts.DEV_URL
+                            : consts.PROD_URL)
+                    .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
+                        @Override
+                        public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
+                            abstractGoogleClientRequest.setDisableGZipContent(true);
+                        }
+                    });
+            userApi = builder.build();
         }
     }
 

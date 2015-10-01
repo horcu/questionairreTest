@@ -5,6 +5,7 @@ package com.horcu.apps.common.utilities;
  */
 public class consts {
    public static final String PREF_ACCOUNT_NAME = "pref_acct_name";
+   public static final String SENDER_ID = "932165043385";
    public static  double STARTING_CASH = 50.00;
 
    //turn dev mode on and off
@@ -12,7 +13,7 @@ public class consts {
 
    //urls for dev/prod
    public static  String DEV_URL = "http://localhost:8099/_ah/api/";
-   public static  String PROD_URL = "https://ballrz-7d916.appspot.com/";
+   public static  String PROD_URL = "https://ballrz-7d916.appspot.com/_ah/api/";
 
 
 

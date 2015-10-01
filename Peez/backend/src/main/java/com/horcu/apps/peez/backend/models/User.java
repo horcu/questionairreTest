@@ -1,6 +1,7 @@
 package com.horcu.apps.peez.backend.models;
 
 import com.google.api.server.spi.types.SimpleDate;
+import com.google.appengine.api.datastore.Text;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
@@ -11,7 +12,7 @@ import com.googlecode.objectify.annotation.Index;
 @Entity
 public class User {
 
-    @Id Long id;
+    @Id public String id;
 
     @Index
    public String userName;
@@ -81,5 +82,13 @@ public class User {
 
     public void setRegistrationId(String registrationId) {
         this.registrationId = registrationId;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

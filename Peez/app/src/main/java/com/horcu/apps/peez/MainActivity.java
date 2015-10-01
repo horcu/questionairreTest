@@ -20,15 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.extensions.android.json.AndroidJsonFactory;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
-import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
-import com.horcu.apps.common.utilities.consts;
-import com.horcu.apps.peez.backend.models.userApi.UserApi;
-import com.horcu.apps.peez.backend.models.userApi.model.User;
-import java.io.IOException;
+
 
 public class MainActivity extends AppCompatActivity {
 

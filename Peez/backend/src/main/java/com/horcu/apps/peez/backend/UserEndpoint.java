@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 import javax.annotation.Nullable;
 import javax.inject.Named;
 
-import static com.googlecode.objectify.ObjectifyService.ofy;
+import static com.horcu.apps.peez.backend.OfyService.ofy;
 
 /**
  * WARNING: This generated code is intended as a sample or starting point for using a
@@ -72,7 +72,7 @@ public class UserEndpoint {
     @ApiMethod(
             name = "insert",
             path = "user",
-            httpMethod = ApiMethod.HttpMethod.POST)
+            httpMethod = ApiMethod.HttpMethod.PUT)
     public User insert(User user) {
         // Typically in a RESTful API a POST does not have a known ID (assuming the ID is used in the resource path).
         // You should validate that user.id has not been set. If the ID type is not supported by the
