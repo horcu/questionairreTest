@@ -66,11 +66,11 @@ public class GCMActivity extends AppCompatActivity implements AdapterView.OnItem
     static final String PREF_LAST_SCREEN_ID = "selected_screen_id";
     static final String PREF_OPEN_DRAWER_AT_STARTUP = "open_drawer_at_startup";
 
-    private ActionBarDrawerToggle mDrawerToggle;
-    private DrawerLayout mDrawerLayout;
-    private FrameLayout mDrawerView;
-    private ListView mDrawerMenu;
-    private View mDrawerScrim;
+//    private ActionBarDrawerToggle mDrawerToggle;
+//    private DrawerLayout mDrawerLayout;
+//    private FrameLayout mDrawerView;
+//    private ListView mDrawerMenu;
+//    private View mDrawerScrim;
     private LoggingService.Logger mLogger;
     private TextView mLogsUI;
     private BroadcastReceiver mLoggerCallback;
@@ -139,27 +139,27 @@ public class GCMActivity extends AppCompatActivity implements AdapterView.OnItem
                     getWindowManager().getDefaultDisplay().getMetrics(metrics);
                     float logicalDensity = metrics.density;
                     int maxWidth = (int) Math.ceil(320 * logicalDensity);
-                    DrawerLayout.LayoutParams params =
-                            (DrawerLayout.LayoutParams) mDrawerView.getLayoutParams();
+//                    DrawerLayout.LayoutParams params =
+//                            (DrawerLayout.LayoutParams) mDrawerView.getLayoutParams();
                     int newWidth = view.getWidth() - view.getHeight();
-                    params.width = (newWidth > maxWidth ? maxWidth : newWidth);
-                    mDrawerView.setLayoutParams(params);
+//                    params.width = (newWidth > maxWidth ? maxWidth : newWidth);
+//                    mDrawerView.setLayoutParams(params);
                 }
             });
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
-            mDrawerView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
-                @TargetApi(Build.VERSION_CODES.KITKAT_WATCH)
-                @Override
-                public WindowInsets onApplyWindowInsets(View v, WindowInsets insets) {
-                    // Set scrim height to match status bar height.
-                    mDrawerScrim.setLayoutParams(new FrameLayout.LayoutParams(
-                            FrameLayout.LayoutParams.MATCH_PARENT,
-                            insets.getSystemWindowInsetTop()));
-                    return insets;
-                }
-            });
+//            mDrawerView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+//                @TargetApi(Build.VERSION_CODES.KITKAT_WATCH)
+//                @Override
+//                public WindowInsets onApplyWindowInsets(View v, WindowInsets insets) {
+//                    // Set scrim height to match status bar height.
+//                    mDrawerScrim.setLayoutParams(new FrameLayout.LayoutParams(
+//                            FrameLayout.LayoutParams.MATCH_PARENT,
+//                            insets.getSystemWindowInsetTop()));
+//                    return insets;
+//                }
+//            });
         }
 
         int activeItemIndicator = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) ?
@@ -229,7 +229,7 @@ public class GCMActivity extends AppCompatActivity implements AdapterView.OnItem
     @Override
     public void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
+        //mDrawerToggle.syncState();
     }
 
     @Override
@@ -263,13 +263,13 @@ public class GCMActivity extends AppCompatActivity implements AdapterView.OnItem
         if (showView) {
             // The logsView height set in XML is a placeholder, we need to compute at runtime
             // how much is 0.4 of the screen height.
-            int height = (int) (0.4 * mDrawerLayout.getHeight());
+          //  int height = (int) (0.4 * mDrawerLayout.getHeight());
 
             // The LogsView is hidden being placed off-screen with a negative bottomMargin.
             // We need to update its height and bottomMargin to the correct runtime values.
             logsLayoutParams.bottomMargin = -logsLayoutParams.height;
             logsView.setLayoutParams(logsLayoutParams);
-            logsLayoutParams.height = height;
+          //  logsLayoutParams.height = height;
 
             // Prepare the value for the Show animation.
             startLogsY = logsLayoutParams.bottomMargin;
@@ -350,7 +350,7 @@ public class GCMActivity extends AppCompatActivity implements AdapterView.OnItem
             transaction.commit();
             getSupportFragmentManager().executePendingTransactions();
             // The header takes the first position.
-            mDrawerMenu.setItemChecked(pos + 1, true);
+            //mDrawerMenu.setItemChecked(pos + 1, true);
             getAppPreferences().edit().putInt(PREF_LAST_SCREEN_ID, pos).apply();
         } catch (InstantiationException e) {
             Log.wtf(LoggingService.LOG_TAG, "Error while instantiating the selected fragment", e);
@@ -366,20 +366,21 @@ public class GCMActivity extends AppCompatActivity implements AdapterView.OnItem
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
         selectItem(pos - 1);
-        mDrawerLayout.closeDrawer(mDrawerView);
+      //  mDrawerLayout.closeDrawer(mDrawerView);
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
+       // mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return (mDrawerToggle.onOptionsItemSelected(item)
-                || mMainMenu.onOverflowMenuItemSelected(item)
-                || super.onOptionsItemSelected(item));
+//        return (mDrawerToggle.onOptionsItemSelected(item)
+//                || mMainMenu.onOverflowMenuItemSelected(item)
+//                || super.onOptionsItemSelected(item));
+        return true;
     }
 
     @Override

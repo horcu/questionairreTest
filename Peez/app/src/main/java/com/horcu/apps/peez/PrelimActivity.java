@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.telephony.TelephonyManager;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -24,6 +25,7 @@ import com.horcu.apps.peez.backend.registration.Registration;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -40,6 +42,8 @@ public class PrelimActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prelim);
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        TelephonyManager tMgr = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+        String mPhoneNumber = tMgr.getLine1Number();
 
         settings = getSharedPreferences( "Peez", 0);
 
@@ -61,15 +65,13 @@ public class PrelimActivity extends AppCompatActivity {
 
             //dev
             final User user = new User();
-            user.setId(credential.getSelectedAccount().name);
             user.setAlias("peze");                       // set the email address as the alias then ask the user to change it later in a noninvasive way
             user.setCash(consts.STARTING_CASH);
-            user.setEmail("horatio.cummings@gmail.com"); // get this automatically after logging in;
-            user.setJoined("2015-09-02"); // set this to today unless the user is already a member
-            user.setRank((long) 100000000);
-            user.setPhone("540 915 2215");               // get this programmatically
-
-            RegisterDeviceAsync(fab, user, this);
+            user.setEmail(credential.getSelectedAccount().name); // get this automatically after logging in; TODO - make provision for getting email if the device is ios
+            user.setJoined(new Date().toString()); // set this to today unless the user is already a member
+            user.setRank(consts.STARTING_RANK);
+            user.setPhone(mPhoneNumber);               // get this programmatically
+                        RegisterDeviceAsync(fab, user, this);
 
         }
         //fab.setVisibility(View.GONE);
