@@ -25,16 +25,67 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".ui.addressbook.SelectActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog"
+            android:windowSoftInputMode="adjustPan" >
+            <intent-filter>
+                <action android:name="android.intent.action.PICK" />
+
+                <category android:name="com.google.android.gcm.demo.intent.category.SENDER_ID" />
+                <category android:name="com.google.android.gcm.demo.intent.category.API_KEY" />
+                <category android:name="com.google.android.gcm.demo.intent.category.TOKEN" />
+                <category android:name="com.google.android.gcm.demo.intent.category.TOPIC" />
+                <category android:name="com.google.android.gcm.demo.intent.category.GROUP" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <!-- for Gingerbread GSF backward compat -->
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="com.google.android.gcm.demo" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".service.GcmService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".service.LoggingService"
+            android:exported="false" />
+        <service
+            android:name=".service.TaskSchedulerService"
+            android:exported="true"
+            android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE" >
+            <intent-filter>
+                <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY" />
+
+                <category android:name="com.google.android.gcm.demo" />
+            </intent-filter>
+        </service>
+
 
         <activity
             android:name=".PrelimActivity"

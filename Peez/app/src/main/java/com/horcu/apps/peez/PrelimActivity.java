@@ -23,6 +23,7 @@ import com.horcu.apps.peez.backend.models.userApi.model.User;
 import com.horcu.apps.peez.backend.registration.Registration;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -139,14 +140,22 @@ public class PrelimActivity extends AppCompatActivity {
                     userApi.insert(user).execute();
                 } catch (IOException e) {
                     e.printStackTrace();
-                    // return Collections.EMPTY_LIST;
+                     return "";
                 }
                 return "success";
             }
 
             protected void onPostExecute(String msg) {
-                Snackbar.make(fab, "user registration successfully", Snackbar.LENGTH_LONG).show();
-                Logger.getLogger("ADDED USER").log(Level.INFO, msg);
+                if(msg == ""){
+                    Snackbar.make(fab, "user registration failed", Snackbar.LENGTH_LONG).show();
+                    Logger.getLogger("ADDED USER FAiled").log(Level.SEVERE, msg);
+                }
+                else{
+                    Snackbar.make(fab, "user registration successfully", Snackbar.LENGTH_LONG).show();
+                    Logger.getLogger("ADDED USER").log(Level.INFO, msg);
+                    navigateToApp();
+                }
+
             }
         }.execute();
     }

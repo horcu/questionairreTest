@@ -72,7 +72,7 @@ public class UserEndpoint {
     @ApiMethod(
             name = "insert",
             path = "user",
-            httpMethod = ApiMethod.HttpMethod.PUT)
+            httpMethod = ApiMethod.HttpMethod.POST)
     public User insert(User user) {
         // Typically in a RESTful API a POST does not have a known ID (assuming the ID is used in the resource path).
         // You should validate that user.id has not been set. If the ID type is not supported by the
