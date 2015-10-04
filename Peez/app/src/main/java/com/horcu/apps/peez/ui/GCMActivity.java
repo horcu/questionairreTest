@@ -108,23 +108,23 @@ public class GCMActivity extends AppCompatActivity implements AdapterView.OnItem
         };
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-      ///  mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-      //  mDrawerView = (FrameLayout) findViewById(R.id.navigation_drawer);
-      //  mDrawerMenu = (ListView) findViewById(R.id.navigation_drawer_menu);
-      //  mDrawerScrim = findViewById(R.id.navigation_drawer_scrim);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerView = (FrameLayout) findViewById(R.id.navigation_drawer);
+        mDrawerMenu = (ListView) findViewById(R.id.navigation_drawer_menu);
+        mDrawerScrim = findViewById(R.id.navigation_drawer_scrim);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TypedArray colorPrimaryDark =
                 getTheme().obtainStyledAttributes(new int[]{R.attr.colorPrimaryDark});
-       // mDrawerLayout.setStatusBarBackgroundColor(colorPrimaryDark.getColor(0, 0xFF000000));
-        //mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+        mDrawerLayout.setStatusBarBackgroundColor(colorPrimaryDark.getColor(0, 0xFF000000));
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         colorPrimaryDark.recycle();
 
         ImageView drawerHeader = new ImageView(this);
-       // drawerHeader.setImageResource(R.drawable.drawer_gcm_logo);
-      //  mDrawerMenu.addHeaderView(drawerHeader);
+        drawerHeader.setImageResource(R.drawable.drawer_gcm_logo);
+        mDrawerMenu.addHeaderView(drawerHeader);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             // Set the drawer width accordingly with the guidelines: window_width - toolbar_height.
@@ -167,29 +167,29 @@ public class GCMActivity extends AppCompatActivity implements AdapterView.OnItem
                 android.R.layout.simple_list_item_checked;
 
         mMainMenu = new MainMenu(this);
-     //   mDrawerMenu.setOnItemClickListener(this);
-     //   mDrawerMenu.setAdapter(new ArrayAdapter<>(getSupportActionBar().getThemedContext(),
-               // activeItemIndicator, android.R.id.text1, mMainMenu.getEntries()));
+        mDrawerMenu.setOnItemClickListener(this);
+        mDrawerMenu.setAdapter(new ArrayAdapter<>(getSupportActionBar().getThemedContext(),
+                activeItemIndicator, android.R.id.text1, mMainMenu.getEntries()));
 
-//        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open,
-//                R.string.drawer_close) {
-//            @Override
-//            public void onDrawerOpened(View drawerView) {
-//                // The user learned how to open the drawer. Do not open it for him anymore.
-//                getAppPreferences().edit()
-//                        .putBoolean(PREF_OPEN_DRAWER_AT_STARTUP, false).apply();
-//                super.onDrawerOpened(drawerView);
-//            }
-//        };
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open,
+                R.string.drawer_close) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                // The user learned how to open the drawer. Do not open it for him anymore.
+                getAppPreferences().edit()
+                        .putBoolean(PREF_OPEN_DRAWER_AT_STARTUP, false).apply();
+                super.onDrawerOpened(drawerView);
+            }
+        };
 
         boolean activityResumed = (savedState != null);
         boolean openDrawer = getAppPreferences().getBoolean(PREF_OPEN_DRAWER_AT_STARTUP, true);
         int lastScreenId = getAppPreferences().getInt(PREF_LAST_SCREEN_ID, 0);
         selectItem(lastScreenId);
-      //  if (!activityResumed && openDrawer) {
-      //     mDrawerLayout.openDrawer(mDrawerView);
-      //  }
-      //  mDrawerLayout.setDrawerListener(mDrawerToggle);
+        if (!activityResumed && openDrawer) {
+           mDrawerLayout.openDrawer(mDrawerView);
+        }
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         /*
          * Here we check if the Activity was created by the user clicking on one of our GCM
@@ -380,6 +380,7 @@ public class GCMActivity extends AppCompatActivity implements AdapterView.OnItem
         return (mDrawerToggle.onOptionsItemSelected(item)
                 || mMainMenu.onOverflowMenuItemSelected(item)
                 || super.onOptionsItemSelected(item));
+
     }
 
     @Override

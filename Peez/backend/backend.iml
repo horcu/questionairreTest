@@ -12,7 +12,7 @@
         <option name="HTTP_PORT" value="8099" />
         <option name="WAR_DIR" value="C:\Users\hacz\Documents\Git repo\Peez\backend\build\exploded-app" />
         <option name="WEB_APP_DIR" value="C:\Users\hacz\Documents\Git repo\Peez\backend\src\main\webapp" />
-        <option name="APPENGINE_SDKROOT" value="C:\Users\hacz\.gradle\appengine-sdk\appengine-java-sdk-1.9.24" />
+        <option name="APPENGINE_SDKROOT" value="C:\Users\hacz\.gradle\appengine-sdk\appengine-java-sdk-1.9.27" />
       </configuration>
     </facet>
     <facet type="java-gradle" name="Java-Gradle">

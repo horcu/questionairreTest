@@ -14,4 +14,13 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="murple" parent="@style/Theme.AppCompat.Light.NoActionBar" >
+        <item name="colorPrimary">@color/primary_material_light_1</item>
+        <item name="colorPrimaryDark">@color/primary_material_light_1</item>
+        <item name="android:navigationBarColor">@color/black</item>
+        <item name="android:windowBackground">@drawable/p2</item>
+
+    </style>
+
+    <color name="white">#ffffff</color>
 </resources>

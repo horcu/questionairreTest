@@ -43,13 +43,13 @@ import java.util.List;
  * The logs from the file are displayed in a view inside the main activity.
  */
 public class LoggingService extends IntentService {
-    public static final String LOG_TAG = "GcmDemo";
+    public static final String LOG_TAG = "gcm";
     public static final String ACTION_LOG = BuildConfig.APPLICATION_ID + ".LOG";
     public static final String ACTION_CLEAR_LOGS = BuildConfig.APPLICATION_ID + ".CLEAR_LOGS";
     public static final String EXTRA_LOG_PRIORITY = "log_priority";
     public static final String EXTRA_LOG_MESSAGE = "log_message";
 
-    private static final String LOG_FILE = "gcm-demo.log";
+    private static final String LOG_FILE = "peez-gcm.log";
     private static final String LOG_SEPARATOR = "\n\n";
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
 
