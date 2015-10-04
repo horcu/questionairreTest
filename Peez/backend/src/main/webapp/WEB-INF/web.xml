@@ -15,7 +15,9 @@
             <param-name>services</param-name>
             <param-value>com.horcu.apps.peez.backend.RegistrationEndpoint,
                 com.horcu.apps.peez.backend.MessagingEndpoint,
-                com.horcu.apps.peez.backend.UserEndpoint</param-value>
+                com.horcu.apps.peez.backend.UserEndpoint,
+                com.horcu.apps.peez.backend.storage.CloudStorageEndpoint
+            </param-value>
         </init-param>
     </servlet>
     <servlet-mapping>
