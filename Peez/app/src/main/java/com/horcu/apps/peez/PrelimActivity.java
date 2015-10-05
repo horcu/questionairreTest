@@ -4,8 +4,10 @@ import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Credentials;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -36,6 +38,7 @@ public class PrelimActivity extends AppCompatActivity {
     static final int REQUEST_ACCOUNT_PICKER = 2;
     private  UserApi userApi = null;
     private Registration registrationApi = null;
+    String mPhoneNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +46,7 @@ public class PrelimActivity extends AppCompatActivity {
         setContentView(R.layout.activity_prelim);
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         TelephonyManager tMgr = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-        String mPhoneNumber = tMgr.getLine1Number();
+        mPhoneNumber = tMgr.getLine1Number();
 
         settings = getSharedPreferences( "Peez", 0);
 
@@ -71,7 +74,7 @@ public class PrelimActivity extends AppCompatActivity {
             user.setJoined(new Date().toString()); // set this to today unless the user is already a member
             user.setRank(consts.STARTING_RANK);
             user.setPhone(mPhoneNumber);               // get this programmatically
-                        RegisterDeviceAsync(fab, user, this);
+            RegisterDeviceAsync(fab, user, this);
 
         }
         //fab.setVisibility(View.GONE);
@@ -125,6 +128,10 @@ public class PrelimActivity extends AppCompatActivity {
                 AddUserAsync(fab,user, regId);
                Snackbar.make(fab, "device registered with id:" + regId, Snackbar.LENGTH_LONG).show();
                Snackbar.make(fab, "adding user", Snackbar.LENGTH_LONG).show();
+
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString(consts.REG_ID, regId);
+                editor.commit();
                 Logger.getLogger("REGISTRATION").log(Level.INFO, regId);
             }
         }.execute();
@@ -155,7 +162,7 @@ public class PrelimActivity extends AppCompatActivity {
                 else{
                     Snackbar.make(fab, "user registration successfully", Snackbar.LENGTH_LONG).show();
                     Logger.getLogger("ADDED USER").log(Level.INFO, msg);
-                    navigateToApp();
+                    navigateToApp(user);
                 }
 
             }
@@ -211,7 +218,14 @@ public class PrelimActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putString(consts.PREF_ACCOUNT_NAME, accountName);
                         editor.commit();
-                       navigateToApp();
+
+                        User user = new User();
+                        user.setRegistrationId(settings.getString("regId", "0"));
+                        user.setUserName(accountName);//get from preferences/json local pref file / or cloud
+                        user.setEmail(accountName);//get from preferences/json local pref file / or cloud
+                        user.setPhone(mPhoneNumber);//get from preferences/json local pref file / or cloud
+                        user.setRank(consts.STARTING_RANK); //get from preferences/json local pref file / or cloud
+                        navigateToApp(user);
                     }
                     else {
                         chooseAccount();
@@ -221,8 +235,14 @@ public class PrelimActivity extends AppCompatActivity {
         }
     }
 
-    private void navigateToApp() {
+    private void navigateToApp(User user) {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.putExtra("regId", user.getRegistrationId());
+        intent.putExtra("email", user.getEmail());
+        intent.putExtra("userName", user.getUserName());
+        intent.putExtra("rank", user.getRank());
+        intent.putExtra("phone", user.getPhone());
+
         startActivity(intent);
     }
 

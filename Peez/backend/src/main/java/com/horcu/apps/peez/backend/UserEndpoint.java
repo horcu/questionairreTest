@@ -8,6 +8,7 @@ import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.QueryResultIterator;
 import com.googlecode.objectify.cmd.Query;
+import com.horcu.apps.peez.backend.models.RegistrationRecord;
 import com.horcu.apps.peez.backend.models.User;
 import com.horcu.apps.peez.backend.utilities.consts;
 
@@ -79,6 +80,10 @@ public class UserEndpoint {
         // Objectify ID generator, e.g. long or String, then you should generate the unique ID yourself prior to saving.
         //
         // If your client provides the ID then you should probably use PUT instead.
+        if (findRecord(user.getEmail()) != null) {
+            logger.info("User already exists.");
+            return user;
+        }
         ofy().save().entity(user).now();
         logger.info("Created User.");
 
@@ -99,7 +104,12 @@ public class UserEndpoint {
             path = "user/{id}",
             httpMethod = ApiMethod.HttpMethod.PUT)
     public User update(@Named("id") Long id, User user) throws NotFoundException {
-        // TODO: You should validate your ID parameter against your resource's ID here.
+
+        if (findRecord(user.getEmail()) != null) {
+            logger.info("User already exists.");
+            return user;
+        }
+
         checkExists(id);
         ofy().save().entity(user).now();
         logger.info("Updated User: " + user);
@@ -154,5 +164,9 @@ public class UserEndpoint {
         } catch (com.googlecode.objectify.NotFoundException e) {
             throw new NotFoundException("Could not find User with ID: " + id);
         }
+    }
+
+    private User findRecord(String email) {
+        return ofy().load().type(User.class).filter("email", email).first().now();
     }
 }

@@ -9,6 +9,7 @@ public class consts {
 
    public static final  double STARTING_CASH = 50.00;
    public static final Long STARTING_RANK = (long)0;
+   public static final String REG_ID = "registrationId";
 
    //turn dev mode on and off
    public static  boolean DEV_MODE = false;

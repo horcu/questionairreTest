@@ -1,6 +1,7 @@
 package com.horcu.apps.peez;
 
 import android.accounts.AccountManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -21,10 +22,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.extensions.android.json.AndroidJsonFactory;
+import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
+import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
+import com.horcu.apps.common.utilities.consts;
+import com.horcu.apps.peez.backend.models.userApi.model.User;
+import com.horcu.apps.peez.backend.registration.Registration;
 import com.horcu.apps.peez.ui.GCMActivity;
+import com.horcu.apps.peez.ui.fragments.testItemFragment;
+
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements testItemFragment.OnFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -40,14 +54,22 @@ public class MainActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            user = new User()
+                    .setEmail(bundle.getString("email"))
+                    .setRegistrationId(bundle.getString("regId"))
+                    .setUserName(bundle.getString("userName"))
+                    .setPhone(bundle.getString("phone"))
+                    .setRank(bundle.getLong("rank"));
+        }
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
             // Create the adapter that will return a fragment for each of the three
@@ -69,8 +91,6 @@ public class MainActivity extends AppCompatActivity {
             });
 
     }
-
-
 
 
     @Override
@@ -95,6 +115,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onFragmentInteraction(String id) {
+
+    }
+
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -110,13 +135,14 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            // return PlaceholderFragment.newInstance(position + 1);
+            return testItemFragment.newInstance(user);
         }
 
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 1;
         }
 
         @Override

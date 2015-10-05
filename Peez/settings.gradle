@@ -1,1 +1,1 @@
-include ':app', ':backend', ':common'//, ':gcm'
+include ':library', ':discreteseekbar', ':app', ':common', ':backend'//, ':gcm' ,':singleInputExample',
