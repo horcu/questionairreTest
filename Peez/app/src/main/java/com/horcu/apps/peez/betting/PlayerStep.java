@@ -11,8 +11,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.heinrichreimersoftware.singleinputform.steps.Step;
+
 import com.horcu.apps.peez.R;
+import com.horcu.apps.peez.steps.Step;
 
 /**
  * Created by hacz on 10/4/2015.
