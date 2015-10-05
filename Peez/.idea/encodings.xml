@@ -41,7 +41,7 @@
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/addressbook/SenderAdapter.java" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/addressbook/TokenAdapter.java" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/addressbook/TopicAdapter.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/cloud_googblue.png" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/group_grey600.png" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/smartphone_grey600.png" charset="windows-1252" />
@@ -69,7 +69,6 @@
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/widget_task.xml" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/menu/overflow_menu.xml" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/values/ids.xml" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/gcm" charset="windows-1252" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

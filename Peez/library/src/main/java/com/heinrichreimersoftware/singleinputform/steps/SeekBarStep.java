@@ -18,7 +18,6 @@ package com.heinrichreimersoftware.singleinputform.steps;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;

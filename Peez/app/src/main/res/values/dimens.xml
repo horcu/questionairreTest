@@ -4,4 +4,16 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
+
+    <dimen name="keyline">16dp</dimen>
+    <dimen name="keyline_card">8dp</dimen>
+
+    <dimen name="elevation_card">8dp</dimen>
+
+    <dimen name="icon_margin">8dp</dimen>
+
+    <!-- Setup -->
+    <dimen name="setup_progressbar_height">4dp</dimen>
+    <!-- Should never be more than (setup_progressbar_height / 2) -->
+    <dimen name="setup_textfield_corner_radius">2dp</dimen>
 </resources>

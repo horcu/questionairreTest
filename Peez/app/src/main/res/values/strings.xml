@@ -1,4 +1,9 @@
 <resources>
+    <string name="date_format">%3$d.%2$d.%1$d</string>
+    <string name="page_number">%1$d/%2$d</string>
+
+    <!-- Only needed for accessibility -->
+    <string name="next_step">Next step</string>
     <string name="app_name">Peez</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
@@ -267,4 +272,5 @@
         <string name="home_api_key_hint">Select a Sender API Key</string>
         <string name="home_destination">Destination:</string>
         <string name="home_destination_hint">Select a Destination</string>
+    <string name="title_activity_bet">BetActivity</string>
     </resources>
