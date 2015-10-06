@@ -69,7 +69,7 @@ limitations under the License.
             android:enabled="false"/>
     </LinearLayout>
 
-    <com.google.android.gcm.demo.ui.EditableMapView
+    <com.horcu.apps.peez.ui.EditableMapView
         android:id="@+id/token_extra"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

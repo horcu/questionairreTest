@@ -64,11 +64,10 @@ limitations under the License.
         android:hint="@string/upstream_ttl_hint"
         android:inputType="number" />
 
-    <com.google.android.gcm.demo.ui.EditableMapView
+    <com.horcu.apps.peez.ui.EditableMapView
         android:id="@+id/upstream_data"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </com.google.android.gcm.demo.ui.EditableMapView>
+        android:layout_height="wrap_content"></com.horcu.apps.peez.ui.EditableMapView>
 
     <Button
         android:id="@+id/upstream_send_button"

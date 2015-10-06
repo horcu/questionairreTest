@@ -75,11 +75,10 @@ limitations under the License.
         android:hint="@string/notification_color_hint"
         android:inputType="text" />
 
-    <com.google.android.gcm.demo.ui.EditableMapView
+    <com.horcu.apps.peez.ui.EditableMapView
         android:id="@+id/downstream_data"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </com.google.android.gcm.demo.ui.EditableMapView>
+        android:layout_height="wrap_content"></com.horcu.apps.peez.ui.EditableMapView>
     <Button
         android:id="@+id/downstream_send_button"
         android:layout_width="match_parent"

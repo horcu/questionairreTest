@@ -27,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.horcu.apps.common.utilities.consts;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.model.Sender;
 
@@ -74,6 +75,7 @@ public class ApiKeyAdapter extends AbstractElementAdapter {
         final EditText nameView = new EditText(mActivity);
         nameView.setHint(R.string.address_book_add_api_key_hint);
         LinearLayout layout = mActivity.getAddDialogLayout();
+        nameView.setText(consts.API_KEY); //TODO this is hard coding and should not be done in production
         layout.addView(nameView);
         alertBuilder.setView(layout);
         // Buttons
