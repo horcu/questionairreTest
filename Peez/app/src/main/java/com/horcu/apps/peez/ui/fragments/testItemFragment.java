@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.userApi.model.User;
+import com.horcu.apps.peez.ui.GCMActivity;
 import com.horcu.apps.peez.ui.activities.GameActivity;
 import com.horcu.apps.peez.ui.fragments.dummy.DummyContent;
 
@@ -59,13 +60,14 @@ public class testItemFragment extends Fragment implements AbsListView.OnItemClic
     // TODO: Rename and change types of parameters
     public static testItemFragment newInstance(User user) {
         testItemFragment fragment = new testItemFragment();
-        Bundle args = new Bundle();
-        args.putString("userName", user.getUserName());
-        args.putString("email", user.getEmail());
-        args.putString("regId", user.getRegistrationId());
-        args.putLong("rank", user.getRank());
 
-        fragment.setArguments(args);
+//        Bundle args = new Bundle();
+//        args.putString("userName", user.getUserName());
+//        args.putString("email", user.getEmail());
+//        args.putString("regId", user.getRegistrationId());
+//        args.putLong("rank", user.getRank());
+//
+//        fragment.setArguments(args);
         return fragment;
     }
 
@@ -104,7 +106,7 @@ public class testItemFragment extends Fragment implements AbsListView.OnItemClic
         view.findViewById(R.id.game).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), GameActivity.class);
+                Intent intent = new Intent(getActivity(), GCMActivity.class);
                 startActivity(intent);
             }
         });

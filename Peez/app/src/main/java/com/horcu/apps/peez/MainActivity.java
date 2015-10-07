@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.horcu.apps.peez.backend.models.userApi.model.User;
 import com.horcu.apps.peez.ui.GCMActivity;
+import com.horcu.apps.peez.ui.activities.GameActivity;
 import com.horcu.apps.peez.ui.fragments.testItemFragment;
 
 
@@ -45,16 +46,16 @@ public class MainActivity extends AppCompatActivity implements testItemFragment.
         setContentView(R.layout.activity_main);
 
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            user = new User()
-                    .setEmail(bundle.getString("email"))
-                    .setRegistrationId(bundle.getString("regId"))
-                    .setUserName(bundle.getString("userName"))
-                    .setPhone(bundle.getString("phone"))
-                    .setRank(bundle.getLong("rank"));
-        }
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
+//        if (bundle != null) {
+//            user = new User()
+//                    .setEmail(bundle.getString("email"))
+//                    .setRegistrationId(bundle.getString("regId"))
+//                    .setUserName(bundle.getString("userName"))
+//                    .setPhone(bundle.getString("phone"))
+//                    .setRank(bundle.getLong("rank"));
+//        }
+        //    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //     setSupportActionBar(toolbar);
             // Create the adapter that will return a fragment for each of the three
             // primary sections of the activity.
             mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements testItemFragment.
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                    Intent intent = new Intent(MainActivity.this, GameActivity.class);
                    startActivity(intent);
                 }
             });

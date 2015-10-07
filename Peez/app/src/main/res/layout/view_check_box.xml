@@ -22,7 +22,7 @@
     android:paddingStart="@dimen/keyline"
     android:paddingEnd="@dimen/keyline_card">
 
-    <com.heinrichreimersoftware.singleinputform.widgets.CheckBoxCompat
+    <com.horcu.apps.peez.widgets.CheckBoxCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:singleLine="true"

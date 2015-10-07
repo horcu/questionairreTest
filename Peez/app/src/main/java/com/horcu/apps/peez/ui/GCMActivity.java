@@ -109,14 +109,14 @@ public class GCMActivity extends AppCompatActivity implements AdapterView.OnItem
             }
         };
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //  Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerView = (FrameLayout) findViewById(R.id.navigation_drawer);
         mDrawerMenu = (ListView) findViewById(R.id.navigation_drawer_menu);
         mDrawerScrim = findViewById(R.id.navigation_drawer_scrim);
 
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        // setSupportActionBar(toolbar);
+        //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TypedArray colorPrimaryDark =
                 getTheme().obtainStyledAttributes(new int[]{R.attr.colorPrimaryDark});
@@ -130,24 +130,24 @@ public class GCMActivity extends AppCompatActivity implements AdapterView.OnItem
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             // Set the drawer width accordingly with the guidelines: window_width - toolbar_height.
-            toolbar.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-                @Override
-                public void onLayoutChange(View view, int left, int top, int right, int bottom,
-                                           int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                    if (left == 0 && top == 0 && right == 0 && bottom == 0) {
-                        return;
-                    }
-                    DisplayMetrics metrics = new DisplayMetrics();
-                    getWindowManager().getDefaultDisplay().getMetrics(metrics);
-                    float logicalDensity = metrics.density;
-                    int maxWidth = (int) Math.ceil(320 * logicalDensity);
-                    DrawerLayout.LayoutParams params =
-                            (DrawerLayout.LayoutParams) mDrawerView.getLayoutParams();
-                    int newWidth = view.getWidth() - view.getHeight();
-                    params.width = (newWidth > maxWidth ? maxWidth : newWidth);
-                    mDrawerView.setLayoutParams(params);
-                }
-            });
+//            toolbar.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+//                @Override
+//                public void onLayoutChange(View view, int left, int top, int right, int bottom,
+//                                           int oldLeft, int oldTop, int oldRight, int oldBottom) {
+//                    if (left == 0 && top == 0 && right == 0 && bottom == 0) {
+//                        return;
+//                    }
+//                    DisplayMetrics metrics = new DisplayMetrics();
+//                    getWindowManager().getDefaultDisplay().getMetrics(metrics);
+//                    float logicalDensity = metrics.density;
+//                    int maxWidth = (int) Math.ceil(320 * logicalDensity);
+//                    DrawerLayout.LayoutParams params =
+//                            (DrawerLayout.LayoutParams) mDrawerView.getLayoutParams();
+//                    int newWidth = view.getWidth() - view.getHeight();
+//                    params.width = (newWidth > maxWidth ? maxWidth : newWidth);
+//                    mDrawerView.setLayoutParams(params);
+//                }
+//            });
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {

@@ -28,13 +28,13 @@ public class GameActivity extends SingleInputFormActivity {
     private static final String DATA_KEY_PASSWORD = "password";
     private static final String DATA_KEY_BIRTHDAY = "birthday";
     private static final String DATA_KEY_CITY = "city";
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-    }
+//
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//       // setContentView(R.layout.activity_game);
+//     //   getActionBar().setDisplayHomeAsUpEnabled(true);
+//    }
 
     @Override
     protected List<Step> getSteps(Context context) {

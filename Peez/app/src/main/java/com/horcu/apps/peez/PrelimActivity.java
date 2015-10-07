@@ -1,5 +1,6 @@
 package com.horcu.apps.peez;
 
+import android.animation.TimeInterpolator;
 import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
+import com.greenfrvr.rubberloader.RubberLoaderView;
 import com.horcu.apps.common.utilities.consts;
 import com.horcu.apps.peez.backend.models.userApi.UserApi;
 import com.horcu.apps.peez.backend.models.userApi.model.User;
@@ -48,6 +50,15 @@ public class PrelimActivity extends AppCompatActivity {
         TelephonyManager tMgr = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
         mPhoneNumber = tMgr.getLine1Number();
 
+        TimeInterpolator interpolator = new TimeInterpolator() {
+            @Override
+            public float getInterpolation(float input) {
+                return 2;
+            }
+        };
+        ((RubberLoaderView) findViewById(R.id.loader1)).setInterpolator(interpolator);
+        ((RubberLoaderView) findViewById(R.id.loader1)).startLoading();
+
         settings = getSharedPreferences( "Peez", 0);
 
         credential = GoogleAccountCredential.usingAudience(this,
@@ -63,8 +74,8 @@ public class PrelimActivity extends AppCompatActivity {
             chooseAccount();
         } else {
 
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
+            //       Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//            setSupportActionBar(toolbar);
 
             //dev
             final User user = new User();

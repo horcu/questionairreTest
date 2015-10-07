@@ -21,6 +21,7 @@
         android:drawable="@android:color/transparent"></item>
 
     <item android:id="@android:id/progress">
+
         <scale android:scaleWidth="100%">
             <shape>
                 <corners android:radius="@dimen/setup_textfield_corner_radius" />
