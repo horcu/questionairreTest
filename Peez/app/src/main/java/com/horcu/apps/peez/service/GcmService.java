@@ -21,7 +21,9 @@ import android.util.Log;
 import android.view.View;
 
 import com.google.android.gms.gcm.GcmListenerService;
+import com.horcu.apps.peez.MainActivity;
 import com.horcu.apps.peez.R;
+import com.horcu.apps.peez.ui.GCMActivity;
 
 
 /**
@@ -58,6 +60,7 @@ public class GcmService extends GcmListenerService {
     // This is just one simple example of what you might choose to do with
     // a GCM message.
     private void sendNotification(String msg) {
+
         logger.log(Log.INFO, msg);
     }
 }

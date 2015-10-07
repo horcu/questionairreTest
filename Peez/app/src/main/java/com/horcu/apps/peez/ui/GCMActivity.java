@@ -26,6 +26,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -102,6 +103,7 @@ public class GCMActivity extends AppCompatActivity implements AdapterView.OnItem
                                 ((RefreshableFragment) fragment).refresh();
                             }
                         }
+                        Snackbar.make(findViewById(R.id.drawer_layout), Html.fromHtml(stringBuilder.toString()), Snackbar.LENGTH_LONG).show();
                         break;
                 }
             }

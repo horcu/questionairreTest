@@ -24,7 +24,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/murple" ></activity>
+            android:theme="@style/murple" />
 
         <!-- <activity -->
         <!-- android:name=".SingleInputFormActivity" -->
@@ -72,7 +72,7 @@
                 <!-- for Gingerbread GSF backward compat -->
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
-                <category android:name="com.google.android.gcm.demo" />
+                <category android:name="com.horcu.apps.peez" />
             </intent-filter>
         </receiver>
 
@@ -93,7 +93,7 @@
             <intent-filter>
                 <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY" />
 
-                <category android:name="com.google.android.gcm.demo" />
+                <category android:name="com.horcu.apps.peez" />
             </intent-filter>
         </service>
 
@@ -119,6 +119,14 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.horcu.apps.peez.PrelimActivity" />
+        </activity>
+        <activity
+            android:name=".ui.activities.GameActivity"
+            android:label="@string/title_activity_game"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.horcu.apps.peez.MainActivity" />
         </activity>
     </application>
 
