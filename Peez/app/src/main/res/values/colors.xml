@@ -8,6 +8,6 @@
     <color name="accent_material_light">#fdfafa</color>
     <color name="black">#ad9cb1</color>
     <color name="light_grey">#706d6d6d</color>
-
+    <color name="cyan_500">#00BCD4</color>
 
 </resources>

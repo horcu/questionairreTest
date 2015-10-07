@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.text.InputType;
 import android.util.Log;
 
+
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.SingleInputFormActivity;
 import com.horcu.apps.peez.steps.CheckBoxStep;

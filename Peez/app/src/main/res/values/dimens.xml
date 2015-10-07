@@ -16,4 +16,8 @@
     <dimen name="setup_progressbar_height">4dp</dimen>
     <!-- Should never be more than (setup_progressbar_height / 2) -->
     <dimen name="setup_textfield_corner_radius">2dp</dimen>
+
+
+    <dimen name="title_text_size">30sp</dimen>
+    <dimen name="subtitle_text_size">18sp</dimen>
 </resources>

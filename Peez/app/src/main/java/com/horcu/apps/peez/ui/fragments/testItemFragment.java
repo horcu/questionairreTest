@@ -19,6 +19,7 @@ import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.userApi.model.User;
 import com.horcu.apps.peez.ui.GCMActivity;
 import com.horcu.apps.peez.ui.activities.GameActivity;
+import com.horcu.apps.peez.ui.activities.InviteActivity;
 import com.horcu.apps.peez.ui.fragments.dummy.DummyContent;
 
 import java.util.Map;
@@ -107,6 +108,14 @@ public class testItemFragment extends Fragment implements AbsListView.OnItemClic
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), GCMActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        view.findViewById(R.id.invites).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), InviteActivity.class);
                 startActivity(intent);
             }
         });
