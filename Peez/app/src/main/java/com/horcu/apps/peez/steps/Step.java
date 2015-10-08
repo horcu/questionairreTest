@@ -53,6 +53,7 @@ public abstract class Step {
         mInputView = onCreateView();
     }
 
+
     public void setContext(Context context) {
         mContext = context;
     }

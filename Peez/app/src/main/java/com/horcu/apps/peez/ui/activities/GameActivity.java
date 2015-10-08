@@ -12,6 +12,7 @@ import com.horcu.apps.peez.steps.CheckBoxStep;
 import com.horcu.apps.peez.steps.DateStep;
 import com.horcu.apps.peez.steps.SeekBarStep;
 import com.horcu.apps.peez.steps.Step;
+import com.horcu.apps.peez.steps.TeamStep;
 import com.horcu.apps.peez.steps.TextStep;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ import java.util.List;
 public class GameActivity extends SingleInputFormActivity {
 
     private static final String DATA_KEY_HEIGHT = "height";
-    private static final String DATA_KEY_EULA = "eula";
+    private static final String MATCHUPS = "Matchups";
     private static final String DATA_KEY_EMAIL = "email";
     private static final String DATA_KEY_PASSWORD = "password";
     private static final String DATA_KEY_BIRTHDAY = "birthday";
@@ -39,10 +40,10 @@ public class GameActivity extends SingleInputFormActivity {
     protected List<Step> getSteps(Context context) {
         List<Step> steps = new ArrayList<Step>();
         steps.add(
-                new CheckBoxStep(context, DATA_KEY_EULA, R.string.eula, R.string.eula_title, R.string.eula_error, R.string.eula_details, new CheckBoxStep.StepChecker() {
+                new TeamStep(context, MATCHUPS, R.string.teams, R.string.matchup_title, R.string.team_choice__error, R.string.team_choice_details, new TeamStep.StepChecker() {
                     @Override
-                    public boolean check(boolean input) {
-                        return input;
+                    public boolean check(String teamName, String teamId, String opponentName, String opponentId) {
+                        return false;
                     }
                 })
         );
@@ -93,7 +94,7 @@ public class GameActivity extends SingleInputFormActivity {
     @Override
     protected void onFormFinished(Bundle data) {
         Snackbar.make(findViewById(R.id.game_main), "bet finished: " +
-                        CheckBoxStep.checked(data, DATA_KEY_EULA) + ", " +
+                        CheckBoxStep.checked(data, MATCHUPS) + ", " +
                         TextStep.text(data, DATA_KEY_EMAIL) + ", " +
                         TextStep.text(data, DATA_KEY_PASSWORD) + ", " +
                         DateStep.day(data, DATA_KEY_BIRTHDAY) + "." + DateStep.month(data, DATA_KEY_BIRTHDAY) + "." + DateStep.year(data, DATA_KEY_BIRTHDAY) + ", " +

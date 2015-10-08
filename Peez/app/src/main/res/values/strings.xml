@@ -329,4 +329,8 @@
     <string name="send_failed">Sending invitations failed</string>
     <string name="invite_dialog_title">You got an invitation!</string>
     <string name="title_activity_invite">Send Invites</string>
+    <string name="teams">Choose winner for each matchup</string>
+    <string name="matchup_title">MATCHUPS</string>
+    <string name="team_choice__error">must choose atleast one team before advancing</string>
+    <string name="team_choice_details">in order to place a wager friendly or public you must first choose at least one team. If not then what are we betting on?</string>
 </resources>
