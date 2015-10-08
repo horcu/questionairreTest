@@ -26,7 +26,8 @@ import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.Until;
 
 import com.google.android.gms.appinvite.AppInviteReferral;
-import com.horcu.apps.peez.ui.activities.MainActivity;
+import com.horcu.apps.peez.ui.activities.InviteActivity;
+
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -43,7 +44,7 @@ public class UiAutomatorTest {
     private static final long LAUNCH_TIMEOUT = 5000;
     private static final long UI_TIMEOUT = 5000;
 
-    private static final String APP_PACKAGE = MainActivity.class.getPackage().getName();
+    private static final String APP_PACKAGE = InviteActivity.class.getPackage().getName();
 
     private static final String CLASS_BUTTON = "android.widget.Button";
     private static final String CLASS_CHECKED_TEXT_VIEW = "android.widget.CheckedTextView";

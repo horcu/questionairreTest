@@ -11,6 +11,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
+import android.view.animation.AccelerateDecelerateInterpolator;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -47,7 +48,7 @@ public class PrelimActivity extends AppCompatActivity {
         TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         mPhoneNumber = tMgr.getLine1Number();
 
-        TimeInterpolator interpolator = new TimeInterpolator() {
+        AccelerateDecelerateInterpolator interpolator = new AccelerateDecelerateInterpolator() {
             @Override
             public float getInterpolation(float input) {
                 return 2;
@@ -163,7 +164,7 @@ public class PrelimActivity extends AppCompatActivity {
             }
 
             protected void onPostExecute(String msg) {
-                if (msg == "") {
+                if (msg.equals("")) {
                     Snackbar.make(fab, "user registration failed", Snackbar.LENGTH_LONG).show();
                     Logger.getLogger("ADDED USER FAiled").log(Level.SEVERE, msg);
                 } else {
