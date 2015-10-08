@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-package com.horcu.apps.peez.ui;
+package com.horcu.apps.peez.ui.fragments;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.logic.GcmServerSideSender;
 import com.horcu.apps.peez.logic.Message;
+import com.horcu.apps.peez.ui.EditableMapView;
 
 import java.io.IOException;
 

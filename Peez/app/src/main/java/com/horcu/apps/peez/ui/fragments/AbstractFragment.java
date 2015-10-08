@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-package com.horcu.apps.peez.ui;
+package com.horcu.apps.peez.ui.fragments;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.horcu.apps.peez.R;
+import com.horcu.apps.peez.ui.activities.GCMActivity;
 
 /**
  * This is the base class for all the fragments used by the {@link GCMActivity}.

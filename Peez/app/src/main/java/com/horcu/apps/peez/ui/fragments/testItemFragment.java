@@ -11,18 +11,14 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.userApi.model.User;
-import com.horcu.apps.peez.ui.GCMActivity;
-import com.horcu.apps.peez.ui.activities.GameActivity;
+import com.horcu.apps.peez.ui.activities.GCMActivity;
 import com.horcu.apps.peez.ui.activities.InviteActivity;
-import com.horcu.apps.peez.ui.fragments.dummy.DummyContent;
-
-import java.util.Map;
+import com.horcu.apps.peez.dummy.DummyContent;
 
 /**
  * A fragment representing a list of Items.

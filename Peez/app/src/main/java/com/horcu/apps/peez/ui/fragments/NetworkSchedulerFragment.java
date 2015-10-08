@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-package com.horcu.apps.peez.ui;
+package com.horcu.apps.peez.ui.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -46,6 +46,7 @@ import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.model.TaskCollection;
 import com.horcu.apps.peez.model.TaskTracker;
 import com.horcu.apps.peez.service.TaskSchedulerService;
+import com.horcu.apps.peez.ui.activities.GCMActivity;
 
 /**
  * Fragment for scheduling tasks using {@link GcmNetworkManager}.

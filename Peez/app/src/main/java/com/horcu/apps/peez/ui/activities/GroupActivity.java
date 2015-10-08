@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-package com.horcu.apps.peez.ui;
+package com.horcu.apps.peez.ui.activities;
 
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -39,6 +39,7 @@ import com.horcu.apps.peez.model.Sender;
 import com.horcu.apps.peez.model.SenderCollection;
 import com.horcu.apps.peez.service.LoggingService;
 import com.horcu.apps.peez.ui.addressbook.SelectActivity;
+import com.horcu.apps.peez.ui.fragments.AbstractFragment;
 
 /**
  * Activity for adding or editing a device group

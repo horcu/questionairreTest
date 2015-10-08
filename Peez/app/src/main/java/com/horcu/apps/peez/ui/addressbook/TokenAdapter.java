@@ -30,7 +30,7 @@ import android.widget.Toast;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.model.Sender;
 import com.horcu.apps.peez.model.Token;
-import com.horcu.apps.peez.ui.AbstractFragment;
+import com.horcu.apps.peez.ui.fragments.AbstractFragment;
 
 /**
  * Adapter for displaying the list of tokens of a sender.

@@ -20,20 +20,11 @@
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/service/GcmService.java" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/service/LoggingService.java" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/service/TaskSchedulerService.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/AbstractFragment.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/DownstreamFragment.java" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/EditableMapView.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/GCMActivity.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/GroupActivity.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/GroupsFragment.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/HomeFragment.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/InstanceIdFragment.java" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/MainMenu.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/NetworkSchedulerFragment.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/NotificationFragment.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/TokenActivity.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/TopicsFragment.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/UpstreamFragment.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/activities/GCMActivity.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/activities/GroupActivity.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/activities/TokenActivity.java" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/addressbook/AbstractElementAdapter.java" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/addressbook/ApiKeyAdapter.java" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/addressbook/GroupAdapter.java" charset="windows-1252" />
@@ -41,6 +32,15 @@
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/addressbook/SenderAdapter.java" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/addressbook/TokenAdapter.java" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/addressbook/TopicAdapter.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/fragments/AbstractFragment.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/fragments/DownstreamFragment.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/fragments/GroupsFragment.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/fragments/HomeFragment.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/fragments/InstanceIdFragment.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/fragments/NetworkSchedulerFragment.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/fragments/NotificationFragment.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/fragments/TopicsFragment.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/ui/fragments/UpstreamFragment.java" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/cloud_googblue.png" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/group_grey600.png" charset="windows-1252" />

@@ -24,6 +24,15 @@ import com.horcu.apps.peez.logic.quicktest.DownstreamHttpJsonQuickTest;
 import com.horcu.apps.peez.logic.quicktest.GetTokenQuickTest;
 import com.horcu.apps.peez.logic.quicktest.QuickTest;
 import com.horcu.apps.peez.service.LoggingService;
+import com.horcu.apps.peez.ui.activities.GCMActivity;
+import com.horcu.apps.peez.ui.fragments.DownstreamFragment;
+import com.horcu.apps.peez.ui.fragments.GroupsFragment;
+import com.horcu.apps.peez.ui.fragments.HomeFragment;
+import com.horcu.apps.peez.ui.fragments.InstanceIdFragment;
+import com.horcu.apps.peez.ui.fragments.NetworkSchedulerFragment;
+import com.horcu.apps.peez.ui.fragments.NotificationFragment;
+import com.horcu.apps.peez.ui.fragments.TopicsFragment;
+import com.horcu.apps.peez.ui.fragments.UpstreamFragment;
 
 import java.util.LinkedHashMap;
 

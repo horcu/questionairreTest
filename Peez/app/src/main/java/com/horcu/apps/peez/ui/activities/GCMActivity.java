@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-package com.horcu.apps.peez.ui;
+package com.horcu.apps.peez.ui.activities;
 
 import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
@@ -34,10 +34,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.SpannableString;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -56,7 +54,9 @@ import android.widget.Toast;
 
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.service.LoggingService;
+import com.horcu.apps.peez.ui.MainMenu;
 import com.horcu.apps.peez.ui.addressbook.SelectActivity;
+import com.horcu.apps.peez.ui.fragments.AbstractFragment;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.horcu.apps.peez.ui.fragments.dummy;
+package com.horcu.apps.peez.dummy;
 
 import java.util.ArrayList;
 import java.util.HashMap;

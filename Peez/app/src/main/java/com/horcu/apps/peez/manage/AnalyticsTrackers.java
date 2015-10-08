@@ -1,9 +1,10 @@
-package com.horcu.apps.peez;
+package com.horcu.apps.peez.manage;
 
 import android.content.Context;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
+import com.horcu.apps.peez.R;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -2,14 +2,12 @@ package com.horcu.apps.peez.ui.activities;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.app.Activity;
 import android.support.design.widget.Snackbar;
 import android.text.InputType;
 import android.util.Log;
 
 
 import com.horcu.apps.peez.R;
-import com.horcu.apps.peez.SingleInputFormActivity;
 import com.horcu.apps.peez.steps.CheckBoxStep;
 import com.horcu.apps.peez.steps.DateStep;
 import com.horcu.apps.peez.steps.SeekBarStep;

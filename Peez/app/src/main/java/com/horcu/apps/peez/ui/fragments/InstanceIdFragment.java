@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-package com.horcu.apps.peez.ui;
+package com.horcu.apps.peez.ui.fragments;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -39,6 +39,8 @@ import com.horcu.apps.peez.logic.InstanceIdHelper;
 import com.horcu.apps.peez.model.Sender;
 import com.horcu.apps.peez.model.SenderCollection;
 import com.horcu.apps.peez.model.Token;
+import com.horcu.apps.peez.ui.activities.GCMActivity;
+import com.horcu.apps.peez.ui.activities.TokenActivity;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -158,7 +160,7 @@ public class InstanceIdFragment extends AbstractFragment
                     Button button = (Button) row.findViewById(R.id.widget_itbr_button);
                     icon.setImageResource(R.drawable.smartphone_grey600);
                     label.setText(token.scope + " - "
-                            + AbstractFragment.truncateToMediumString(token.token));
+                            + truncateToMediumString(token.token));
                     button.setText(R.string.iid_delete_token);
                     button.setTag(R.id.tag_senderid, sender.senderId);
                     button.setTag(R.id.tag_scope, token.scope);

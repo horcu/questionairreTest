@@ -24,7 +24,7 @@ import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.logic.GcmServerSideSender;
 import com.horcu.apps.peez.logic.Message;
 import com.horcu.apps.peez.service.LoggingService;
-import com.horcu.apps.peez.ui.GCMActivity;
+import com.horcu.apps.peez.ui.activities.GCMActivity;
 
 import java.io.IOException;
 import java.util.Arrays;

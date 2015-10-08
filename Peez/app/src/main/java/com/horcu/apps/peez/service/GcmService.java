@@ -16,14 +16,9 @@ limitations under the License.
 package com.horcu.apps.peez.service;
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
-import android.view.View;
 
 import com.google.android.gms.gcm.GcmListenerService;
-import com.horcu.apps.peez.MainActivity;
-import com.horcu.apps.peez.R;
-import com.horcu.apps.peez.ui.GCMActivity;
 
 
 /**

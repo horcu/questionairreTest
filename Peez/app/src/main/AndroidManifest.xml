@@ -60,7 +60,7 @@
         </service>
 
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme" />
 
@@ -73,11 +73,11 @@
         <!-- </activity> -->
 
         <activity
-            android:name=".ui.TokenActivity"
+            android:name=".ui.activities.TokenActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.GroupActivity"
+            android:name=".ui.activities.GroupActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme" />
         <activity
@@ -95,7 +95,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.GCMActivity"
+            android:name=".ui.activities.GCMActivity"
             android:label="@string/title_activity_prelim"
             android:theme="@style/AppTheme">
         </activity>
@@ -105,7 +105,7 @@
             android:label="@string/title_activity_invite"
             android:theme="@style/AppTheme"></activity>
         <activity
-            android:name=".PrelimActivity"
+            android:name=".ui.activities.PrelimActivity"
             android:label="@string/title_activity_prelim"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -115,21 +115,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".BetActivity"
+            android:name=".ui.activities.BetActivity"
             android:label="@string/title_activity_bet"
-            android:parentActivityName=".PrelimActivity">
+            android:parentActivityName=".ui.activities.PrelimActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.horcu.apps.peez.PrelimActivity" />
+                android:value=".ui.activities.PrelimActivity" />
         </activity>
         <activity
             android:name=".ui.activities.GameActivity"
             android:label="@string/title_activity_game"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".ui.activities.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.horcu.apps.peez.MainActivity" />
+                android:value=".ui.activities.MainActivity" />
         </activity>
 
         <activity

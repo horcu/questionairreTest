@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-package com.horcu.apps.peez.ui;
+package com.horcu.apps.peez.ui.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -29,6 +29,8 @@ import android.widget.Spinner;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.logic.quicktest.QuickTest;
 import com.horcu.apps.peez.service.LoggingService;
+import com.horcu.apps.peez.ui.activities.GroupActivity;
+import com.horcu.apps.peez.ui.MainMenu;
 import com.horcu.apps.peez.ui.addressbook.SelectActivity;
 
 import java.util.ArrayList;
