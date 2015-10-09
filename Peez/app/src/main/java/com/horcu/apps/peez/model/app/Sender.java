@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-package com.horcu.apps.peez.model;
+package com.horcu.apps.peez.model.app;
 
 import android.support.v4.util.ArrayMap;
 
@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static com.horcu.apps.peez.model.Constants.*;
+import static com.horcu.apps.peez.model.app.Constants.*;
 /**
  * This class is an address book entry corresponding to a server using GCM.
  */
@@ -37,7 +37,7 @@ public class Sender implements Comparable<Sender> {
     public ArrayMap<String, Token> appTokens = new ArrayMap<>();
     public ArrayMap<String, String> otherTokens = new ArrayMap<>();
     public ArrayMap<String, Boolean> topics = new ArrayMap<>();
-    public ArrayMap<String, com.horcu.apps.peez.model.DeviceGroup> groups = new ArrayMap<>();
+    public ArrayMap<String, DeviceGroup> groups = new ArrayMap<>();
 
 
     static public Sender fromJson(JSONObject jsonObject) throws JSONException {

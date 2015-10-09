@@ -30,8 +30,8 @@ import android.widget.Toast;
 
 
 import com.horcu.apps.peez.R;
-import com.horcu.apps.peez.model.Sender;
-import com.horcu.apps.peez.model.SenderCollection;
+import com.horcu.apps.peez.model.app.Sender;
+import com.horcu.apps.peez.model.app.SenderCollection;
 
 import java.util.ArrayList;
 import java.util.List;

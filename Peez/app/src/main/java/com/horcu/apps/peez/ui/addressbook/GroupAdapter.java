@@ -24,7 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.horcu.apps.peez.R;
-import com.horcu.apps.peez.model.Sender;
+import com.horcu.apps.peez.model.app.Sender;
 
 /**
  * Adapter for displaying the list of groups of a sender.

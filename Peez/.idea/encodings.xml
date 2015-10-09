@@ -10,13 +10,13 @@
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/logic/quicktest/DownstreamHttpJsonQuickTest.java" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/logic/quicktest/GetTokenQuickTest.java" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/logic/quicktest/QuickTest.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/model/Constants.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/model/DeviceGroup.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/model/Sender.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/model/SenderCollection.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/model/TaskCollection.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/model/TaskTracker.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/model/Token.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/model/app/Constants.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/model/app/DeviceGroup.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/model/app/Sender.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/model/app/SenderCollection.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/model/app/TaskCollection.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/model/app/TaskTracker.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/model/app/Token.java" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/service/GcmService.java" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/service/LoggingService.java" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/horcu/apps/peez/service/TaskSchedulerService.java" charset="windows-1252" />

@@ -22,8 +22,8 @@ import android.util.Log;
 
 
 import com.google.android.gms.gcm.GcmPubSub;
-import com.horcu.apps.peez.model.Sender;
-import com.horcu.apps.peez.model.SenderCollection;
+import com.horcu.apps.peez.model.app.Sender;
+import com.horcu.apps.peez.model.app.SenderCollection;
 import com.horcu.apps.peez.service.LoggingService;
 
 

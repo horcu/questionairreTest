@@ -2,6 +2,7 @@ package com.horcu.apps.peez.model.nfl.schedule;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.horcu.apps.peez.model.nfl.league.Venue;
 
 /**
  * Created by hcummings on 10/9/2015.

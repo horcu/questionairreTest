@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-package com.horcu.apps.peez.model;
+package com.horcu.apps.peez.model.app;
 
 import android.support.v4.util.ArrayMap;
 
@@ -22,7 +22,7 @@ import org.json.JSONObject;
 
 import java.util.Iterator;
 
-import static com.horcu.apps.peez.model.Constants.*;
+import static com.horcu.apps.peez.model.app.Constants.*;
 /**
  * This class is used to persist a {@link Sender}'s groups
  */

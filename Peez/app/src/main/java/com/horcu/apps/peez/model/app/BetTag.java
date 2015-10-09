@@ -1,4 +1,4 @@
-package com.horcu.apps.peez.model;
+package com.horcu.apps.peez.model.app;
 
 import android.os.Parcel;
 import android.os.Parcelable;

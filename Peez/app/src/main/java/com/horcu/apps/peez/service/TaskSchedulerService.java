@@ -21,8 +21,8 @@ import android.util.Log;
 import com.google.android.gms.gcm.GcmNetworkManager;
 import com.google.android.gms.gcm.GcmTaskService;
 import com.google.android.gms.gcm.TaskParams;
-import com.horcu.apps.peez.model.TaskCollection;
-import com.horcu.apps.peez.model.TaskTracker;
+import com.horcu.apps.peez.model.app.TaskCollection;
+import com.horcu.apps.peez.model.app.TaskTracker;
 
 
 /**

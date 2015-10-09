@@ -34,9 +34,9 @@ import android.widget.Toast;
 
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.logic.DeviceGroupsHelper;
-import com.horcu.apps.peez.model.DeviceGroup;
-import com.horcu.apps.peez.model.Sender;
-import com.horcu.apps.peez.model.SenderCollection;
+import com.horcu.apps.peez.model.app.DeviceGroup;
+import com.horcu.apps.peez.model.app.Sender;
+import com.horcu.apps.peez.model.app.SenderCollection;
 import com.horcu.apps.peez.service.LoggingService;
 import com.horcu.apps.peez.ui.addressbook.SelectActivity;
 import com.horcu.apps.peez.ui.fragments.AbstractFragment;

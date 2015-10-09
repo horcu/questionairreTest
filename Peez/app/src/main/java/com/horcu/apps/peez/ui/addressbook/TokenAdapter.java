@@ -28,8 +28,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.horcu.apps.peez.R;
-import com.horcu.apps.peez.model.Sender;
-import com.horcu.apps.peez.model.Token;
+import com.horcu.apps.peez.model.app.Sender;
+import com.horcu.apps.peez.model.app.Token;
 import com.horcu.apps.peez.ui.fragments.AbstractFragment;
 
 /**

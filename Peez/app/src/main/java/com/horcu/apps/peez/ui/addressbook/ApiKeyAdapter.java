@@ -29,7 +29,7 @@ import android.widget.Toast;
 
 import com.horcu.apps.common.utilities.consts;
 import com.horcu.apps.peez.R;
-import com.horcu.apps.peez.model.Sender;
+import com.horcu.apps.peez.model.app.Sender;
 
 /**
  * Adapter for displaying the list of API keys of a sender.

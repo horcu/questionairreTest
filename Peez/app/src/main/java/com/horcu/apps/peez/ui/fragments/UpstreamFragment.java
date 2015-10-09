@@ -28,8 +28,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.horcu.apps.peez.R;
-import com.horcu.apps.peez.model.Sender;
-import com.horcu.apps.peez.model.SenderCollection;
+import com.horcu.apps.peez.model.app.Sender;
+import com.horcu.apps.peez.model.app.SenderCollection;
 import com.horcu.apps.peez.service.LoggingService;
 import com.horcu.apps.peez.ui.EditableMapView;
 import com.horcu.apps.peez.ui.addressbook.SelectActivity;

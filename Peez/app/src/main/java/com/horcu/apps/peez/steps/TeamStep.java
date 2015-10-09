@@ -2,22 +2,22 @@ package com.horcu.apps.peez.steps;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.horcu.apps.peez.R;
-import com.horcu.apps.peez.model.nfl.Conference;
-import com.horcu.apps.peez.model.nfl.Division;
-import com.horcu.apps.peez.model.nfl.GeneralInfo;
-import com.horcu.apps.peez.model.nfl.Team;
-
-import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
+import com.horcu.apps.peez.adapters.MatchupsAdapter;
+import com.horcu.apps.peez.model.nfl.league.Conference;
+import com.horcu.apps.peez.model.nfl.league.Division;
+import com.horcu.apps.peez.model.nfl.league.GeneralInfo;
+import com.horcu.apps.peez.model.nfl.league.Team;
+import com.horcu.apps.peez.model.nfl.schedule.Game;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -26,12 +26,16 @@ import java.io.Reader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by hacz on 10/8/2015.
  */
 public class TeamStep extends Step {
+    private RecyclerView mRecyclerView;
+    private LinearLayoutManager mLayoutManager;
+    private RecyclerView.Adapter mAdapter;
+    private Game myDataset;
+
     public TeamStep(Context context, String dataKey, int titleResId, int errorResId, int detailsResId) {
         super(context, dataKey, titleResId, errorResId, detailsResId);
     }
@@ -57,42 +61,50 @@ public class TeamStep extends Step {
         loadTheme();
 
         LinearLayout layout = (LinearLayout) View.inflate(getContext(), R.layout.view_team, null);
-        ListView teamsList = (ListView) layout.getChildAt(0);
-        List<String> teams = new ArrayList<>();
+        mRecyclerView = (RecyclerView) layout.findViewById(R.id.matchup_list);
+        mRecyclerView.setHasFixedSize(true);
 
-        //get json from the raw folder
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(layout.getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
+        // specify an adapter (see also next example)
+        mAdapter = new MatchupsAdapter(myDataset);
+        mRecyclerView.setAdapter(mAdapter);
 
         InputStream rawTeams =  getContext().getResources().openRawResource(R.raw.nfl_teams);
         InputStream rawMatchups =  getContext().getResources().openRawResource(R.raw.season_schedule_2015);
+
         Reader rd = new BufferedReader(new InputStreamReader(rawTeams));
+        Reader rdmatchups = new BufferedReader(new InputStreamReader(rawMatchups));
+
         Gson gson = new Gson();
-        Type listType = new TypeToken<List<Team>>() {}.getType();
+        //Type listType = new TypeToken<List<Team>>() {}.getType();
+
         GeneralInfo generalNflInfo = gson.fromJson(rd, GeneralInfo.class);
 
-        List<Conference> conferencences = generalNflInfo.getConferences();
+        List<Conference> conferences = generalNflInfo.getConferences();
 
-        Conference AFC = conferencences.get(0);
+        Conference AFC = conferences.get(0);
         List<Division> AFCDivisions = AFC.getDivisions();
 
         for (Division div: AFCDivisions)
         {
             for (Team t: div.getTeams()) {
-                teams.add(t.getMarket() + " " + t.getName());
+            //    teams.add(t.getMarket() + " " + t.getName());
             }
         }
 
-        Conference NFC = conferencences.get(1);
+        Conference NFC = conferences.get(1);
         List<Division> NFCDivisions = NFC.getDivisions();
 
         for (Division div: NFCDivisions)
         {
             for (Team t: div.getTeams()) {
-                teams.add(t.getMarket() + " " + t.getName());
+            //    teams.add(t.getMarket() + " " + t.getName());
             }
         }
 
-        teamsList.setAdapter(new ArrayAdapter<>(getContext(),android.R.layout.simple_list_item_1, teams));
         return layout;
     }
 

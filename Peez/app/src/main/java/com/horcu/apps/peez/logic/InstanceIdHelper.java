@@ -18,15 +18,12 @@ package com.horcu.apps.peez.logic;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
-import android.view.View;
 
-import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
-import com.horcu.apps.peez.model.Sender;
-import com.horcu.apps.peez.model.SenderCollection;
-import com.horcu.apps.peez.model.Token;
+import com.horcu.apps.peez.model.app.Sender;
+import com.horcu.apps.peez.model.app.SenderCollection;
+import com.horcu.apps.peez.model.app.Token;
 import com.horcu.apps.peez.service.LoggingService;
 
 import java.io.IOException;

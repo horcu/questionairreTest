@@ -36,9 +36,9 @@ import android.widget.TextView;
 
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.logic.InstanceIdHelper;
-import com.horcu.apps.peez.model.Sender;
-import com.horcu.apps.peez.model.SenderCollection;
-import com.horcu.apps.peez.model.Token;
+import com.horcu.apps.peez.model.app.Sender;
+import com.horcu.apps.peez.model.app.SenderCollection;
+import com.horcu.apps.peez.model.app.Token;
 import com.horcu.apps.peez.ui.activities.GCMActivity;
 import com.horcu.apps.peez.ui.activities.TokenActivity;
 

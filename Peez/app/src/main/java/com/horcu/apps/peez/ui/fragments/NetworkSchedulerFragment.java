@@ -43,8 +43,8 @@ import com.google.android.gms.gcm.PeriodicTask;
 import com.google.android.gms.gcm.Task;
 
 import com.horcu.apps.peez.R;
-import com.horcu.apps.peez.model.TaskCollection;
-import com.horcu.apps.peez.model.TaskTracker;
+import com.horcu.apps.peez.model.app.TaskCollection;
+import com.horcu.apps.peez.model.app.TaskTracker;
 import com.horcu.apps.peez.service.TaskSchedulerService;
 import com.horcu.apps.peez.ui.activities.GCMActivity;
 

@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-package com.horcu.apps.peez.model;
+package com.horcu.apps.peez.model.app;
 
 import android.os.SystemClock;
 import android.util.Log;
@@ -27,7 +27,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.horcu.apps.peez.model.Constants.*;
+import static com.horcu.apps.peez.model.app.Constants.*;
 /**
  * Keep track of task so when it is sent back we can ensure correct execution criteria.
  */

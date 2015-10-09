@@ -24,8 +24,9 @@ import android.util.Log;
 import android.view.View;
 
 import com.horcu.apps.common.utilities.consts;
-import com.horcu.apps.peez.model.DeviceGroup;
-import com.horcu.apps.peez.model.SenderCollection;
+import com.horcu.apps.peez.model.app.DeviceGroup;
+import com.horcu.apps.peez.model.app.SenderCollection;
+import com.horcu.apps.peez.model.app.Sender;
 import com.horcu.apps.peez.service.LoggingService;
 
 import org.json.JSONArray;
@@ -99,14 +100,14 @@ public class DeviceGroupsHelper {
                                 responseBody.getString("error"), Snackbar.LENGTH_LONG).show();
                     } else {
                         // Store the group in the local storage.
-                        com.horcu.apps.peez.model.DeviceGroup group = new com.horcu.apps.peez.model.DeviceGroup();
+                        DeviceGroup group = new DeviceGroup();
                         group.notificationKeyName = groupName;
                         group.notificationKey = responseBody.getString("notification_key");
                         for (String name : newMembers.keySet()) {
                             group.tokens.put(name, newMembers.getString(name));
                         }
 
-                        com.horcu.apps.peez.model.Sender sender = mSenders.getSender(senderId);
+                        Sender sender = mSenders.getSender(senderId);
                         sender.groups.put(group.notificationKeyName, group);
                         mSenders.updateSender(sender);
 
@@ -137,7 +138,7 @@ public class DeviceGroupsHelper {
         new AsyncTask<Void, Void, Void>(){
             @Override
             protected Void doInBackground(Void... voids) {
-                com.horcu.apps.peez.model.Sender sender = mSenders.getSender(senderId);
+                Sender sender = mSenders.getSender(senderId);
                 if (sender == null) {
                     return null;
                 }
@@ -225,8 +226,8 @@ public class DeviceGroupsHelper {
                         responseBody.getString("error"), Snackbar.LENGTH_LONG).show();
             } else {
                 // Store the group in the local storage.
-                com.horcu.apps.peez.model.Sender sender = mSenders.getSender(senderId);
-                com.horcu.apps.peez.model.DeviceGroup newGroup = sender.groups.get(groupName);
+                Sender sender = mSenders.getSender(senderId);
+                DeviceGroup newGroup = sender.groups.get(groupName);
                 for(String name : members.keySet()) {
                     newGroup.tokens.put(name, members.getString(name));
                 }
@@ -289,9 +290,9 @@ public class DeviceGroupsHelper {
                         responseBody.getString("error"), Snackbar.LENGTH_LONG).show();
             } else {
                 // Store the group in the local storage.
-                com.horcu.apps.peez.model.SenderCollection senders = com.horcu.apps.peez.model.SenderCollection.getInstance(mContext);
-                com.horcu.apps.peez.model.Sender sender = senders.getSender(senderId);
-                com.horcu.apps.peez.model.DeviceGroup newGroup = sender.groups.get(groupName);
+                SenderCollection senders = SenderCollection.getInstance(mContext);
+                Sender sender = senders.getSender(senderId);
+                DeviceGroup newGroup = sender.groups.get(groupName);
                 for(String name : members.keySet()) {
                     newGroup.tokens.remove(name);
                 }
