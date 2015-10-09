@@ -37,11 +37,13 @@
             android:id="@+id/text_field"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="@dimen/keyline_card"
-            android:background="#ffffff"
-            app:cardUseCompatPadding="true"
-            app:cardCornerRadius="@dimen/setup_textfield_corner_radius"
-            app:cardElevation="@dimen/elevation_card">
+            >
+
+            <!--android:padding="@dimen/keyline_card"-->
+            <!--android:background="#ffffff"-->
+            <!--app:cardUseCompatPadding="true"-->
+            <!--app:cardCornerRadius="@dimen/setup_textfield_corner_radius"-->
+            <!--app:cardElevation="@dimen/elevation_card"-->
 
             <LinearLayout
                 android:layout_width="match_parent"

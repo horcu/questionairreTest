@@ -64,6 +64,7 @@ public class TeamStep extends Step {
 
 
         InputStream rawTeams =  getContext().getResources().openRawResource(R.raw.nfl_teams);
+        InputStream rawMatchups =  getContext().getResources().openRawResource(R.raw.season_schedule_2015);
         Reader rd = new BufferedReader(new InputStreamReader(rawTeams));
         Gson gson = new Gson();
         Type listType = new TypeToken<List<Team>>() {}.getType();
