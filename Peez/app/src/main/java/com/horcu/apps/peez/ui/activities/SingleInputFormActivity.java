@@ -33,6 +33,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextSwitcher;
@@ -73,7 +74,7 @@ public abstract class SingleInputFormActivity extends AppCompatActivity {
     private int mStepIndex = 0;
     private boolean mErrored;
 
-    private ScrollView mContainerScrollView;
+    private LinearLayout mContainerScrollView;
     private TextSwitcher mTitleSwitcher;
     private TextSwitcher mErrorSwitcher;
     private TextSwitcher mDetailsSwitcher;
@@ -162,7 +163,7 @@ public abstract class SingleInputFormActivity extends AppCompatActivity {
     protected abstract List<Step> getSteps(Context context);
 
     private void findViews() {
-        mContainerScrollView = (ScrollView) findViewById(R.id.container_scroll_view);
+        mContainerScrollView = (LinearLayout) findViewById(R.id.container_scroll_view);
         mTitleSwitcher = (TextSwitcher) findViewById(R.id.title_switcher);
         mErrorSwitcher = (TextSwitcher) findViewById(R.id.error_switcher);
         mDetailsSwitcher = (TextSwitcher) findViewById(R.id.details_switcher);
@@ -301,7 +302,7 @@ public abstract class SingleInputFormActivity extends AppCompatActivity {
             return;
         }
         updateViews();
-        mContainerScrollView.smoothScrollTo(0, 0);
+        // mContainerScrollView.smoothScrollTo(0, 0);
     }
 
     private int stepsSize() {

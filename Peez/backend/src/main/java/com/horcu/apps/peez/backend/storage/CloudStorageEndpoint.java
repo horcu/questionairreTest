@@ -16,7 +16,7 @@ import javax.inject.Named;
 @Api(
         name = "cloudStorageApi",
         version = "v1",
-        resource = "cloudStorage",
+        resource = "CloudStorage",
         clientIds = {consts.WEB_CLIENT_IDS,
                 consts.ANDROID_CLIENT_IDS},
         audiences = {consts.WEB_CLIENT_IDS},
