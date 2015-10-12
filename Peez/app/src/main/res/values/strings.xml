@@ -37,7 +37,7 @@
     <string name="app_name">Peez</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
-    <string name="title_activity_prelim">PrelimActivity</string>
+    <string name="title_activity_prelim">just a moment...</string>
 
 
         <string name="application_name">GCM Demo</string>
@@ -303,7 +303,7 @@
         <string name="home_destination">Destination:</string>
         <string name="home_destination_hint">Select a Destination</string>
     <string name="title_activity_bet">BetActivity</string>
-    <string name="title_activity_game">GameActivity</string>
+    <string name="title_activity_game">lets play</string>
 
       <string name="action_deep_link">
         com.google.android.gms.samples.appinvite.DEEP_LINK_ACTION
@@ -334,4 +334,6 @@
     <string name="matchup_title">MATCHUPS</string>
     <string name="team_choice__error">must choose atleast one team before advancing</string>
     <string name="team_choice_details">in order to place a wager friendly or public you must first choose at least one team. If not then what are we betting on?</string>
+    <string name="newUserSettingsJson">{\"type\":\"settings\",\"name\":\"user-settings\",\"properties\":{\"img\":{\"profile\":\"url-to-cloudstorage-location\"},\"rank\":{\"global\":\"123445678\"},\"cash\":{\"own\":\"245\"},\"friends\":[{\"name\":\"user1\",\"img\":\"img/user1.jpeg\",\"regId\":\"\"},{\"name\":\"user2\",\"img\":\"img/user2.jpeg\",\"regId\":\"\"}]}}</string>
+    <string name="invitation_dl">invitation</string>
 </resources>

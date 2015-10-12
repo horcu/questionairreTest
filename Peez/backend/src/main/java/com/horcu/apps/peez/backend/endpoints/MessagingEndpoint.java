@@ -4,7 +4,7 @@
    https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/GcmEndpoints
 */
 
-package com.horcu.apps.peez.backend;
+package com.horcu.apps.peez.backend.endpoints;
 
 import com.google.android.gcm.server.Constants;
 import com.google.android.gcm.server.Message;
