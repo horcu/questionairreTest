@@ -15,7 +15,7 @@ public class User {
 
     @Id
     @Index
-    public String email;
+    private String name;
 
     @Index
    public String userName;
@@ -47,13 +47,7 @@ public class User {
         this.cash = cash;
     }
 
-    public String getEmail() {
-        return email;
-    }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public String getPhone() {
         return phone;
@@ -87,5 +81,7 @@ public class User {
         this.registrationId = registrationId;
     }
 
-
+    public String getName() {
+        return name;
+    }
 }

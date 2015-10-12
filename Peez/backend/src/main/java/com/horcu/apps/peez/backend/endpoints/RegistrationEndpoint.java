@@ -4,12 +4,13 @@
    https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/GcmEndpoints
 */
 
-package com.horcu.apps.peez.backend;
+package com.horcu.apps.peez.backend.endpoints;
 
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.response.CollectionResponse;
+import com.googlecode.objectify.Key;
 import com.horcu.apps.peez.backend.models.RegistrationRecord;
 import com.horcu.apps.peez.backend.utilities.consts;
 
@@ -60,6 +61,9 @@ public class RegistrationEndpoint {
         RegistrationRecord record = new RegistrationRecord();
         record.setRegId(regId);
         ofy().save().entity(record).now();
+
+        //create a user setting record for this device
+
     }
 
     /**

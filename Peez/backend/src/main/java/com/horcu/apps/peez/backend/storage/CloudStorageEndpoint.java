@@ -4,8 +4,6 @@ import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 
-import com.horcu.apps.peez.backend.utilities.consts;
-
 import java.util.logging.Logger;
 
 import javax.inject.Named;
@@ -16,43 +14,40 @@ import javax.inject.Named;
 @Api(
         name = "cloudStorageApi",
         version = "v1",
-        resource = "CloudStorage",
-        clientIds = {consts.WEB_CLIENT_IDS,
-                consts.ANDROID_CLIENT_IDS},
-        audiences = {consts.WEB_CLIENT_IDS},
+        resource = "cloudStorage",
         namespace = @ApiNamespace(
                 ownerDomain = "storage.backend.peez.apps.horcu.com",
                 ownerName = "storage.backend.peez.apps.horcu.com",
                 packagePath = ""
         )
 )
-public class CloudStorageEndpoint {
+public class cloudStorageEndpoint {
 
-    private static final Logger logger = Logger.getLogger(CloudStorageEndpoint.class.getName());
+    private static final Logger logger = Logger.getLogger(cloudStorageEndpoint.class.getName());
 
     /**
-     * This method gets the <code>CloudStorage</code> object associated with the specified <code>id</code>.
+     * This method gets the <code>cloudStorage</code> object associated with the specified <code>id</code>.
      *
      * @param id The id of the object to be returned.
-     * @return The <code>CloudStorage</code> associated with <code>id</code>.
+     * @return The <code>cloudStorage</code> associated with <code>id</code>.
      */
-    @ApiMethod(name = "getCloudStorage")
-    public CloudStorage getCloudStorage(@Named("id") Long id) {
+    @ApiMethod(name = "getcloudStorage")
+    public cloudStorage getcloudStorage(@Named("id") Long id) {
         // TODO: Implement this function
-        logger.info("Calling getCloudStorage method");
+        logger.info("Calling getcloudStorage method");
         return null;
     }
 
     /**
-     * This inserts a new <code>CloudStorage</code> object.
+     * This inserts a new <code>cloudStorage</code> object.
      *
      * @param cloudStorage The object to be added.
      * @return The object to be added.
      */
-    @ApiMethod(name = "insertCloudStorage")
-    public CloudStorage insertCloudStorage(CloudStorage cloudStorage) {
+    @ApiMethod(name = "insertcloudStorage")
+    public cloudStorage insertcloudStorage(cloudStorage cloudStorage) {
         // TODO: Implement this function
-        logger.info("Calling insertCloudStorage method");
+        logger.info("Calling insertcloudStorage method");
         return cloudStorage;
     }
 }
