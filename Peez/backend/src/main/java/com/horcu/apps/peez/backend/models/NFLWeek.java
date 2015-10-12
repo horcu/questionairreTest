@@ -12,7 +12,7 @@ import java.util.Date;
 /**
  * Created by hacz on 10/10/2015.
  */
-@Entity
+@Entity(name="NFLInfo")
 public class NFLWeek {
     @Id
     private long id;
@@ -22,7 +22,7 @@ public class NFLWeek {
 
     private java.util.Date dateRangeStart;
 
-    private Date dateRangeEnd;
+    private java.util.Date dateRangeEnd;
 
     private String type;
 

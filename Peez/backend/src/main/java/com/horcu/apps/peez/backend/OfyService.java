@@ -4,6 +4,7 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 
+import com.horcu.apps.peez.backend.models.NFLWeek;
 import com.horcu.apps.peez.backend.models.RegistrationRecord;
 import com.horcu.apps.peez.backend.models.User;
 
@@ -18,7 +19,7 @@ public class OfyService {
     static {
         ObjectifyService.register(RegistrationRecord.class);
         ObjectifyService.register(User.class);
-        ObjectifyService.register(NflWeek.class);
+        ObjectifyService.register(NFLWeek.class);
 
     }
 
