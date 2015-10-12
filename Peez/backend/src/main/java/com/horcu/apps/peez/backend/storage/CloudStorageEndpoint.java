@@ -21,9 +21,9 @@ import javax.inject.Named;
                 packagePath = ""
         )
 )
-public class cloudStorageEndpoint {
+public class CloudStorageEndpoint {
 
-    private static final Logger logger = Logger.getLogger(cloudStorageEndpoint.class.getName());
+    private static final Logger logger = Logger.getLogger(CloudStorageEndpoint.class.getName());
 
     /**
      * This method gets the <code>cloudStorage</code> object associated with the specified <code>id</code>.
