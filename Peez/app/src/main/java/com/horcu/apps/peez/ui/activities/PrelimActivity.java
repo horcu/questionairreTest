@@ -24,6 +24,8 @@ import com.horcu.apps.common.utilities.consts;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.userApi.UserApi;
 import com.horcu.apps.peez.backend.models.userApi.model.User;
+import com.horcu.apps.peez.backend.models.userSettingsApi.UserSettingsApi;
+import com.horcu.apps.peez.backend.models.userSettingsApi.model.UserSettings;
 import com.horcu.apps.peez.backend.registration.Registration;
 
 import java.io.IOException;
@@ -39,6 +41,7 @@ public class PrelimActivity extends AppCompatActivity {
     private UserApi userApi = null;
     private Registration registrationApi = null;
     String mPhoneNumber;
+    private UserSettingsApi userSettingsApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +57,7 @@ public class PrelimActivity extends AppCompatActivity {
                 return 2;
             }
         };
-        ((RubberLoaderView) findViewById(R.id.loader1)).setInterpolator(interpolator);
+       // ((RubberLoaderView) findViewById(R.id.loader1)).setInterpolator(interpolator);
         ((RubberLoaderView) findViewById(R.id.loader1)).startLoading();
 
         settings = getSharedPreferences("Peez", 0);
@@ -66,27 +69,22 @@ public class PrelimActivity extends AppCompatActivity {
 
         BuildRegistrationApiService();
         BuildUserApiService();
-
+        BuildUserSettingsApiService();
 
         if (credential.getSelectedAccountName() == null) {
             chooseAccount();
         } else {
 
-            //       Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//            setSupportActionBar(toolbar);
-
-            //dev
             final User user = new User();
             user.setAlias("peze");                       // set the email address as the alias then ask the user to change it later in a noninvasive way
             user.setCash(consts.STARTING_CASH);
-            user.setEmail(credential.getSelectedAccount().name); // get this automatically after logging in; TODO - make provision for getting email if the device is ios
+            user.setName(credential.getSelectedAccount().name); // get this automatically after logging in; TODO - make provision for getting email if the device is ios
+            user.setUserName(credential.getSelectedAccount().name); // get this automatically after logging in; TODO - make provision for getting email if the device is ios
             user.setJoined(new Date().toString()); // set this to today unless the user is already a member
             user.setRank(consts.STARTING_RANK);
             user.setPhone(mPhoneNumber);               // get this programmatically
             RegisterDeviceAsync(fab, user, this);
-
         }
-        //fab.setVisibility(View.GONE);
     }
 
     private void RegisterDeviceAsync(final FloatingActionButton fab, final User user, final Context ctx) {
@@ -170,8 +168,34 @@ public class PrelimActivity extends AppCompatActivity {
                 } else {
                     Snackbar.make(fab, "user registration successfully", Snackbar.LENGTH_LONG).show();
                     Logger.getLogger("ADDED USER").log(Level.INFO, msg);
+                    AddUserSettingsAsync(user);
                     navigateToApp(user);
                 }
+
+            }
+        }.execute();
+    }
+
+    private void AddUserSettingsAsync(final User user) {
+
+        new AsyncTask<Void, Void, String>() {
+
+            protected String doInBackground(Void... params) {
+                // this will be supplied after calling register in an asyc task before this one
+
+                try {
+                    UserSettings uSettings = new UserSettings();
+                   // uSettings.setEmail(user.getEmail());
+                    uSettings.setValue(getString(R.string.newUserSettingsJson));
+                    userSettingsApi.insert(uSettings).execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return "";
+                }
+                return "success";
+            }
+
+            protected void onPostExecute(String msg) {
 
             }
         }.execute();
@@ -211,6 +235,23 @@ public class PrelimActivity extends AppCompatActivity {
         }
     }
 
+    private void BuildUserSettingsApiService() {
+        if (userSettingsApi == null) {
+            UserSettingsApi.Builder builder = new UserSettingsApi.Builder(AndroidHttp.newCompatibleTransport()
+                    , new AndroidJsonFactory(), null)
+                    .setRootUrl(consts.DEV_MODE
+                            ? consts.DEV_URL
+                            : consts.PROD_URL)
+                    .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
+                        @Override
+                        public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
+                            abstractGoogleClientRequest.setDisableGZipContent(true);
+                        }
+                    });
+            userSettingsApi = builder.build();
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -230,7 +271,7 @@ public class PrelimActivity extends AppCompatActivity {
                         User user = new User();
                         user.setRegistrationId(settings.getString("regId", "0"));
                         user.setUserName(accountName);//get from preferences/json local pref file / or cloud
-                        user.setEmail(accountName);//get from preferences/json local pref file / or cloud
+                      //  user.setEmail(accountName);//get from preferences/json local pref file / or cloud
                         user.setPhone(mPhoneNumber);//get from preferences/json local pref file / or cloud
                         user.setRank(consts.STARTING_RANK); //get from preferences/json local pref file / or cloud
                         navigateToApp(user);
@@ -245,7 +286,7 @@ public class PrelimActivity extends AppCompatActivity {
     private void navigateToApp(User user) {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         intent.putExtra("regId", user.getRegistrationId());
-        intent.putExtra("email", user.getEmail());
+        //intent.putExtra("email", user.getEmail());
         intent.putExtra("userName", user.getUserName());
         intent.putExtra("rank", user.getRank());
         intent.putExtra("phone", user.getPhone());

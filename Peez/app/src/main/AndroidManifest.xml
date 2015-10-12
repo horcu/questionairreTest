@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.horcu.apps.peez">
+    package="com.horcu.apps.peez" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -18,11 +18,11 @@
 
     <application
         android:allowBackup="true"
-
         android:icon="@mipmap/ic_launcher"
-        android:label="Peez"
+        android:label="@string/app_name"
+        android:logo="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -65,14 +65,6 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme" />
 
-        <!-- <activity -->
-        <!-- android:name=".SingleInputFormActivity" -->
-        <!-- android:label="@string/app_name" -->
-        <!-- android:theme="@style/murple" > -->
-
-
-        <!-- </activity> -->
-
         <activity
             android:name=".ui.activities.TokenActivity"
             android:label="@string/app_name"
@@ -84,7 +76,7 @@
         <activity
             android:name=".ui.addressbook.SelectActivity"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan" >
             <intent-filter>
                 <action android:name="android.intent.action.PICK" />
 
@@ -98,7 +90,7 @@
         <activity
             android:name=".ui.activities.GCMActivity"
             android:label="@string/title_activity_prelim"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme" >
         </activity>
         <activity
             android:name=".ui.activities.InviteActivity"
@@ -107,7 +99,7 @@
         <activity
             android:name=".ui.activities.PrelimActivity"
             android:label="@string/title_activity_prelim"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -116,8 +108,9 @@
         </activity>
         <activity
             android:name=".ui.activities.BetActivity"
+            android:theme="@style/AppTheme"
             android:label="@string/title_activity_bet"
-            android:parentActivityName=".ui.activities.PrelimActivity">
+            android:parentActivityName=".ui.activities.PrelimActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activities.PrelimActivity" />
@@ -126,22 +119,22 @@
             android:name=".ui.activities.GameActivity"
             android:label="@string/title_activity_game"
             android:parentActivityName=".ui.activities.MainActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activities.MainActivity" />
         </activity>
         <activity
             android:name=".ui.activities.DeepLinkActivity"
-            android:label="@string/app_name"
-            android:theme="@style/ThemeOverlay.MyDialogActivity" />
+            android:label="@string/invitation_dl"
+            android:theme="@style/AppTheme" />
 
         <!-- Required receiver to get broadcasts from the Play Store after application install -->
         <!-- [START referral_receiver_xml] -->
         <receiver
             android:name=".ui.activities.ReferrerReceiver"
             android:exported="true"
-            tools:ignore="ExportedReceiver">
+            tools:ignore="ExportedReceiver" >
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
