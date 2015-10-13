@@ -1,8 +1,6 @@
 package com.horcu.apps.peez.backend.models;
 
 
-import com.google.api.client.util.Key;
-
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
@@ -14,8 +12,9 @@ import com.googlecode.objectify.annotation.Index;
 public class User {
 
     @Id
+    public Long id;
     @Index
-    private String name;
+    public String email;
 
     @Index
    public String userName;
@@ -81,7 +80,7 @@ public class User {
         this.registrationId = registrationId;
     }
 
-    public String getName() {
-        return name;
+    public String getEmail() {
+        return email;
     }
 }
