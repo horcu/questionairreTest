@@ -21,9 +21,11 @@ import com.google.gson.stream.JsonReader;
 import com.horcu.apps.common.utilities.consts;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.adapters.MatchupsAdapter;
-import com.horcu.apps.peez.backend.models.nflWeekApi.NflWeekApi;
-import com.horcu.apps.peez.backend.models.nflWeekApi.model.NflWeek;
+
+import com.horcu.apps.peez.backend.models.nFLWeekApi.NFLWeekApi;
+import com.horcu.apps.peez.backend.models.nFLWeekApi.model.NFLWeek;
 import com.horcu.apps.peez.model.nfl.schedule.Game;
+import com.horcu.apps.peez.model.nfl.schedule.NflWeek;
 
 
 import java.io.IOException;
@@ -38,8 +40,8 @@ public class TeamStep extends Step {
     private LinearLayoutManager mLayoutManager;
     private RecyclerView.Adapter mAdapter;
     private NflWeek myDataset;
-    private NflWeekApi nflWeekApi;
-    private NflWeek thisWeek;
+    private NFLWeekApi nflWeekApi;
+    private NFLWeek thisWeek;
 
     public TeamStep(Context context, String dataKey, int titleResId, int errorResId, int detailsResId) {
         super(context, dataKey, titleResId, errorResId, detailsResId);
@@ -104,10 +106,10 @@ public class TeamStep extends Step {
     }
 
     private void GetCurrentWeekScheduleAsync() {
-        new AsyncTask<Void, Void, NflWeek>() {
+        new AsyncTask<Void, Void, NFLWeek>() {
 
-            protected NflWeek doInBackground(Void... params) {
-               NflWeek info = null;
+            protected NFLWeek doInBackground(Void... params) {
+               NFLWeek info = null;
                 try {
 
                     info = nflWeekApi.current().execute(); //TODO get date through matching file
@@ -124,7 +126,7 @@ public class TeamStep extends Step {
             }
 
             @Override
-            protected void onPostExecute(NflWeek week) {
+            protected void onPostExecute(NFLWeek week) {
                 if(week !=null)
                 thisWeek = week;
                 else
@@ -133,22 +135,22 @@ public class TeamStep extends Step {
         }.execute();
     }
 
-    private void convertToWeek(com.horcu.apps.peez.backend.models.nflWeekApi.model.NflWeek info) {
-        List<Game> games = null;
-        if(info !=null && info.getGames() !=null)
-        {
-            games = new Gson().fromJson(info.getGames(),new TypeToken<List<Game>>(){}.getType());
-        }
+    private void convertToWeek(NFLWeek info) {
+//        List<Game> games = null;
+//        if(info !=null && info.getGames() !=null)
+//        {
+//            games = new Gson().fromJson(info.getGames(),new TypeToken<List<Game>>(){}.getType());
+//        }
 
-        if(games !=null)
-        thisWeek = new NflWeek()
+       // if(games !=null)
+        thisWeek = new NFLWeek()
                 .setGames(info.getGames())
                 .setWeekNumber(info.getWeekNumber());
     }
 
     private void BuildStatsApi() {
         try {
-            NflWeekApi.Builder builder = new NflWeekApi.Builder(AndroidHttp.newCompatibleTransport()
+            NFLWeekApi.Builder builder = new NFLWeekApi.Builder(AndroidHttp.newCompatibleTransport()
                     , new AndroidJsonFactory(), null)
                     .setRootUrl(consts.DEV_MODE
                             ? consts.DEV_URL

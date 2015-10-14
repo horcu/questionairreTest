@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.horcu.apps.peez.R;
+import com.horcu.apps.peez.backend.models.nFLWeekApi.model.NFLWeek;
 import com.horcu.apps.peez.model.nfl.league.Team;
 import com.horcu.apps.peez.model.nfl.schedule.Game;
 import com.horcu.apps.peez.model.nfl.schedule.NflWeek;
@@ -24,7 +25,7 @@ import java.util.List;
  * Created by hcummings on 10/9/2015.
  */
 public class MatchupsAdapter extends RecyclerView.Adapter<MatchupsAdapter.ViewHolder> {
-    private com.horcu.apps.peez.backend.models.nflWeekApi.model.NflWeek mDataset;
+    private NFLWeek mDataset;
     private Context mContext;
     private int itemRow;
     private String mGames;
@@ -42,7 +43,7 @@ public class MatchupsAdapter extends RecyclerView.Adapter<MatchupsAdapter.ViewHo
         }
     }
 
-    public MatchupsAdapter(com.horcu.apps.peez.backend.models.nflWeekApi.model.NflWeek myDataset, Context context) {
+    public MatchupsAdapter(NFLWeek myDataset, Context context) {
         mDataset = myDataset;
         mContext = context;
         if(mDataset !=null)

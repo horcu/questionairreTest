@@ -18,13 +18,14 @@
 
 
     <item android:id="@+id/bg">
-        <bitmap android:src="@drawable/crossword" />
+        <bitmap android:src="@drawable/squared_metal" />
         <scale android:scaleWidth="100%"></scale>
     </item>
 
     <item
         android:id="@android:id/background"
         android:drawable="@color/light_grey"></item>
+
 
 
 </layer-list>

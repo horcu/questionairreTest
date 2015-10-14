@@ -17,8 +17,10 @@ import android.widget.TextView;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.userApi.model.User;
 import com.horcu.apps.peez.ui.activities.GCMActivity;
+import com.horcu.apps.peez.ui.activities.GameActivity;
 import com.horcu.apps.peez.ui.activities.InviteActivity;
 import com.horcu.apps.peez.dummy.DummyContent;
+import com.horcu.apps.peez.ui.activities.MainActivity;
 
 /**
  * A fragment representing a list of Items.
@@ -89,8 +91,8 @@ public class testItemFragment extends Fragment implements AbsListView.OnItemClic
         }
 
         // TODO: Change Adapter to display your content
-        mAdapter = new ArrayAdapter<>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, testResults);
+//        mAdapter = new ArrayAdapter<>(getActivity(),
+//                R.layout.fragment_testitem_list,R.id.bet_card, testResults);
     }
 
     @Override
@@ -99,6 +101,14 @@ public class testItemFragment extends Fragment implements AbsListView.OnItemClic
 
 
         View view = inflater.inflate(R.layout.fragment_testitem, container, false);
+
+        view.findViewById(R.id.bets).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), GameActivity.class);
+                startActivity(intent);
+            }
+        });
 
         view.findViewById(R.id.game).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,11 +126,11 @@ public class testItemFragment extends Fragment implements AbsListView.OnItemClic
             }
         });
         // Set the adapter
-        mListView = (AbsListView) view.findViewById(android.R.id.list);
-        ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
+      //  mListView = (AbsListView) view.findViewById(android.R.id.list);
+       // ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
 
         // Set OnItemClickListener so we can be notified on item clicks
-        mListView.setOnItemClickListener(this);
+      //  mListView.setOnItemClickListener(this);
 
 
         return view;

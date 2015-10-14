@@ -78,7 +78,6 @@ public class PrelimActivity extends AppCompatActivity {
             final User user = new User();
             user.setAlias("peze");                       // set the email address as the alias then ask the user to change it later in a noninvasive way
             user.setCash(consts.STARTING_CASH);
-            user.setName(credential.getSelectedAccount().name); // get this automatically after logging in; TODO - make provision for getting email if the device is ios
             user.setUserName(credential.getSelectedAccount().name); // get this automatically after logging in; TODO - make provision for getting email if the device is ios
             user.setJoined(new Date().toString()); // set this to today unless the user is already a member
             user.setRank(consts.STARTING_RANK);

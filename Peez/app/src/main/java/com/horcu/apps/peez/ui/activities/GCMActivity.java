@@ -103,6 +103,8 @@ public class GCMActivity extends AppCompatActivity implements AdapterView.OnItem
                                 ((RefreshableFragment) fragment).refresh();
                             }
                         }
+
+
                         Snackbar.make(findViewById(R.id.drawer_layout), Html.fromHtml(stringBuilder.toString()), Snackbar.LENGTH_LONG).show();
                         break;
                 }
