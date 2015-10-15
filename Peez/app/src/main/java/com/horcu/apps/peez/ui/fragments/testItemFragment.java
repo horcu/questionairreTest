@@ -102,29 +102,29 @@ public class testItemFragment extends Fragment implements AbsListView.OnItemClic
 
         View view = inflater.inflate(R.layout.fragment_testitem, container, false);
 
-        view.findViewById(R.id.bets).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), GameActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        view.findViewById(R.id.game).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), GCMActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        view.findViewById(R.id.invites).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), InviteActivity.class);
-                startActivity(intent);
-            }
-        });
+//        view.findViewById(R.id.bets).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getActivity(), GameActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        view.findViewById(R.id.game).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getActivity(), GCMActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        view.findViewById(R.id.invites).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getActivity(), InviteActivity.class);
+//                startActivity(intent);
+//            }
+//        });
         // Set the adapter
       //  mListView = (AbsListView) view.findViewById(android.R.id.list);
        // ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);

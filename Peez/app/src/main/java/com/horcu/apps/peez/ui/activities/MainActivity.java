@@ -1,13 +1,18 @@
 package com.horcu.apps.peez.ui.activities;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
+import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,7 +22,10 @@ import android.widget.TextView;
 
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.userApi.model.User;
+import com.horcu.apps.peez.service.LoggingService;
 import com.horcu.apps.peez.ui.fragments.testItemFragment;
+
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements testItemFragment.OnFragmentInteractionListener {
@@ -37,13 +45,14 @@ public class MainActivity extends AppCompatActivity implements testItemFragment.
      */
     private ViewPager mViewPager;
     private User user;
-
+    private BroadcastReceiver mLoggerCallback;
+    private LoggingService.Logger mLogger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mLogger = new LoggingService.Logger(this);
         Bundle bundle = getIntent().getExtras();
 //        if (bundle != null) {
 //            user = new User()
@@ -57,6 +66,33 @@ public class MainActivity extends AppCompatActivity implements testItemFragment.
         //     setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
+//        mLoggerCallback = new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//                switch (intent.getAction()) {
+//                    case LoggingService.ACTION_CLEAR_LOGS:
+//                      //  mLogsUI.setText("");
+//                        break;
+//                    case LoggingService.ACTION_LOG:
+//                        StringBuilder stringBuilder = new StringBuilder();
+//                        String newLog = intent.getStringExtra(LoggingService.EXTRA_LOG_MESSAGE);
+//                      //  String oldLogs = Html.toHtml(new SpannableString(mLogsUI.getText()));
+//                     //   appendFormattedLogLine(newLog, stringBuilder);
+//                      //  stringBuilder.append(oldLogs);
+//                     //   mLogsUI.setText(Html.fromHtml(stringBuilder.toString()));
+////                        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+////                        for (Fragment fragment : fragments) {
+////                            if (fragment instanceof GCMActivity.RefreshableFragment && fragment.isVisible()) {
+////                                ((GCMActivity.RefreshableFragment) fragment).refresh();
+////                            }
+////                        }
+//
+//                        Snackbar.make(findViewById(R.id.bet_list), Html.fromHtml(newLog), Snackbar.LENGTH_LONG).show();
+//                        break;
+//                }
+//            }
+//        };
+
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
@@ -72,6 +108,45 @@ public class MainActivity extends AppCompatActivity implements testItemFragment.
 //            }
 //        });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        StringBuilder logs = new StringBuilder();
+        for (String log : mLogger.getLogsFromFile()) {
+            appendFormattedLogLine(log, logs);
+            logs.append("<br>");
+        }
+       // mLogsUI.setText(Html.fromHtml(logs.toString()));
+        mLogger.registerCallback(mLoggerCallback);
+    }
+
+    private void appendFormattedLogLine(String log, StringBuilder stringBuilder) {
+        String[] logLines = log.split("\n");
+        if (logLines.length > 0) {
+            logLines[0] = "<b>" + logLines[0] + "</b>";
+            for (String line : logLines) {
+                if (line.startsWith("exception: ")) {
+                    continue;
+                }
+                int keySeparator = line.indexOf(": ");
+                if (keySeparator > 0) {
+                    stringBuilder
+                            .append("<b>").append(line.substring(0, keySeparator + 1)).append
+                            ("</b>")
+                            .append(line.substring(keySeparator + 1)).append("<br>");
+                } else {
+                    stringBuilder.append(line).append("<br>");
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        mLogger.unregisterCallback(mLoggerCallback);
+        super.onPause();
     }
 
     @Override
@@ -91,6 +166,19 @@ public class MainActivity extends AppCompatActivity implements testItemFragment.
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+        else if( id == R.id.action_bet){
+            Intent intent = new Intent(this, GameActivity.class);
+            startActivity(intent);
+        }
+        else if(id == R.id.action_invite){
+            Intent intent = new Intent(this, InviteActivity.class);
+            startActivity(intent);
+        }
+        else if (id == R.id.action_msg)
+        {
+            Intent intent = new Intent(this, GCMActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
