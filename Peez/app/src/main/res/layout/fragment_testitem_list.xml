@@ -6,19 +6,25 @@
     tools:context="com.horcu.apps.peez.ui.fragments.testItemFragment">
 
     <ListView
-        android:id="@android:id/list"
+        android:id="@+id/bet_list"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <include layout="@layout/bet_card"/>
+
 
 
     <LinearLayout
         android:layout_gravity="bottom"
         android:gravity="center"
+        android:visibility="gone"
         android:baselineAligned="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
+
     <Button
         android:id="@+id/game"
         android:layout_width="wrap_content"
@@ -33,6 +39,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Invites"
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="10dp" />
+
+        <Button
+
+            android:id="@+id/bets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bets"
             android:layout_gravity="bottom|center"
             android:layout_marginBottom="10dp" />
 
