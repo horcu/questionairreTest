@@ -16,7 +16,7 @@
             <param-value>com.horcu.apps.peez.backend.endpoints.RegistrationEndpoint,
                 com.horcu.apps.peez.backend.endpoints.MessagingEndpoint,
                 com.horcu.apps.peez.backend.endpoints.UserSettingsEndpoint,
-                com.horcu.apps.peez.backend.endpoints.NflWeekEndpoint,
+                com.horcu.apps.peez.backend.endpoints.NFLWeekEndpoint,
                 com.horcu.apps.peez.backend.models.UserEndpoint,
                 com.horcu.apps.peez.backend.storage.cloudStorageEndpoint</param-value>
         </init-param>

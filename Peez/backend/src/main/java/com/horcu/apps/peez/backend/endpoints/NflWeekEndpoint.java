@@ -9,6 +9,7 @@ import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.QueryResultIterator;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.cmd.Query;
+import com.horcu.apps.peez.backend.models.NFLWeek;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,19 +37,19 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
                 packagePath = ""
         )
 )
-public class NflWeekEndpoint {
+public class NFLWeekEndpoint {
 
-    private static final Logger logger = Logger.getLogger(NflWeekEndpoint.class.getName());
+    private static final Logger logger = Logger.getLogger(NFLWeekEndpoint.class.getName());
 
     private static final int DEFAULT_LIST_LIMIT = 20;
 
     static {
         // Typically you would register this inside an OfyServive wrapper. See: https://code.google.com/p/objectify-appengine/wiki/BestPractices
-        ObjectifyService.register(NflWeek.class);
+        ObjectifyService.register(NFLWeek.class);
     }
 
     /**
-     * Returns the {@link NflWeek} with the corresponding ID.
+     * Returns the {@link NFLWeek} with the corresponding ID.
      *
      * @param id the ID of the entity to be retrieved
      * @return the entity with the corresponding ID
@@ -58,9 +59,9 @@ public class NflWeekEndpoint {
             name = "get",
             path = "nflWeek/{id}",
             httpMethod = ApiMethod.HttpMethod.GET)
-    public NflWeek get(@Named("id") long id) throws NotFoundException {
+    public NFLWeek get(@Named("id") long id) throws NotFoundException {
         logger.info("Getting NflWeek with ID: " + id);
-        NflWeek nflWeek = ofy().load().type(NflWeek.class).id(id).now();
+        NFLWeek nflWeek = ofy().load().type(NFLWeek.class).id(id).now();
         if (nflWeek == null) {
             throw new NotFoundException("Could not find NflWeek with ID: " + id);
         }
@@ -68,7 +69,7 @@ public class NflWeekEndpoint {
     }
 
     /**
-     * Returns the {@link NflWeek} with the corresponding ID.
+     * Returns the {@link NFLWeek} with the corresponding ID.
      *
 
      * @return the entity with the corresponding ID
@@ -78,12 +79,12 @@ public class NflWeekEndpoint {
             name = "current",
             path = "nfLWeek/current",
             httpMethod = ApiMethod.HttpMethod.GET)
-    public NflWeek current() throws NotFoundException {
-        NflWeek thisWeek = null;
+    public NFLWeek current() throws NotFoundException {
+        NFLWeek thisWeek = null;
         logger.info("Getting current week number ");
-        List<NflWeek> weeks = ofy().load().type(NflWeek.class).order("weekNumber").list();//needs ordering
+        List<NFLWeek> weeks = ofy().load().type(NFLWeek.class).order("weekNumber").list();//needs ordering
 
-        for (NflWeek week : weeks)
+        for (NFLWeek week : weeks)
         {
             if(week.getDateRangeEnd().after(new java.util.Date()))
             {
@@ -102,7 +103,7 @@ public class NflWeekEndpoint {
             name = "insert",
             path = "nflWeek",
             httpMethod = ApiMethod.HttpMethod.POST)
-    public NflWeek insert(NflWeek nflWeek) {
+    public NFLWeek insert(NFLWeek nflWeek) {
         // Typically in a RESTful API a POST does not have a known ID (assuming the ID is used in the resource path).
         // You should validate that nflWeek.id has not been set. If the ID type is not supported by the
         // Objectify ID generator, e.g. long or String, then you should generate the unique ID yourself prior to saving.
@@ -127,7 +128,7 @@ public class NflWeekEndpoint {
             name = "update",
             path = "nflWeek/{id}",
             httpMethod = ApiMethod.HttpMethod.PUT)
-    public NflWeek update(@Named("id") long id, NflWeek nflWeek) throws NotFoundException {
+    public NFLWeek update(@Named("id") long id, NFLWeek nflWeek) throws NotFoundException {
         // TODO: You should validate your ID parameter against your resource's ID here.
         checkExists(id);
         ofy().save().entity(nflWeek).now();
@@ -148,7 +149,7 @@ public class NflWeekEndpoint {
             httpMethod = ApiMethod.HttpMethod.DELETE)
     public void remove(@Named("id") long id) throws NotFoundException {
         checkExists(id);
-        ofy().delete().type(NflWeek.class).id(id).now();
+        ofy().delete().type(NFLWeek.class).id(id).now();
         logger.info("Deleted NflWeek with ID: " + id);
     }
 
@@ -163,23 +164,23 @@ public class NflWeekEndpoint {
             name = "list",
             path = "nflWeek",
             httpMethod = ApiMethod.HttpMethod.GET)
-    public CollectionResponse<NflWeek> list(@Nullable @Named("cursor") String cursor, @Nullable @Named("limit") Integer limit) {
+    public CollectionResponse<NFLWeek> list(@Nullable @Named("cursor") String cursor, @Nullable @Named("limit") Integer limit) {
         limit = limit == null ? DEFAULT_LIST_LIMIT : limit;
-        Query<NflWeek> query = ofy().load().type(NflWeek.class).limit(limit);
+        Query<NFLWeek> query = ofy().load().type(NFLWeek.class).limit(limit);
         if (cursor != null) {
             query = query.startAt(Cursor.fromWebSafeString(cursor));
         }
-        QueryResultIterator<NflWeek> queryIterator = query.iterator();
-        List<NflWeek> nflWeekList = new ArrayList<NflWeek>(limit);
+        QueryResultIterator<NFLWeek> queryIterator = query.iterator();
+        List<NFLWeek> nflWeekList = new ArrayList<NFLWeek>(limit);
         while (queryIterator.hasNext()) {
             nflWeekList.add(queryIterator.next());
         }
-        return CollectionResponse.<NflWeek>builder().setItems(nflWeekList).setNextPageToken(queryIterator.getCursor().toWebSafeString()).build();
+        return CollectionResponse.<NFLWeek>builder().setItems(nflWeekList).setNextPageToken(queryIterator.getCursor().toWebSafeString()).build();
     }
 
     private void checkExists(long id) throws NotFoundException {
         try {
-            ofy().load().type(NflWeek.class).id(id).safe();
+            ofy().load().type(NFLWeek.class).id(id).safe();
         } catch (com.googlecode.objectify.NotFoundException e) {
             throw new NotFoundException("Could not find NflWeek with ID: " + id);
         }
