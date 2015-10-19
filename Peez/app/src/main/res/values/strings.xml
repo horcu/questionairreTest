@@ -338,4 +338,6 @@
     <string name="invitation_dl">invitation</string>
     <string name="messages">messages</string>
     <string name="bet">new bet</string>
+    <string name="title_activity_test_bet">TestBetActivity</string>
+    <string name="test">Create a test bet</string>
 </resources>

@@ -1,64 +1,72 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
+<!--
+	Solid State by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
 <html>
-<head>
-    <title>Hello, Google Cloud Messaging!</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-    <link rel="stylesheet"
-          href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-</head>
-<body role="document" style="padding-top: 70px;">
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Hello, Google Cloud Messaging!</a>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation <b
-                            class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="https://developers.google.com/appengine/docs/java/">Google App
-                            Engine</a></li>
-                        <li><a href="https://developers.google.com/appengine/docs/java/endpoints/">Google
-                            Cloud Endpoints</a></li>
-                        <li><a href="http://developer.android.com/google/gcm/">Google Cloud
-                            Messaging</a></li>
-                        <li>
-                            <a href="https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/GcmEndpoints">Connecting
-                                your Android application to this backend</a></li>
-                    </ul>
-                </li>
-                <li><a href="/_ah/api/explorer">Google Cloud Endpoints API Explorer</a></li>
-                <li><a href="https://console.developers.google.com">Google Developers Console</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
+	<head>
+		<title>Peez</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie8.css" /><![endif]-->
+	</head>
+	<body>
 
-<div class="container theme-showcase" role="main">
-    <!--
-      Output from GCM call.
-    -->
-    <div class="alert alert-success" style="visibility: collapse;" id="outputAlert"></div>
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
 
-    <!--
-      A form that takes a message text and submits it to "messaging" Endpoints API,
-      access to this Endpoints API is enabled once the client is loaded below.
-    -->
-    <div class="jumbotron">
+				<!-- Header -->
+					<header id="header" class="alt">
+						<h1><a href="index.html">Fanager</a></h1>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<div class="inner">
+							<h2>Menu</h2>
+							<ul class="links">
+								<li><a href="index.html">Home</a></li>
+								<li><a href="generic.html">Live</a></li>
+								<li><a href="elements.html">Bets</a></li>
+								<li><a href="#">Chat</a></li>
+								<li><a href="#">Cash</a></li>
+							</ul>
+							<a href="#" class="close">Close</a>
+						</div>
+					</nav>
+
+				<!-- Banner -->
+					<section id="banner">
+						<div class="inner">
+							<div class="logo"><span class="icon fa-diamond"></span></div>
+							<h2>This is Peez</h2>
+							<p>Be a Fanager or just a got darn Boss! <a href="http://html5up.net">Lets Go!</a></p>
+						</div>
+					</section>
+				<section>
+					 <div class="alert alert-success" style="visibility: collapse;" id="outputAlert"></div>
+	
+					<!--
+					A form that takes a message text and submits it to "messaging" Endpoints API,
+					access to this Endpoints API is enabled once the client is loaded below.
+					-->
+					<div class="message">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-20">
                 <h1>Ballrz</h1>
 
                 <p>Send a blast out to all registered devices</p>
 
                 <form>
-                    <div class="input-group">
-                        <input type="text" class="form-control input-lg" placeholder="Message text"
+                    <div>
+                        <input type="text" class="form-control input-lg mess" placeholder="Message text"
                                id="messageTextInput"/>
                           <span class="input-group-btn">
                              <button class="btn btn-default btn-primary btn-group btn-lg"
@@ -67,34 +75,18 @@
                           </span>
                     </div>
                 </form>
-                <br/>
+			</div>
 
-                <p>If you need step-by-step instructions for connecting your Android application to
-                    this backend module, see <a
-                            href="https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/GcmEndpoints">"App
-                        Engine Backend with Google Cloud Messaging" template documentation</a>.</p>
+		<!-- Scripts -->
+		 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+			<script src="js/skel.min.js"></script>
+			<script src="js/jquery.min.js"></script>
+			<script src="js/jquery.scrollex.min.js"></script>
+			<script src="js/util.js"></script>
+			<!--[if lte IE 8]><script src="js/ie/respond.min.js"></script><![endif]-->
+			<script src="js/main.js"></script>
 
-                <p>
-                    <small>
-                        For more information about Google App Engine for Java, check out the <a
-                            href="https://developers.google.com/appengine/docs/java/">App Engine
-                        documentation</a>.<br/>
-                        To learn more about Google Cloud Endpoints, see <a
-                            href="https://developers.google.com/appengine/docs/java/endpoints/">Cloud
-                        Endpoints documentation</a>.<br/>
-                        Similarly, for more information about Google Cloud Messaging, see <a
-                            href="http://developer.android.com/google/gcm/">Cloud Messaging
-                        documentation</a>.<br/>
-                        If you'd like to access your generated Google Cloud Endpoints APIs directly,
-                        see the <a href="/_ah/api/explorer">Cloud Endpoints API Explorer</a>.
-                    </small>
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script type="text/javascript">
+		<script type="text/javascript">
     // A function that attaches a "Send Message" button click handler
     function enableClick() {
       document.getElementById('sendMessageButton').onclick = function() {
@@ -138,12 +130,10 @@
       }
       gapi.client.load(apiName, apiVersion, callback, apiRoot);
     }
-  
+
 </script>
-<!--
- Load the Google APIs Client Library for JavaScript
- More info here : https://developers.google.com/api-client-library/javascript/reference/referencedocs
--->
-<script src="https://apis.google.com/js/client.js?onload=init"></script>
-</body>
+			<script src="https://apis.google.com/js/client.js?onload=init"></script>
+</div>
+                        </div></section></div>
+	</body>
 </html>

@@ -51,22 +51,12 @@ public class PrelimActivity extends AppCompatActivity {
         TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         mPhoneNumber = tMgr.getLine1Number();
 
-        AccelerateDecelerateInterpolator interpolator = new AccelerateDecelerateInterpolator() {
-            @Override
-            public float getInterpolation(float input) {
-                return 2;
-            }
-        };
-       // ((RubberLoaderView) findViewById(R.id.loader1)).setInterpolator(interpolator);
         ((RubberLoaderView) findViewById(R.id.loader1)).startLoading();
 
         settings = getSharedPreferences("Peez", 0);
 
-        credential = GoogleAccountCredential.usingAudience(this,
-                "server:client_id:932165043385-peo6s0mkqf2ik7q75poo6vm10sv1fs46.apps.googleusercontent.com");
-
+        credential = GoogleAccountCredential.usingAudience(this, consts.GOOGLE_ACCOUNT_CREDENTIALS_AUDIENCE );
         setSelectedAccountName(settings.getString(consts.PREF_ACCOUNT_NAME, null));
-
         BuildRegistrationApiService();
         BuildUserApiService();
         BuildUserSettingsApiService();
@@ -76,9 +66,10 @@ public class PrelimActivity extends AppCompatActivity {
         } else {
 
             final User user = new User();
-            user.setAlias("peze");                       // set the email address as the alias then ask the user to change it later in a noninvasive way
+            user.setAlias("");                       // set the email address as the alias then ask the user to change it later in a noninvasive way
             user.setCash(consts.STARTING_CASH);
             user.setUserName(credential.getSelectedAccount().name); // get this automatically after logging in; TODO - make provision for getting email if the device is ios
+            user.setEmail(credential.getSelectedAccount().name); // get this automatically after logging in; TODO - make provision for getting email if the device is ios
             user.setJoined(new Date().toString()); // set this to today unless the user is already a member
             user.setRank(consts.STARTING_RANK);
             user.setPhone(mPhoneNumber);               // get this programmatically
@@ -113,21 +104,32 @@ public class PrelimActivity extends AppCompatActivity {
                     regService = builder.build();
                 }
 
-                String msg;
-                try {
+                String regId = null;
                     if (gcm == null) {
+
                         gcm = GoogleCloudMessaging.getInstance(context);
                     }
-                    String regId = gcm.register(SENDER_ID);
-                    msg = "Device registered, registration ID=" + regId;
 
-                    regService.register(regId).execute();
+                    settings = getSharedPreferences("Peez", 0);
+                    if(!settings.getString(consts.REG_ID, "").equals("")){
+                        regId = settings.getString(consts.REG_ID,"");
+                    }
+                    else
+                    {
+                        try {
+                            regId = gcm.register(SENDER_ID);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                    msg = "Error: " + ex.getMessage();
-                }
-                return msg;
+                        try {
+                            regService.register(regId).execute();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                return regId;
             }
 
             protected void onPostExecute(String regId) {
@@ -184,6 +186,7 @@ public class PrelimActivity extends AppCompatActivity {
 
                 try {
                     UserSettings uSettings = new UserSettings();
+                    uSettings.setName(user.getEmail());
                    // uSettings.setEmail(user.getEmail());
                     uSettings.setValue(getString(R.string.newUserSettingsJson));
                     userSettingsApi.insert(uSettings).execute();

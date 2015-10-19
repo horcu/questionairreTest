@@ -16,9 +16,10 @@
             <param-value>com.horcu.apps.peez.backend.endpoints.RegistrationEndpoint,
                 com.horcu.apps.peez.backend.endpoints.MessagingEndpoint,
                 com.horcu.apps.peez.backend.endpoints.UserSettingsEndpoint,
-                com.horcu.apps.peez.backend.endpoints.NflWeekEndpoint,
-                com.horcu.apps.peez.backend.models.UserEndpoint,
-                com.horcu.apps.peez.backend.storage.cloudStorageEndpoint</param-value>
+                com.horcu.apps.peez.backend.endpoints.UserEndpoint,
+                com.horcu.apps.peez.backend.endpoints.BetEndpoint,
+                com.horcu.apps.peez.backend.endpoints.league.TeamEndpoint,
+                com.horcu.apps.peez.backend.endpoints.schedule.GameEndpoint</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>

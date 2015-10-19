@@ -12,7 +12,6 @@ import com.horcu.apps.peez.steps.CheckBoxStep;
 import com.horcu.apps.peez.steps.DateStep;
 import com.horcu.apps.peez.steps.SeekBarStep;
 import com.horcu.apps.peez.steps.Step;
-import com.horcu.apps.peez.steps.TeamStep;
 import com.horcu.apps.peez.steps.TextStep;
 
 import java.util.ArrayList;
@@ -39,14 +38,7 @@ public class GameActivity extends SingleInputFormActivity {
     @Override
     protected List<Step> getSteps(Context context) {
         List<Step> steps = new ArrayList<Step>();
-        steps.add(
-                new TeamStep(context, MATCHUPS, R.string.teams, R.string.matchup_title, R.string.team_choice__error, R.string.team_choice_details, new TeamStep.StepChecker() {
-                    @Override
-                    public boolean check(String teamName, String teamId, String opponentName, String opponentId) {
-                        return false;
-                    }
-                })
-        );
+
         steps.add(
                 new TextStep(context, DATA_KEY_EMAIL, InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS, R.string.email, R.string.email_error, R.string.email_details, new TextStep.StepChecker() {
                     @Override

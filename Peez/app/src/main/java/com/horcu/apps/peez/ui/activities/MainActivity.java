@@ -66,32 +66,32 @@ public class MainActivity extends AppCompatActivity implements testItemFragment.
         //     setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-//        mLoggerCallback = new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context context, Intent intent) {
-//                switch (intent.getAction()) {
-//                    case LoggingService.ACTION_CLEAR_LOGS:
-//                      //  mLogsUI.setText("");
-//                        break;
-//                    case LoggingService.ACTION_LOG:
-//                        StringBuilder stringBuilder = new StringBuilder();
-//                        String newLog = intent.getStringExtra(LoggingService.EXTRA_LOG_MESSAGE);
-//                      //  String oldLogs = Html.toHtml(new SpannableString(mLogsUI.getText()));
-//                     //   appendFormattedLogLine(newLog, stringBuilder);
-//                      //  stringBuilder.append(oldLogs);
-//                     //   mLogsUI.setText(Html.fromHtml(stringBuilder.toString()));
-////                        List<Fragment> fragments = getSupportFragmentManager().getFragments();
-////                        for (Fragment fragment : fragments) {
-////                            if (fragment instanceof GCMActivity.RefreshableFragment && fragment.isVisible()) {
-////                                ((GCMActivity.RefreshableFragment) fragment).refresh();
-////                            }
-////                        }
-//
-//                        Snackbar.make(findViewById(R.id.bet_list), Html.fromHtml(newLog), Snackbar.LENGTH_LONG).show();
-//                        break;
-//                }
-//            }
-//        };
+        mLoggerCallback = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                switch (intent.getAction()) {
+                    case LoggingService.ACTION_CLEAR_LOGS:
+                      //  mLogsUI.setText("");
+                        break;
+                    case LoggingService.ACTION_LOG:
+                        StringBuilder stringBuilder = new StringBuilder();
+                        String newLog = intent.getStringExtra(LoggingService.EXTRA_LOG_MESSAGE);
+                      //  String oldLogs = Html.toHtml(new SpannableString(mLogsUI.getText()));
+                     //   appendFormattedLogLine(newLog, stringBuilder);
+                      //  stringBuilder.append(oldLogs);
+                     //   mLogsUI.setText(Html.fromHtml(stringBuilder.toString()));
+                        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+                        for (Fragment fragment : fragments) {
+                            if (fragment instanceof GCMActivity.RefreshableFragment && fragment.isVisible()) {
+                                ((GCMActivity.RefreshableFragment) fragment).refresh();
+                            }
+                        }
+
+                        Snackbar.make(findViewById(R.id.bet_list), Html.fromHtml(newLog), Snackbar.LENGTH_LONG).show();
+                        break;
+                }
+            }
+        };
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements testItemFragment.
             return true;
         }
         else if( id == R.id.action_bet){
-            Intent intent = new Intent(this, GameActivity.class);
+            Intent intent = new Intent(this, TestBetActivity.class);
             startActivity(intent);
         }
         else if(id == R.id.action_invite){

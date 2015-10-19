@@ -10,6 +10,7 @@ public class consts {
    public static final  double STARTING_CASH = 50.00;
    public static final Long STARTING_RANK = (long)0;
    public static final String REG_ID = "registrationId";
+   public static final String GOOGLE_ACCOUNT_CREDENTIALS_AUDIENCE = "server:client_id:932165043385-peo6s0mkqf2ik7q75poo6vm10sv1fs46.apps.googleusercontent.com";
 
    //turn dev mode on and off
    public static  boolean DEV_MODE = false;

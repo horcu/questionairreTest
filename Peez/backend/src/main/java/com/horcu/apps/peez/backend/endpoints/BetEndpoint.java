@@ -9,7 +9,7 @@ import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.QueryResultIterator;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.cmd.Query;
-import com.horcu.apps.peez.backend.models.User;
+import com.horcu.apps.peez.backend.models.Bet;
 import com.horcu.apps.peez.backend.utilities.consts;
 
 import java.util.ArrayList;
@@ -29,9 +29,9 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
  * DO NOT deploy this code unchanged as part of a real application to real users.
  */
 @Api(
-        name = "userApi",
+        name = "betApi",
         version = "v1",
-        resource = "user",
+        resource = "bet",
         clientIds = {consts.WEB_CLIENT_IDS,
                 consts.ANDROID_CLIENT_IDS},
         audiences = {consts.WEB_CLIENT_IDS},
@@ -41,92 +41,92 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
                 packagePath = ""
         )
 )
-public class UserEndpoint {
+public class BetEndpoint {
 
-    private static final Logger logger = Logger.getLogger(UserEndpoint.class.getName());
+    private static final Logger logger = Logger.getLogger(BetEndpoint.class.getName());
 
     private static final int DEFAULT_LIST_LIMIT = 20;
 
     static {
         // Typically you would register this inside an OfyServive wrapper. See: https://code.google.com/p/objectify-appengine/wiki/BestPractices
-        ObjectifyService.register(User.class);
+        ObjectifyService.register(Bet.class);
     }
 
     /**
-     * Returns the {@link User} with the corresponding ID.
+     * Returns the {@link Bet} with the corresponding ID.
      *
-     * @param email the ID of the entity to be retrieved
+     * @param BetId the ID of the entity to be retrieved
      * @return the entity with the corresponding ID
-     * @throws NotFoundException if there is no {@code User} with the provided ID.
+     * @throws NotFoundException if there is no {@code Bet} with the provided ID.
      */
     @ApiMethod(
             name = "get",
-            path = "user/{email}",
+            path = "bet/{BetId}",
             httpMethod = ApiMethod.HttpMethod.GET)
-    public User get(@Named("email") String email) throws NotFoundException {
-        logger.info("Getting User with ID: " + email);
-        User user = ofy().load().type(User.class).id(email).now();
-        if (user == null) {
-            throw new NotFoundException("Could not find User with ID: " + email);
+    public Bet get(@Named("BetId") String BetId) throws NotFoundException {
+        logger.info("Getting Bet with ID: " + BetId);
+        Bet bet = ofy().load().type(Bet.class).id(BetId).now();
+        if (bet == null) {
+            throw new NotFoundException("Could not find Bet with ID: " + BetId);
         }
-        return user;
+        return bet;
     }
 
     /**
-     * Inserts a new {@code User}.
+     * Inserts a new {@code Bet}.
      */
     @ApiMethod(
             name = "insert",
-            path = "user",
+            path = "bet",
             httpMethod = ApiMethod.HttpMethod.POST)
-    public User insert(User user) {
+    public Bet insert(Bet bet) {
         // Typically in a RESTful API a POST does not have a known ID (assuming the ID is used in the resource path).
-        // You should validate that user.email has not been set. If the ID type is not supported by the
+        // You should validate that bet.BetId has not been set. If the ID type is not supported by the
         // Objectify ID generator, e.g. long or String, then you should generate the unique ID yourself prior to saving.
         //
         // If your client provides the ID then you should probably use PUT instead.
-        ofy().save().entity(user).now();
-        logger.info("Created User with ID: " + user.getEmail());
+        ofy().save().entity(bet).now();
+        logger.info("Created Bet with ID: " + bet.getBetId());
 
-        return ofy().load().entity(user).now();
+        return ofy().load().entity(bet).now();
     }
 
     /**
-     * Updates an existing {@code User}.
+     * Updates an existing {@code Bet}.
      *
-     * @param email the ID of the entity to be updated
-     * @param user  the desired state of the entity
+     * @param BetId the ID of the entity to be updated
+     * @param bet   the desired state of the entity
      * @return the updated version of the entity
-     * @throws NotFoundException if the {@code email} does not correspond to an existing
-     *                           {@code User}
+     * @throws NotFoundException if the {@code BetId} does not correspond to an existing
+     *                           {@code Bet}
      */
     @ApiMethod(
             name = "update",
-            path = "user/{email}",
+            path = "bet/{BetId}",
             httpMethod = ApiMethod.HttpMethod.PUT)
-    public User update(@Named("email") String email, User user) throws NotFoundException {
+    public Bet update(@Named("BetId") String BetId, Bet bet) throws NotFoundException {
         // TODO: You should validate your ID parameter against your resource's ID here.
-        checkExists(email);
-        ofy().save().entity(user).now();
-        logger.info("Updated User: " + user);
-        return ofy().load().entity(user).now();
+        checkExists(BetId);
+        ofy().save().entity(bet).now();
+        logger.info("Updated Bet: " + bet);
+        return ofy().load().entity(bet).now();
     }
 
     /**
-     * Deletes the specified {@code User}.
+     * Deletes the specified {@code Bet}.
      *
-     * @param email the ID of the entity to delete
-     * @throws NotFoundException if the {@code email} does not correspond to an existing
-     *                           {@code User}
+     * @param BetId the ID of the entity to delete
+     * @throws NotFoundException if the {@code BetId} does not correspond to an existing
+     *                           {@code Bet}
      */
     @ApiMethod(
             name = "remove",
-            path = "user/{email}",
+            path = "bet/{BetId}",
             httpMethod = ApiMethod.HttpMethod.DELETE)
-    public void remove(@Named("email") String email) throws NotFoundException {
-        checkExists(email);
-        ofy().delete().type(User.class).id(email).now();
-        logger.info("Deleted User with ID: " + email);
+    public void remove(@Named("BetId") String BetId) throws NotFoundException {
+        checkExists(BetId);
+        ofy().delete().type(Bet.class).id(BetId).now();
+        logger.info("Deleted Bet with ID: " + BetId);
     }
 
     /**
@@ -138,27 +138,27 @@ public class UserEndpoint {
      */
     @ApiMethod(
             name = "list",
-            path = "user",
+            path = "bet",
             httpMethod = ApiMethod.HttpMethod.GET)
-    public CollectionResponse<User> list(@Nullable @Named("cursor") String cursor, @Nullable @Named("limit") Integer limit) {
+    public CollectionResponse<Bet> list(@Nullable @Named("cursor") String cursor, @Nullable @Named("limit") Integer limit) {
         limit = limit == null ? DEFAULT_LIST_LIMIT : limit;
-        Query<User> query = ofy().load().type(User.class).limit(limit);
+        Query<Bet> query = ofy().load().type(Bet.class).limit(limit);
         if (cursor != null) {
             query = query.startAt(Cursor.fromWebSafeString(cursor));
         }
-        QueryResultIterator<User> queryIterator = query.iterator();
-        List<User> userList = new ArrayList<User>(limit);
+        QueryResultIterator<Bet> queryIterator = query.iterator();
+        List<Bet> betList = new ArrayList<Bet>(limit);
         while (queryIterator.hasNext()) {
-            userList.add(queryIterator.next());
+            betList.add(queryIterator.next());
         }
-        return CollectionResponse.<User>builder().setItems(userList).setNextPageToken(queryIterator.getCursor().toWebSafeString()).build();
+        return CollectionResponse.<Bet>builder().setItems(betList).setNextPageToken(queryIterator.getCursor().toWebSafeString()).build();
     }
 
-    private void checkExists(String email) throws NotFoundException {
+    private void checkExists(String BetId) throws NotFoundException {
         try {
-            ofy().load().type(User.class).id(email).safe();
+            ofy().load().type(Bet.class).id(BetId).safe();
         } catch (com.googlecode.objectify.NotFoundException e) {
-            throw new NotFoundException("Could not find User with ID: " + email);
+            throw new NotFoundException("Could not find Bet with ID: " + BetId);
         }
     }
 }
