@@ -1,5 +1,6 @@
 package com.horcu.apps.peez.ui.activities;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -33,6 +34,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.UUID;
 
 
 public class TestBetActivity extends AppCompatActivity {
@@ -40,6 +42,7 @@ public class TestBetActivity extends AppCompatActivity {
     private BetApi betApi;
     private LoggingService.Logger mLogger;
     private Message messageApi;
+    private SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,7 @@ public class TestBetActivity extends AppCompatActivity {
         setContentView(R.layout.activity_test_bet);
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
+        settings = getSharedPreferences("Peez", 0);
         BuildBetService();
         BuildMessageService();
 
@@ -74,13 +78,19 @@ public class TestBetActivity extends AppCompatActivity {
                 new AsyncTask<Void, Void, List>() {
                     @Override
                     protected List doInBackground(Void... params) {
-
+                        List<String> registrationIds = null;
+                        try {
                         String[] betText = betStats.split(",");
                         final String[] regIds = userGroups.split(",");
-                        List<String> registrationIds = Arrays.asList(regIds);
-                        registrationIds.add(consts.REG_ID); //send to yourself TODO remove this
+                         registrationIds = Arrays.asList(regIds);
+                        registrationIds = new ArrayList<String>();
+
+
+                            String regId = settings.getString(consts.REG_ID, "");
+                            registrationIds.add(regId); //send to yourself TODO remove this
 
                         Bet bet = new Bet()
+                                .setBetId(UUID.randomUUID().toString())
                                 .setBet(Arrays.asList(betText))
                                 .setBetMadeAt(new DateTime(new Date(), TimeZone.getDefault()))
                                 .setAcceptersRegIds(registrationIds)
@@ -90,12 +100,13 @@ public class TestBetActivity extends AppCompatActivity {
                                 .setWager(Double.valueOf(betAmount));
 
                         //first make the bet
-                        try {
+
                             betApi.insert(bet).execute();
+                            return registrationIds;
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        return registrationIds;
+                        return new ArrayList();
                     }
 
                     @Override
@@ -120,7 +131,6 @@ public class TestBetActivity extends AppCompatActivity {
 
                 GcmServerSideSender sender = new GcmServerSideSender(consts.API_KEY, mLogger);
                 try {
-
                     for (int i = 0; i < regIds.size(); i++)
                     {
                         sender.sendHttpJsonDownstreamMessage((String) regIds.get(i), messageApi);
@@ -161,8 +171,21 @@ public class TestBetActivity extends AppCompatActivity {
     }
 
     public void BuildMessageService(){
+        String userName = settings.getString(consts.PREF_ACCOUNT_NAME,"anonymouse user");
+
         if (messageApi == null) {
             final Message.Builder messageApi = new Message.Builder() ;
+            messageApi.collapseKey(consts.MESSAGE_COLLAPSED_KEY);
+            messageApi.restrictedPackageName("");
+            messageApi.timeToLive(10000);
+            messageApi.dryRun(false);
+            messageApi.delayWhileIdle(true);
+            messageApi.notificationClickAction(consts.NOTIFICATION_CLICK_ACTION);
+            messageApi.notificationIcon("icon");
+            messageApi.notificationTitle("Peez challenge");
+            messageApi.notificationTag("bet");
+            messageApi.notificationSound("default");
+            messageApi.notificationBody(String.format("%s %s", userName, consts.NOTIFICATION_BODY));
         }
     }
 }

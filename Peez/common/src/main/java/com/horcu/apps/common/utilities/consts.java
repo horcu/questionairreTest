@@ -11,6 +11,9 @@ public class consts {
    public static final Long STARTING_RANK = (long)0;
    public static final String REG_ID = "registrationId";
    public static final String GOOGLE_ACCOUNT_CREDENTIALS_AUDIENCE = "server:client_id:932165043385-peo6s0mkqf2ik7q75poo6vm10sv1fs46.apps.googleusercontent.com";
+   public static final String MESSAGE_COLLAPSED_KEY = "notification_coll_key";
+   public static final String NOTIFICATION_BODY = "would like to challenge you. Are you up for it?";
+   public static final String NOTIFICATION_CLICK_ACTION = "notification_click_action";
 
    //turn dev mode on and off
    public static  boolean DEV_MODE = false;

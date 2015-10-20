@@ -112,17 +112,26 @@ public class PrelimActivity extends AppCompatActivity {
 
                     settings = getSharedPreferences("Peez", 0);
                     if(!settings.getString(consts.REG_ID, "").equals("")){
-                        regId = settings.getString(consts.REG_ID,"");
+
+                        try {
+                            regId = settings.getString(consts.REG_ID,""); // do reg again with the same regid if it exists there wont be a new record if it doesnt then we will re register
+                            regService.register(regId).execute();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                     else
                     {
                         try {
                             regId = gcm.register(SENDER_ID);
-                        } catch (IOException e) {
+                          } catch (IOException e) {
                             e.printStackTrace();
                         }
 
                         try {
+                            if(regId == null)
+                                return null;
+
                             regService.register(regId).execute();
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -133,6 +142,9 @@ public class PrelimActivity extends AppCompatActivity {
             }
 
             protected void onPostExecute(String regId) {
+                if(regId.equals(""))
+                    return;
+
                 AddUserAsync(fab, user, regId);
                 Snackbar.make(fab, "device registered with id:" + regId, Snackbar.LENGTH_LONG).show();
                 Snackbar.make(fab, "adding user", Snackbar.LENGTH_LONG).show();
