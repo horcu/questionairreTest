@@ -34,6 +34,7 @@
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <!-- for Gingerbread GSF backward compat -->
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
                 <category android:name="com.horcu.apps.peez" />
             </intent-filter>
         </receiver>
@@ -138,6 +139,15 @@
             </intent-filter>
         </receiver>
         <!-- [END referral_receiver_xml] -->
+        <activity
+            android:name=".ui.activities.TestBetActivity"
+            android:label="@string/test"
+            android:parentActivityName=".ui.activities.MainActivity"
+            android:theme="@style/AppTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.horcu.apps.peez.ui.activities.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

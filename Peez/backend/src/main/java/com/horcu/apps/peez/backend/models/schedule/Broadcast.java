@@ -1,4 +1,4 @@
-package com.horcu.apps.peez.model.nfl.schedule;
+package com.horcu.apps.peez.backend.models.schedule;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

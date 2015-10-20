@@ -1,4 +1,4 @@
-package com.horcu.apps.peez.model.nfl.league;
+package com.horcu.apps.peez.backend.models.league;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

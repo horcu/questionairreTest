@@ -1,4 +1,4 @@
-package com.horcu.apps.peez.backend.endpoints;
+package com.horcu.apps.peez.backend.endpoints.schedule;
 
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
@@ -9,7 +9,7 @@ import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.QueryResultIterator;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.cmd.Query;
-import com.horcu.apps.peez.backend.models.User;
+import com.horcu.apps.peez.backend.models.schedule.Game;
 import com.horcu.apps.peez.backend.utilities.consts;
 
 import java.util.ArrayList;
@@ -29,104 +29,104 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
  * DO NOT deploy this code unchanged as part of a real application to real users.
  */
 @Api(
-        name = "userApi",
+        name = "gameApi",
         version = "v1",
-        resource = "user",
+        resource = "game",
         clientIds = {consts.WEB_CLIENT_IDS,
                 consts.ANDROID_CLIENT_IDS},
         audiences = {consts.WEB_CLIENT_IDS},
         namespace = @ApiNamespace(
-                ownerDomain = "models.backend.peez.apps.horcu.com",
-                ownerName = "models.backend.peez.apps.horcu.com",
+                ownerDomain = "schedule.models.backend.peez.apps.horcu.com",
+                ownerName = "schedule.models.backend.peez.apps.horcu.com",
                 packagePath = ""
         )
 )
-public class UserEndpoint {
+public class GameEndpoint {
 
-    private static final Logger logger = Logger.getLogger(UserEndpoint.class.getName());
+    private static final Logger logger = Logger.getLogger(GameEndpoint.class.getName());
 
     private static final int DEFAULT_LIST_LIMIT = 20;
 
     static {
         // Typically you would register this inside an OfyServive wrapper. See: https://code.google.com/p/objectify-appengine/wiki/BestPractices
-        ObjectifyService.register(User.class);
+        ObjectifyService.register(Game.class);
     }
 
     /**
-     * Returns the {@link User} with the corresponding ID.
+     * Returns the {@link Game} with the corresponding ID.
      *
-     * @param email the ID of the entity to be retrieved
+     * @param id the ID of the entity to be retrieved
      * @return the entity with the corresponding ID
-     * @throws NotFoundException if there is no {@code User} with the provided ID.
+     * @throws NotFoundException if there is no {@code Game} with the provided ID.
      */
     @ApiMethod(
             name = "get",
-            path = "user/{email}",
+            path = "game/{id}",
             httpMethod = ApiMethod.HttpMethod.GET)
-    public User get(@Named("email") String email) throws NotFoundException {
-        logger.info("Getting User with ID: " + email);
-        User user = ofy().load().type(User.class).id(email).now();
-        if (user == null) {
-            throw new NotFoundException("Could not find User with ID: " + email);
+    public Game get(@Named("id") String id) throws NotFoundException {
+        logger.info("Getting Game with ID: " + id);
+        Game game = ofy().load().type(Game.class).id(id).now();
+        if (game == null) {
+            throw new NotFoundException("Could not find Game with ID: " + id);
         }
-        return user;
+        return game;
     }
 
     /**
-     * Inserts a new {@code User}.
+     * Inserts a new {@code Game}.
      */
     @ApiMethod(
             name = "insert",
-            path = "user",
+            path = "game",
             httpMethod = ApiMethod.HttpMethod.POST)
-    public User insert(User user) {
+    public Game insert(Game game) {
         // Typically in a RESTful API a POST does not have a known ID (assuming the ID is used in the resource path).
-        // You should validate that user.email has not been set. If the ID type is not supported by the
+        // You should validate that game.id has not been set. If the ID type is not supported by the
         // Objectify ID generator, e.g. long or String, then you should generate the unique ID yourself prior to saving.
         //
         // If your client provides the ID then you should probably use PUT instead.
-        ofy().save().entity(user).now();
-        logger.info("Created User with ID: " + user.getEmail());
+        ofy().save().entity(game).now();
+        logger.info("Created Game with ID: " + game.getId());
 
-        return ofy().load().entity(user).now();
+        return ofy().load().entity(game).now();
     }
 
     /**
-     * Updates an existing {@code User}.
+     * Updates an existing {@code Game}.
      *
-     * @param email the ID of the entity to be updated
-     * @param user  the desired state of the entity
+     * @param id   the ID of the entity to be updated
+     * @param game the desired state of the entity
      * @return the updated version of the entity
-     * @throws NotFoundException if the {@code email} does not correspond to an existing
-     *                           {@code User}
+     * @throws NotFoundException if the {@code id} does not correspond to an existing
+     *                           {@code Game}
      */
     @ApiMethod(
             name = "update",
-            path = "user/{email}",
+            path = "game/{id}",
             httpMethod = ApiMethod.HttpMethod.PUT)
-    public User update(@Named("email") String email, User user) throws NotFoundException {
+    public Game update(@Named("id") String id, Game game) throws NotFoundException {
         // TODO: You should validate your ID parameter against your resource's ID here.
-        checkExists(email);
-        ofy().save().entity(user).now();
-        logger.info("Updated User: " + user);
-        return ofy().load().entity(user).now();
+        checkExists(id);
+        ofy().save().entity(game).now();
+        logger.info("Updated Game: " + game);
+        return ofy().load().entity(game).now();
     }
 
     /**
-     * Deletes the specified {@code User}.
+     * Deletes the specified {@code Game}.
      *
-     * @param email the ID of the entity to delete
-     * @throws NotFoundException if the {@code email} does not correspond to an existing
-     *                           {@code User}
+     * @param id the ID of the entity to delete
+     * @throws NotFoundException if the {@code id} does not correspond to an existing
+     *                           {@code Game}
      */
     @ApiMethod(
             name = "remove",
-            path = "user/{email}",
+            path = "game/{id}",
             httpMethod = ApiMethod.HttpMethod.DELETE)
-    public void remove(@Named("email") String email) throws NotFoundException {
-        checkExists(email);
-        ofy().delete().type(User.class).id(email).now();
-        logger.info("Deleted User with ID: " + email);
+    public void remove(@Named("id") String id) throws NotFoundException {
+        checkExists(id);
+        ofy().delete().type(Game.class).id(id).now();
+        logger.info("Deleted Game with ID: " + id);
     }
 
     /**
@@ -138,27 +138,27 @@ public class UserEndpoint {
      */
     @ApiMethod(
             name = "list",
-            path = "user",
+            path = "game",
             httpMethod = ApiMethod.HttpMethod.GET)
-    public CollectionResponse<User> list(@Nullable @Named("cursor") String cursor, @Nullable @Named("limit") Integer limit) {
+    public CollectionResponse<Game> list(@Nullable @Named("cursor") String cursor, @Nullable @Named("limit") Integer limit) {
         limit = limit == null ? DEFAULT_LIST_LIMIT : limit;
-        Query<User> query = ofy().load().type(User.class).limit(limit);
+        Query<Game> query = ofy().load().type(Game.class).limit(limit);
         if (cursor != null) {
             query = query.startAt(Cursor.fromWebSafeString(cursor));
         }
-        QueryResultIterator<User> queryIterator = query.iterator();
-        List<User> userList = new ArrayList<User>(limit);
+        QueryResultIterator<Game> queryIterator = query.iterator();
+        List<Game> gameList = new ArrayList<Game>(limit);
         while (queryIterator.hasNext()) {
-            userList.add(queryIterator.next());
+            gameList.add(queryIterator.next());
         }
-        return CollectionResponse.<User>builder().setItems(userList).setNextPageToken(queryIterator.getCursor().toWebSafeString()).build();
+        return CollectionResponse.<Game>builder().setItems(gameList).setNextPageToken(queryIterator.getCursor().toWebSafeString()).build();
     }
 
-    private void checkExists(String email) throws NotFoundException {
+    private void checkExists(String id) throws NotFoundException {
         try {
-            ofy().load().type(User.class).id(email).safe();
+            ofy().load().type(Game.class).id(id).safe();
         } catch (com.googlecode.objectify.NotFoundException e) {
-            throw new NotFoundException("Could not find User with ID: " + email);
+            throw new NotFoundException("Could not find Game with ID: " + id);
         }
     }
 }

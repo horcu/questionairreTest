@@ -51,19 +51,19 @@ public class UserSettingsEndpoint {
     /**
      * Returns the {@link UserSettings} with the corresponding ID.
      *
-     * @param email the ID of the entity to be retrieved
+     * @param name the ID of the entity to be retrieved
      * @return the entity with the corresponding ID
      * @throws NotFoundException if there is no {@code UserSettings} with the provided ID.
      */
     @ApiMethod(
             name = "get",
-            path = "userSettings/{email}",
+            path = "userSettings/{name}",
             httpMethod = ApiMethod.HttpMethod.GET)
-    public UserSettings get(@Named("email") String email) throws NotFoundException {
-        logger.info("Getting UserSettings with ID: " + email);
-        UserSettings userSettings = ofy().load().type(UserSettings.class).id(email).now();
+    public UserSettings get(@Named("name") String name) throws NotFoundException {
+        logger.info("Getting UserSettings with ID: " + name);
+        UserSettings userSettings = ofy().load().type(UserSettings.class).id(name).now();
         if (userSettings == null) {
-            throw new NotFoundException("Could not find UserSettings with ID: " + email);
+            throw new NotFoundException("Could not find UserSettings with ID: " + name);
         }
         return userSettings;
     }
@@ -77,12 +77,12 @@ public class UserSettingsEndpoint {
             httpMethod = ApiMethod.HttpMethod.POST)
     public UserSettings insert(UserSettings userSettings) {
         // Typically in a RESTful API a POST does not have a known ID (assuming the ID is used in the resource path).
-        // You should validate that userSettings.email has not been set. If the ID type is not supported by the
+        // You should validate that userSettings.name has not been set. If the ID type is not supported by the
         // Objectify ID generator, e.g. long or String, then you should generate the unique ID yourself prior to saving.
         //
         // If your client provides the ID then you should probably use PUT instead.
         ofy().save().entity(userSettings).now();
-        logger.info("Created UserSettings with ID: " + userSettings.getEmail());
+        logger.info("Created UserSettings with ID: " + userSettings.getName());
 
         return ofy().load().entity(userSettings).now();
     }
@@ -90,19 +90,19 @@ public class UserSettingsEndpoint {
     /**
      * Updates an existing {@code UserSettings}.
      *
-     * @param email        the ID of the entity to be updated
+     * @param name        the ID of the entity to be updated
      * @param userSettings the desired state of the entity
      * @return the updated version of the entity
-     * @throws NotFoundException if the {@code email} does not correspond to an existing
+     * @throws NotFoundException if the {@code name} does not correspond to an existing
      *                           {@code UserSettings}
      */
     @ApiMethod(
             name = "update",
-            path = "userSettings/{email}",
+            path = "userSettings/{name}",
             httpMethod = ApiMethod.HttpMethod.PUT)
-    public UserSettings update(@Named("email") String email, UserSettings userSettings) throws NotFoundException {
+    public UserSettings update(@Named("name") String name, UserSettings userSettings) throws NotFoundException {
         // TODO: You should validate your ID parameter against your resource's ID here.
-        checkExists(email);
+        checkExists(name);
         ofy().save().entity(userSettings).now();
         logger.info("Updated UserSettings: " + userSettings);
         return ofy().load().entity(userSettings).now();
@@ -111,18 +111,18 @@ public class UserSettingsEndpoint {
     /**
      * Deletes the specified {@code UserSettings}.
      *
-     * @param email the ID of the entity to delete
-     * @throws NotFoundException if the {@code email} does not correspond to an existing
+     * @param name the ID of the entity to delete
+     * @throws NotFoundException if the {@code name} does not correspond to an existing
      *                           {@code UserSettings}
      */
     @ApiMethod(
             name = "remove",
-            path = "userSettings/{email}",
+            path = "userSettings/{name}",
             httpMethod = ApiMethod.HttpMethod.DELETE)
-    public void remove(@Named("email") String email) throws NotFoundException {
-        checkExists(email);
-        ofy().delete().type(UserSettings.class).id(email).now();
-        logger.info("Deleted UserSettings with ID: " + email);
+    public void remove(@Named("name") String name) throws NotFoundException {
+        checkExists(name);
+        ofy().delete().type(UserSettings.class).id(name).now();
+        logger.info("Deleted UserSettings with ID: " + name);
     }
 
     /**
@@ -150,11 +150,11 @@ public class UserSettingsEndpoint {
         return CollectionResponse.<UserSettings>builder().setItems(userSettingsList).setNextPageToken(queryIterator.getCursor().toWebSafeString()).build();
     }
 
-    private void checkExists(String email) throws NotFoundException {
+    private void checkExists(String name) throws NotFoundException {
         try {
-            ofy().load().type(UserSettings.class).id(email).safe();
+            ofy().load().type(UserSettings.class).id(name).safe();
         } catch (com.googlecode.objectify.NotFoundException e) {
-            throw new NotFoundException("Could not find UserSettings with ID: " + email);
+            throw new NotFoundException("Could not find UserSettings with ID: " + name);
         }
     }
 }

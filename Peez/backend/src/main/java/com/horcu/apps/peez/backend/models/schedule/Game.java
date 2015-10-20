@@ -1,16 +1,26 @@
-package com.horcu.apps.peez.model.nfl.schedule;
+package com.horcu.apps.peez.backend.models.schedule;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.horcu.apps.peez.model.nfl.league.Venue;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
+import com.horcu.apps.peez.backend.models.league.Venue;
 
 /**
  * Created by hcummings on 10/9/2015.
  */
+
+@Entity
 public class Game {
+
+    @Id
+    @Index
     @SerializedName("id")
     @Expose
     private String id;
+
+
     @SerializedName("scheduled")
     @Expose
     private String scheduled;
