@@ -22,7 +22,7 @@
         android:label="@string/app_name"
         android:logo="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/Theme.AppCompat.Light.Translucent" >
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -55,26 +55,24 @@
             android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE" >
             <intent-filter>
                 <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY" />
-
                 <category android:name="com.horcu.apps.peez" />
             </intent-filter>
         </service>
 
         <activity
             android:name=".ui.activities.MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme" />
+            android:logo="@mipmap/ic_launcher"
+           />
         <activity
             android:name=".ui.activities.TokenActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme" />
+           />
         <activity
             android:name=".ui.activities.GroupActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme" />
+           />
         <activity
             android:name=".ui.addressbook.SelectActivity"
-            android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan" >
             <intent-filter>
                 <action android:name="android.intent.action.PICK" />
@@ -88,17 +86,14 @@
         </activity>
         <activity
             android:name=".ui.activities.GCMActivity"
-            android:label="@string/title_activity_prelim"
-            android:theme="@style/AppTheme" >
+            android:label="@string/title_activity_prelim">
         </activity>
         <activity
             android:name=".ui.activities.InviteActivity"
-            android:label="@string/title_activity_invite"
-            android:theme="@style/AppTheme" />
+            android:label="@string/title_activity_invite" />
         <activity
             android:name=".ui.activities.PrelimActivity"
-            android:label="@string/title_activity_prelim"
-            android:theme="@style/AppTheme" >
+            android:label="@string/title_activity_prelim" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -108,25 +103,21 @@
         <activity
             android:name=".ui.activities.BetActivity"
             android:label="@string/title_activity_bet"
-            android:parentActivityName=".ui.activities.PrelimActivity"
-            android:theme="@style/AppTheme" >
+            android:parentActivityName=".ui.activities.PrelimActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activities.PrelimActivity" />
         </activity>
         <activity
             android:name=".ui.activities.GameActivity"
-            android:label="@string/title_activity_game"
-            android:parentActivityName=".ui.activities.MainActivity"
-            android:theme="@style/AppTheme" >
+            android:label="@string/title_activity_game" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activities.MainActivity" />
         </activity>
         <activity
             android:name=".ui.activities.DeepLinkActivity"
-            android:label="@string/invitation_dl"
-            android:theme="@style/AppTheme" />
+            android:label="@string/invitation_dl"/>
 
         <!-- Required receiver to get broadcasts from the Play Store after application install -->
         <!-- [START referral_receiver_xml] -->
@@ -142,8 +133,7 @@
         <activity
             android:name=".ui.activities.TestBetActivity"
             android:label="@string/test"
-            android:parentActivityName=".ui.activities.MainActivity"
-            android:theme="@style/AppTheme" >
+            android:parentActivityName=".ui.activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.horcu.apps.peez.ui.activities.MainActivity" />

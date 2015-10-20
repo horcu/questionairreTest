@@ -6,27 +6,27 @@
     android:layout_below="@+id/bet_info"
     android:layout_marginTop="10dp">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_weight="1"
         android:textColor="#4caf50"
-        android:background="#ffffff"
+
         android:text="accept"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_weight="1"
-        android:textColor="#d1d1d1"
-        android:background="#ffffff"
+        android:textColor="#9c27b0"
+
         android:text="park"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_weight="1"
         android:textColor="#8F5656"
-        android:background="#ffffff"
+
         android:text="decline"/>
 </LinearLayout>

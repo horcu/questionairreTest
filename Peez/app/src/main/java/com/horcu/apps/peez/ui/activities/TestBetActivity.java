@@ -48,8 +48,9 @@ public class TestBetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_bet);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setElevation(0);
+        }
         settings = getSharedPreferences("Peez", 0);
         BuildBetService();
         BuildMessageService();

@@ -34,10 +34,10 @@
 
     <!-- Only needed for accessibility -->
     <string name="next_step">Next step</string>
-    <string name="app_name">Fanager</string>
+    <string name="app_name">peez</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
-    <string name="title_activity_prelim">just a moment...</string>
+    <string name="title_activity_prelim">peez</string>
 
 
         <string name="application_name">GCM Demo</string>

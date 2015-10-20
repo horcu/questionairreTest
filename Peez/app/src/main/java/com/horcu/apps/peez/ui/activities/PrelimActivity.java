@@ -47,6 +47,9 @@ public class PrelimActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prelim);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setElevation(0);
+        }
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         mPhoneNumber = tMgr.getLine1Number();

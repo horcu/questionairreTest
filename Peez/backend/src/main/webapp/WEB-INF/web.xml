@@ -16,7 +16,6 @@
             <param-value>com.horcu.apps.peez.backend.endpoints.RegistrationEndpoint,
                 com.horcu.apps.peez.backend.endpoints.MessagingEndpoint,
                 com.horcu.apps.peez.backend.endpoints.UserSettingsEndpoint,
-
                 com.horcu.apps.peez.backend.endpoints.UserEndpoint,
                 com.horcu.apps.peez.backend.endpoints.BetEndpoint,
                 com.horcu.apps.peez.backend.endpoints.league.TeamEndpoint,

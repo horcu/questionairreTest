@@ -52,6 +52,9 @@ public class InviteActivity extends AppCompatActivity implements
         // [START_EXCLUDE]
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setElevation(0);
+        }
 
         // Invite button click listener
         findViewById(R.id.invite_button).setOnClickListener(this);

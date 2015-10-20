@@ -55,6 +55,7 @@ public class TokenActivity extends AppCompatActivity implements View.OnClickList
         if (getSupportActionBar() != null) {
             getSupportActionBar().setHomeButtonEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setElevation(0);
             getSupportActionBar().setTitle(R.string.token_activity_title);
         }
 

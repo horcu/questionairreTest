@@ -52,6 +52,12 @@ public class MainActivity extends AppCompatActivity implements testItemFragment.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setElevation(0);
+            getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+            getSupportActionBar().setTitle("");
+        }
+
         mLogger = new LoggingService.Logger(this);
         Bundle bundle = getIntent().getExtras();
 //        if (bundle != null) {

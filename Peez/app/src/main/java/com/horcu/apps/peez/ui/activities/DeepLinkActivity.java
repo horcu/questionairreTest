@@ -52,6 +52,10 @@ public class DeepLinkActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.deep_link_activity);
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setElevation(0);
+        }
+
         // Button click listener
         findViewById(R.id.button_ok).setOnClickListener(this);
 

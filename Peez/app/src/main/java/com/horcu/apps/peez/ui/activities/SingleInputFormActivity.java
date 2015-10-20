@@ -116,7 +116,9 @@ public abstract class SingleInputFormActivity extends AppCompatActivity {
         setContentView(R.layout.activity_single_input_form);
 
         loadTheme();
-
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setElevation(0);
+        }
         sSteps = getSteps(this);
 
         findViews();

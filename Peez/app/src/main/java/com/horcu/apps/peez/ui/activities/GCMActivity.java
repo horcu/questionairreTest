@@ -81,6 +81,10 @@ public class GCMActivity extends AppCompatActivity implements AdapterView.OnItem
     protected void onCreate(Bundle savedState) {
         super.onCreate(savedState);
         setContentView(R.layout.activity_gcm);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setElevation(0);
+
+        }
         mLogger = new LoggingService.Logger(this);
         mLogsUI = (TextView) findViewById(R.id.logs);
         mLoggerCallback = new BroadcastReceiver() {
