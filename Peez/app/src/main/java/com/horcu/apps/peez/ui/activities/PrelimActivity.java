@@ -50,6 +50,8 @@ public class PrelimActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setElevation(0);
         }
+
+        settings = getSharedPreferences("Peez", 0);
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         mPhoneNumber = tMgr.getLine1Number();
@@ -113,7 +115,7 @@ public class PrelimActivity extends AppCompatActivity {
                         gcm = GoogleCloudMessaging.getInstance(context);
                     }
 
-                    settings = getSharedPreferences("Peez", 0);
+
                     if(!settings.getString(consts.REG_ID, "").equals("")){
 
                         try {
@@ -145,12 +147,11 @@ public class PrelimActivity extends AppCompatActivity {
             }
 
             protected void onPostExecute(String regId) {
-                if(regId.equals(""))
+                if(regId == null || regId.equals(""))
                     return;
 
                 AddUserAsync(fab, user, regId);
-                Snackbar.make(fab, "device registered with id:" + regId, Snackbar.LENGTH_LONG).show();
-                Snackbar.make(fab, "adding user", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(fab, "registered device and added user", Snackbar.LENGTH_LONG).show();
 
                 SharedPreferences.Editor editor = settings.edit();
                 editor.putString(consts.REG_ID, regId);

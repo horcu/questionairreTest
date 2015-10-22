@@ -15,6 +15,7 @@
         android:protectionLevel="signature" />
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -55,22 +56,20 @@
             android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE" >
             <intent-filter>
                 <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY" />
+
                 <category android:name="com.horcu.apps.peez" />
             </intent-filter>
         </service>
 
         <activity
             android:name=".ui.activities.MainActivity"
-            android:logo="@mipmap/ic_launcher"
-           />
+            android:logo="@mipmap/ic_launcher" />
         <activity
             android:name=".ui.activities.TokenActivity"
-            android:label="@string/app_name"
-           />
+            android:label="@string/app_name" />
         <activity
             android:name=".ui.activities.GroupActivity"
-            android:label="@string/app_name"
-           />
+            android:label="@string/app_name" />
         <activity
             android:name=".ui.addressbook.SelectActivity"
             android:windowSoftInputMode="adjustPan" >
@@ -86,7 +85,7 @@
         </activity>
         <activity
             android:name=".ui.activities.GCMActivity"
-            android:label="@string/title_activity_prelim">
+            android:label="@string/title_activity_prelim" >
         </activity>
         <activity
             android:name=".ui.activities.InviteActivity"
@@ -117,7 +116,7 @@
         </activity>
         <activity
             android:name=".ui.activities.DeepLinkActivity"
-            android:label="@string/invitation_dl"/>
+            android:label="@string/invitation_dl" />
 
         <!-- Required receiver to get broadcasts from the Play Store after application install -->
         <!-- [START referral_receiver_xml] -->
@@ -133,7 +132,7 @@
         <activity
             android:name=".ui.activities.TestBetActivity"
             android:label="@string/test"
-            android:parentActivityName=".ui.activities.MainActivity">
+            android:parentActivityName=".ui.activities.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.horcu.apps.peez.ui.activities.MainActivity" />

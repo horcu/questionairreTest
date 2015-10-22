@@ -1,11 +1,19 @@
 package com.horcu.apps.peez.ui.activities;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
+import android.text.Html;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -21,6 +29,7 @@ import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.betApi.BetApi;
 import com.horcu.apps.peez.backend.models.betApi.model.Bet;
 import com.horcu.apps.peez.backend.models.betApi.model.NFLPlayer;
+import com.horcu.apps.peez.backend.models.betApi.model.Team;
 import com.horcu.apps.peez.logic.GcmServerSideSender;
 import com.horcu.apps.peez.logic.Message;
 import com.horcu.apps.peez.service.LoggingService;
@@ -43,6 +52,9 @@ public class TestBetActivity extends AppCompatActivity {
     private LoggingService.Logger mLogger;
     private Message messageApi;
     private SharedPreferences settings;
+    private BroadcastReceiver mLoggerCallback;
+    private NotificationManager manager;
+    private Notification myNotication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,13 +63,15 @@ public class TestBetActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setElevation(0);
         }
+
+        manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         settings = getSharedPreferences("Peez", 0);
         BuildBetService();
         BuildMessageService();
 
-        final Message.Builder messageBuilder = new Message.Builder();
-        messageBuilder.delayWhileIdle(true);
         mLogger = new LoggingService.Logger(this);
+
+
 
         final EditText player_team = (EditText)findViewById(R.id.player_team);
         final EditText bet_stats = (EditText)findViewById(R.id.bet_stats);
@@ -65,16 +79,33 @@ public class TestBetActivity extends AppCompatActivity {
         final EditText users_groups_betting = (EditText)findViewById(R.id.users_groups_betting);
 
 
+        mLoggerCallback = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                switch (intent.getAction()) {
+                    case LoggingService.ACTION_CLEAR_LOGS:
+                        //  mLogsUI.setText("");
+                        break;
+                    case LoggingService.ACTION_LOG:
+
+
+                       showNotification(intent);
+
+                      //  Snackbar.make(findViewById(R.id.test_main), Html.fromHtml(newLog), Snackbar.LENGTH_LONG).show();
+                        break;
+                }
+            }
+        };
+
+
         findViewById(R.id.send_bet).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String playerTeam = player_team.getText().toString();
+                final String playerTeam = player_team.getText().toString();
                 final String betStats = bet_stats.getText().toString();
                 final String betAmount = bet_amount.getText().toString();
                 final String userGroups = users_groups_betting.getText().toString();
-
-
 
                 new AsyncTask<Void, Void, List>() {
                     @Override
@@ -83,9 +114,8 @@ public class TestBetActivity extends AppCompatActivity {
                         try {
                         String[] betText = betStats.split(",");
                         final String[] regIds = userGroups.split(",");
-                         registrationIds = Arrays.asList(regIds);
-                        registrationIds = new ArrayList<String>();
-
+                        registrationIds = new ArrayList<>();
+                        registrationIds.addAll(Arrays.asList(regIds));
 
                             String regId = settings.getString(consts.REG_ID, "");
                             registrationIds.add(regId); //send to yourself TODO remove this
@@ -95,9 +125,9 @@ public class TestBetActivity extends AppCompatActivity {
                                 .setBet(Arrays.asList(betText))
                                 .setBetMadeAt(new DateTime(new Date(), TimeZone.getDefault()))
                                 .setAcceptersRegIds(registrationIds)
-                                .setBetterRegId(consts.REG_ID)
-                                        //.setTeam()
-                                .setPlayer(new NFLPlayer())
+                                .setBetterRegId(settings.getString(consts.REG_ID, ""))
+                                .setTeam(new Team().setName("Baltimore Ravens"))
+                                .setPlayer(new NFLPlayer().setName(playerTeam))
                                 .setWager(Double.valueOf(betAmount));
 
                         //first make the bet
@@ -122,6 +152,41 @@ public class TestBetActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void showNotification(Intent intent) {
+        String newLog = intent.getStringExtra(LoggingService.EXTRA_LOG_MESSAGE);
+        PendingIntent pendingIntent = PendingIntent.getActivity(TestBetActivity.this, 1, intent, 0);
+
+        Notification.Builder builder = new Notification.Builder(TestBetActivity.this);
+
+        builder.setAutoCancel(false);
+        builder.setTicker(newLog);
+        builder.setContentTitle("Peez");
+        builder.setContentText(newLog);
+        builder.setSmallIcon(R.mipmap.ic_launcher);
+        builder.setContentIntent(pendingIntent);
+        builder.setOngoing(true);
+        builder.setSubText("#swagBet #aintnobitch");   //API level 16
+        builder.setNumber(100);
+        builder.build();
+
+        myNotication = builder.getNotification();
+        manager.notify(11, myNotication);
+    }
+
+    @Override
+    protected void onPause() {
+        mLogger.unregisterCallback(mLoggerCallback);
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        mLogger.registerCallback(mLoggerCallback);
+    }
+
 
     private void sendBetNotification(final List regIds) {
 
@@ -149,6 +214,13 @@ public class TestBetActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),
                             "send message failed: " + result,
                             Toast.LENGTH_LONG).show();
+
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(),
+                            "bet sent!",
+                            Toast.LENGTH_LONG).show();
                 }
             }
         }.execute();
@@ -175,18 +247,20 @@ public class TestBetActivity extends AppCompatActivity {
         String userName = settings.getString(consts.PREF_ACCOUNT_NAME,"anonymouse user");
 
         if (messageApi == null) {
-            final Message.Builder messageApi = new Message.Builder() ;
-            messageApi.collapseKey(consts.MESSAGE_COLLAPSED_KEY);
-            messageApi.restrictedPackageName("");
-            messageApi.timeToLive(10000);
-            messageApi.dryRun(false);
-            messageApi.delayWhileIdle(true);
-            messageApi.notificationClickAction(consts.NOTIFICATION_CLICK_ACTION);
-            messageApi.notificationIcon("icon");
-            messageApi.notificationTitle("Peez challenge");
-            messageApi.notificationTag("bet");
-            messageApi.notificationSound("default");
-            messageApi.notificationBody(String.format("%s %s", userName, consts.NOTIFICATION_BODY));
+         messageApi = new Message.Builder()
+
+            .collapseKey(consts.MESSAGE_COLLAPSED_KEY)
+            .restrictedPackageName("")
+            .timeToLive(10000)
+            .dryRun(false)
+            .delayWhileIdle(true)
+            .notificationClickAction(consts.NOTIFICATION_CLICK_ACTION)
+            .notificationIcon("icon")
+            .notificationTitle("Peez challenge")
+            .notificationTag("bet")
+            .notificationSound("default")
+            .notificationBody(String.format("%s %s", userName, consts.NOTIFICATION_BODY))
+            .build();
         }
     }
 }

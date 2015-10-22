@@ -60,18 +60,7 @@ public class MainActivity extends AppCompatActivity implements testItemFragment.
 
         mLogger = new LoggingService.Logger(this);
         Bundle bundle = getIntent().getExtras();
-//        if (bundle != null) {
-//            user = new User()
-//                    .setEmail(bundle.getString("email"))
-//                    .setRegistrationId(bundle.getString("regId"))
-//                    .setUserName(bundle.getString("userName"))
-//                    .setPhone(bundle.getString("phone"))
-//                    .setRank(bundle.getLong("rank"));
-//        }
-        //    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //     setSupportActionBar(toolbar);
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
+
         mLoggerCallback = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -117,14 +106,15 @@ public class MainActivity extends AppCompatActivity implements testItemFragment.
     }
 
     @Override
+    protected void onPause() {
+        mLogger.unregisterCallback(mLoggerCallback);
+        super.onPause();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
-        StringBuilder logs = new StringBuilder();
-        for (String log : mLogger.getLogsFromFile()) {
-            appendFormattedLogLine(log, logs);
-            logs.append("<br>");
-        }
-       // mLogsUI.setText(Html.fromHtml(logs.toString()));
+
         mLogger.registerCallback(mLoggerCallback);
     }
 
@@ -149,11 +139,7 @@ public class MainActivity extends AppCompatActivity implements testItemFragment.
         }
     }
 
-    @Override
-    protected void onPause() {
-        mLogger.unregisterCallback(mLoggerCallback);
-        super.onPause();
-    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
