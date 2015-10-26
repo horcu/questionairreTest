@@ -1,6 +1,6 @@
 
 
-$(function(){
+
  // A function that attaches a "Send Message" button click handler
     function enableClick() {
       document.getElementById('sendMessageButton').onclick = function() {
@@ -45,4 +45,3 @@ $(function(){
       gapi.client.load(apiName, apiVersion, callback, apiRoot);
     }
 
-});
