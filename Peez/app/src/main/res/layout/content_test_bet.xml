@@ -60,38 +60,75 @@
         android:layout_below="@+id/bet_amount_layout"
         android:layout_width="match_parent"
         android:layout_marginTop="20dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+\
 
-        <EditText
+
+
+        <TextView
+            android:id="@+id/friends_reg_list"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
             android:id="@+id/users_groups_betting"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:hint="Who are you betting ? regIds/public"/>
+            android:layout_gravity="center_horizontal"
+            android:textSize="18sp"
+            android:background="@android:color/transparent"
+            android:text="Who are you betting ? regIds/public"/>
+
+        <ImageView
+            android:layout_width="50px"
+            android:layout_height="50px"
+            android:layout_marginLeft="10px"
+            android:src="@drawable/ic_social_people"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:layout_marginBottom="50dp"
+            android:visibility="visible">
+
+        </ListView>
+
+        <Button
+            android:id="@+id/done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="done choosing"/>
 
     </LinearLayout>
 
 <LinearLayout
     android:id="@+id/action_layout"
-    android:layout_below="@+id/bet_who_layout"
     android:layout_width="match_parent"
-    android:gravity="center_horizontal"
-    android:layout_marginTop="50dp"
-    android:layout_alignParentEnd="true"
+    android:background="@color/white"
+    android:layout_alignParentBottom="true"
     android:layout_height="wrap_content">
 
     <Button
         android:id="@+id/clear_bet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:layout_gravity="left"
         android:text="CLEAR"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center_horizontal"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:text="SCHEDULE"/>
@@ -100,8 +137,6 @@
         android:id="@+id/send_bet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:gravity="center_horizontal"
         android:text="SEND"/>
 </LinearLayout>
 

@@ -64,7 +64,7 @@ public class InviteActivity extends AppCompatActivity implements
             // No savedInstanceState, so it is the first launch of this activity
             Intent intent = getIntent();
             if (AppInviteReferral.hasReferral(intent)) {
-                // In this case the referral data is in the intent launching the MainActivity,
+                // In this case the referral data is in the intent launching the RegistrationActivity,
                 // which means this user already had the app installed. We do not have to
                 // register the Broadcast Receiver to listen for Play Store Install information
                 launchDeepLinkActivity(intent);

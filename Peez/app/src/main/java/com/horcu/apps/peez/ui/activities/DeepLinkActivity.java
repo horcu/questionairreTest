@@ -31,7 +31,7 @@ import com.horcu.apps.peez.R;
 
 /**
  * Activity for displaying information about a receive App Invite invitation.  This activity
- * displays as a Dialog over the MainActivity and does not cover the full screen.
+ * displays as a Dialog over the RegistrationActivity and does not cover the full screen.
  */
 public class DeepLinkActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,

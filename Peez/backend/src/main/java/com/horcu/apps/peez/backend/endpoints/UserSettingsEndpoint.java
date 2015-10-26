@@ -63,7 +63,7 @@ public class UserSettingsEndpoint {
         logger.info("Getting UserSettings with ID: " + name);
         UserSettings userSettings = ofy().load().type(UserSettings.class).id(name).now();
         if (userSettings == null) {
-            throw new NotFoundException("Could not find UserSettings with ID: " + name);
+           return null;
         }
         return userSettings;
     }

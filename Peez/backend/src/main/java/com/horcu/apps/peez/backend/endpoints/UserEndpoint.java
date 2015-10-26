@@ -67,7 +67,7 @@ public class UserEndpoint {
         logger.info("Getting User with ID: " + email);
         User user = ofy().load().type(User.class).id(email).now();
         if (user == null) {
-            throw new NotFoundException("Could not find User with ID: " + email);
+            return null;
         }
         return user;
     }

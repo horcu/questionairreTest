@@ -20,11 +20,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.api.client.util.DateTime;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.userApi.model.User;
+import com.horcu.apps.peez.custom.NewBetNotification;
 import com.horcu.apps.peez.service.LoggingService;
 import com.horcu.apps.peez.ui.fragments.testItemFragment;
 
+import org.joda.time.LocalDateTime;
+
+import java.util.Date;
 import java.util.List;
 
 
@@ -82,6 +87,11 @@ public class MainActivity extends AppCompatActivity implements testItemFragment.
                             }
                         }
 
+                        //TODO the expiration needs to be 5 mins before the time of the nfl game in question
+
+                        LocalDateTime tomorrow = LocalDateTime.now().plusDays(1);
+
+                        NewBetNotification.notify(getApplicationContext(), newLog, 1, tomorrow.toDate().getTime());
                         Snackbar.make(findViewById(R.id.bet_list), Html.fromHtml(newLog), Snackbar.LENGTH_LONG).show();
                         break;
                 }

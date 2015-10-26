@@ -64,7 +64,7 @@ public class UiAutomatorTest {
         // Launch the app
         Context context = InstrumentationRegistry.getContext();
         Intent intent = new Intent()
-                .setClassName(APP_PACKAGE, APP_PACKAGE + ".MainActivity")
+                .setClassName(APP_PACKAGE, APP_PACKAGE + ".RegistrationActivity")
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
 
@@ -114,9 +114,9 @@ public class UiAutomatorTest {
 
     @Test
     public void testDeepLink() {
-        // Create intent to MainActivity
+        // Create intent to RegistrationActivity
         Intent deepLinkIntent = new Intent()
-                .setClassName(APP_PACKAGE, APP_PACKAGE + ".MainActivity")
+                .setClassName(APP_PACKAGE, APP_PACKAGE + ".RegistrationActivity")
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         // Load it with AppInvite information

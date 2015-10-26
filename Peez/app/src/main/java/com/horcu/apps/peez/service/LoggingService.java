@@ -25,6 +25,7 @@ import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.horcu.apps.common.utilities.consts;
 import com.horcu.apps.peez.BuildConfig;
 
 import java.io.BufferedReader;
@@ -115,15 +116,16 @@ public class LoggingService extends IntentService {
             mContext = context;
         }
 
-        public void log(int level, String msg) {
-            log(level, msg, null);
+        public void log(int level, String msg, String sender) {
+            log(level, msg,sender, null);
         }
 
-        public void log(int priority, String msg, Throwable tr) {
+        public void log(int priority, String msg, String sender, Throwable tr) {
             // Forward the log to LoggingService
             Intent intent = new Intent(ACTION_LOG);
             intent.setClass(mContext, LoggingService.class);
             intent.putExtra(EXTRA_LOG_PRIORITY, priority);
+            intent.putExtra(consts.FROM, sender);
             if (tr != null) {
                 msg = msg + "\nexception: " + Log.getStackTraceString(tr);
             }

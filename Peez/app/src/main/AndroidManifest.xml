@@ -30,12 +30,12 @@
 
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <!-- for Gingerbread GSF backward compat -->
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-
                 <category android:name="com.horcu.apps.peez" />
             </intent-filter>
         </receiver>
@@ -59,6 +59,28 @@
 
                 <category android:name="com.horcu.apps.peez" />
             </intent-filter>
+        </service>
+
+        <!--<service-->
+            <!--android:name=".registration.MyGcmListenerService"-->
+            <!--android:exported="false" >-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.google.android.c2dm.intent.RECEIVE" />-->
+            <!--</intent-filter>-->
+        <!--</service>-->
+        <!-- [END gcm_listener] -->
+        <!-- [START instanceId_listener] -->
+        <service
+            android:name=".registration.MyInstanceIDListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID"/>
+            </intent-filter>
+        </service>
+        <!-- [END instanceId_listener] -->
+        <service
+            android:name=".registration.RegistrationIntentService"
+            android:exported="false">
         </service>
 
         <activity
@@ -136,6 +158,11 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.horcu.apps.peez.ui.activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ui.activities.FailureActivity"
+            android:label="@string/title_activity_failure"
+            android:theme="@style/Theme.AppCompat.Light.Translucent.NoActionBar" >
         </activity>
     </application>
 

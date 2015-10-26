@@ -49,14 +49,12 @@ public class NewBetNotification {
 
         // This image is used as the notification's large icon (thumbnail).
         // TODO: Remove this if your notification has no relevant thumbnail.
-        final Bitmap picture = BitmapFactory.decodeResource(res, R.drawable.example_picture);
+        final Bitmap picture = BitmapFactory.decodeResource(res, R.mipmap.ic_launcher);
 
 
         final String ticker = exampleString;
         final String title = res.getString(
                 R.string.new_bet_notification_title_template, exampleString);
-        final String text = res.getString(
-                R.string.new_bet_notification_placeholder_text_template, exampleString);
 
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
 
@@ -68,7 +66,7 @@ public class NewBetNotification {
                         // notification title, and text.
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title)
-                .setContentText(text)
+                .setContentText(exampleString)
 
                         // All fields below this line are optional.
 
@@ -94,7 +92,7 @@ public class NewBetNotification {
                         // TODO: Call setWhen if this notification relates to a past or
                         // upcoming event. The sole argument to this method should be
                         // the notification timestamp in milliseconds.
-                        //.setWhen(...)
+                .setWhen(expiration)
 
                         // Set the pending intent to be initiated when the user touches
                         // the notification.
@@ -108,9 +106,9 @@ public class NewBetNotification {
                         // Show expanded text content on devices running Android 4.1 or
                         // later.
                 .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText(text)
+                        .bigText(exampleString)
                         .setBigContentTitle(title)
-                        .setSummaryText("Dummy summary text"))
+                        .setSummaryText("Are you in?"))
 
                         // Example additional actions for this notification. These will
                         // only show on devices running Android 4.1 or later, so you
@@ -118,18 +116,18 @@ public class NewBetNotification {
                         // content intent provides access to the same actions in
                         // another way.
                 .addAction(
-                        R.drawable.ic_action_stat_share,
-                        res.getString(R.string.action_share),
+                        R.drawable.ic_stat_content_clear,
+                        res.getString(R.string.action_decline),
                         PendingIntent.getActivity(
                                 context,
                                 0,
                                 Intent.createChooser(new Intent(Intent.ACTION_SEND)
                                         .setType("text/plain")
-                                        .putExtra(Intent.EXTRA_TEXT, "Dummy text"), "Dummy title"),
+                                        .putExtra(Intent.EXTRA_TEXT, "bet it park it or dump it"), "choices.."),
                                 PendingIntent.FLAG_UPDATE_CURRENT))
                 .addAction(
-                        R.drawable.ic_action_stat_reply,
-                        res.getString(R.string.action_reply),
+                        R.drawable.ic_stat_action_done,
+                        res.getString(R.string.action_accept),
                         null)
 
                         // Automatically dismiss the notification when it is touched.

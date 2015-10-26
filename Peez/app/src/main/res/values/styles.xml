@@ -57,4 +57,12 @@
 
     <color name="white">#ffffff</color>
     <color name="main">#ebebeb</color>
+    <style name="Theme.AppCompat.Light.Translucent.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.AppCompat.Light.Translucent.AppBarOverlay"
+        parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.AppCompat.Light.Translucent.PopupOverlay"
+        parent="ThemeOverlay.AppCompat.Light" />
 </resources>
