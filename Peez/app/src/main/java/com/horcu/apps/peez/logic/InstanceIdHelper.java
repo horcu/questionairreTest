@@ -61,12 +61,12 @@ public class InstanceIdHelper {
                     String token = InstanceID.getInstance(mContext)
                             .getToken(authorizedEntity, scope, extras);
                     mLogger.log(Log.INFO, "getToken succeeded." +
-                            "\nsenderId: " + authorizedEntity + "\ntoken: " + token);
+                            "\nsenderId: " + authorizedEntity + "\ntoken: " + token, "error");
 
                     // Save the token in the address book
                     Sender entry = mSenders.getSender(authorizedEntity);
                     if (entry == null) {
-                        mLogger.log(Log.ERROR, "Could not save token, missing sender id");
+                        mLogger.log(Log.ERROR, "Could not save token, missing sender id", "error");
                         return null;
                     }
                     Token tokenModel = new Token();
@@ -83,7 +83,7 @@ public class InstanceIdHelper {
 
                 } catch (final IOException e) {
                     mLogger.log(Log.INFO, "getToken failed." +
-                            "\nsenderId: " + authorizedEntity + "\nerror: " + e.getMessage());
+                            "\nsenderId: " + authorizedEntity + "\nerror: " + e.getMessage(), "error");
 
                 }
                 return null;
@@ -101,11 +101,11 @@ public class InstanceIdHelper {
                 try {
                     InstanceID.getInstance(mContext).deleteToken(authorizedEntity, scope);
                     mLogger.log(Log.INFO, "delete token succeeded." +
-                            "\nsenderId: " + authorizedEntity);
+                            "\nsenderId: " + authorizedEntity, "error");
 
                     Sender entry = mSenders.getSender(authorizedEntity);
                     if (entry == null) {
-                        mLogger.log(Log.ERROR, "Could not remove token, missing sender id");
+                        mLogger.log(Log.ERROR, "Could not remove token, missing sender id", "error");
                         return null;
                     }
                     // In rare cases multiple token with same authorizedEntity:scope could exists
@@ -123,7 +123,7 @@ public class InstanceIdHelper {
                     mSenders.updateSender(entry);
                 } catch (final IOException e) {
                     mLogger.log(Log.INFO, "remove token failed." +
-                            "\nsenderId: " + authorizedEntity + "\nerror: " + e.getMessage());
+                            "\nsenderId: " + authorizedEntity + "\nerror: " + e.getMessage(), "error");
                 }
                 return null;
             }
@@ -144,7 +144,7 @@ public class InstanceIdHelper {
             protected Void doInBackground(Void... params) {
                 try {
                     InstanceID.getInstance(mContext).deleteInstanceID();
-                    mLogger.log(Log.INFO, "delete instanceId succeeded.");
+                    mLogger.log(Log.INFO, "delete instanceId succeeded.", "error");
 
                     // Remove all appTokens and topics subscriptions tied to any Sender.
                     for (int i = 0;  i < mSenders.getSenders().size(); i++) {
@@ -165,7 +165,7 @@ public class InstanceIdHelper {
                         }
                     }
                 } catch (final IOException e) {
-                    mLogger.log(Log.INFO, "delete instanceId failed.\nerror: " + e.getMessage());
+                    mLogger.log(Log.INFO, "delete instanceId failed.\nerror: " + e.getMessage(), "error");
                 }
                 return null;
             }

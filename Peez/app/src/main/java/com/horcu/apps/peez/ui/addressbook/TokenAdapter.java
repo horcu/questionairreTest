@@ -44,7 +44,7 @@ public class TokenAdapter extends AbstractElementAdapter {
     public View getView(final String senderId, ViewGroup parentView) {
         final Sender sender = mSenders.getSender(senderId);
         if (sender == null) {
-            mLogger.log(Log.ERROR, "Invalid sender " + senderId);
+            mLogger.log(Log.ERROR, "Invalid sender " + senderId, "error");
             return null;
         }
         View view = mActivity.getLayoutInflater().inflate(

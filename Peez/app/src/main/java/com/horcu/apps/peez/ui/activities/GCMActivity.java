@@ -211,7 +211,7 @@ public class GCMActivity extends AppCompatActivity implements AdapterView.OnItem
             Bundle data = launchIntent.getExtras();
             data.isEmpty(); // Force the bundle to unparcel so that toString() works
             String format = getResources().getString(R.string.notification_intent_received);
-            mLogger.log(Log.INFO, String.format(format, data));
+            mLogger.log(Log.INFO, String.format(format, data),"error");
         }
     }
 

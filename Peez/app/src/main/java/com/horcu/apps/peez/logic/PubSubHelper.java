@@ -61,11 +61,11 @@ public class PubSubHelper {
                     mLogger.log(Log.INFO, "topic subscription succeeded."
                             + "\ngcmToken: " + gcmToken
                             + "\ntopic: " + topic
-                            + "\nextras: " + extras);
+                            + "\nextras: " + extras, "error");
                     // Save the token in the address book
                     Sender entry = mSenders.getSender(senderId);
                     if (entry == null) {
-                        mLogger.log(Log.ERROR, "Could not subscribe to topic, missing sender id");
+                        mLogger.log(Log.ERROR, "Could not subscribe to topic, missing sender id", "error");
                         return null;
                     }
                     entry.topics.put(topic, true);
@@ -75,7 +75,7 @@ public class PubSubHelper {
                             + "\nerror: " + e.getMessage()
                             + "\ngcmToken: " + gcmToken
                             + "\ntopic: " + topic
-                            + "\nextras: " + extras);
+                            + "\nextras: " + extras, "error");
                 }
                 return null;
             }
@@ -96,11 +96,11 @@ public class PubSubHelper {
                     GcmPubSub.getInstance(mContext).unsubscribe(gcmToken, topic);
                     mLogger.log(Log.INFO, "topic unsubscription succeeded."
                             + "\ngcmToken: " + gcmToken
-                            + "\ntopic: " + topic);
+                            + "\ntopic: " + topic, "error");
                     // Save the token in the address book
                     Sender entry = mSenders.getSender(senderId);
                     if (entry == null) {
-                        mLogger.log(Log.ERROR, "Could not save token, missing sender id");
+                        mLogger.log(Log.ERROR, "Could not save token, missing sender id", "error");
                         return null;
                     }
                     entry.topics.put(topic, false);
@@ -109,7 +109,7 @@ public class PubSubHelper {
                     mLogger.log(Log.INFO, "topic unsubscription failed."
                             + "\nerror: " + e.getMessage()
                             + "\ngcmToken: " + gcmToken
-                            + "\ntopic: " + topic);
+                            + "\ntopic: " + topic, "error");
                 }
                 return null;
             }

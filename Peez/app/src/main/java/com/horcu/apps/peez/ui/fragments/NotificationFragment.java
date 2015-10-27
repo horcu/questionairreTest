@@ -49,7 +49,7 @@ public class NotificationFragment extends DownstreamFragment {
             messageBuilder.notificationIcon(icon);
         } else {
             mLogger.log(Log.ERROR,
-                    getResources().getString(R.string.notification_send_fail_icon_required));
+                    getResources().getString(R.string.notification_send_fail_icon_required),"error");
             return;
         }
         String title = getValue(R.id.notification_title);
@@ -57,7 +57,7 @@ public class NotificationFragment extends DownstreamFragment {
             messageBuilder.notificationTitle(title);
         } else {
             mLogger.log(Log.ERROR,
-                    getResources().getString(R.string.notification_send_fail_title_required));
+                    getResources().getString(R.string.notification_send_fail_title_required),"error");
             return;
         }
         String body = getValue(R.id.notification_body);

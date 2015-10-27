@@ -47,6 +47,9 @@ import com.horcu.apps.peez.backend.models.betApi.model.Team;
 import com.horcu.apps.peez.backend.models.userApi.UserApi;
 import com.horcu.apps.peez.backend.models.userApi.model.CollectionResponseUser;
 import com.horcu.apps.peez.backend.models.userApi.model.User;
+import com.horcu.apps.peez.backend.models.userSettingsApi.UserSettingsApi;
+import com.horcu.apps.peez.backend.models.userSettingsApi.model.CollectionResponseUserSettings;
+import com.horcu.apps.peez.backend.models.userSettingsApi.model.UserSettings;
 import com.horcu.apps.peez.custom.NewBetNotification;
 import com.horcu.apps.peez.logic.GcmServerSideSender;
 import com.horcu.apps.peez.logic.Message;
@@ -78,6 +81,9 @@ public class TestBetActivity extends AppCompatActivity {
     private Notification myNotication;
     private UserApi userApi;
     private CollectionResponseUser allFriends;
+    private UserSettingsApi userSettingsApi;
+    private String me;
+    private  TextView friends;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,8 +108,10 @@ public class TestBetActivity extends AppCompatActivity {
         final EditText bet_amount = (EditText)findViewById(R.id.bet_amount);
         final LinearLayout getFriends = (LinearLayout)findViewById(R.id.bet_who_layout);
         final ListView friendsList = (ListView)findViewById(android.R.id.list);
-        final TextView friends = (TextView)findViewById(R.id.friends_reg_list);
+         friends = (TextView)findViewById(R.id.friends_reg_list);
         final Button done = (Button)findViewById(R.id.done);
+        final LinearLayout actionLayout = (LinearLayout)findViewById(R.id.action_layout);
+
         StringBuilder friendsString = null;
 
         done.setOnClickListener(new View.OnClickListener() {
@@ -111,14 +119,34 @@ public class TestBetActivity extends AppCompatActivity {
             public void onClick(View v) {
                 friendsList.setVisibility(View.GONE);
                 v.setVisibility(View.GONE);
+                actionLayout.setVisibility(View.VISIBLE);
             }
         });
 
         friendsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String existing = friends.getText().toString();
-                friends.setText(existing += ("," + ((TextView) view).getText().toString()));
+                try {
+                    done.setVisibility(View.VISIBLE);
+                    ArrayAdapter adapter = (ArrayAdapter) friendsList.getAdapter();
+                    String item = adapter.getItem(position).toString();
+                    String existing ;
+                    if(friends.getText() !=null)
+                    existing = friends.getText().toString();
+                    else
+                    existing = "";
+
+                    String selected = existing.equals("")
+                            ?item
+                            : existing.contains(item) ? existing : existing + ("," +  item);
+
+                    if(selected !=null && selected !="")
+                     friends.setText(selected);
+                     else
+                        friends.setText("no one chosen");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -126,16 +154,19 @@ public class TestBetActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
               done.setVisibility(View.VISIBLE);
-              friendsList.setVisibility(View.VISIBLE);
+                friendsList.setVisibility(View.VISIBLE);
                 friendsList.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
+                actionLayout.setVisibility(View.GONE);
 
-               // friendsList.setAdapter();
 
                 new AsyncTask<Void, Void, Void>() {
                     @Override
                     protected Void doInBackground(Void... params) {
                         try {
-                            allFriends = userApi.list().execute();
+                            allFriends = userApi
+                                         .list()
+                                         .execute();
+
                         } catch (IOException e) {
                             e.printStackTrace();
                             return null;
@@ -145,16 +176,25 @@ public class TestBetActivity extends AppCompatActivity {
 
                     @Override
                     protected void onPostExecute(Void result) {
-                       List<String> friends = new ArrayList<>();
 
-                        for (User user: allFriends.getItems())
-                        {
-                            String userEmail = user.getEmail();
-                            if(!userEmail.equals(consts.PREF_ACCOUNT_NAME))
-                            friends.add(userEmail);
+                        try {
+                            ArrayAdapter<String> adapter;
+                            List<String> friends = new ArrayList<>();
+                            me = settings.getString(consts.PREF_ACCOUNT_NAME,"");
+                            for (User user: allFriends.getItems())
+                            {
+                                if(!user.getEmail().equals(me)) {
+                                    String userEmail = user.getEmail();
+                                        friends.add(userEmail);
+                                }
+                            }
+                            adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.user_item, R.id.friend, friends);
+                            friendsList.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+                            // friendsList.notify();
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                      friendsList.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, android.R.id.list, friends));
-
                     }
                 }.execute();
             }
@@ -192,18 +232,24 @@ public class TestBetActivity extends AppCompatActivity {
                         List<String> registrationIds = null;
                         try {
                         String[] betText = betStats.split(",");
-                        final String[] regIds = userGroups.split(",");
+                        final String[] emails = userGroups.split(",");
                         registrationIds = new ArrayList<>();
-                        registrationIds.addAll(Arrays.asList(regIds));
+                      //  registrationIds.addAll(Arrays.asList(emails));
 
-                            String regId = settings.getString(consts.REG_ID, "");
-                            registrationIds.add(regId); //send to yourself TODO remove this
+                            for (int i = 0; i< emails.length; i++)
+                            {
+                                String regid = userApi.get(emails[i]).execute().getRegistrationId();
+                               registrationIds.add(regid);
+                            }
+
+                           // String regId = settings.getString(consts.REG_ID, "");
+                          //  registrationIds.add(regId); //send to yourself TODO remove this
 
                         Bet bet = new Bet()
                                 .setBetId(UUID.randomUUID().toString())
                                 .setBet(Arrays.asList(betText))
                                 .setBetMadeAt(new DateTime(new Date(), TimeZone.getDefault()))
-                                .setAcceptersRegIds(registrationIds)
+                                //.setSentTo(registrationIds) //TODO add this property
                                 .setBetterRegId(settings.getString(consts.REG_ID, ""))
                                 .setTeam(new Team().setName("Baltimore Ravens"))
                                 .setPlayer(new NFLPlayer().setName(playerTeam))

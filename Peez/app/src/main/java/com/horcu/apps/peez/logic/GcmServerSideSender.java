@@ -117,7 +117,7 @@ public class GcmServerSideSender {
 
         switch (firstLineValues[0]) {
             case RESPONSE_PLAINTEXT_MESSAGE_ID:
-                logger.log(Log.INFO, "Message sent.\nid: " + firstLineValues[1]);
+                logger.log(Log.INFO, "Message sent.\nid: " + firstLineValues[1],"error");
                 // check for canonical registration id
                 if (lines.length > 1) {
                     // If the response includes a 2nd line we expect it to be the CANONICAL REG ID
@@ -125,19 +125,19 @@ public class GcmServerSideSender {
                     if (secondLineValues.length == 2
                             && secondLineValues[0].equals(RESPONSE_PLAINTEXT_CANONICAL_REG_ID)) {
                         logger.log(Log.INFO, "Message sent: canonical registration id = "
-                                + secondLineValues[1]);
+                                + secondLineValues[1],"error");
                     } else {
                         logger.log(Log.ERROR, "Invalid response from GCM."
-                                + "\nResponse: " + httpRequest.getResponseBody());
+                                + "\nResponse: " + httpRequest.getResponseBody(),"error");
                     }
                 }
                 break;
             case RESPONSE_PLAINTEXT_ERROR:
-                logger.log(Log.ERROR, "Message failed.\nError: " + firstLineValues[1]);
+                logger.log(Log.ERROR, "Message failed.\nError: " + firstLineValues[1],"error");
                 break;
             default:
                 logger.log(Log.ERROR, "Invalid response from GCM."
-                        + "\nResponse: " + httpRequest.getResponseBody());
+                        + "\nResponse: " + httpRequest.getResponseBody(),"error");
                 break;
         }
     }
@@ -169,7 +169,7 @@ public class GcmServerSideSender {
                 jsonBody.put(PARAM_JSON_NOTIFICATION_PARAMS, jsonNotificationParams);
             }
         } catch (JSONException e) {
-            logger.log(Log.ERROR, "Failed to build JSON body");
+            logger.log(Log.ERROR, "Failed to build JSON body","error");
             throw new IOException("Failed to build JSON body");
         }
 
@@ -187,10 +187,10 @@ public class GcmServerSideSender {
         JSONObject jsonResponse;
         try {
             jsonResponse = new JSONObject(httpRequest.getResponseBody());
-            logger.log(Log.INFO, "Send message:\n" + jsonResponse.toString(2));
+            logger.log(Log.INFO, "Send message:\n" + jsonResponse.toString(2),"error");
         } catch (JSONException e) {
             logger.log(Log.ERROR, "Failed to parse server response:\n"
-                    + httpRequest.getResponseBody());
+                    + httpRequest.getResponseBody(),"error");
         }
         return httpRequest.getResponseBody();
     }

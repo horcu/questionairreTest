@@ -1,5 +1,4 @@
 package com.horcu.apps.peez.ui.activities;
-import android.animation.TimeInterpolator;
 import android.accounts.AccountManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,16 +7,12 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.ProgressBar;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -35,11 +30,10 @@ import com.horcu.apps.peez.backend.models.userApi.model.User;
 import com.horcu.apps.peez.backend.models.userSettingsApi.UserSettingsApi;
 import com.horcu.apps.peez.backend.models.userSettingsApi.model.UserSettings;
 import com.horcu.apps.peez.backend.registration.Registration;
-import com.horcu.apps.peez.registration.QuickstartPreferences;
+import com.horcu.apps.peez.custom.Api;
 import com.horcu.apps.peez.registration.RegistrationIntentService;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -71,7 +65,7 @@ public class PrelimActivity extends AppCompatActivity {
         user = new User();
         settings = getSharedPreferences("Peez", 0);
         BuildUserApiService();
-        BuildUserSettingsApiService();
+        userSettingsApi = Api.BuildUserSettingsApiService();
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
        loader =  ((RubberLoaderView) findViewById(R.id.loader1));

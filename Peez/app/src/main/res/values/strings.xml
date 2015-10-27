@@ -339,7 +339,7 @@
     <string name="messages">messages</string>
     <string name="bet">new bet</string>
     <string name="title_activity_test_bet">TestBetActivity</string>
-    <string name="test">Create a test bet</string>
+    <string name="test">$15</string>
 
     <string name="new_bet_notification_title_template">New bet: %1$s</string>
 

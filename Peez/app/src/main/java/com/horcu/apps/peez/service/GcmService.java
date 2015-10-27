@@ -56,6 +56,6 @@ public class GcmService extends GcmListenerService {
     // a GCM message.
     private void sendNotification(String msg) {
 
-        logger.log(Log.INFO, msg);
+        logger.log(Log.INFO, msg,"error");
     }
 }

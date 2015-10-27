@@ -95,7 +95,7 @@ public class DeviceGroupsHelper {
                     if (responseBody.has("error")) {
                         mLogger.log(Log.INFO, "Group creation failed."
                                 + "\ngroupName: " + groupName
-                                + "\nhttpResponse:" + httpRequest.getResponseBody());
+                                + "\nhttpResponse:" + httpRequest.getResponseBody(),"error");
                         Snackbar.make(snackbarView, "couldnt put that group together. my bad" +
                                 responseBody.getString("error"), Snackbar.LENGTH_LONG).show();
                     } else {
@@ -113,13 +113,13 @@ public class DeviceGroupsHelper {
 
                         mLogger.log(Log.INFO, "Group creation succeeded."
                                 + "\ngroupName: " + group.notificationKeyName
-                                + "\ngroupKey: " + group.notificationKey);
+                                + "\ngroupKey: " + group.notificationKey, "error");
                         Snackbar.make(snackbarView, "done", Snackbar.LENGTH_LONG).show();
                     }
                 } catch (JSONException | IOException e) {
                     mLogger.log(Log.INFO, "Exception while creating a new group"
                             + "\nerror: " + e.getMessage()
-                            + "\ngroupName: " + groupName);
+                            + "\ngroupName: " + groupName, "error");
                     Snackbar.make(snackbarView, "couldnt put that group together. my bad" +
                             e.getMessage(), Snackbar.LENGTH_LONG).show();
                 }
@@ -220,7 +220,7 @@ public class DeviceGroupsHelper {
                 mLogger.log(Log.INFO, "Error while adding new group members."
                         + "\ngroupName: " + groupName
                         + "\ngroupKey: " + groupKey
-                        + "\nhttpResponse: " + httpRequest.getResponseBody());
+                        + "\nhttpResponse: " + httpRequest.getResponseBody(), "error");
 
                 Snackbar.make(snackbarView, "couldnt put that group together. my bad" +
                         responseBody.getString("error"), Snackbar.LENGTH_LONG).show();
@@ -235,14 +235,14 @@ public class DeviceGroupsHelper {
 
                 mLogger.log(Log.INFO, "Group members added successfully."
                         + "\ngroupName: " + groupName
-                        + "\ngroupKey: " + groupKey);
+                        + "\ngroupKey: " + groupKey, "error");
                 Snackbar.make(snackbarView, "done", Snackbar.LENGTH_LONG).show();
             }
         } catch (JSONException | IOException e) {
             mLogger.log(Log.INFO, "Exception while adding new group members."
                     + "\nerror: " + e.getMessage()
                     + "\ngroupName: " + groupName
-                    + "\ngroupKey: " + groupKey);
+                    + "\ngroupKey: " + groupKey, "error");
             Snackbar.make(snackbarView, "couldnt put that group together. my bad" +
                     e.getMessage(), Snackbar.LENGTH_LONG).show();
         }
@@ -285,7 +285,7 @@ public class DeviceGroupsHelper {
                 mLogger.log(Log.INFO, "Error while removing group members."
                     + "\ngroupName: " + groupName
                     + "\ngroupKey: " + groupKey
-                    + "\nhttpResponse: " + httpRequest.getResponseBody());
+                    + "\nhttpResponse: " + httpRequest.getResponseBody(), "error");
                 Snackbar.make(snackbarView, "couldnt remove member. my bad" +
                         responseBody.getString("error"), Snackbar.LENGTH_LONG).show();
             } else {
@@ -300,14 +300,14 @@ public class DeviceGroupsHelper {
 
                 mLogger.log(Log.INFO, "Group members removed successfully."
                         + "\ngroupName: " + groupName
-                        + "\ngroupKey: " + groupKey);
+                        + "\ngroupKey: " + groupKey, "error");
                 Snackbar.make(snackbarView, "gone..bye"  , Snackbar.LENGTH_LONG).show();
             }
         } catch (JSONException | IOException e) {
             mLogger.log(Log.INFO, "Exception while removing group members."
                     + "\nerror: " + e.getMessage()
                     + "\ngroupName: " + groupName
-                    + "\ngroupKey: " + groupKey);
+                    + "\ngroupKey: " + groupKey, "error");
             Snackbar.make(snackbarView, "couldnt remove them.. my bad"  , Snackbar.LENGTH_LONG).show();
         }
     }

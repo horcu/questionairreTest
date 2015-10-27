@@ -179,7 +179,7 @@ public class TopicsFragment extends AbstractFragment
         Sender sender = mSenders.getSender(senderId);
         Token gcmToken = (sender != null) ? sender.getGcmDemoAppToken() : null;
         if (gcmToken == null) {
-            mLogger.log(Log.ERROR, "gcmToken missing while un-subscribing from topic.");
+            mLogger.log(Log.ERROR, "gcmToken missing while un-subscribing from topic.","error");
             return;
         }
         Toast.makeText(getActivity(),

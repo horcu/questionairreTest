@@ -5,7 +5,7 @@
 
     <item android:id="@+id/action_msg"
         android:title="@string/messages"
-        android:icon="@drawable/ic_action_communication_messenger"
+        android:icon="@drawable/ic_action_action_question_answer"
         android:orderInCategory="100"
         app:showAsAction="always" />
 
@@ -17,7 +17,7 @@
 
     <item android:id="@+id/action_bet"
         android:title="@string/bet"
-        android:icon="@drawable/ic_action_image_panorama_fisheye"
+        android:icon="@drawable/ic_action_action_label_outline"
         android:orderInCategory="100"
         app:showAsAction="always" />
 

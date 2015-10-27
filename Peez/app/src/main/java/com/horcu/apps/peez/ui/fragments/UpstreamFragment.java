@@ -123,16 +123,16 @@ public class UpstreamFragment extends AbstractFragment implements View.OnClickLi
                                     Long.parseLong(ttl), data);
                         } catch (NumberFormatException ex) {
                             mLogger.log(Log.ERROR,
-                                    "Error sending upstream message: could not parse ttl", ex);
+                                    "Error sending upstream message: could not parse ttl","error", ex);
                             return "Error sending upstream message: could not parse ttl";
                         }
                     } else {
                         gcm.send(senderId + "@gcm.googleapis.com", msgId, data);
                     }
-                    mLogger.log(Log.INFO, "Successfully sent upstream message");
+                    mLogger.log(Log.INFO, "Successfully sent upstream message","error");
                     return null;
                 } catch (IOException ex) {
-                    mLogger.log(Log.ERROR, "Error sending upstream message", ex);
+                    mLogger.log(Log.ERROR, "Error sending upstream message","error", ex);
                     return "Error sending upstream message:" + ex.getMessage();
                 }
             }
