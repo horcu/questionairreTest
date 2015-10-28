@@ -44,6 +44,7 @@ public class NewBetNotification {
      * @see #cancel(Context)
      */
     public static void notify(final Context context,
+                              PendingIntent pendingIntent,
                               final String exampleString, final int number, final long expiration) {
         final Resources res = context.getResources();
 
@@ -76,7 +77,7 @@ public class NewBetNotification {
 
                         // Provide a large icon, shown with the notification in the
                         // notification drawer on devices running Android 3.0 or later.
-                .setLargeIcon(picture)
+    //            .setLargeIcon(picture)
 
                         // Set ticker text (preview) information for this notification.
                 .setTicker(ticker)
@@ -96,13 +97,13 @@ public class NewBetNotification {
 
                         // Set the pending intent to be initiated when the user touches
                         // the notification.
-                .setContentIntent(
-                        PendingIntent.getActivity(
-                                context,
-                                0,
-                                new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com")),
-                                PendingIntent.FLAG_UPDATE_CURRENT))
-
+//                .setContentIntent(
+//                        PendingIntent.getActivity(
+//                                context,
+//                                0,
+//                                new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com")),
+//                                PendingIntent.FLAG_UPDATE_CURRENT))
+                .setContentIntent(pendingIntent)
                         // Show expanded text content on devices running Android 4.1 or
                         // later.
                 .setStyle(new NotificationCompat.BigTextStyle()

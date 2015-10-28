@@ -24,6 +24,7 @@ import com.google.api.client.util.DateTime;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.userApi.model.User;
 import com.horcu.apps.peez.custom.NewBetNotification;
+import com.horcu.apps.peez.custom.notifier;
 import com.horcu.apps.peez.service.LoggingService;
 import com.horcu.apps.peez.ui.fragments.testItemFragment;
 
@@ -74,25 +75,9 @@ public class MainActivity extends AppCompatActivity implements testItemFragment.
                       //  mLogsUI.setText("");
                         break;
                     case LoggingService.ACTION_LOG:
-                        StringBuilder stringBuilder = new StringBuilder();
-                        String newLog = intent.getStringExtra(LoggingService.EXTRA_LOG_MESSAGE);
-                      //  String oldLogs = Html.toHtml(new SpannableString(mLogsUI.getText()));
-                     //   appendFormattedLogLine(newLog, stringBuilder);
-                      //  stringBuilder.append(oldLogs);
-                     //   mLogsUI.setText(Html.fromHtml(stringBuilder.toString()));
-                        List<Fragment> fragments = getSupportFragmentManager().getFragments();
-                        for (Fragment fragment : fragments) {
-                            if (fragment instanceof GCMActivity.RefreshableFragment && fragment.isVisible()) {
-                                ((GCMActivity.RefreshableFragment) fragment).refresh();
-                            }
-                        }
 
                         //TODO the expiration needs to be 5 mins before the time of the nfl game in question
-
-                        LocalDateTime tomorrow = LocalDateTime.now().plusDays(1);
-
-                        NewBetNotification.notify(getApplicationContext(), newLog, 1, tomorrow.toDate().getTime());
-                        Snackbar.make(findViewById(R.id.bet_list), Html.fromHtml(newLog), Snackbar.LENGTH_LONG).show();
+                        notifier.showNotification(intent, MainActivity.this, MainActivity.class);
                         break;
                 }
             }
@@ -100,19 +85,8 @@ public class MainActivity extends AppCompatActivity implements testItemFragment.
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
-//
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
-
     }
 
     @Override
@@ -127,29 +101,6 @@ public class MainActivity extends AppCompatActivity implements testItemFragment.
 
         mLogger.registerCallback(mLoggerCallback);
     }
-
-    private void appendFormattedLogLine(String log, StringBuilder stringBuilder) {
-        String[] logLines = log.split("\n");
-        if (logLines.length > 0) {
-            logLines[0] = "<b>" + logLines[0] + "</b>";
-            for (String line : logLines) {
-                if (line.startsWith("exception: ")) {
-                    continue;
-                }
-                int keySeparator = line.indexOf(": ");
-                if (keySeparator > 0) {
-                    stringBuilder
-                            .append("<b>").append(line.substring(0, keySeparator + 1)).append
-                            ("</b>")
-                            .append(line.substring(keySeparator + 1)).append("<br>");
-                } else {
-                    stringBuilder.append(line).append("<br>");
-                }
-            }
-        }
-    }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

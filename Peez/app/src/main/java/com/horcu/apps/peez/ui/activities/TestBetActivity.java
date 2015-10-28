@@ -51,6 +51,7 @@ import com.horcu.apps.peez.backend.models.userSettingsApi.UserSettingsApi;
 import com.horcu.apps.peez.backend.models.userSettingsApi.model.CollectionResponseUserSettings;
 import com.horcu.apps.peez.backend.models.userSettingsApi.model.UserSettings;
 import com.horcu.apps.peez.custom.NewBetNotification;
+import com.horcu.apps.peez.custom.notifier;
 import com.horcu.apps.peez.logic.GcmServerSideSender;
 import com.horcu.apps.peez.logic.Message;
 import com.horcu.apps.peez.service.LoggingService;
@@ -208,9 +209,10 @@ public class TestBetActivity extends AppCompatActivity {
                         //  mLogsUI.setText("");
                         break;
                     case LoggingService.ACTION_LOG:
-                       showNotification(intent);
-//TODO remove line directly below
-                        Snackbar.make(findViewById(R.id.test_main), Html.fromHtml(intent.getStringExtra(LoggingService.EXTRA_LOG_MESSAGE)), Snackbar.LENGTH_LONG).show();
+
+
+                      notifier.showNotification(intent, TestBetActivity.this, MainActivity.class);
+
                         break;
                 }
             }
@@ -234,16 +236,12 @@ public class TestBetActivity extends AppCompatActivity {
                         String[] betText = betStats.split(",");
                         final String[] emails = userGroups.split(",");
                         registrationIds = new ArrayList<>();
-                      //  registrationIds.addAll(Arrays.asList(emails));
 
                             for (int i = 0; i< emails.length; i++)
                             {
                                 String regid = userApi.get(emails[i]).execute().getRegistrationId();
                                registrationIds.add(regid);
                             }
-
-                           // String regId = settings.getString(consts.REG_ID, "");
-                          //  registrationIds.add(regId); //send to yourself TODO remove this
 
                         Bet bet = new Bet()
                                 .setBetId(UUID.randomUUID().toString())
@@ -271,42 +269,12 @@ public class TestBetActivity extends AppCompatActivity {
                         {
                             sendBetNotification(ids);
                         }
-
                     }
                 }.execute();
             }
         });
     }
 
-    private void showNotification(Intent intent) {
-        try {
-            String newLog = intent.getStringExtra(LoggingService.EXTRA_LOG_MESSAGE);
-            PendingIntent pendingIntent = PendingIntent.getActivity(TestBetActivity.this, 1, intent, 0);
-
-            Notification.Builder builder = new Notification.Builder(TestBetActivity.this);
-
-            builder.setAutoCancel(true);
-            builder.setTicker(newLog);
-            builder.setContentTitle("Peez");
-            builder.setContentText(newLog);
-            builder.setSmallIcon(R.mipmap.ic_launcher);
-            builder.setContentIntent(pendingIntent);
-            builder.setOngoing(false);
-            builder.setSubText("#swagBet #aintnobitch");   //API level 16
-            builder.setNumber(100);
-            builder.build();
-
-           NewBetNotification.notify(getApplicationContext(), "Peyton Manning < 300 yds", 1, new Date().getTime() + 86400000);
-//            NewBetNotification note = new NewBetNotification().notify(getApplicationContext(), builder.build());
-            myNotication = builder.getNotification();
-            manager.notify(11, myNotication);
-            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-            r.play();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     protected void onPause() {
