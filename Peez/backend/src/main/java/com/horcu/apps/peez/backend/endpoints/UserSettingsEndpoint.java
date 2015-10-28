@@ -10,6 +10,7 @@ import com.google.appengine.api.datastore.QueryResultIterator;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.cmd.Query;
 import com.horcu.apps.peez.backend.models.UserSettings;
+import com.horcu.apps.peez.backend.utilities.consts;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,9 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
         name = "userSettingsApi",
         version = "v1",
         resource = "userSettings",
+        clientIds = {consts.WEB_CLIENT_IDS,
+                consts.ANDROID_CLIENT_IDS},
+        audiences = {consts.WEB_CLIENT_IDS},
         namespace = @ApiNamespace(
                 ownerDomain = "models.backend.peez.apps.horcu.com",
                 ownerName = "models.backend.peez.apps.horcu.com",
@@ -63,7 +67,7 @@ public class UserSettingsEndpoint {
         logger.info("Getting UserSettings with ID: " + name);
         UserSettings userSettings = ofy().load().type(UserSettings.class).id(name).now();
         if (userSettings == null) {
-           return null;
+            return null;
         }
         return userSettings;
     }
@@ -90,7 +94,7 @@ public class UserSettingsEndpoint {
     /**
      * Updates an existing {@code UserSettings}.
      *
-     * @param name        the ID of the entity to be updated
+     * @param name         the ID of the entity to be updated
      * @param userSettings the desired state of the entity
      * @return the updated version of the entity
      * @throws NotFoundException if the {@code name} does not correspond to an existing
