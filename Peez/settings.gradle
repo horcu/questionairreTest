@@ -1,1 +1,1 @@
-include ':discreteseekbar', ':app', ':common', ':backend', ':library', ':wizard_sample'//, ':userInvites'//, ':gcm' ,':singleInputExample',':library',
+include ':discreteseekbar', ':app', ':common', ':backend', ':userInvites', ':library', ':toggle_demo'//, ':gcm' ,':singleInputExample',':library',

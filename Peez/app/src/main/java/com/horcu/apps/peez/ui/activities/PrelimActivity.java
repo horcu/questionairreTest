@@ -47,7 +47,6 @@ public class PrelimActivity extends AppCompatActivity {
     private String accountName;
     static final int REQUEST_ACCOUNT_PICKER = 2;
     private UserApi userApi = null;
-    private Registration registrationApi = null;
     String mPhoneNumber;
     private UserSettingsApi userSettingsApi;
     private String regId;
@@ -64,7 +63,7 @@ public class PrelimActivity extends AppCompatActivity {
 
         user = new User();
         settings = getSharedPreferences("Peez", 0);
-        BuildUserApiService();
+        userApi = Api.BuildUserApiService();
         userSettingsApi = Api.BuildUserSettingsApiService();
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
@@ -124,107 +123,6 @@ public class PrelimActivity extends AppCompatActivity {
         startActivity(new Intent(this, FailureActivity.class).putExtra("error", msg));
     }
 
-
-    private void RegisterDeviceAsync(final FloatingActionButton fab, final User user, final Context ctx) {
-        new AsyncTask<Void, Void, Boolean>() {
-            Registration regService = null;
-            GoogleCloudMessaging gcm;
-            Context context = ctx;
-
-            final String SENDER_ID = consts.SENDER_ID;
-
-            protected Boolean doInBackground(Void... params) {
-                if (regService == null) {
-                    Registration.Builder builder = new Registration.Builder(AndroidHttp.newCompatibleTransport(),
-                            new AndroidJsonFactory(), null)
-                            // Need setRootUrl and setGoogleClientRequestInitializer only for local testing,
-                            // otherwise they can be skipped
-                            .setRootUrl(consts.DEV_MODE
-                                    ? consts.DEV_URL
-                                    : consts.PROD_URL)
-                            .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
-                                @Override
-                                public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest)
-                                        throws IOException {
-                                    abstractGoogleClientRequest.setDisableGZipContent(true);
-                                }
-                            });
-                    regService = builder.build();
-                }
-
-                //regId = settings.getString(consts.REG_ID,""); // do reg again with the same regid if it exists there wont be a new record if it doesnt then we will re register
-                if (gcm == null)
-                    gcm = GoogleCloudMessaging.getInstance(context);
-
-
-                try {
-                  //  regId = settings.getString(consts.REG_ID, "");
-
-                 //   if (regId.equals(""))
-                        regId = gcm.register(SENDER_ID);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return false;
-                }
-
-                try {
-                    if (regId == null)
-                        return false;
-
-                    regService.register(regId).execute();
-
-                    SharedPreferences.Editor editor = settings.edit();
-                    editor.putString(consts.REG_ID, regId);
-                    editor.putString(consts.PREF_ACCOUNT_NAME, user.getUserName());
-                    editor.apply();
-
-                    return true;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return false;
-                }
-            }
-
-            protected void onPostExecute(Boolean success) {
-                if (!success) {
-                    startActivity(new Intent(context, FailureActivity.class).putExtra("error", "Not able to register device"));
-                    return;
-                }
-
-                AddUserAsync(fab, user, regId);
-                Snackbar.make(fab, "registered device and added user", Snackbar.LENGTH_LONG).show();
-
-
-                Logger.getLogger("REGISTRATION").log(Level.INFO, regId);
-            }
-        }.execute();
-    }
-
-    private void AddUserAsync(final View fab, final User user, final String regId) {
-
-        new AsyncTask<Void, Void, String>() {
-
-            protected String doInBackground(Void... params) {
-                // this will be supplied after calling register in an asyc task before this one
-
-
-                return "success";
-            }
-
-            protected void onPostExecute(String msg) {
-                if (msg.equals("")) {
-                    Snackbar.make(fab, "user registration failed", Snackbar.LENGTH_LONG).show();
-                    Logger.getLogger("ADDED USER FAiled").log(Level.SEVERE, msg);
-                } else {
-                    Snackbar.make(fab, "user registration successfully", Snackbar.LENGTH_LONG).show();
-                    Logger.getLogger("ADDED USER").log(Level.INFO, msg);
-
-                }
-
-            }
-        }.execute();
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -238,62 +136,6 @@ public class PrelimActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    private void AddUserSettingsAsync(final User user) {
-
-        new AsyncTask<Void, Void, String>() {
-
-            protected String doInBackground(Void... params) {
-                // this will be supplied after calling register in an asyc task before this one
-
-                try {
-                    UserSettings uSettings = new UserSettings();
-                    uSettings.setName(user.getEmail());
-                   // uSettings.setEmail(user.getEmail());
-                    uSettings.setValue(getString(R.string.newUserSettingsJson));
-                    userSettingsApi.insert(uSettings).execute();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return "";
-                }
-                return "success";
-            }
-
-        }.execute();
-    }
-
-    private void BuildUserApiService() {
-        if (userApi == null) {
-            UserApi.Builder builder = new UserApi.Builder(AndroidHttp.newCompatibleTransport()
-                    , new AndroidJsonFactory(), null)
-                    .setRootUrl(consts.DEV_MODE
-                            ? consts.DEV_URL
-                            : consts.PROD_URL)
-                    .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
-                        @Override
-                        public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
-                            abstractGoogleClientRequest.setDisableGZipContent(true);
-                        }
-                    });
-            userApi = builder.build();
-        }
-    }
-
-    private void BuildUserSettingsApiService() {
-        if (userSettingsApi == null) {
-            UserSettingsApi.Builder builder = new UserSettingsApi.Builder(AndroidHttp.newCompatibleTransport()
-                    , new AndroidJsonFactory(), null)
-                    .setRootUrl(consts.DEV_MODE
-                            ? consts.DEV_URL
-                            : consts.PROD_URL)
-                    .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
-                        @Override
-                        public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
-                            abstractGoogleClientRequest.setDisableGZipContent(true);
-                        }
-                    });
-            userSettingsApi = builder.build();
-        }
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -333,14 +175,6 @@ public class PrelimActivity extends AppCompatActivity {
 
     private void navigateToApp() {
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
-    }
-
-    private void setSelectedAccountName(String accountName) {
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString(consts.PREF_ACCOUNT_NAME, accountName);
-        editor.commit();
-        credential.setSelectedAccountName(accountName);
-        this.accountName = accountName;
     }
 
     void chooseAccount() {

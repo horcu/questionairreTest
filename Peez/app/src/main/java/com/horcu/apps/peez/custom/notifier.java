@@ -1,6 +1,5 @@
 package com.horcu.apps.peez.custom;
 
-import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +10,6 @@ import android.os.Bundle;
 
 import com.horcu.apps.peez.service.LoggingService;
 import com.horcu.apps.peez.ui.activities.MainActivity;
-import com.horcu.apps.peez.ui.activities.TestBetActivity;
 
 import java.util.Date;
 

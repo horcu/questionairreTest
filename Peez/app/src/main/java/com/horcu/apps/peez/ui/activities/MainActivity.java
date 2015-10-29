@@ -4,15 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
-import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,18 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.api.client.util.DateTime;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.userApi.model.User;
-import com.horcu.apps.peez.custom.NewBetNotification;
 import com.horcu.apps.peez.custom.notifier;
 import com.horcu.apps.peez.service.LoggingService;
 import com.horcu.apps.peez.ui.fragments.testItemFragment;
-
-import org.joda.time.LocalDateTime;
-
-import java.util.Date;
-import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements testItemFragment.OnFragmentInteractionListener {
@@ -121,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements testItemFragment.
             return true;
         }
         else if( id == R.id.action_bet){
-            Intent intent = new Intent(this, TestBetActivity.class);
+            Intent intent = new Intent(this, BetActivity.class);
             startActivity(intent);
         }
         else if(id == R.id.action_invite){

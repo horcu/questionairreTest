@@ -122,14 +122,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activities.BetActivity"
-            android:label="@string/title_activity_bet"
-            android:parentActivityName=".ui.activities.PrelimActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activities.PrelimActivity" />
-        </activity>
-        <activity
             android:name=".ui.activities.GameActivity"
             android:label="@string/title_activity_game" >
             <meta-data
@@ -152,7 +144,7 @@
         </receiver>
         <!-- [END referral_receiver_xml] -->
         <activity
-            android:name=".ui.activities.TestBetActivity"
+            android:name=".ui.activities.BetActivity"
             android:label="@string/test"
             android:parentActivityName=".ui.activities.MainActivity" >
             <meta-data

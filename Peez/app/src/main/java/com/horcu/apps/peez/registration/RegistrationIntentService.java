@@ -43,6 +43,7 @@ import com.horcu.apps.peez.backend.models.userApi.model.User;
 import com.horcu.apps.peez.backend.models.userSettingsApi.UserSettingsApi;
 import com.horcu.apps.peez.backend.models.userSettingsApi.model.UserSettings;
 import com.horcu.apps.peez.backend.registration.Registration;
+import com.horcu.apps.peez.custom.Api;
 
 import java.io.IOException;
 import java.util.Date;
@@ -68,9 +69,9 @@ public class RegistrationIntentService extends IntentService {
         String uName = intent.getExtras().getString("userName", null);
         credential = GoogleAccountCredential.usingAudience(this, consts.GOOGLE_ACCOUNT_CREDENTIALS_AUDIENCE);
         credential.setSelectedAccountName(uName);
-        BuildRegistrationApiService();
-        BuildUserApiServices();
-        BuildUserSettingsApiService();
+        registrationApi = Api.BuildRegistrationApiService();
+        userApi = Api.BuildUserApiService();
+        userSettingsApi = Api.BuildUserSettingsApiService();
 
         try {
 
@@ -85,7 +86,24 @@ public class RegistrationIntentService extends IntentService {
             Log.i(TAG, "GCM Registration Token: " + token);
 
             // TODO: Implement this method to send any registration to your app's servers.
-            sendRegistrationToServer(token);
+           if(!sendRegistrationToServer(token))
+                return;
+
+            String mPhoneNumber = getPhoneNumber();
+
+            String username = credential.getSelectedAccountName();
+
+            //add or update the user
+            User user = addOrUpdateUserRecord(token, mPhoneNumber, username);
+
+            //add or update the userSettings
+            addDefaultUserSettingForNewUser(user);
+
+            //save regId and account name
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString(consts.REG_ID, token);
+            editor.putString(consts.PREF_ACCOUNT_NAME, user.getUserName());
+            editor.apply();
 
             // Subscribe to topic channels
             subscribeTopics(token);
@@ -101,7 +119,7 @@ public class RegistrationIntentService extends IntentService {
             // on a third-party server, this ensures that we'll attempt the update at a later time.
             settings.edit().putBoolean(consts.SENT_TOKEN_TO_SERVER, false).apply();
         }
-        // Notify UI that registration has completed, so the progress indicator can be hidden.
+        // Notify UI that registration has completed.
         Intent registrationComplete = new Intent(consts.REGISTRATION_COMPLETE);
         LocalBroadcastManager.getInstance(this).sendBroadcast(registrationComplete);
     }
@@ -120,24 +138,13 @@ public class RegistrationIntentService extends IntentService {
         //add registration record
         if(!addRegistrationRecord(token))
           return false;
+        return true;
+    }
 
+    private String getPhoneNumber() {
         //get the phone number
         TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            String mPhoneNumber = tMgr.getLine1Number();
-            String username = credential.getSelectedAccountName();
-
-        //add or update the user
-        User user = addOrUpdateUserRecord(token, mPhoneNumber, username);
-
-        //add or update the userSettings
-        addDefaultUserSettingForNewUser(user);
-
-        //save regId and account name
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString(consts.REG_ID, token);
-        editor.putString(consts.PREF_ACCOUNT_NAME, user.getUserName());
-        editor.apply();
-        return true;
+        return tMgr.getLine1Number();
     }
 
     @Nullable
@@ -226,55 +233,4 @@ public class RegistrationIntentService extends IntentService {
         }
     }
     // [END subscribe_topics]
-
-    private void BuildRegistrationApiService() {
-        if (registrationApi == null) {
-            Registration.Builder builder = new Registration.Builder(AndroidHttp.newCompatibleTransport()
-                    , new AndroidJsonFactory(), null)
-                    .setRootUrl(consts.DEV_MODE
-                            ? consts.DEV_URL
-                            : consts.PROD_URL)
-                    .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
-                        @Override
-                        public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
-                            abstractGoogleClientRequest.setDisableGZipContent(true);
-                        }
-                    });
-            registrationApi = builder.build();
-        }
-    }
-
-    private void BuildUserApiServices(){
-        if (userApi == null) {
-            UserApi.Builder builder = new UserApi.Builder(AndroidHttp.newCompatibleTransport()
-                    , new AndroidJsonFactory(), null)
-                    .setRootUrl(consts.DEV_MODE
-                            ? consts.DEV_URL
-                            : consts.PROD_URL)
-                    .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
-                        @Override
-                        public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
-                            abstractGoogleClientRequest.setDisableGZipContent(true);
-                        }
-                    });
-            userApi = builder.build();
-        }
-    }
-
-    private void BuildUserSettingsApiService() {
-        if (userSettingsApi == null) {
-            UserSettingsApi.Builder builder = new UserSettingsApi.Builder(AndroidHttp.newCompatibleTransport()
-                    , new AndroidJsonFactory(), null)
-                    .setRootUrl(consts.DEV_MODE
-                            ? consts.DEV_URL
-                            : consts.PROD_URL)
-                    .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
-                        @Override
-                        public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
-                            abstractGoogleClientRequest.setDisableGZipContent(true);
-                        }
-                    });
-            userSettingsApi = builder.build();
-        }
-    }
 }

@@ -15,7 +15,8 @@
             <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/discreteseekbar" />
             <option value="$PROJECT_DIR$/library" />
-            <option value="$PROJECT_DIR$/wizard_sample" />
+            <option value="$PROJECT_DIR$/toggle_demo" />
+            <option value="$PROJECT_DIR$/userInvites" />
           </set>
         </option>
       </GradleProjectSettings>
