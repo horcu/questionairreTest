@@ -28,6 +28,7 @@ import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 
 import com.google.api.client.util.DateTime;
+import com.greenfrvr.hashtagview.HashtagView;
 import com.horcu.apps.common.utilities.consts;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.betApi.BetApi;
@@ -38,6 +39,7 @@ import com.horcu.apps.peez.backend.models.userApi.UserApi;
 import com.horcu.apps.peez.backend.models.userApi.model.CollectionResponseUser;
 import com.horcu.apps.peez.backend.models.userApi.model.User;
 import com.horcu.apps.peez.backend.models.userSettingsApi.UserSettingsApi;
+import com.horcu.apps.peez.custom.Taglist;
 import com.horcu.apps.peez.custom.notifier;
 import com.horcu.apps.peez.logic.GcmServerSideSender;
 import com.horcu.apps.peez.logic.Message;
@@ -86,14 +88,29 @@ public class BetActivity extends AppCompatActivity {
 
         final EditText player_team = (EditText)findViewById(R.id.player_team);
         final EditText bet_stats = (EditText)findViewById(R.id.bet_stats);
+
+        final LinearLayout bet_hashtags = (LinearLayout)findViewById(R.id.hashtag_bet_container);
+
         final EditText bet_amount = (EditText)findViewById(R.id.bet_amount);
-        bet_amount.setVisibility(View.GONE);
         final LinearLayout getFriends = (LinearLayout)findViewById(R.id.bet_who_layout);
-        getFriends.setVisibility(View.GONE);
+
         final ListView friendsList = (ListView)findViewById(android.R.id.list);
          friends = (TextView)findViewById(R.id.friends_reg_list);
         final Button done = (Button)findViewById(R.id.done);
         final LinearLayout actionLayout = (LinearLayout)findViewById(R.id.action_layout);
+
+        HashtagView htashView_verb = (HashtagView)bet_hashtags.findViewById(R.id.hashtagview);
+        HashtagView htashView_actionverb = (HashtagView)bet_hashtags.findViewById(R.id.hashtagview_action_verbs);
+        HashtagView htashView_when = (HashtagView)bet_hashtags.findViewById(R.id.hashtagview_when);
+
+        htashView_verb.setData(Taglist.getVerbs());
+        htashView_verb.setBackgroundColor(R.color.colorPrimary);
+
+        htashView_actionverb.setData(Taglist.getActionVerbs().subList(0,4));
+        htashView_actionverb.setBackgroundColor(R.color.wallet_holo_blue_light);
+
+        htashView_when.setData(Taglist.getWhen().subList(0,4));
+        htashView_when.setBackgroundColor(android.R.color.holo_green_light);
 
         StringBuilder friendsString = null;
 

@@ -13,4 +13,6 @@
     <color name="accent_material_light_1">#9c88ad</color>
     <color name="primary_dark_material_light">#3b314d</color>
 
+    <color name="white_alpha">#8FFF</color>
+    <color name="cyan">#0097A7</color>
 </resources>

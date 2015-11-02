@@ -122,13 +122,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activities.GameActivity"
-            android:label="@string/title_activity_game" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activities.MainActivity" />
-        </activity>
-        <activity
             android:name=".ui.activities.DeepLinkActivity"
             android:label="@string/invitation_dl" />
 
