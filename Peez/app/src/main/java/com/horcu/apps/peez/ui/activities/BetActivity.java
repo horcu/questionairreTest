@@ -22,6 +22,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.codetroopers.betterpickers.datepicker.DatePickerDialogFragment;
+import com.codetroopers.betterpickers.numberpicker.NumberPickerBuilder;
+import com.codetroopers.betterpickers.numberpicker.NumberPickerDialogFragment;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
@@ -39,6 +42,7 @@ import com.horcu.apps.peez.backend.models.userApi.UserApi;
 import com.horcu.apps.peez.backend.models.userApi.model.CollectionResponseUser;
 import com.horcu.apps.peez.backend.models.userApi.model.User;
 import com.horcu.apps.peez.backend.models.userSettingsApi.UserSettingsApi;
+import com.horcu.apps.peez.custom.Money;
 import com.horcu.apps.peez.custom.Taglist;
 import com.horcu.apps.peez.custom.notifier;
 import com.horcu.apps.peez.logic.GcmServerSideSender;
@@ -56,7 +60,7 @@ import java.util.TimeZone;
 import java.util.UUID;
 
 
-public class BetActivity extends AppCompatActivity {
+public class BetActivity extends AppCompatActivity implements NumberPickerDialogFragment.NumberPickerDialogHandler {
 
     private BetApi betApi;
     private LoggingService.Logger mLogger;
@@ -70,7 +74,7 @@ public class BetActivity extends AppCompatActivity {
     private UserSettingsApi userSettingsApi;
     private String me;
     private  TextView friends;
-
+    private Button bet_amount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,11 +91,22 @@ public class BetActivity extends AppCompatActivity {
         mLogger = new LoggingService.Logger(this);
 
         final EditText player_team = (EditText)findViewById(R.id.player_team);
-        final EditText bet_stats = (EditText)findViewById(R.id.bet_stats);
+        final Button bet_stats = (Button)findViewById(R.id.bet_stats);
 
         final LinearLayout bet_hashtags = (LinearLayout)findViewById(R.id.hashtag_bet_container);
 
-        final EditText bet_amount = (EditText)findViewById(R.id.bet_amount);
+         bet_amount = (Button)findViewById(R.id.bet_amount);
+
+        bet_amount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NumberPickerBuilder numberPicker = new NumberPickerBuilder()
+                        .setFragmentManager(getSupportFragmentManager())
+                        .setStyleResId(R.style.BetterPickersDialogFragment_Light);
+                numberPicker.show();
+            }
+        });
+
         final LinearLayout getFriends = (LinearLayout)findViewById(R.id.bet_who_layout);
 
         final ListView friendsList = (ListView)findViewById(android.R.id.list);
@@ -99,18 +114,21 @@ public class BetActivity extends AppCompatActivity {
         final Button done = (Button)findViewById(R.id.done);
         final LinearLayout actionLayout = (LinearLayout)findViewById(R.id.action_layout);
 
-        HashtagView htashView_verb = (HashtagView)bet_hashtags.findViewById(R.id.hashtagview);
-        HashtagView htashView_actionverb = (HashtagView)bet_hashtags.findViewById(R.id.hashtagview_action_verbs);
-        HashtagView htashView_when = (HashtagView)bet_hashtags.findViewById(R.id.hashtagview_when);
+        HashtagView htagView_verb = (HashtagView)bet_hashtags.findViewById(R.id.hashtagview);
+        HashtagView htagView_actionverb = (HashtagView)bet_hashtags.findViewById(R.id.hashtagview_action_verbs);
+        htagView_actionverb.setVisibility(View.GONE);
+        HashtagView htagView_when = (HashtagView)bet_hashtags.findViewById(R.id.hashtagview_when);
 
-        htashView_verb.setData(Taglist.getVerbs());
-        htashView_verb.setBackgroundColor(R.color.colorPrimary);
+        htagView_verb.setData(Taglist.getVerbs());
+        htagView_verb.setBackgroundColor(R.color.colorPrimary);
 
-        htashView_actionverb.setData(Taglist.getActionVerbs().subList(0,4));
-        htashView_actionverb.setBackgroundColor(R.color.wallet_holo_blue_light);
+        htagView_actionverb.setData(Taglist.getActionVerbs().subList(0, 4));
+        htagView_actionverb.setBackgroundColor(R.color.wallet_holo_blue_light);
+        htagView_actionverb.setVisibility(View.GONE);
 
-        htashView_when.setData(Taglist.getWhen().subList(0,4));
-        htashView_when.setBackgroundColor(android.R.color.holo_green_light);
+        htagView_when.setData(Taglist.getWhen().subList(0, 4));
+        htagView_when.setBackgroundColor(android.R.color.holo_green_light);
+        htagView_when.setVisibility(View.GONE);
 
         StringBuilder friendsString = null;
 
@@ -377,5 +395,12 @@ public class BetActivity extends AppCompatActivity {
                     });
             userApi = builder.build();
         }
+    }
+
+    @Override
+    public void onDialogNumberSet(int reference, int number, double decimal, boolean isNegative, double fullNumber) {
+
+        Money.decreaseTotalAmountBy(number);
+       bet_amount.setText("$" + number);
     }
 }
