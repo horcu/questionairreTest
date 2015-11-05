@@ -48,6 +48,7 @@ import com.horcu.apps.peez.custom.notifier;
 import com.horcu.apps.peez.logic.GcmServerSideSender;
 import com.horcu.apps.peez.logic.Message;
 import com.horcu.apps.peez.service.LoggingService;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 
@@ -58,6 +59,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.UUID;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class BetActivity extends AppCompatActivity implements NumberPickerDialogFragment.NumberPickerDialogHandler {
@@ -90,7 +93,7 @@ public class BetActivity extends AppCompatActivity implements NumberPickerDialog
         BuildUserApiService();
         mLogger = new LoggingService.Logger(this);
 
-        final EditText player_team = (EditText)findViewById(R.id.player_team);
+        final Button player_team = (Button)findViewById(R.id.player_team);
         final Button bet_stats = (Button)findViewById(R.id.bet_stats);
 
         final LinearLayout bet_hashtags = (LinearLayout)findViewById(R.id.hashtag_bet_container);
@@ -129,6 +132,10 @@ public class BetActivity extends AppCompatActivity implements NumberPickerDialog
         htagView_when.setData(Taglist.getWhen().subList(0, 4));
         htagView_when.setBackgroundColor(android.R.color.holo_green_light);
         htagView_when.setVisibility(View.GONE);
+
+        CircleImageView playerTeamImage = (CircleImageView)findViewById(R.id.chosen_player_team);
+        String uri = "http://static.nfl.com/static/content/public/static/img/fantasy/transparent/200x200/" + "FLA009602" + ".png";
+        Picasso.with(this).load(uri).resize(50,50).into(playerTeamImage);
 
         StringBuilder friendsString = null;
 
