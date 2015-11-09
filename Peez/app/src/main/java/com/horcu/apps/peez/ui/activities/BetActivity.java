@@ -9,20 +9,15 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
-import android.provider.ContactsContract;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -35,9 +30,7 @@ import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
-
 import com.google.api.client.util.DateTime;
-import com.google.gson.Gson;
 import com.greenfrvr.hashtagview.HashtagView;
 import com.greenfrvr.rubberloader.RubberLoaderView;
 import com.horcu.apps.common.utilities.consts;
@@ -47,34 +40,24 @@ import com.horcu.apps.peez.backend.models.betApi.model.Bet;
 import com.horcu.apps.peez.backend.models.betApi.model.NFLPlayer;
 import com.horcu.apps.peez.backend.models.betApi.model.Team;
 import com.horcu.apps.peez.backend.models.misc.betStructureApi.BetStructureApi;
-import com.horcu.apps.peez.backend.models.misc.betStructureApi.model.BetStructure;
 import com.horcu.apps.peez.backend.models.userApi.UserApi;
 import com.horcu.apps.peez.backend.models.userApi.model.CollectionResponseUser;
 import com.horcu.apps.peez.backend.models.userApi.model.User;
 import com.horcu.apps.peez.backend.models.userSettingsApi.UserSettingsApi;
 import com.horcu.apps.peez.custom.Api;
 import com.horcu.apps.peez.custom.Money;
-import com.horcu.apps.peez.custom.Taglist;
 import com.horcu.apps.peez.custom.notifier;
 import com.horcu.apps.peez.logic.GcmServerSideSender;
 import com.horcu.apps.peez.logic.Message;
 import com.horcu.apps.peez.service.LoggingService;
+import com.horcu.apps.peez.spinner.NiceSpinner;
 import com.squareup.picasso.Picasso;
-import com.weiwangcn.betterspinner.library.BetterSpinner;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-
-
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.UUID;
@@ -108,11 +91,14 @@ public class BetActivity extends AppCompatActivity implements NumberPickerDialog
     private RelativeLayout existingList;
 
     private Button numbers;
+    private Button done ;
+
+    private LinearLayout players_list_done;
 
     HashtagView htagView_verb;
 
     int betNumber;
-    BetterSpinner bet_stats, stat_element, equality_result, when_result;
+    NiceSpinner bet_stats, stat_element, equality_result, when_result;
 
     LinearLayout toptagmaker, bottomTagmaker;
 
@@ -139,35 +125,13 @@ public class BetActivity extends AppCompatActivity implements NumberPickerDialog
         betStructureApi = Api.BuildBetStructureApiService();
         mLogger = new LoggingService.Logger(this);
 
-        List<String> list = new ArrayList<>();
-        list.add("win");
-        list.add("int");
-        list.add("yds");
-        list.add("ret yds");
-        list.add("rec yds");
-        list.add("catches");
-        list.add("catches against");
+        List<String> list = new LinkedList<>(Arrays.asList("win", "int", "yds", "ret yds", "rec yds","catches","catches against"));
 
-        List<String> listAction= new ArrayList<>();
-        listAction.add("will record");
-        listAction.add("will not have");
-        listAction.add("will force");
-        listAction.add("will cause");
+        List<String> listAction= new LinkedList<>(Arrays.asList("will record", "will not have", "will force", "will cause"));
 
-        List<String> listEquality= new ArrayList<>();
-        listEquality.add("less than");
-        listEquality.add("exactly");
-        listEquality.add("more than");
+        List<String> listEquality= new LinkedList<>(Arrays.asList("less than", "exactly", "more than"));
 
-
-        List<String> listWhen= new ArrayList<>();
-        listWhen.add("game");
-        listWhen.add("month");
-        listWhen.add("year");
-        listWhen.add("1st quarter");
-        listWhen.add("2nd quarter");
-        listWhen.add("3rd quarter");
-        listWhen.add("4th quarter");
+        List<String> listWhen= new LinkedList<>(Arrays.asList("game", "month", "year","1st quarter","2nd quarter","3rd quarter","4th quarter", "1st half, 2nd half"));
 
         toptagmaker = (LinearLayout)findViewById(R.id.top_tagmaker_section);
         bottomTagmaker = (LinearLayout)findViewById(R.id.bottom_tagmaker_section);
@@ -186,17 +150,22 @@ public class BetActivity extends AppCompatActivity implements NumberPickerDialog
 
         final Button player_team = (Button)findViewById(R.id.player_team);
 
-        bet_stats = (BetterSpinner)findViewById(R.id.bet_stats);
+       // List<String> dataset = new LinkedList<>(Arrays.asList("One", "Two", "Three", "Four", "Five"));
+       // niceSpinner.attachDataSource(dataset);
+
+        bet_stats = (NiceSpinner)findViewById(R.id.bet_stats);
         bet_stats.setAdapter(adapter2);
 
-        stat_element = (BetterSpinner)findViewById(R.id.stat_element);
+        stat_element = (NiceSpinner)findViewById(R.id.stat_element);
         stat_element.setAdapter(adapter);
 
-        equality_result = (BetterSpinner)findViewById(R.id.equality);
+        equality_result = (NiceSpinner)findViewById(R.id.equality);
         equality_result.setAdapter(adapter3);
 
-        when_result = (BetterSpinner)findViewById(R.id.when);
+        when_result = (NiceSpinner)findViewById(R.id.when);
         when_result.setAdapter(adapter4);
+
+        players_list_done = (LinearLayout) findViewById(R.id.players_list_done);
 
         final LinearLayout bet_hashtags = (LinearLayout)findViewById(R.id.hashtag_bet_container);
         final LinearLayout stats_layout = (LinearLayout)findViewById(R.id.stat_layout);
@@ -302,7 +271,7 @@ public class BetActivity extends AppCompatActivity implements NumberPickerDialog
 
         final ListView friendsList = (ListView)findViewById(android.R.id.list);
          friends = (TextView)findViewById(R.id.friends_reg_list);
-        final Button done = (Button)findViewById(R.id.done);
+         done = (Button)findViewById(R.id.done);
         final LinearLayout actionLayout = (LinearLayout)findViewById(R.id.action_layout);
 //
 //
@@ -321,7 +290,7 @@ public class BetActivity extends AppCompatActivity implements NumberPickerDialog
 //        htagView_when.setVisibility(View.GONE);
 
         CircleImageView playerTeamImage = (CircleImageView)findViewById(R.id.chosen_player_team);
-        String uri = "http://static.nfl.com/static/content/public/static/img/fantasy/transparent/200x200/" + "FLA009602" + ".png";
+        String uri = "http://static.nfl.com/static/content/public/static/img/fantasy/transparent/200x200/" + "SMI733120" + ".png";
         Picasso.with(this).load(uri).into(playerTeamImage);
 
         StringBuilder friendsString = null;
@@ -339,6 +308,7 @@ public class BetActivity extends AppCompatActivity implements NumberPickerDialog
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 try {
+
                     done.setVisibility(View.VISIBLE);
                     ArrayAdapter adapter = (ArrayAdapter) friendsList.getAdapter();
                     String item = adapter.getItem(position).toString();
@@ -369,7 +339,7 @@ public class BetActivity extends AppCompatActivity implements NumberPickerDialog
                 friendsList.setVisibility(View.VISIBLE);
                 friendsList.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
                 actionLayout.setVisibility(View.GONE);
-
+                players_list_done.setVisibility(View.VISIBLE);
 
                 new AsyncTask<Void, Void, Void>() {
                     @Override
@@ -539,8 +509,9 @@ public class BetActivity extends AppCompatActivity implements NumberPickerDialog
 
     private void showNewStage() {
         daddy.setVisibility(View.VISIBLE);
-        int daddyBottom = daddy.getBottom();
-        existingList.setTop((daddyBottom + 10));
+        existingList.setVisibility(View.GONE);
+       // int daddyBottom = daddy.getBottom();
+      //  existingList.setTop((daddyBottom + 10));
     }
 
 
