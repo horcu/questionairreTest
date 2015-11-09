@@ -138,7 +138,7 @@
         <!-- [END referral_receiver_xml] -->
         <activity
             android:name=".ui.activities.BetActivity"
-            android:label="@string/test"
+            android:label="#raysha_0880"
             android:parentActivityName=".ui.activities.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

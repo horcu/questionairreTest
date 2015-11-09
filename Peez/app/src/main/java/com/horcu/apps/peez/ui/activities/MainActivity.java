@@ -3,6 +3,7 @@ package com.horcu.apps.peez.ui.activities;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -48,9 +49,8 @@ public class MainActivity extends AppCompatActivity implements testItemFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setElevation(0);
-            getSupportActionBar().setIcon(R.mipmap.ic_launcher);
-            getSupportActionBar().setTitle("");
+            getSupportActionBar().setElevation(2);
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.white)));
         }
 
         mLogger = new LoggingService.Logger(this);

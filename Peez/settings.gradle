@@ -1,1 +1,1 @@
-include ':userInvites', ':app', ':backend', ':common'//, ':gcm' ,':singleInputExample',':library',
+include ':app', ':backend', ':common'//, ':gcm' ,':singleInputExample',':library',

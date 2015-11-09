@@ -360,4 +360,5 @@
     <string name="action_thinking">Thinking</string>
     <string name="action_decline">Decline</string>
     <string name="title_activity_failure">FailureActivity</string>
+    <string name="action_addnew">Add new</string>
 </resources>

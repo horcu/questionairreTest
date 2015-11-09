@@ -15,11 +15,12 @@
             <param-name>services</param-name>
             <param-value>com.horcu.apps.peez.backend.endpoints.RegistrationEndpoint,
                 com.horcu.apps.peez.backend.endpoints.MessagingEndpoint,
-               com.horcu.apps.peez.backend.endpoints.UserEndpoint,
+                com.horcu.apps.peez.backend.endpoints.UserEndpoint,
                 com.horcu.apps.peez.backend.endpoints.BetEndpoint,
                 com.horcu.apps.peez.backend.endpoints.league.TeamEndpoint,
                 com.horcu.apps.peez.backend.endpoints.schedule.GameEndpoint,
-                com.horcu.apps.peez.backend.endpoints.UserSettingsEndpoint</param-value>
+                com.horcu.apps.peez.backend.endpoints.UserSettingsEndpoint,
+                com.horcu.apps.peez.backend.endpoints.misc.BetStructureEndpoint</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>

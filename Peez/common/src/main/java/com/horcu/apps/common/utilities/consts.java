@@ -18,6 +18,13 @@ public class consts {
    public static final String DEVICE_REGISTERED = "device_registered";
    public static final String FROM = "from";
 
+   //entity constants
+   public static final String ENTITY_QUARTERBACK = "quarterback";
+   public static final String ENTITY_RUNNINGBACK = "runningback";
+   public static final String ELIGIBLE = "eligible";
+   public static final String TIMEPERIOD = "timePeriod";
+   //end entity constants
+
    //turn dev mode on and off
    public static  boolean DEV_MODE = false;
 

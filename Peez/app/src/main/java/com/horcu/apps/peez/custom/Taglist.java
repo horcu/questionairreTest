@@ -1,5 +1,15 @@
 package com.horcu.apps.peez.custom;
 
+import android.widget.ArrayAdapter;
+
+import com.google.api.client.json.Json;
+import com.google.gson.Gson;
+import com.horcu.apps.common.utilities.consts;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,41 +18,26 @@ import java.util.List;
  */
 public class Taglist {
 
-    public static List<String> getVerbs() {
-        List<String> verbs = new ArrayList<>();
-        verbs.add("will gain");
-        verbs.add("will have");
-        verbs.add("will");
-        verbs.add("more...");
-        return verbs;
-    }
-
     public static List<String> getActionVerbs() {
         List<String> verbs = new ArrayList<>();
-        verbs.add("win");
-        verbs.add("touchdown");
-        verbs.add("total yds");
-        verbs.add("rush yds");
-        verbs.add("rec yards");
-        verbs.add("return yds");
+        verbs.add("wins");
+        verbs.add("tds");
+        verbs.add("yds");
+        verbs.add("rush");
+        verbs.add("rec");
+        verbs.add("ret yds");
         verbs.add("net yds");
-        verbs.add("ints");
-        verbs.add("sacks");
-        verbs.add("fumbles");
-        verbs.add("turnovers");
-        verbs.add("penalties");
-        verbs.add("penalty yds");
-        verbs.add("catches");
-        verbs.add("pass attempts");
-        verbs.add("completions");
-        verbs.add("drops");
-        verbs.add("injuries");
-        verbs.add("tackles");
+        verbs.add("int");
+        verbs.add("cat");
+        verbs.add("cat a");
+        verbs.add("pen yds");
         return verbs;
     }
 
     public static List<String> getWhen() {
         List<String> verbs = new ArrayList<>();
+        verbs.add("week");
+        verbs.add("month");
         verbs.add("game");
         verbs.add("1st qtr");
         verbs.add("2nd qtr");
@@ -51,5 +46,41 @@ public class Taglist {
         verbs.add("first half");
         verbs.add("second half");
         return verbs;
+    }
+
+    public static List<String> getEligible() {
+        List<String> verbs = new ArrayList<>();
+        verbs.add("quarterback");
+        verbs.add("runningback");
+        verbs.add("widereceiver");
+        verbs.add("tightend");
+        verbs.add("defense");
+        verbs.add("offense");
+        verbs.add("team");
+        verbs.add("confenrence");
+        verbs.add("division");
+        return verbs;
+    }
+
+    public static List<String> getVerbs(String entityQuarterback, String structure) throws JSONException {
+
+        Gson gson = new Gson();
+        JSONObject Entities = new JSONObject(structure);
+        JSONObject stats = Entities.getJSONObject("Stats");
+
+        List<String> allowedVerbs = new ArrayList<>();
+
+        for (int x = 0; x < stats.length(); x++)
+        {
+            try {
+                String key = getActionVerbs().get(x);
+                JSONObject thisStat = (JSONObject) stats.get(key);
+                if(thisStat.get(consts.ELIGIBLE).toString().contains(entityQuarterback));
+                allowedVerbs.add(key);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return  allowedVerbs;
     }
 }
