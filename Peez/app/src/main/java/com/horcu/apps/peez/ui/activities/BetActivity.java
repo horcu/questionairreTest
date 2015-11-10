@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -52,7 +53,6 @@ import com.horcu.apps.peez.custom.notifier;
 import com.horcu.apps.peez.logic.GcmServerSideSender;
 import com.horcu.apps.peez.logic.Message;
 import com.horcu.apps.peez.service.LoggingService;
-
 import com.horcu.apps.peez.spinner.NiceSpinner;
 import com.squareup.picasso.Picasso;
 
@@ -67,8 +67,11 @@ import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-
-public class BetActivity extends AppCompatActivity implements NumberPickerDialogFragment.NumberPickerDialogHandler {
+public class BetActivity extends AppCompatActivity
+        implements NumberPickerDialogFragment.NumberPickerDialogHandler
+                  , AdapterView.OnItemSelectedListener
+                  , AdapterView.OnItemClickListener
+                  , View.OnClickListener {
 
     List<Bet> Bets = null;
 
@@ -91,12 +94,23 @@ public class BetActivity extends AppCompatActivity implements NumberPickerDialog
     private TextView selected_stat;
 
     private LinearLayout daddy;
+    private LinearLayout getFriends;
+    private LinearLayout addnewLayout;
+    private LinearLayout friendsListButtons;
     private RelativeLayout existingList;
+    private LinearLayout bet_hashtags;
 
     private Button numbers;
-    private Button done ;
+    private Button doneSelectingFriends;
+    private Button addNewBet ;
+    private Button betCardDoneButton ;
+    private Button discard ;
+    private Button sendBet ;
+    private Button player_team ;
 
     private LinearLayout players_list_done;
+
+    private ListView friendsList;
     private RubberLoaderView loader;
 
     HashtagView htagView_verb;
@@ -104,7 +118,7 @@ public class BetActivity extends AppCompatActivity implements NumberPickerDialog
     int betNumber;
     NiceSpinner bet_stats, stat_element, equality_result, when_result;
 
-    LinearLayout toptagmaker, bottomTagmaker;
+    LinearLayout toptagmaker, betCardsButtons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +128,10 @@ public class BetActivity extends AppCompatActivity implements NumberPickerDialog
             getSupportActionBar().setElevation(2);
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.white)));
         }
+
+      //  ContentTestBetBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_test_bet);
+      //  Bet bet = new Bet();
+      //  binding.setBet(bet);
 
         manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         settings = getSharedPreferences("Peez", 0);
@@ -138,278 +156,62 @@ public class BetActivity extends AppCompatActivity implements NumberPickerDialog
         List<String> listWhen= new LinkedList<>(Arrays.asList("game", "month", "year","1st quarter","2nd quarter","3rd quarter","4th quarter", "1st half, 2nd half"));
 
         toptagmaker = (LinearLayout)findViewById(R.id.top_tagmaker_section);
-        bottomTagmaker = (LinearLayout)findViewById(R.id.bottom_tagmaker_section);
+        betCardsButtons = (LinearLayout)findViewById(R.id.bottom_tagmaker_section);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_dropdown_item_1line, list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, list);
 
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this,
-                android.R.layout.simple_dropdown_item_1line, listAction);
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, listAction);
 
-        ArrayAdapter<String> adapter3 = new ArrayAdapter<>(this,
-                android.R.layout.simple_dropdown_item_1line, listEquality);
+        ArrayAdapter<String> adapter3 = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, listEquality);
 
-        ArrayAdapter<String> adapter4 = new ArrayAdapter<>(this,
-                android.R.layout.simple_dropdown_item_1line, listWhen);
+        ArrayAdapter<String> adapter4 = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, listWhen);
 
-        final Button player_team = (Button)findViewById(R.id.player_team);
+        player_team = (Button)findViewById(R.id.player_team);
 
-       // List<String> dataset = new LinkedList<>(Arrays.asList("One", "Two", "Three", "Four", "Five"));
-       // niceSpinner.attachDataSource(dataset);
+        bet_stats = (NiceSpinner)findViewById(R.id.bet_stats); bet_stats.setAdapter(adapter2);
 
-        bet_stats = (NiceSpinner)findViewById(R.id.bet_stats);
-        bet_stats.setAdapter(adapter2);
+        stat_element = (NiceSpinner)findViewById(R.id.stat_element); stat_element.setAdapter(adapter);
 
-        stat_element = (NiceSpinner)findViewById(R.id.stat_element);
-        stat_element.setAdapter(adapter);
+        equality_result = (NiceSpinner)findViewById(R.id.equality); equality_result.setAdapter(adapter3);
 
-        equality_result = (NiceSpinner)findViewById(R.id.equality);
-        equality_result.setAdapter(adapter3);
+        when_result = (NiceSpinner)findViewById(R.id.when); when_result.setAdapter(adapter4);
 
-        when_result = (NiceSpinner)findViewById(R.id.when);
-        when_result.setAdapter(adapter4);
+        players_list_done = (LinearLayout) findViewById(R.id.players_list_done); players_list_done.setOnClickListener(this);
 
-        players_list_done = (LinearLayout) findViewById(R.id.players_list_done);
+        addnewLayout = (LinearLayout)findViewById(R.id.add_new_layout);
+        addNewBet = (Button) addnewLayout.findViewById(R.id.add_new_bet); addNewBet.setOnClickListener(this);
 
-        players_list_done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                daddy.setVisibility(View.VISIBLE);
-                YoYo.with(Techniques.SlideInDown)
-                        .duration(700)
-                        .playOn(findViewById(R.id.daddy_dute));
-            }
-        });
+        bet_hashtags = (LinearLayout)findViewById(R.id.hashtag_bet_container);
 
-        final LinearLayout bet_hashtags = (LinearLayout)findViewById(R.id.hashtag_bet_container);
-        final LinearLayout stats_layout = (LinearLayout)findViewById(R.id.stat_layout);
+        htagView_verb = (HashtagView) bet_hashtags.findViewById(R.id.hashtagview);
 
-        htagView_verb = (HashtagView)bet_hashtags.findViewById(R.id.hashtagview);
-       // selected_stat = (TextView)findViewById(R.id.selected_stat);
+        numbers = (Button)findViewById(R.id.numbers); numbers.setOnClickListener(this);
 
-        numbers = (Button)findViewById(R.id.numbers);
-        numbers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NumberPickerBuilder numberPicker = new NumberPickerBuilder()
-                        .setFragmentManager(getSupportFragmentManager())
-                        .setReference(2)
-                        .setStyleResId(R.style.BetterPickersDialogFragment_Light);
-                numberPicker.show();
-            }
-        });
+        betCardDoneButton = (Button)findViewById(R.id.expand_less); betCardDoneButton.setOnClickListener(this);
 
-        final Button expandLess = (Button)findViewById(R.id.expand_less);
-        final Button discard = (Button)findViewById(R.id.discard);
-        discard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                YoYo.with(Techniques.SlideOutUp)
-                        .duration(700)
-                        .playOn(findViewById(R.id.daddy_dute));
-            }
-        });
+        discard = (Button)findViewById(R.id.discard); discard.setOnClickListener(this);
+
          loader = (RubberLoaderView)findViewById(R.id.loader2);
 
-        expandLess.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bet_hashtags.setVisibility(View.VISIBLE);
-                expandLess.setVisibility(View.GONE);
-                bet_stats.setVisibility(View.VISIBLE);
-                loader.setVisibility(View.VISIBLE);
-                loader.startLoading();
-                String tagString = getTagString(v);
-
-                if(!tagString.equals(""))
-                makeTag(tagString);
-
-                loader.setVisibility(View.GONE);
-
-            }
-        });
-
-//        bet_stats.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                bet_hashtags.setVisibility(View.VISIBLE);
-//                expandLess.setVisibility(View.VISIBLE);
-//                bet_stats.setText("He will have");
-//                numbers.setVisibility(View.VISIBLE);
-//
-//                new AsyncTask<Void, Void, Void>() {
-//                    @Override
-//                    protected Void doInBackground(Void... params) {
-////                        InputStream raw =  getResources().openRawResource(R.raw.bet_structure);
-////                        Reader rd = new BufferedReader(new InputStreamReader(raw));
-////                        Gson gson = new Gson();
-////                        structure = gson.fromJson(rd, JSONObject.class).toString();
-//                        try {
-//                            if(structure == null || structure.equals("")) {
-//                                List<BetStructure> structures = betStructureApi.list().execute().getItems();
-//                                for (BetStructure struct : structures) {
-//                                    structure = struct.getStructure();
-//                                    return null;
-//                                }
-//                            }
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                            return null;
-//                        }
-//                        return null;
-//                    }
-//
-//                    @Override
-//                    protected void onPostExecute(Void result) {
-//                        if (structure != null) {
-//                            try {
-//                                htagView_verb.setData(Taglist.getVerbs(consts.ENTITY_QUARTERBACK, structure));
-//                                htagView_verb.setBackgroundColor(R.color.colorPrimary);
-//                                bet_stats.setVisibility(View.GONE);
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                    }
-//                }.execute();
-       //     }
-   //     });
-
-        bet_amount = (LinearLayout)findViewById(R.id.bet_amount_layout);
+        bet_amount = (LinearLayout)findViewById(R.id.bet_amount_layout); bet_amount.setOnClickListener(this);
         bet_amount_txt = (TextView) bet_amount.findViewById(R.id.bet_amount);
 
-        bet_amount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NumberPickerBuilder numberPicker = new NumberPickerBuilder()
-                        .setFragmentManager(getSupportFragmentManager())
-                        .setReference(1)
-                        .setStyleResId(R.style.BetterPickersDialogFragment_Light);
-                numberPicker.show();
-            }
-        });
+        getFriends = (LinearLayout)findViewById(R.id.bet_who_layout); getFriends.setOnClickListener(this);
 
-        final LinearLayout getFriends = (LinearLayout)findViewById(R.id.bet_who_layout);
-
-        final ListView friendsList = (ListView)findViewById(android.R.id.list);
+        friendsList = (ListView)findViewById(android.R.id.list); friendsList.setOnItemClickListener(this);
          friends = (TextView)findViewById(R.id.friends_reg_list);
-         done = (Button)findViewById(R.id.done);
-        final LinearLayout actionLayout = (LinearLayout)findViewById(R.id.action_layout);
-//
-//
-//        HashtagView htagView_actionverb = (HashtagView)bet_hashtags.findViewById(R.id.hashtagview_action_verbs);
-//        htagView_actionverb.setVisibility(View.GONE);
-//        HashtagView htagView_when = (HashtagView)bet_hashtags.findViewById(R.id.hashtagview_when);
-//
-//
-//
-//        htagView_actionverb.setData(Taglist.getActionVerbs().subList(0, 4));
-//        htagView_actionverb.setBackgroundColor(R.color.wallet_holo_blue_light);
-//        htagView_actionverb.setVisibility(View.GONE);
-//
-//        htagView_when.setData(Taglist.getWhen().subList(0, 4));
-//        htagView_when.setBackgroundColor(android.R.color.holo_green_light);
-//        htagView_when.setVisibility(View.GONE);
+
+        doneSelectingFriends = (Button)findViewById(R.id.done); doneSelectingFriends.setOnClickListener(this);
+
+        friendsListButtons = (LinearLayout)findViewById(R.id.action_layout);
+
+        sendBet = (Button)findViewById(R.id.send_bet); sendBet.setOnClickListener(this);
 
         CircleImageView playerTeamImage = (CircleImageView)findViewById(R.id.chosen_player_team);
         String uri = "http://static.nfl.com/static/content/public/static/img/fantasy/transparent/200x200/" + "SMI733120" + ".png";
         Picasso.with(this).load(uri).into(playerTeamImage);
 
         StringBuilder friendsString = null;
-
-        done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                friendsList.setVisibility(View.GONE);
-                v.setVisibility(View.GONE);
-                actionLayout.setVisibility(View.VISIBLE);
-
-            }
-        });
-
-        friendsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                try {
-
-                    done.setVisibility(View.VISIBLE);
-                    ArrayAdapter adapter = (ArrayAdapter) friendsList.getAdapter();
-                    String item = adapter.getItem(position).toString();
-                    String existing ;
-                    if(friends.getText() !=null)
-                    existing = friends.getText().toString();
-                    else
-                    existing = "";
-
-                    String selected = existing.equals("")
-                            ?item
-                            : existing.contains(item) ? existing : existing + ("," +  item);
-
-                    if(selected !=null && selected !="")
-                     friends.setText(selected);
-                     else
-                        friends.setText("no one chosen");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        getFriends.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-              done.setVisibility(View.VISIBLE);
-                friendsList.setVisibility(View.VISIBLE);
-                friendsList.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
-                actionLayout.setVisibility(View.GONE);
-                players_list_done.setVisibility(View.VISIBLE);
-
-                daddy.setVisibility(View.GONE);
-                YoYo.with(Techniques.SlideOutUp)
-                        .duration(700)
-                        .playOn(findViewById(R.id.daddy_dute));
-
-                new AsyncTask<Void, Void, Void>() {
-                    @Override
-                    protected Void doInBackground(Void... params) {
-                        try {
-                            allFriends = userApi
-                                         .list()
-                                         .execute();
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            return null;
-                        }
-                        return null;
-                    }
-
-                    @Override
-                    protected void onPostExecute(Void result) {
-
-                        try {
-                            ArrayAdapter<String> adapter;
-                            List<String> friends = new ArrayList<>();
-                            me = settings.getString(consts.PREF_ACCOUNT_NAME,"");
-                            for (User user: allFriends.getItems())
-                            {
-                                if(!user.getEmail().equals(me)) {
-                                    String userEmail = user.getEmail();
-                                        friends.add(userEmail);
-                                }
-                            }
-                            adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.user_item, R.id.friend, friends);
-                            friendsList.setAdapter(adapter);
-                            adapter.notifyDataSetChanged();
-                            // friendsList.notify();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }.execute();
-            }
-        });
 
         mLoggerCallback = new BroadcastReceiver() {
             @Override
@@ -424,61 +226,6 @@ public class BetActivity extends AppCompatActivity implements NumberPickerDialog
                 }
             }
         };
-
-        findViewById(R.id.send_bet).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                final String playerTeam = player_team.getText().toString();
-                final String betStats = bet_stats.getText().toString();
-                final String betAmount = bet_amount_txt.getText().toString();
-                final String userGroups = friends.getText().toString();
-
-                new AsyncTask<Void, Void, List>() {
-                    @Override
-                    protected List doInBackground(Void... params) {
-                        List<String> registrationIds = null;
-                        try {
-                        String[] betText = betStats.split(",");
-                        final String[] emails = userGroups.split(",");
-                        registrationIds = new ArrayList<>();
-
-                            for (int i = 0; i< emails.length; i++)
-                            {
-                                String regid = userApi.get(emails[i]).execute().getRegistrationId();
-                               registrationIds.add(regid);
-                            }
-
-                        Bet bet = new Bet()
-                                .setBetId(UUID.randomUUID().toString())
-                                .setBet(Arrays.asList(betText))
-                                .setBetMadeAt(new DateTime(new Date(), TimeZone.getDefault()))
-                                //.setSentTo(registrationIds) //TODO add this property
-                                .setBetterRegId(settings.getString(consts.REG_ID, ""))
-                                .setTeam(new Team().setName("Baltimore Ravens"))
-                                .setPlayer(new NFLPlayer().setName(playerTeam))
-                                .setWager(Double.valueOf(betAmount));
-
-                        //first make the bet
-
-                            betApi.insert(bet).execute();
-                            return registrationIds;
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        return new ArrayList();
-                    }
-
-                    @Override
-                    protected void onPostExecute(List ids) {
-                        if(!ids.isEmpty())
-                        {
-                            sendBetNotification(ids);
-                        }
-                    }
-                }.execute();
-            }
-        });
     }
 
     private void makeTag(String tagString) {
@@ -489,7 +236,7 @@ public class BetActivity extends AppCompatActivity implements NumberPickerDialog
         data.add(tagString);
         htagView_verb.setData(data);
         toptagmaker.setVisibility(View.GONE);
-        bottomTagmaker.setVisibility(View.GONE);
+        betCardsButtons.setVisibility(View.GONE);
     }
 
     private String getTagString(View v) {
@@ -517,6 +264,15 @@ public class BetActivity extends AppCompatActivity implements NumberPickerDialog
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_bet, menu);
+        MenuItem item = menu.findItem(R.id.spinner_filter);
+        NiceSpinner spinner = (NiceSpinner) MenuItemCompat.getActionView(item);
+
+        List<String> list = new LinkedList<>(Arrays.asList("Requested", "Accepted", "Public"));
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_dropdown_item_1line, list);
+
+        spinner.setAdapter(adapter); // set the adapter to provide layout of rows and content
+        spinner.setOnItemSelectedListener(this); // set the listener, to perform actions based on item selection
         return true;
     }
 
@@ -528,10 +284,7 @@ public class BetActivity extends AppCompatActivity implements NumberPickerDialog
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_bet_new) {
-            showNewStage();
-            return true;
-        }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -542,13 +295,7 @@ public class BetActivity extends AppCompatActivity implements NumberPickerDialog
                 .duration(700)
                 .playOn(findViewById(R.id.daddy_dute));
         existingList.setVisibility(View.GONE);
-//        YoYo.with(Techniques.FadeOutDown)
-//                .duration(700)
-//                .playOn(findViewById(R.id.existingList));
-       // int daddyBottom = daddy.getBottom();
-      //  existingList.setTop((daddyBottom + 10));
     }
-
 
     @Override
     protected void onPause() {
@@ -563,9 +310,7 @@ public class BetActivity extends AppCompatActivity implements NumberPickerDialog
         mLogger.registerCallback(mLoggerCallback);
     }
 
-
     private void sendBetNotification(final List regIds) {
-
 
         new AsyncTask<Void, Void, String>() {
             @Override
@@ -669,5 +414,254 @@ public class BetActivity extends AppCompatActivity implements NumberPickerDialog
             numbers.setText(String.valueOf(number));
             betNumber = number;
         }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if(id == R.id.spinner_filter)
+        {
+            Snackbar.make(view, "Filter position: " + position, Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId())
+        {
+            case R.id.players_list_done :
+            {
+                daddy.setVisibility(View.VISIBLE);YoYo.with(Techniques.SlideInDown)
+                    .duration(700)
+                    .playOn(findViewById(R.id.daddy_dute));
+                existingList.setVisibility(View.GONE);YoYo.with(Techniques.SlideOutDown)
+                    .duration(500)
+                    .playOn(findViewById(R.id.existingList));
+                break;
+            }
+            case R.id.add_new_bet:
+            {
+                if(daddy.getVisibility() == View.GONE)
+                {
+                    showNewStage();
+                    addnewLayout.setVisibility(View.GONE);
+                    betCardsButtons.setVisibility(View.VISIBLE);
+
+                }
+                break;
+            }
+            case R.id.numbers:
+            {
+                NumberPickerBuilder numberPicker = new NumberPickerBuilder()
+                        .setFragmentManager(getSupportFragmentManager())
+                        .setReference(2)
+                        .setStyleResId(R.style.BetterPickersDialogFragment_Light);
+                numberPicker.show();
+                break;
+            }
+            case R.id.discard:
+            {
+                YoYo.with(Techniques.SlideOutUp)
+                        .duration(700)
+                        .playOn(findViewById(R.id.daddy_dute));
+
+                betCardsButtons.setVisibility(View.GONE);
+
+                YoYo.with(Techniques.SlideOutDown)
+                        .duration(700)
+                        .playOn(findViewById(R.id.bottom_tagmaker_section));
+
+                friendsListButtons.setVisibility(View.VISIBLE);
+                break ;
+            }
+            case R.id.expand_less:
+            {
+                bet_hashtags.setVisibility(View.VISIBLE);
+                betCardDoneButton.setVisibility(View.GONE);
+                bet_stats.setVisibility(View.VISIBLE);
+                loader.setVisibility(View.VISIBLE);
+                loader.startLoading();
+                String tagString = getTagString(v);
+
+                if (!tagString.equals(""))
+                    makeTag(tagString);
+
+                loader.setVisibility(View.GONE);
+                betCardsButtons.setVisibility(View.GONE);
+
+                daddy.setVisibility(View.GONE);
+                YoYo.with(Techniques.SlideOutUp)
+                        .duration(400)
+                        .playOn(findViewById(R.id.daddy_dute));
+
+                existingList.setVisibility(View.VISIBLE);
+                break;
+            }
+            case R.id.bet_amount:
+            {
+                NumberPickerBuilder numberPicker = new NumberPickerBuilder()
+                        .setFragmentManager(getSupportFragmentManager())
+                        .setReference(1)
+                        .setStyleResId(R.style.BetterPickersDialogFragment_Light);
+                numberPicker.show();
+                break;
+            }
+            case R.id.done:
+            {
+                friendsList.setVisibility(View.GONE);
+                v.setVisibility(View.GONE);
+                friendsListButtons.setVisibility(View.VISIBLE);
+                betCardsButtons.setVisibility(View.VISIBLE);
+                break;
+
+            }
+            case R.id.bet_who_layout:
+            {
+                doneSelectingFriends.setVisibility(View.VISIBLE);
+                friendsList.setVisibility(View.VISIBLE);
+                friendsList.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
+                friendsListButtons.setVisibility(View.GONE);
+                players_list_done.setVisibility(View.VISIBLE);
+
+                daddy.setVisibility(View.GONE);
+                YoYo.with(Techniques.SlideOutUp)
+                        .duration(700)
+                        .playOn(findViewById(R.id.daddy_dute));
+
+                existingList.setVisibility(View.VISIBLE);
+                YoYo.with(Techniques.SlideInUp)
+                        .duration(500)
+                        .playOn(findViewById(R.id.existingList));
+
+                new AsyncTask<Void, Void, Void>() {
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        try {
+                            allFriends = userApi
+                                    .list()
+                                    .execute();
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            return null;
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Void result) {
+
+                        try {
+                            ArrayAdapter<String> adapter;
+                            List<String> friends = new ArrayList<>();
+                            me = settings.getString(consts.PREF_ACCOUNT_NAME,"");
+                            for (User user: allFriends.getItems())
+                            {
+                                if(!user.getEmail().equals(me)) {
+                                    String userEmail = user.getEmail();
+                                    friends.add(userEmail);
+                                }
+                            }
+                            adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.user_item, R.id.friend, friends);
+                            friendsList.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+                            // friendsList.notify();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }.execute();
+                break;
+            }
+            case R.id.send_bet:
+            {
+                final String playerTeam = player_team.getText().toString();
+                final String betStats = bet_stats.getText().toString();
+                final String betAmount = bet_amount_txt.getText().toString();
+                final String userGroups = friends.getText().toString();
+
+                new AsyncTask<Void, Void, List>() {
+                    @Override
+                    protected List doInBackground(Void... params) {
+                        List<String> registrationIds = null;
+                        try {
+                            String[] betText = betStats.split(",");
+                            final String[] emails = userGroups.split(",");
+                            registrationIds = new ArrayList<>();
+
+                            for (int i = 0; i< emails.length; i++)
+                            {
+                                String regid = userApi.get(emails[i]).execute().getRegistrationId();
+                                registrationIds.add(regid);
+                            }
+
+                            Bet bet = new Bet()
+                                    .setBetId(UUID.randomUUID().toString())
+                                    .setBet(Arrays.asList(betText))
+                                    .setBetMadeAt(new DateTime(new Date(), TimeZone.getDefault()))
+                                            //.setSentTo(registrationIds) //TODO add this property
+                                    .setBetterRegId(settings.getString(consts.REG_ID, ""))
+                                    .setTeam(new Team().setName("Baltimore Ravens"))
+                                    .setPlayer(new NFLPlayer().setName(playerTeam))
+                                    .setWager(Double.valueOf(betAmount));
+
+                            //first make the bet
+
+                            betApi.insert(bet).execute();
+                            return registrationIds;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        return new ArrayList();
+                    }
+
+                    @Override
+                    protected void onPostExecute(List ids) {
+                        if(!ids.isEmpty())
+                        {
+                            sendBetNotification(ids);
+                        }
+                    }
+                }.execute();
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+     switch (view.getId())
+     {
+         case android.R.id.list:
+         {
+             try {
+
+                 doneSelectingFriends.setVisibility(View.VISIBLE);
+                 ArrayAdapter adapter = (ArrayAdapter) friendsList.getAdapter();
+                 String item = adapter.getItem(position).toString();
+                 String existing ;
+                 if(friends.getText() !=null)
+                     existing = friends.getText().toString();
+                 else
+                     existing = "";
+
+                 String selected = existing.equals("")
+                         ?item
+                         : existing.contains(item) ? existing : existing + ("," +  item);
+
+                 if(selected !=null && selected !="")
+                     friends.setText(selected);
+                 else
+                     friends.setText("no one chosen");
+             } catch (Exception e) {
+                 e.printStackTrace();
+             }
+             break;
+         }
+     }
     }
 }
