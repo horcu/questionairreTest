@@ -13,48 +13,18 @@
         android:id="@+id/daddy_dute"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         android:padding="5dp"
         android:background="@color/white"
         android:orientation="vertical">
 
         <com.greenfrvr.rubberloader.RubberLoaderView
             android:id="@+id/loader2"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="center|center_vertical"
-            android:visibility="invisible"
             app:loaderExtraColor="@color/colorPrimary"
             app:loaderPrimeColor="@color/colorPrimaryDark" />
-
-        <!--amount to bet-->
-        <LinearLayout
-            android:id="@+id/bet_amount_layout"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal">
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="100"/>
-
-            <TextView
-                android:id="@+id/bet_amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="How much?"
-                android:textColor="@color/colorPrimary"
-                android:textSize="16sp"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
-                android:textStyle="bold"
-                android:layout_marginRight="6dp"
-                android:background="?android:attr/selectableItemBackground" />
-
-        </LinearLayout>
-
-
 
     <!--player or team or conference or division as bet bait-->
     <LinearLayout
@@ -97,6 +67,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
                 android:background="@color/bpTransparent"
                 android:hint="vs Detroit Lions" />
 
@@ -197,7 +169,6 @@
 
     </LinearLayout>
 
-
         <LinearLayout
             android:id="@+id/people_money"
             android:layout_width="match_parent"
@@ -209,9 +180,8 @@
             <!--who to bet layout-->
             <LinearLayout
                 android:id="@+id/bet_who_layout"
-                android:layout_below="@+id/bet_amount_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
                 android:layout_weight="4"
                 android:orientation="horizontal">
 
@@ -239,20 +209,70 @@
 
             </LinearLayout>
 
+            <!--amount to bet-->
+            <LinearLayout
+                android:id="@+id/bet_amount_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
 
+
+
+                <TextView
+                    android:id="@+id/bet_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="How much?"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="16sp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:textStyle="bold"
+                    android:layout_marginRight="6dp"
+                    android:background="?android:attr/selectableItemBackground" />
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:src="@drawable/ic_money"
+                    android:layout_marginRight="6dp"/>
+
+            </LinearLayout>
 
 
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/light_grey"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"/>
+
         <LinearLayout
             android:id="@+id/bottom_tagmaker_section"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/discard"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:textSize="14sp"
+                android:visibility="visible"
+                android:background="@color/white"
+                android:textColor="@color/colorAccent"
+                android:text="discard"/>
 
             <Button
                 android:id="@+id/expand_less"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_weight="1"
                 android:textSize="14sp"
                 android:visibility="visible"
@@ -262,11 +282,13 @@
 
 
         </LinearLayout>
-    <!--list of selected friends-->
+
+
+        <!--list of selected friends-->
     <LinearLayout
         android:layout_below="@+id/bet_who_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="20dp">
@@ -300,12 +322,7 @@
 
         </ListView>
 
-
-
-
     </LinearLayout>
-
-
 
     </LinearLayout>
 
@@ -314,7 +331,7 @@
         android:id="@+id/existingList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/current_bets"
@@ -362,17 +379,17 @@
             android:background="@color/white"
             android:text="schedule"/>
 
-
-
         <Button
-            android:id="@+id/done"
+            android:id="@+id/send_bet"
             android:layout_width="wrap_content"
+            android:textColor="@color/colorAccent"
             android:layout_height="wrap_content"
-            android:text="done choosing"
+            android:background="@color/white"
             android:layout_weight="1"
-            android:layout_gravity="right|bottom"
-            android:visibility="invisible"
-            />
+            android:text="send"/>
+
+
+
     </LinearLayout>
 
     <!--player list done button-->
@@ -382,17 +399,22 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="bottom"
-        android:visibility="gone"
+        android:visibility="visible"
+        android:layout_alignParentBottom="true"
         android:layout_marginBottom="0dp">
 
         <Button
-            android:id="@+id/send_bet"
+            android:id="@+id/done"
             android:layout_width="wrap_content"
-            android:textColor="@color/colorAccent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:text="done choosing"
             android:layout_weight="1"
-            android:text="send"/>
+            android:textColor="@color/colorPrimary"
+            android:background="@color/white"
+            android:layout_gravity="right|bottom"
+            android:visibility="invisible"
+            />
+
     </LinearLayout>
 
 </RelativeLayout>

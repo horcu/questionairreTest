@@ -26,6 +26,8 @@ import android.widget.Toast;
 
 import com.codetroopers.betterpickers.numberpicker.NumberPickerBuilder;
 import com.codetroopers.betterpickers.numberpicker.NumberPickerDialogFragment;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
@@ -50,6 +52,7 @@ import com.horcu.apps.peez.custom.notifier;
 import com.horcu.apps.peez.logic.GcmServerSideSender;
 import com.horcu.apps.peez.logic.Message;
 import com.horcu.apps.peez.service.LoggingService;
+
 import com.horcu.apps.peez.spinner.NiceSpinner;
 import com.squareup.picasso.Picasso;
 
@@ -94,6 +97,7 @@ public class BetActivity extends AppCompatActivity implements NumberPickerDialog
     private Button done ;
 
     private LinearLayout players_list_done;
+    private RubberLoaderView loader;
 
     HashtagView htagView_verb;
 
@@ -167,6 +171,16 @@ public class BetActivity extends AppCompatActivity implements NumberPickerDialog
 
         players_list_done = (LinearLayout) findViewById(R.id.players_list_done);
 
+        players_list_done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                daddy.setVisibility(View.VISIBLE);
+                YoYo.with(Techniques.SlideInDown)
+                        .duration(700)
+                        .playOn(findViewById(R.id.daddy_dute));
+            }
+        });
+
         final LinearLayout bet_hashtags = (LinearLayout)findViewById(R.id.hashtag_bet_container);
         final LinearLayout stats_layout = (LinearLayout)findViewById(R.id.stat_layout);
 
@@ -186,7 +200,16 @@ public class BetActivity extends AppCompatActivity implements NumberPickerDialog
         });
 
         final Button expandLess = (Button)findViewById(R.id.expand_less);
-        final RubberLoaderView loader = (RubberLoaderView)stats_layout.findViewById(R.id.loader2);
+        final Button discard = (Button)findViewById(R.id.discard);
+        discard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                YoYo.with(Techniques.SlideOutUp)
+                        .duration(700)
+                        .playOn(findViewById(R.id.daddy_dute));
+            }
+        });
+         loader = (RubberLoaderView)findViewById(R.id.loader2);
 
         expandLess.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -301,6 +324,7 @@ public class BetActivity extends AppCompatActivity implements NumberPickerDialog
                 friendsList.setVisibility(View.GONE);
                 v.setVisibility(View.GONE);
                 actionLayout.setVisibility(View.VISIBLE);
+
             }
         });
 
@@ -340,6 +364,11 @@ public class BetActivity extends AppCompatActivity implements NumberPickerDialog
                 friendsList.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
                 actionLayout.setVisibility(View.GONE);
                 players_list_done.setVisibility(View.VISIBLE);
+
+                daddy.setVisibility(View.GONE);
+                YoYo.with(Techniques.SlideOutUp)
+                        .duration(700)
+                        .playOn(findViewById(R.id.daddy_dute));
 
                 new AsyncTask<Void, Void, Void>() {
                     @Override
@@ -509,7 +538,13 @@ public class BetActivity extends AppCompatActivity implements NumberPickerDialog
 
     private void showNewStage() {
         daddy.setVisibility(View.VISIBLE);
+        YoYo.with(Techniques.SlideInDown)
+                .duration(700)
+                .playOn(findViewById(R.id.daddy_dute));
         existingList.setVisibility(View.GONE);
+//        YoYo.with(Techniques.FadeOutDown)
+//                .duration(700)
+//                .playOn(findViewById(R.id.existingList));
        // int daddyBottom = daddy.getBottom();
       //  existingList.setTop((daddyBottom + 10));
     }
