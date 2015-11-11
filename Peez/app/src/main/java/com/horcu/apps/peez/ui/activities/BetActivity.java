@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -15,7 +16,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -48,6 +48,7 @@ import com.horcu.apps.peez.backend.models.userApi.model.CollectionResponseUser;
 import com.horcu.apps.peez.backend.models.userApi.model.User;
 import com.horcu.apps.peez.backend.models.userSettingsApi.UserSettingsApi;
 import com.horcu.apps.peez.custom.Api;
+import com.horcu.apps.peez.custom.ViewController;
 import com.horcu.apps.peez.custom.Money;
 import com.horcu.apps.peez.custom.notifier;
 import com.horcu.apps.peez.logic.GcmServerSideSender;
@@ -57,6 +58,7 @@ import com.horcu.apps.peez.spinner.NiceSpinner;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.nio.channels.UnresolvedAddressException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -71,9 +73,11 @@ public class BetActivity extends AppCompatActivity
         implements NumberPickerDialogFragment.NumberPickerDialogHandler
                   , AdapterView.OnItemSelectedListener
                   , AdapterView.OnItemClickListener
-                  , View.OnClickListener {
+                  , View.OnClickListener, HashtagView.TagsClickListener {
 
     List<Bet> Bets = null;
+
+    private ViewController viewController = null;
 
     private BetApi betApi;
     private LoggingService.Logger mLogger;
@@ -99,6 +103,7 @@ public class BetActivity extends AppCompatActivity
     private LinearLayout friendsListButtons;
     private RelativeLayout existingList;
     private LinearLayout bet_hashtags;
+    private LinearLayout friendslayout;
 
     private Button numbers;
     private Button doneSelectingFriends;
@@ -109,16 +114,18 @@ public class BetActivity extends AppCompatActivity
     private Button player_team ;
 
     private LinearLayout players_list_done;
+    private LinearLayout doneDiscard;
 
     private ListView friendsList;
     private RubberLoaderView loader;
 
-    HashtagView htagView_verb;
+    HashtagView betHashTag;
 
     int betNumber;
     NiceSpinner bet_stats, stat_element, equality_result, when_result;
 
     LinearLayout toptagmaker, betCardsButtons;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +135,8 @@ public class BetActivity extends AppCompatActivity
             getSupportActionBar().setElevation(2);
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.white)));
         }
+
+        viewController = new ViewController();
 
       //  ContentTestBetBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_test_bet);
       //  Bet bet = new Bet();
@@ -156,7 +165,7 @@ public class BetActivity extends AppCompatActivity
         List<String> listWhen= new LinkedList<>(Arrays.asList("game", "month", "year","1st quarter","2nd quarter","3rd quarter","4th quarter", "1st half, 2nd half"));
 
         toptagmaker = (LinearLayout)findViewById(R.id.top_tagmaker_section);
-        betCardsButtons = (LinearLayout)findViewById(R.id.bottom_tagmaker_section);
+        betCardsButtons = (LinearLayout)findViewById(R.id.done_discard);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, list);
 
@@ -178,16 +187,18 @@ public class BetActivity extends AppCompatActivity
 
         players_list_done = (LinearLayout) findViewById(R.id.players_list_done); players_list_done.setOnClickListener(this);
 
+        doneDiscard = (LinearLayout) findViewById(R.id.done_discard);
+
         addnewLayout = (LinearLayout)findViewById(R.id.add_new_layout);
         addNewBet = (Button) addnewLayout.findViewById(R.id.add_new_bet); addNewBet.setOnClickListener(this);
 
         bet_hashtags = (LinearLayout)findViewById(R.id.hashtag_bet_container);
 
-        htagView_verb = (HashtagView) bet_hashtags.findViewById(R.id.hashtagview);
+        betHashTag = (HashtagView) bet_hashtags.findViewById(R.id.hashtagview);
 
         numbers = (Button)findViewById(R.id.numbers); numbers.setOnClickListener(this);
 
-        betCardDoneButton = (Button)findViewById(R.id.expand_less); betCardDoneButton.setOnClickListener(this);
+        betCardDoneButton = (Button)findViewById(R.id.createTag); betCardDoneButton.setOnClickListener(this);
 
         discard = (Button)findViewById(R.id.discard); discard.setOnClickListener(this);
 
@@ -199,16 +210,20 @@ public class BetActivity extends AppCompatActivity
         getFriends = (LinearLayout)findViewById(R.id.bet_who_layout); getFriends.setOnClickListener(this);
 
         friendsList = (ListView)findViewById(android.R.id.list); friendsList.setOnItemClickListener(this);
+
+        friendslayout = (LinearLayout)findViewById(R.id.friends_reg_layout);
+
          friends = (TextView)findViewById(R.id.friends_reg_list);
 
-        doneSelectingFriends = (Button)findViewById(R.id.done); doneSelectingFriends.setOnClickListener(this);
+          doneSelectingFriends = (Button)findViewById(R.id.done); doneSelectingFriends.setOnClickListener(this);
+          doneDiscard = (LinearLayout)findViewById(R.id.done_discard); doneDiscard.setOnClickListener(this);
 
         friendsListButtons = (LinearLayout)findViewById(R.id.action_layout);
 
         sendBet = (Button)findViewById(R.id.send_bet); sendBet.setOnClickListener(this);
 
         CircleImageView playerTeamImage = (CircleImageView)findViewById(R.id.chosen_player_team);
-        String uri = "http://static.nfl.com/static/content/public/static/img/fantasy/transparent/200x200/" + "SMI733120" + ".png";
+        String uri = "http://static.nfl.com/static/content/public/static/img/fantasy/transparent/200x200/" + "CHA561428" + ".png";
         Picasso.with(this).load(uri).into(playerTeamImage);
 
         StringBuilder friendsString = null;
@@ -234,7 +249,25 @@ public class BetActivity extends AppCompatActivity
             return;
 
         data.add(tagString);
-        htagView_verb.setData(data);
+
+        betHashTag.addOnTagClickListener(this);
+        betHashTag.setRowMode(HashtagView.MODE_STRETCH);
+
+
+        new AsyncTask<Void, Void, Drawable>() {
+            @Override
+            protected Drawable doInBackground(Void... params) {
+                Drawable  d = Drawable.createFromPath("http://static.nfl.com/static/content/public/static/img/fantasy/transparent/200x200/" + "CHA561428" + ".png");
+            return d;
+            }
+
+            @Override
+            protected void onPostExecute(Drawable result) {
+               // betHashTag.setLeftDrawable(R.id.);
+            }
+        }.execute();
+
+        betHashTag.setData(data);
         toptagmaker.setVisibility(View.GONE);
         betCardsButtons.setVisibility(View.GONE);
     }
@@ -257,7 +290,7 @@ public class BetActivity extends AppCompatActivity
             }
 
 
-        return String.format("%s %s %d %s %s", stat, equality, betNumber, element, when);
+        return String.format("%s %s %s %d %s %s",player_team , stat, equality, betNumber, element, when);
     }
 
     @Override
@@ -290,11 +323,9 @@ public class BetActivity extends AppCompatActivity
     }
 
     private void showNewStage() {
-        daddy.setVisibility(View.VISIBLE);
-        YoYo.with(Techniques.SlideInDown)
-                .duration(700)
-                .playOn(findViewById(R.id.daddy_dute));
-        existingList.setVisibility(View.GONE);
+        viewController
+                .showThis(daddy, Techniques.FadeIn)
+                .hideThis(friendslayout, Techniques.FadeOut);
     }
 
     @Override
@@ -365,7 +396,7 @@ public class BetActivity extends AppCompatActivity
     }
 
     public void BuildMessageService(){
-        String userName = settings.getString(consts.PREF_ACCOUNT_NAME,"anonymouse user");
+        String userName = settings.getString(consts.PREF_ACCOUNT_NAME,"anonymous user");
 
         if (messageApi == null) {
          messageApi = new Message.Builder()
@@ -433,25 +464,15 @@ public class BetActivity extends AppCompatActivity
     public void onClick(View v) {
         switch (v.getId())
         {
-            case R.id.players_list_done :
-            {
-                daddy.setVisibility(View.VISIBLE);YoYo.with(Techniques.SlideInDown)
-                    .duration(700)
-                    .playOn(findViewById(R.id.daddy_dute));
-                existingList.setVisibility(View.GONE);YoYo.with(Techniques.SlideOutDown)
-                    .duration(500)
-                    .playOn(findViewById(R.id.existingList));
-                break;
-            }
             case R.id.add_new_bet:
             {
-                if(daddy.getVisibility() == View.GONE)
-                {
-                    showNewStage();
-                    addnewLayout.setVisibility(View.GONE);
-                    betCardsButtons.setVisibility(View.VISIBLE);
+                openbetCard();
+                break;
+            }
 
-                }
+            case R.id.players_list_done:
+            {
+                openbetCard();
                 break;
             }
             case R.id.numbers:
@@ -465,24 +486,21 @@ public class BetActivity extends AppCompatActivity
             }
             case R.id.discard:
             {
-                YoYo.with(Techniques.SlideOutUp)
-                        .duration(700)
-                        .playOn(findViewById(R.id.daddy_dute));
 
-                betCardsButtons.setVisibility(View.GONE);
-
-                YoYo.with(Techniques.SlideOutDown)
-                        .duration(700)
-                        .playOn(findViewById(R.id.bottom_tagmaker_section));
-
-                friendsListButtons.setVisibility(View.VISIBLE);
+                viewController
+                        .hideThis(daddy, Techniques.FadeOutDown)
+                        .hideThis(betCardsButtons, Techniques.FadeOutUp)
+                        .showThis(friendsListButtons, Techniques.FadeInUp);
                 break ;
             }
-            case R.id.expand_less:
+            case R.id.createTag:
             {
-                bet_hashtags.setVisibility(View.VISIBLE);
-                betCardDoneButton.setVisibility(View.GONE);
-                bet_stats.setVisibility(View.VISIBLE);
+
+                viewController
+                        .showThis(bet_hashtags, Techniques.SlideInLeft)
+                        .showThis(betCardDoneButton, Techniques.SlideOutRight)
+                        .showThis(bet_stats, Techniques.SlideInLeft)
+                            .showThis(loader, Techniques.FadeIn);
                 loader.setVisibility(View.VISIBLE);
                 loader.startLoading();
                 String tagString = getTagString(v);
@@ -490,13 +508,11 @@ public class BetActivity extends AppCompatActivity
                 if (!tagString.equals(""))
                     makeTag(tagString);
 
-                loader.setVisibility(View.GONE);
-                betCardsButtons.setVisibility(View.GONE);
-
-                daddy.setVisibility(View.GONE);
-                YoYo.with(Techniques.SlideOutUp)
-                        .duration(400)
-                        .playOn(findViewById(R.id.daddy_dute));
+                viewController
+                        .hideThis(loader, Techniques.FadeOut)
+                        .hideThis(betCardDoneButton, Techniques.SlideOutDown)
+                        .hideThis(daddy, Techniques.SlideOutUp)
+                        .showThis(existingList, Techniques.FadeIn);
 
                 existingList.setVisibility(View.VISIBLE);
                 break;
@@ -512,30 +528,22 @@ public class BetActivity extends AppCompatActivity
             }
             case R.id.done:
             {
-                friendsList.setVisibility(View.GONE);
-                v.setVisibility(View.GONE);
-                friendsListButtons.setVisibility(View.VISIBLE);
-                betCardsButtons.setVisibility(View.VISIBLE);
+                viewController
+                        .showThis(addnewLayout, Techniques.SlideInDown)
+                        .showThis(friendsListButtons, Techniques.SlideInUp)
+                        .showThis(daddy, Techniques.SlideInUp)
+                        .hideThis(friendsList, Techniques.SlideOutRight);
                 break;
 
             }
             case R.id.bet_who_layout:
             {
-                doneSelectingFriends.setVisibility(View.VISIBLE);
-                friendsList.setVisibility(View.VISIBLE);
-                friendsList.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
-                friendsListButtons.setVisibility(View.GONE);
-                players_list_done.setVisibility(View.VISIBLE);
-
-                daddy.setVisibility(View.GONE);
-                YoYo.with(Techniques.SlideOutUp)
-                        .duration(700)
-                        .playOn(findViewById(R.id.daddy_dute));
-
-                existingList.setVisibility(View.VISIBLE);
-                YoYo.with(Techniques.SlideInUp)
-                        .duration(500)
-                        .playOn(findViewById(R.id.existingList));
+                viewController
+                        .showThis(doneSelectingFriends, Techniques.SlideInUp)
+                        .showThis(friendslayout, Techniques.SlideInDown)
+                        .hideThis(daddy, Techniques.SlideInDown)
+                        .hideThis(doneDiscard, Techniques.SlideOutDown)
+                        .hideThis(friendsListButtons, Techniques.SlideOutDown);
 
                 new AsyncTask<Void, Void, Void>() {
                     @Override
@@ -632,6 +640,19 @@ public class BetActivity extends AppCompatActivity
         }
     }
 
+    private void openbetCard() {
+            showNewStage();
+
+            viewController
+                    .hideThis(addnewLayout, Techniques.FadeOutLeft)
+                    .hideThis(friendslayout, Techniques.FadeOut)
+                    .hideThis(existingList,Techniques.FadeOut)
+                    .showThis(doneDiscard, Techniques.FadeInRight);
+
+
+        return;
+    }
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
      switch (view.getId())
@@ -663,5 +684,11 @@ public class BetActivity extends AppCompatActivity
              break;
          }
      }
+    }
+
+    //this is for the hashtags
+    @Override
+    public void onItemClicked(Object item) {
+        Snackbar.make(addnewLayout,"Tag clicked and should go to edit if you parked it or if you are creating a new only", Snackbar.LENGTH_LONG).show();
     }
 }
