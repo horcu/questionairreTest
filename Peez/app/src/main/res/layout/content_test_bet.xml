@@ -13,7 +13,36 @@
     tools:context=".ui.activities.BetActivity"
     android:layout_height="match_parent">
 
-    <!--Add new bets hrre-->
+
+    <!--existing bets-->
+    <RelativeLayout
+        android:id="@+id/existingList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:visibility="visible">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/current_bets"
+            android:layout_width="match_parent"
+            android:background="@color/main"
+            android:layout_height="wrap_content">
+
+
+        </android.support.v7.widget.RecyclerView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="22sp"
+            android:textStyle="italic"
+            android:textColor="@color/colorPrimary"
+            android:text="nada :]"/>
+
+    </RelativeLayout>
+
+    <!--Add new bets here-->
     <LinearLayout
         android:id="@+id/daddy_dute"
         android:layout_width="match_parent"
@@ -32,155 +61,158 @@
             app:loaderExtraColor="@color/colorPrimary"
             app:loaderPrimeColor="@color/colorPrimaryDark" />
 
-    <!--player or team or conference or division as bet bait-->
-    <LinearLayout
-        android:id="@+id/user_name_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical">
-
+        <!--player or team or conference or division as bet bait-->
         <LinearLayout
-            android:id="@+id/user_name_layout_inner"
-            android:layout_width="match_parent"
-            android:layout_height="75dp">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/chosen_player_team"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
-                android:src="@drawable/ic_player"/>
-
-            <Button
-                android:id="@+id/player_team"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Steve Smith"
-                android:textColor="@color/colorPrimary"
-                android:textSize="16sp"
-                android:layout_weight="2"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
-                android:textStyle="bold"
-                android:background="@color/bpTransparent" />
-
-
-            <com.horcu.apps.peez.spinner.NiceSpinner
-                android:id="@+id/when"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
-                android:background="@color/bpTransparent"
-                android:hint="vs Detroit Lions" />
-
-
-        </LinearLayout>
-
-        <ListView
-            android:id="@+id/other_players_list"
-            android:layout_width="match_parent"
-            android:visibility="gone"
-            android:layout_height="wrap_content">
-
-        </ListView>
-
-    </LinearLayout>
-
-    <!--stats to bet with/against-->
-    <LinearLayout
-        android:id="@+id/stat_layout"
-        android:layout_below="@+id/user_name_layout"
-        android:layout_width="match_parent"
-        android:background="@color/white"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:id="@+id/top_tagmaker_section"
+            android:id="@+id/user_name_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-
-            <com.horcu.apps.peez.spinner.NiceSpinner
-                android:id="@+id/bet_stats"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:hint="will record"
-                android:layout_weight="3"
-                android:background="@color/bpTransparent" />
-
-            <com.horcu.apps.peez.spinner.NiceSpinner
-                android:id="@+id/equality"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:hint="more than"
-                android:layout_weight="1"
-                android:background="@color/bpTransparent" />
-
-            <Button
-                android:id="@+id/numbers"
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:background="@color/bpTransparent"
-                android:textSize="16sp"
-                android:visibility="visible"
-                android:layout_weight="1"
-                android:textColor="@color/colorAccent"
-                android:text="250"/>
-
-            <com.horcu.apps.peez.spinner.NiceSpinner
-                android:id="@+id/stat_element"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_weight="3"
-                android:background="@color/bpTransparent"
-                android:hint="tds" />
-
-
-        </LinearLayout>
-
-
-
-        <LinearLayout
-            android:id="@+id/hashtag_bet_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:background="@color/white"
             android:orientation="vertical">
 
-            <!--verbs -->
-            <com.greenfrvr.hashtagview.HashtagView
-                android:id="@+id/hashtagview"
-                android:layout_gravity="left"
-                android:gravity="left"
+            <LinearLayout
+                android:id="@+id/user_name_layout_inner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/HashtagView"
-                app:tagBackground="@drawable/item_bg"
-                app:tagForeground="@drawable/flat_button_light"
-                app:tagPaddingBottom="@dimen/padding_vertical"
-                app:tagPaddingLeft="@dimen/padding_horizontal"
-                app:tagPaddingRight="@dimen/padding_horizontal"
-                app:tagPaddingTop="@dimen/padding_vertical"
-                app:tagTextColor="#E5E5E5"/>
+                android:layout_height="75dp">
 
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/chosen_player_team"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:src="@drawable/ic_player"/>
+
+                <Button
+                    android:id="@+id/player_team"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Jamaal Charles"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="16sp"
+                    android:layout_weight="2"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:textStyle="bold"
+                    android:background="@color/bpTransparent" />
+
+
+                <com.horcu.apps.peez.spinner.NiceSpinner
+                    android:id="@+id/when"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:background="@color/bpTransparent"
+                    android:hint="vs Detroit Lions" />
+
+
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/other_players_list"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="wrap_content">
+
+            </ListView>
 
         </LinearLayout>
 
-    </LinearLayout>
+        <!--stats to bet with/against-->
+        <LinearLayout
+            android:id="@+id/stat_layout"
+            android:layout_below="@+id/user_name_layout"
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/top_tagmaker_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <com.horcu.apps.peez.spinner.NiceSpinner
+                    android:id="@+id/bet_stats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:hint="will record"
+                    android:layout_weight="3"
+                    android:background="@color/bpTransparent" />
+
+                <com.horcu.apps.peez.spinner.NiceSpinner
+                    android:id="@+id/equality"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:hint="more than"
+                    android:layout_weight="1"
+                    android:background="@color/bpTransparent" />
+
+                <Button
+                    android:id="@+id/numbers"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/bpTransparent"
+                    android:textSize="16sp"
+                    android:visibility="visible"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorAccent"
+                    android:text="x"/>
+
+                <com.horcu.apps.peez.spinner.NiceSpinner
+                    android:id="@+id/stat_element"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_weight="3"
+                    android:background="@color/bpTransparent"
+                    android:hint="tds" />
+
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:id="@+id/hashtag_bet_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <!--verbs -->
+                <com.greenfrvr.hashtagview.HashtagView
+                    android:id="@+id/hashtagview"
+                    android:layout_gravity="left"
+                    android:gravity="left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/HashtagView"
+                    app:rowMode="stretch"
+                    app:rowDistribution="right"
+                    app:tagBackground="@drawable/item_bg"
+                    app:tagForeground="@drawable/flat_button_light"
+                    app:tagPaddingBottom="@dimen/padding_vertical"
+                    app:tagPaddingLeft="@dimen/padding_horizontal"
+                    app:tagPaddingRight="@dimen/padding_horizontal"
+                    app:tagPaddingTop="@dimen/padding_vertical"
+                    app:tagTextColor="#E5E5E5"/>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/people_money"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:orientation="horizontal">
 
             <!--who to bet layout-->
@@ -188,7 +220,7 @@
                 android:id="@+id/bet_who_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:layout_weight="4"
+                android:layout_weight="2"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -210,7 +242,7 @@
                     android:gravity="center_vertical"
                     android:textStyle="bold"
                     android:background="?android:attr/selectableItemBackground"
-                    android:text="Who are you betting ?"/>
+                    android:text="friends"/>
 
 
             </LinearLayout>
@@ -220,6 +252,7 @@
                 android:id="@+id/bet_amount_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
+                android:layout_weight="2"
                 android:orientation="horizontal">
 
 
@@ -254,78 +287,48 @@
 
 
         <!--list of selected friends-->
-    <LinearLayout
-        android:layout_below="@+id/bet_who_layout"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="20dp">
-
-        <TextView
-            android:id="@+id/friends_reg_list"
+        <LinearLayout
+            android:layout_below="@+id/bet_who_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:text=""/>
+            android:layout_height="50dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="20dp">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/friends_reg_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:text=""/>
 
-    <!--Friends list Listview-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#ffffff"
-        android:visibility="gone"
-        android:orientation="vertical">
+        </LinearLayout>
 
-        <ListView
-            android:id="@android:id/list"
+        <!--Friends list Listview-->
+        <LinearLayout
+            android:id="@+id/friends_reg_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#FF96999B"
-            android:layout_marginBottom="50dp"
-            android:padding="2dp"
+            android:background="#ffffff"
             android:visibility="gone"
-            >
+            android:orientation="vertical">
 
-        </ListView>
+            <ListView
+                android:id="@android:id/list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#FF96999B"
+                android:layout_marginBottom="50dp"
+                android:padding="2dp"
+                android:choiceMode="multipleChoice"
+                android:visibility="gone"
+                >
+
+            </ListView>
+
+        </LinearLayout>
 
     </LinearLayout>
-
-    </LinearLayout>
-
-    <!--existing bets-->
-    <RelativeLayout
-        android:id="@+id/existingList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="visible">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/current_bets"
-            android:layout_width="match_parent"
-            android:background="@color/main"
-            android:layout_height="wrap_content">
-
-
-        </android.support.v7.widget.RecyclerView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:textSize="16sp"
-            android:text="no bets :( \n click above to start"/>
-
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/light_grey"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"/>
 
     <!--action buttons-->
     <LinearLayout
@@ -363,9 +366,6 @@
             android:background="@color/white"
             android:layout_weight="1"
             android:text="send"/>
-
-
-
     </LinearLayout>
 
     <!--player list done button-->
@@ -374,32 +374,31 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="bottom"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="0dp">
 
         <Button
             android:id="@+id/done"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="done choosing"
             android:layout_weight="1"
             android:textColor="@color/colorPrimary"
             android:background="@color/white"
-            android:layout_gravity="right|bottom"
-            android:visibility="invisible"
+            android:visibility="visible"
             />
 
     </LinearLayout>
 
     <!--bet card completed buttons-->
     <LinearLayout
-        android:id="@+id/bottom_tagmaker_section"
+        android:id="@+id/done_discard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="bottom"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_marginBottom="0dp"
         android:orientation="horizontal">
 
@@ -415,7 +414,7 @@
             android:text="discard"/>
 
         <Button
-            android:id="@+id/expand_less"
+            android:id="@+id/createTag"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_weight="1"
@@ -449,7 +448,7 @@
             android:textColor="@color/colorAccent"
             android:layout_weight="1"
             android:gravity="center_horizontal|center_vertical"
-            android:text="New Bet"/>
+            android:text="New"/>
 
 
     </LinearLayout>
