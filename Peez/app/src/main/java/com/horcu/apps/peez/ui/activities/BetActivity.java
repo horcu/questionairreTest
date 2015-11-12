@@ -115,6 +115,7 @@ public class BetActivity extends AppCompatActivity
 
     private LinearLayout players_list_done;
     private LinearLayout doneDiscard;
+    private LinearLayout daddyDuteItem;
 
     private ListView friendsList;
     private RubberLoaderView loader;
@@ -222,9 +223,13 @@ public class BetActivity extends AppCompatActivity
 
         sendBet = (Button)findViewById(R.id.send_bet); sendBet.setOnClickListener(this);
 
+        CircleImageView test = (CircleImageView)findViewById(R.id.entitiy_img);
+        daddyDuteItem = (LinearLayout)findViewById(R.id.daddy_dute_item);
+
         CircleImageView playerTeamImage = (CircleImageView)findViewById(R.id.chosen_player_team);
         String uri = "http://static.nfl.com/static/content/public/static/img/fantasy/transparent/200x200/" + "CHA561428" + ".png";
         Picasso.with(this).load(uri).into(playerTeamImage);
+        Picasso.with(this).load(uri).into(test);
 
         StringBuilder friendsString = null;
 
@@ -466,7 +471,9 @@ public class BetActivity extends AppCompatActivity
         {
             case R.id.add_new_bet:
             {
+                viewController.hideThis(daddyDuteItem, Techniques.SlideOutUp);
                 openbetCard();
+
                 break;
             }
 
@@ -531,7 +538,7 @@ public class BetActivity extends AppCompatActivity
                 viewController
                         .showThis(addnewLayout, Techniques.SlideInDown)
                         .showThis(friendsListButtons, Techniques.SlideInUp)
-                        .showThis(daddy, Techniques.SlideInUp)
+                        .showThis(daddyDuteItem, Techniques.BounceInRight)
                         .hideThis(friendsList, Techniques.SlideOutRight);
                 break;
 

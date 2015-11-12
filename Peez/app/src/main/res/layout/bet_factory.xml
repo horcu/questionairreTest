@@ -273,25 +273,27 @@
 
     <!--Friends list Listview-->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#ffffff"
-        android:visibility="gone"
-        android:orientation="vertical">
-
-        <ListView
-            android:id="@android:id/list"
+            android:id="@+id/friends_reg_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#FF96999B"
-            android:layout_marginBottom="50dp"
-            android:padding="2dp"
+            android:background="#ffffff"
             android:visibility="gone"
-            >
+            android:orientation="vertical">
 
-        </ListView>
+            <ListView
+                android:id="@android:id/list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#FF96999B"
+                android:layout_marginBottom="50dp"
+                android:padding="2dp"
+                android:choiceMode="multipleChoice"
+                android:visibility="gone"
+                >
 
-    </LinearLayout>
+            </ListView>
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -311,6 +313,7 @@
 
         </android.support.v7.widget.RecyclerView>
 
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -319,6 +322,11 @@
             android:text="no bets :( \n click above to start"/>
 
     </RelativeLayout>
+
+    <!--this is temperary just for show -->
+
+   <include layout="@layout/bet"  />
+
 
     <View
         android:layout_width="match_parent"
@@ -392,12 +400,12 @@
 
     <!--bet card completed buttons-->
     <LinearLayout
-        android:id="@+id/bottom_tagmaker_section"
+        android:id="@+id/done_discard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="bottom"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_marginBottom="0dp"
         android:orientation="horizontal">
 
@@ -413,7 +421,7 @@
             android:text="discard"/>
 
         <Button
-            android:id="@+id/expand_less"
+            android:id="@+id/createTag"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_weight="1"

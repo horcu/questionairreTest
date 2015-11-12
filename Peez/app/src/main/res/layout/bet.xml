@@ -1,99 +1,319 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/tools"
+    android:id="@+id/daddy_dute_item"
     android:layout_width="match_parent"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:elevation="0dp"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    android:visibility="visible"
     android:background="@color/white"
-    card_view:cardPreventCornerOverlap="false"
-    android:layout_height="wrap_content">
+    android:layout_marginBottom="-50dp"
+    android:orientation="vertical">
+
+    <com.greenfrvr.rubberloader.RubberLoaderView
+        android:id="@+id/loader2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center|center_vertical"
+        app:loaderExtraColor="@color/colorPrimary"
+        app:loaderPrimeColor="@color/colorPrimaryDark" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="6dp"
-        android:orientation="vertical">
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_height="30dp">
+    android:layout_width="match_parent"
+        android:layout_marginLeft="16dp"
+    android:layout_height="wrap_content"
+        >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
-            android:background="@android:color/holo_green_dark"
-            android:textColor="@color/white"
-            android:padding="5dp"
-            android:textStyle="bold|italic"
-            android:text="Accepted"/>
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="italic|bold"
+            android:layout_gravity="center_vertical"
+            android:textSize="10dp"
+            android:text="2hrs ago"/>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="100"/>
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:gravity="right"
+            android:alpha=".3"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_action_thumb_down"/>
+
+    <ImageView
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    android:gravity="right"
+        android:alpha=".9"
+        android:layout_marginRight="10dp"
+    android:src="@drawable/ic_action_thumb_up"/>
 
     </LinearLayout>
 
+    <!--player or team or conference or division as bet bait-->
     <LinearLayout
+        android:id="@+id/user_name_layout"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/user_name_layout_inner"
+            android:layout_width="match_parent"
+            android:layout_height="75dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/entitiy_img"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:src="@drawable/ic_player"/>
+
+            <TextView
+                android:id="@+id/entity_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Jamaal Charles"
+
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:background="@color/bpTransparent" />
+
+
+            <TextView
+                android:id="@+id/bet_when"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textStyle="italic"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp"
+                android:alpha=".7"
+                android:background="@color/bpTransparent"
+                android:hint="this football season" />
+
+
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/other_players_list"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content">
+
+        </ListView>
+
+    </LinearLayout>
+
+    <!--stats to bet with/against-->
+    <LinearLayout
+        android:id="@+id/stat_layout"
+        android:layout_below="@+id/user_name_layout"
+        android:layout_width="match_parent"
+        android:background="@color/white"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <android.support.v4.widget.CircleImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginRight="10dp"
-        android:src="@drawable/ic_action_social_person_add"/>
 
-    <TextView
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="80"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/top_tagmaker_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="7dp"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/bet_stats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:textStyle="normal"
+                    android:textSize="12dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/bpTransparent"
+                    android:text="Will record more than 1200 yds this year"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/top_tagmaker_section2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/bet_stats2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:textSize="12dp"
+                    android:textStyle="normal"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/bpTransparent"
+                    android:text=" and will also have more than 10 tds"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="20">
+
+            <com.hookedonplay.decoviewlib.DecoView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="top"
+                custom:dv_arc_gravity=""
+                android:id="@+id/dynamicArcView"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="25dp"
+        android:alpha=".1"
+        android:background="#888888" />
+
+
+    <LinearLayout
+        android:id="@+id/bet_amount_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="left"
-        android:textColor="@color/colorPrimary"
-        android:textStyle="bold"
-        android:layout_gravity="center_vertical"
-        android:text="Jamaal Charles"/>
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:orientation="horizontal">
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/plyrs_logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:alpha=".9"
+            android:layout_marginLeft="-5dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:src="@drawable/ic_social_notifications"/>
+
+        <View
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            />
+
+
+        <TextView
+            android:id="@+id/users_groups_betting"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="#777777"
+            android:textSize="11sp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:background="?android:attr/selectableItemBackground"
+            android:text="2"/>
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/followers"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:alpha=".4"
+            android:layout_marginLeft="-5dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:src="@drawable/ic_social_person"/>
+
+        <View
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            />
+
+
+        <TextView
+            android:id="@+id/msgs"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="#777777"
+            android:textSize="11sp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:background="?android:attr/selectableItemBackground"
+            android:text="3"/>
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/msg"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:alpha=".4"
+            android:layout_marginLeft="-5dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:src="@drawable/ic_msg"/>
 
 
         <View
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="20"/>
+            android:layout_weight="10" />
 
-       <TextView
-           android:layout_width="wrap_content"
-           android:layout_height="match_parent"
-           android:textColor="@color/colorPrimary"
-           android:gravity="center_vertical"
-           android:layout_gravity="right"
-           android:text="25 credits"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/bet_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/bet_amnt"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:textColor="@color/colorPrimary"
-            android:textSize="16sp"
-            android:text="The bet info goes here"/>
+            android:textSize="20sp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:textStyle="bold|italic"
+            android:layout_marginRight="10dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:text="$25"/>
 
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/social"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp">
+        android:layout_height="1dp"
+        android:alpha=".3"
+        android:background="#888888" />
 
-    </LinearLayout>
-
-    </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>
