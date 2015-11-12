@@ -28,12 +28,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="left"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="#999999"
             android:textStyle="italic|bold"
             android:layout_gravity="center_vertical"
-            android:textSize="10dp"
-            android:text="2hrs ago"/>
+            android:textSize="12dp"
+            android:text="5hrs ago"/>
 
         <View
             android:layout_width="wrap_content"
@@ -44,7 +43,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:gravity="right"
-            android:alpha=".9"
+            android:alpha=".3"
             android:layout_marginRight="10dp"
             android:src="@drawable/ic_action_thumb_down"/>
 
@@ -72,7 +71,7 @@
             android:layout_height="75dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/entitiy_img"
+                android:id="@+id/entitiy_img2"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
 
@@ -84,7 +83,7 @@
                 android:id="@+id/entity_name"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Jamaal Charles"
+                android:text="Cincinatti bengals"
 
                 android:textSize="17sp"
                 android:textStyle="bold"
@@ -105,7 +104,7 @@
                 android:textSize="15sp"
                 android:alpha=".7"
                 android:background="@android:color/transparent"
-                android:hint="this football season" />
+                android:text="this Sunday \@ 1:15pm" />
 
 
         </LinearLayout>
@@ -156,7 +155,7 @@
                     android:textSize="12dp"
                     android:layout_gravity="center_vertical"
                     android:background="@android:color/transparent"
-                    android:text="Will record more than 1200 yds this year"/>
+                    android:text="Will have more than 450 yds total"/>
 
             </LinearLayout>
 
@@ -180,7 +179,7 @@
                     android:textStyle="normal"
                     android:layout_gravity="center_vertical"
                     android:background="@android:color/transparent"
-                    android:text=" and will also have more than 10 tds"/>
+                    android:text=" and will lose the game"/>
 
             </LinearLayout>
 
@@ -195,8 +194,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_gravity="top"
-                custom:dv_arc_gravity=""
-                android:id="@+id/dynamicArcView1"/>
+                android:id="@+id/dynamicArcView2"/>
 
 
         </LinearLayout>
@@ -227,7 +225,7 @@
             android:id="@+id/plyrs_logo"
             android:layout_width="38dp"
             android:layout_height="38dp"
-            android:alpha=".9"
+            android:alpha=".3"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             android:src="@drawable/ic_social_notifications"/>
@@ -247,7 +245,7 @@
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             android:background="?android:attr/selectableItemBackground"
-            android:text="8k"/>
+            android:text="12k"/>
 
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -275,7 +273,7 @@
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             android:background="?android:attr/selectableItemBackground"
-            android:text="14"/>
+            android:text="53"/>
 
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -305,7 +303,7 @@
             android:gravity="center_vertical"
             android:textStyle="bold|italic"
             android:background="?android:attr/selectableItemBackground"
-            android:text="$36"/>
+            android:text="$62"/>
 
     </LinearLayout>
     <View
