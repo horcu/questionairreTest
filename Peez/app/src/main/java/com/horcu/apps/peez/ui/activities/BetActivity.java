@@ -117,7 +117,7 @@ public class BetActivity extends AppCompatActivity
 
     private LinearLayout players_list_done;
     private LinearLayout doneDiscard;
-   // private LinearLayout daddyDuteItem;
+    private LinearLayout daddyDuteItem;
 
     private ListView friendsList;
     private RubberLoaderView loader;
@@ -227,11 +227,11 @@ public class BetActivity extends AppCompatActivity
 
         CircleImageView test = (CircleImageView)findViewById(R.id.entitiy_img);
        // CircleImageView test2 = (CircleImageView)findViewById(R.id.entitiy_img2);
-      //  daddyDuteItem = (LinearLayout)findViewById(R.id.daddy_dute_item);
+        //daddyDuteItem = (LinearLayout)findViewById(R.id.daddy_dute_item);
        // daddyDuteItem2 = (LinearLayout)findViewById(R.id.daddy_dute_item2);
 
         CircleImageView playerTeamImage = (CircleImageView)findViewById(R.id.chosen_player_team);
-        String uri = "http://static.nfl.com/static/content/public/static/img/fantasy/transparent/200x200/" + "CHA561428" + ".png";
+        String uri = String.format("%sBOL283010.png", consts.IMG_DEF_URI);
         String uri2 = "https://storage.googleapis.com/ballrz/images/bengals_away.png";
         Picasso.with(this).load(uri).into(playerTeamImage);
         Picasso.with(this).load(uri).into(test);
@@ -259,25 +259,21 @@ public class BetActivity extends AppCompatActivity
 //                .build());
 
         //Create data series track
-        SeriesItem seriesItem1 = new SeriesItem.Builder(Color.argb(255, 64, 196, 0))
+        SeriesItem seriesItem1 = new SeriesItem.Builder(Color.parseColor("#FFE082"))
                 .setRange(0, 100, 0)
-                .setLineWidth(8f)
-                .setCapRounded(false)
-                .setSeriesLabel(new SeriesLabel.Builder("yds").build())
+                .setLineWidth(16f)
                 .setShowPointWhenEmpty(true)
-                .setChartStyle(SeriesItem.ChartStyle.STYLE_LINE_VERTICAL)
+                .setChartStyle(SeriesItem.ChartStyle.STYLE_PIE)
                 .build();
 
         int series1Index1 = arcView1.addSeries(seriesItem1);
 
         //Create data series track
-        SeriesItem seriesItem2 = new SeriesItem.Builder(Color.argb(255, 64, 196, 0))
+        SeriesItem seriesItem2 = new SeriesItem.Builder(Color.parseColor("#EF9A9A"))
                 .setRange(0, 100, 0)
-                .setLineWidth(8f)
-                .setCapRounded(true)
-                .setSeriesLabel(new SeriesLabel.Builder("ints").build())
+                .setLineWidth(16f)
                 .setShowPointWhenEmpty(true)
-                .setChartStyle(SeriesItem.ChartStyle.STYLE_LINE_VERTICAL)
+                .setChartStyle(SeriesItem.ChartStyle.STYLE_PIE)
                 .build();
 
         int series1Index2 = arcView1a.addSeries(seriesItem2);
@@ -294,11 +290,11 @@ public class BetActivity extends AppCompatActivity
 //                .setColor(android.R.color.holo_red_dark)
 //                .build());
 
-        arcView1.addEvent(new DecoEvent.Builder(90).setIndex(series1Index1).setDelay(4000).build());
-        arcView1.addEvent(new DecoEvent.Builder(54).setIndex(series1Index1).setDelay(8000).build());
+        arcView1.addEvent(new DecoEvent.Builder(90).setIndex(series1Index1).setDelay(500).build());
+        arcView1.addEvent(new DecoEvent.Builder(84).setIndex(series1Index1).setDelay(500).build());
 
-        arcView1a.addEvent(new DecoEvent.Builder(54).setIndex(series1Index2).setDelay(8000).build());
-        arcView1a.addEvent(new DecoEvent.Builder(54).setIndex(series1Index2).setDelay(8000).build());
+        arcView1a.addEvent(new DecoEvent.Builder(80).setIndex(series1Index2).setDelay(500).build());
+        arcView1a.addEvent(new DecoEvent.Builder(64).setIndex(series1Index2).setDelay(500).build());
 
 //        arcView2.addEvent(new DecoEvent.Builder(45).setIndex(series1Index2).setDelay(4000).build());
 //        arcView2.addEvent(new DecoEvent.Builder(70).setIndex(series1Index2).setDelay(8000).build());
@@ -547,7 +543,7 @@ public class BetActivity extends AppCompatActivity
         {
             case R.id.add_new_bet:
             {
-             //   viewController.hideThis(daddyDuteItem, Techniques.SlideOutUp);
+                viewController.hideThis(daddy, Techniques.FadeOut);
                 openbetCard();
 
                 break;

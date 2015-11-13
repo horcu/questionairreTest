@@ -23,6 +23,7 @@ public class consts {
    public static final String ENTITY_RUNNINGBACK = "runningback";
    public static final String ELIGIBLE = "eligible";
    public static final String TIMEPERIOD = "timePeriod";
+   public static final String IMG_DEF_URI = "http://static.nfl.com/static/content/public/static/img/fantasy/transparent/200x200/";
    //end entity constants
 
    //turn dev mode on and off

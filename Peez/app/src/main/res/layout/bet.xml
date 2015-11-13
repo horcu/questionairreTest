@@ -1,25 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
-    android:layout_width="match_parent">
-
-<android.support.v7.widget.CardView
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    card_view:contentPaddingLeft="@dimen/activity_horizontal_margin"
-    card_view:contentPaddingRight="@dimen/activity_horizontal_margin"
-    card_view:contentPaddingTop="10dp"
-    card_view:contentPaddingBottom="10dp"
-       android:visibility="visible"
-    android:layout_marginLeft="6dp"
-    android:layout_marginRight="6dp"
     android:background="@color/white"
-    card_view:cardUseCompatPadding="true"
-    card_view:cardElevation="2dp"
-    card_view:cardCornerRadius="3dp"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,38 +23,39 @@
     <LinearLayout
     android:layout_width="match_parent"
                android:background="@color/white"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+        android:layout_margin="5dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/text"
             android:textStyle="italic|bold"
             android:layout_gravity="center_vertical"
-            android:textSize="10dp"
-            android:text="2hrs ago"/>
+            android:textSize="12dp"
+            android:layout_marginLeft="10dp"
+            android:fontFamily="sans-serif-thin"
+            android:text="\@dis.iz.peez"/>
+
 
         <View
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="100"/>
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:gravity="right"
-            android:alpha=".9"
-            android:layout_marginRight="5dp"
-            android:src="@drawable/ic_action_thumb_down"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textColor="@color/text"
+            android:textStyle="italic|bold"
+            android:layout_gravity="center_vertical"
+            android:textSize="10dp"
+            android:fontFamily="sans-serif-thin"
+            android:text="2hrs ago"/>
 
-    <ImageView
-    android:layout_width="40dp"
-    android:layout_height="40dp"
-    android:gravity="right"
-        android:alpha=".3"
-        android:layout_marginRight="10dp"
-    android:src="@drawable/ic_action_thumb_up"/>
+
 
     </LinearLayout>
 
@@ -85,25 +70,28 @@
         <LinearLayout
             android:id="@+id/user_name_layout_inner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/entitiy_img"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="30dp"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:src="@drawable/ic_player"/>
 
             <TextView
-                android:id="@+id/entity_name"
+                android:id="@+id/entity_info"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Jamaal Charles"
-                android:layout_marginLeft="15dp"
-                android:textSize="18sp"
-                android:fontFamily="sans-serif-thin"
+                android:text="WR 81 \n 49ers"
+                android:layout_marginLeft="10dp"
+                android:textSize="10sp"
+                android:fontFamily="sans-serif-bold"
+                android:textColor="@color/text"
+                android:alpha=".4"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:background="@android:color/transparent" />
@@ -113,20 +101,67 @@
                 android:layout_height="match_parent"
                 android:layout_weight="10"/>
 
+
             <TextView
                 android:id="@+id/bet_when"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-thin"
                 android:textStyle="italic"
+                android:textColor="@color/text"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
-                android:textColor="@color/colorPrimary"
                 android:textSize="15sp"
-                android:alpha=".7"
-                android:layout_marginRight="5dp"
+                android:layout_marginLeft="15dp"
                 android:background="@android:color/transparent"
-                android:hint="this football season" />
+                android:text="2015 football season" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="10"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/entity_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Anquon Boldin"
+                android:layout_marginLeft="15dp"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif-thin"
+                android:textColor="@color/text"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:background="@android:color/transparent" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+
+            <!--<TextView-->
+                <!--android:id="@+id/entity_stats"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:text="10 catches / 450 yds / 3tds"-->
+                <!--android:layout_marginRight="45dp"-->
+                <!--android:textSize="11sp"-->
+                <!--android:textStyle="italic"-->
+                <!--android:alpha=".5"-->
+                <!--android:fontFamily="sans-serif-condensed"-->
+                <!--android:textColor="@color/text"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:background="@android:color/transparent" />-->
 
 
         </LinearLayout>
@@ -152,8 +187,7 @@
                 android:id="@+id/top_tagmaker_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
 
@@ -164,19 +198,38 @@
                     android:layout_weight="3"
                     android:textStyle="normal"
                     android:textSize="12dp"
+                    android:layout_marginLeft="10dp"
                     android:fontFamily="sans-serif-thin"
                     android:layout_gravity="center_vertical"
-                    android:background="@android:color/transparent"
+                    android:textColor="@color/text"
                     android:layout_marginRight="45dp"
                     android:text="Will record more than 1200 yds this year"/>
 
 
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp">
 
-                <com.hookedonplay.decoviewlib.DecoView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="top"
-                    android:id="@+id/dynamicArcView1"/>
+                    <com.hookedonplay.decoviewlib.DecoView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="4dp"
+                        app:dv_arc_gravity_horizontal="Right"
+                        android:id="@+id/dynamicArcView1"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#dedede"
+                        android:fontFamily="sans-serif-bold"
+                        android:textStyle="bold"
+                        android:textSize="12dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_gravity="center"
+                        android:text="978 yds"/>
+
+                </FrameLayout>
 
             </LinearLayout>
 
@@ -194,20 +247,37 @@
                     android:layout_weight="3"
                     android:textSize="12dp"
                     android:textStyle="normal"
-                    android:layout_marginEnd="45dp"
+                    android:layout_marginLeft="10dp"
                     android:fontFamily="sans-serif-thin"
                     android:layout_gravity="center_vertical"
-                    android:background="@android:color/transparent"
+                    android:textColor="@color/text"
+                    android:layout_marginRight="45dp"
                     android:text=" and will also have more than 10 tds"
-                    android:layout_marginRight="10dp"/>
+                    />
 
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp">
 
                 <com.hookedonplay.decoviewlib.DecoView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="right"
-
+                    android:layout_marginRight="4dp"
                     android:id="@+id/dynamicArcView1a"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#dedede"
+                        android:fontFamily="sans-serif-bold"
+                        android:textStyle="bold"
+                        android:textSize="12dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_gravity="center"
+                        android:text="5 tds"/>
+                </FrameLayout>
+
 
             </LinearLayout>
 
@@ -220,13 +290,14 @@
         android:layout_height="1dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:alpha=".1"
-        android:background="#40888888" />
+        android:alpha=".9"
+        android:layout_marginTop="20dp"
+        android:background="#30777777" />
 
     <!--bottom section-->
     <LinearLayout
         android:id="@+id/bet_amount_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
@@ -238,7 +309,7 @@
             android:id="@+id/plyrs_logo"
             android:layout_width="38dp"
             android:layout_height="38dp"
-            android:alpha=".9"
+            android:alpha=".4"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             android:src="@drawable/ic_social_notifications"/>
@@ -310,12 +381,13 @@
             android:id="@+id/bet_amnt"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/text"
             android:textSize="16sp"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             android:textStyle="bold|italic"
             android:layout_marginRight="5dp"
+            android:fontFamily="sans-serif-thin"
             android:background="?android:attr/selectableItemBackground"
             android:text="$36"/>
 
@@ -328,7 +400,5 @@
         android:background="#888888" />
 
     </LinearLayout>
-
-</android.support.v7.widget.CardView>
 
 </RelativeLayout>
