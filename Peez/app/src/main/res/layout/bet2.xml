@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:custom="http://schemas.android.com/tools"
-    android:id="@+id/daddy_dute_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="5dp"
@@ -15,6 +14,7 @@
         android:id="@+id/loader2"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:visibility="gone"
         android:layout_gravity="center|center_vertical"
         app:loaderExtraColor="@color/colorPrimary"
         app:loaderPrimeColor="@color/colorPrimaryDark" />
@@ -44,7 +44,7 @@
             android:layout_height="40dp"
             android:gravity="right"
             android:alpha=".3"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="5dp"
             android:src="@drawable/ic_action_thumb_down"/>
 
     <ImageView
@@ -72,8 +72,8 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/entitiy_img2"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
 
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
@@ -84,20 +84,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="Cincinatti bengals"
-
+                android:layout_marginLeft="18dp"
                 android:textSize="17sp"
                 android:textStyle="bold"
+                android:fontFamily="sans-serif-thin"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:background="@android:color/transparent" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="10"/>
 
 
             <TextView
                 android:id="@+id/bet_when"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:textStyle="italic"
+                android:fontFamily="sans-serif-thin"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:textColor="@color/colorPrimary"
@@ -126,7 +133,7 @@
         android:layout_width="match_parent"
         android:background="@color/white"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
 
         <LinearLayout
@@ -153,9 +160,21 @@
                     android:layout_weight="3"
                     android:textStyle="normal"
                     android:textSize="12dp"
+                    android:fontFamily="sans-serif-thin"
                     android:layout_gravity="center_vertical"
                     android:background="@android:color/transparent"
-                    android:text="Will have more than 450 yds total"/>
+                    android:text="Will record more than 1200 yds this year"/>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="10" />
+
+                <com.hookedonplay.decoviewlib.DecoView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="top"
+                    android:id="@+id/dynamicArcView2"/>
 
             </LinearLayout>
 
@@ -177,30 +196,28 @@
                     android:layout_weight="3"
                     android:textSize="12dp"
                     android:textStyle="normal"
+                    android:fontFamily="sans-serif-thin"
                     android:layout_gravity="center_vertical"
                     android:background="@android:color/transparent"
-                    android:text=" and will lose the game"/>
+                    android:text=" and will also have more than 10 tds"/>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="10" />
+
+                <com.hookedonplay.decoviewlib.DecoView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="top"
+                    android:id="@+id/dynamicArcView2a"/>
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="20">
-
-            <com.hookedonplay.decoviewlib.DecoView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_gravity="top"
-                android:id="@+id/dynamicArcView2"/>
-
-
-        </LinearLayout>
 
     </LinearLayout>
-
 
     <View
         android:layout_width="match_parent"
@@ -302,6 +319,7 @@
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             android:textStyle="bold|italic"
+            android:layout_marginRight="5dp"
             android:background="?android:attr/selectableItemBackground"
             android:text="$62"/>
 

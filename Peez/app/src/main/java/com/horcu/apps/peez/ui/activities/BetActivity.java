@@ -22,14 +22,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codetroopers.betterpickers.numberpicker.NumberPickerBuilder;
 import com.codetroopers.betterpickers.numberpicker.NumberPickerDialogFragment;
 import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
@@ -39,6 +37,7 @@ import com.greenfrvr.hashtagview.HashtagView;
 import com.greenfrvr.rubberloader.RubberLoaderView;
 import com.hookedonplay.decoviewlib.DecoView;
 import com.hookedonplay.decoviewlib.charts.SeriesItem;
+import com.hookedonplay.decoviewlib.charts.SeriesLabel;
 import com.hookedonplay.decoviewlib.events.DecoEvent;
 import com.horcu.apps.common.utilities.consts;
 import com.horcu.apps.peez.R;
@@ -52,8 +51,8 @@ import com.horcu.apps.peez.backend.models.userApi.model.CollectionResponseUser;
 import com.horcu.apps.peez.backend.models.userApi.model.User;
 import com.horcu.apps.peez.backend.models.userSettingsApi.UserSettingsApi;
 import com.horcu.apps.peez.custom.Api;
-import com.horcu.apps.peez.custom.ViewController;
 import com.horcu.apps.peez.custom.Money;
+import com.horcu.apps.peez.custom.ViewController;
 import com.horcu.apps.peez.custom.notifier;
 import com.horcu.apps.peez.logic.GcmServerSideSender;
 import com.horcu.apps.peez.logic.Message;
@@ -62,7 +61,6 @@ import com.horcu.apps.peez.spinner.NiceSpinner;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
-import java.nio.channels.UnresolvedAddressException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -119,7 +117,7 @@ public class BetActivity extends AppCompatActivity
 
     private LinearLayout players_list_done;
     private LinearLayout doneDiscard;
-    private LinearLayout daddyDuteItem;
+   // private LinearLayout daddyDuteItem;
 
     private ListView friendsList;
     private RubberLoaderView loader;
@@ -129,7 +127,7 @@ public class BetActivity extends AppCompatActivity
     int betNumber;
     NiceSpinner bet_stats, stat_element, equality_result, when_result;
 
-    LinearLayout toptagmaker, betCardsButtons;
+    LinearLayout toptagmaker;
 
 
     @Override
@@ -138,6 +136,7 @@ public class BetActivity extends AppCompatActivity
         setContentView(R.layout.activity_test_bet);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setElevation(2);
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
         }
 
         viewController = new ViewController();
@@ -169,7 +168,7 @@ public class BetActivity extends AppCompatActivity
         List<String> listWhen= new LinkedList<>(Arrays.asList("game", "month", "year","1st quarter","2nd quarter","3rd quarter","4th quarter", "1st half, 2nd half"));
 
         toptagmaker = (LinearLayout)findViewById(R.id.top_tagmaker_section);
-        betCardsButtons = (LinearLayout)findViewById(R.id.done_discard);
+        //betCardsButtons = (LinearLayout)findViewById(R.id.done_discard);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, list);
 
@@ -227,61 +226,85 @@ public class BetActivity extends AppCompatActivity
         sendBet = (Button)findViewById(R.id.send_bet); sendBet.setOnClickListener(this);
 
         CircleImageView test = (CircleImageView)findViewById(R.id.entitiy_img);
-        CircleImageView test2 = (CircleImageView)findViewById(R.id.entitiy_img2);
-        daddyDuteItem = (LinearLayout)findViewById(R.id.daddy_dute_item);
+       // CircleImageView test2 = (CircleImageView)findViewById(R.id.entitiy_img2);
+      //  daddyDuteItem = (LinearLayout)findViewById(R.id.daddy_dute_item);
+       // daddyDuteItem2 = (LinearLayout)findViewById(R.id.daddy_dute_item2);
 
         CircleImageView playerTeamImage = (CircleImageView)findViewById(R.id.chosen_player_team);
         String uri = "http://static.nfl.com/static/content/public/static/img/fantasy/transparent/200x200/" + "CHA561428" + ".png";
         String uri2 = "https://storage.googleapis.com/ballrz/images/bengals_away.png";
         Picasso.with(this).load(uri).into(playerTeamImage);
         Picasso.with(this).load(uri).into(test);
-        Picasso.with(this).load(uri2).into(test2);
+        //Picasso.with(this).load(uri2).into(test2);
 
-        DecoView arcView = (DecoView)findViewById(R.id.dynamicArcView1);
-        DecoView arcView1 = (DecoView)findViewById(R.id.dynamicArcView2);
+        DecoView arcView1 = (DecoView)findViewById(R.id.dynamicArcView1);
+        DecoView arcView1a = (DecoView)findViewById(R.id.dynamicArcView1a);
+       // DecoView arcView2 = (DecoView)findViewById(R.id.dynamicArcView2);
+      //  DecoView arcView2a = (DecoView)findViewById(R.id.dynamicArcView2a);
 
-// Create background track
-        arcView.addSeries(new SeriesItem.Builder(Color.argb(255, 102, 102, 102))
-                .setRange(0, 100, 100)
-                .setInitialVisibility(false)
-                .setLineWidth(32f)
-                .build());
-
-// Create background track
-        arcView1.addSeries(new SeriesItem.Builder(Color.argb(255, 218, 218, 218))
-                .setRange(0, 100, 100)
-                .setInitialVisibility(false)
-                .setLineWidth(16f)
-                .build());
+//       // Create background track
+//        arcView1.addSeries(new SeriesItem.Builder(Color.argb(255, 102, 102, 102))
+//                .setRange(0, 100, 100)
+//                .setInitialVisibility(false)
+//                .setLineWidth(8f)
+//                .setChartStyle(SeriesItem.ChartStyle.STYLE_LINE_HORIZONTAL)
+//                .build());
+//
+//      // Create background track
+//        arcView2.addSeries(new SeriesItem.Builder(Color.argb(255, 218, 218, 218))
+//                .setRange(0, 100, 100)
+//                .setInitialVisibility(false)
+//                .setChartStyle(SeriesItem.ChartStyle.STYLE_LINE_HORIZONTAL)
+//                .setLineWidth(8f)
+//                .build());
 
         //Create data series track
         SeriesItem seriesItem1 = new SeriesItem.Builder(Color.argb(255, 64, 196, 0))
                 .setRange(0, 100, 0)
-                .setLineWidth(16f)
+                .setLineWidth(8f)
+                .setCapRounded(false)
+                .setSeriesLabel(new SeriesLabel.Builder("yds").build())
+                .setShowPointWhenEmpty(true)
+                .setChartStyle(SeriesItem.ChartStyle.STYLE_LINE_VERTICAL)
                 .build();
 
-        int series1Index1 = arcView.addSeries(seriesItem1);
+        int series1Index1 = arcView1.addSeries(seriesItem1);
 
         //Create data series track
         SeriesItem seriesItem2 = new SeriesItem.Builder(Color.argb(255, 64, 196, 0))
                 .setRange(0, 100, 0)
-                .setLineWidth(32f)
+                .setLineWidth(8f)
+                .setCapRounded(true)
+                .setSeriesLabel(new SeriesLabel.Builder("ints").build())
+                .setShowPointWhenEmpty(true)
+                .setChartStyle(SeriesItem.ChartStyle.STYLE_LINE_VERTICAL)
                 .build();
 
-        int series1Index2 = arcView.addSeries(seriesItem2);
+        int series1Index2 = arcView1a.addSeries(seriesItem2);
 
-        arcView.addEvent(new DecoEvent.Builder(DecoEvent.EventType.EVENT_SHOW, true)
-                .setDelay(1000)
+        arcView1.addEvent(new DecoEvent.Builder(DecoEvent.EventType.EVENT_SHOW, true)
+                .setDelay(500)
                 .setDuration(2000)
+                .setColor(android.R.color.holo_purple)
                 .build());
 
-        arcView.addEvent(new DecoEvent.Builder(25).setIndex(series1Index1).setDelay(4000).build());
-        arcView.addEvent(new DecoEvent.Builder(100).setIndex(series1Index1).setDelay(8000).build());
-        arcView.addEvent(new DecoEvent.Builder(10).setIndex(series1Index1).setDelay(12000).build());
+//        arcView2.addEvent(new DecoEvent.Builder(DecoEvent.EventType.EVENT_SHOW, true)
+//                .setDelay(1000)
+//                .setDuration(2000)
+//                .setColor(android.R.color.holo_red_dark)
+//                .build());
 
-        arcView.addEvent(new DecoEvent.Builder(25).setIndex(series1Index2).setDelay(4000).build());
-        arcView.addEvent(new DecoEvent.Builder(100).setIndex(series1Index2).setDelay(8000).build());
-        arcView.addEvent(new DecoEvent.Builder(10).setIndex(series1Index2).setDelay(12000).build());
+        arcView1.addEvent(new DecoEvent.Builder(90).setIndex(series1Index1).setDelay(4000).build());
+        arcView1.addEvent(new DecoEvent.Builder(54).setIndex(series1Index1).setDelay(8000).build());
+
+        arcView1a.addEvent(new DecoEvent.Builder(54).setIndex(series1Index2).setDelay(8000).build());
+        arcView1a.addEvent(new DecoEvent.Builder(54).setIndex(series1Index2).setDelay(8000).build());
+
+//        arcView2.addEvent(new DecoEvent.Builder(45).setIndex(series1Index2).setDelay(4000).build());
+//        arcView2.addEvent(new DecoEvent.Builder(70).setIndex(series1Index2).setDelay(8000).build());
+//
+//        arcView2a.addEvent(new DecoEvent.Builder(70).setIndex(series1Index1).setDelay(8000).build());
+//        arcView2a.addEvent(new DecoEvent.Builder(70).setIndex(series1Index1).setDelay(8000).build());
 
 
         StringBuilder friendsString = null;
@@ -327,7 +350,7 @@ public class BetActivity extends AppCompatActivity
 
         betHashTag.setData(data);
         toptagmaker.setVisibility(View.GONE);
-        betCardsButtons.setVisibility(View.GONE);
+        doneDiscard.setVisibility(View.GONE);
     }
 
     private String getTagString(View v) {
@@ -524,7 +547,7 @@ public class BetActivity extends AppCompatActivity
         {
             case R.id.add_new_bet:
             {
-                viewController.hideThis(daddyDuteItem, Techniques.SlideOutUp);
+             //   viewController.hideThis(daddyDuteItem, Techniques.SlideOutUp);
                 openbetCard();
 
                 break;
@@ -549,7 +572,7 @@ public class BetActivity extends AppCompatActivity
 
                 viewController
                         .hideThis(daddy, Techniques.FadeOutDown)
-                        .hideThis(betCardsButtons, Techniques.FadeOutUp)
+                        .hideThis(doneDiscard, Techniques.FadeOutUp)
                         .showThis(friendsListButtons, Techniques.FadeInUp);
                 break ;
             }
@@ -591,7 +614,7 @@ public class BetActivity extends AppCompatActivity
                 viewController
                         .showThis(addnewLayout, Techniques.SlideInDown)
                         .showThis(friendsListButtons, Techniques.SlideInUp)
-                        .showThis(daddyDuteItem, Techniques.BounceInRight)
+                       // .showThis(daddyDuteItem, Techniques.BounceInRight)
                         .hideThis(friendsList, Techniques.SlideOutRight);
                 break;
 

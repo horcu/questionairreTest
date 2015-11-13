@@ -10,135 +10,11 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="wrap_content"
         tools:showIn="@layout/activity_test_bet"
-        android:layoutMode="opticalBounds"
         android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <!--action buttons-->
-            <LinearLayout
-                android:id="@+id/action_layout"
-                android:layout_width="match_parent"
-                android:background="@color/white"
-                android:layout_alignParentBottom="true"
-                android:orientation="horizontal"
-                android:layout_height="50dp">
-
-                <Button
-                    android:id="@+id/clear_bet"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="@color/white"
-                    android:layout_weight="1"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:text="delete"/>
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="@color/colorAccent"
-                    android:background="@color/white"
-                    android:text="schedule"/>
-
-                <Button
-                    android:id="@+id/send_bet"
-                    android:layout_width="wrap_content"
-                    android:textColor="@color/colorAccent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:layout_weight="1"
-                    android:text="send"/>
-
-            </LinearLayout>
-
-            <!--player list done button-->
-            <LinearLayout
-                android:id="@+id/players_list_done"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="bottom"
-                android:visibility="gone"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="0dp">
-
-                <Button
-                    android:id="@+id/done"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="done choosing"
-                    android:layout_weight="1"
-                    android:textColor="@color/colorPrimary"
-                    android:background="@color/white"
-                    android:layout_gravity="right|bottom"
-                    android:visibility="invisible"
-                    />
-
-            </LinearLayout>
-
-            <!--bet card completed buttons-->
-            <LinearLayout
-                android:id="@+id/done_discard"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:gravity="bottom"
-                android:visibility="visible"
-                android:layout_marginBottom="0dp"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/discard"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:textSize="14sp"
-                    android:visibility="visible"
-                    android:background="@color/white"
-                    android:textColor="@color/colorAccent"
-                    android:text="discard"/>
-
-                <Button
-                    android:id="@+id/createTag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:textSize="14sp"
-                    android:visibility="visible"
-                    android:background="@color/white"
-                    android:textColor="@color/colorAccent"
-                    android:text="done"/>
-
-
-            </LinearLayout>
-
-            <!--add new button-->
-            <LinearLayout
-                android:id="@+id/add_new_layout"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="bottom"
-                android:layout_marginBottom="50dp"
-                android:layout_alignParentBottom="true"
-                android:visibility="visible"
-                >
-
-                <Button
-                    android:id="@+id/add_new_bet"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textSize="16sp"
-                    android:background="@color/white"
-                    android:layout_weight="1"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:text="New"/>
-
-
-            </LinearLayout>
-
+            android:layout_height="match_parent">
 
                 <LinearLayout
                     android:id="@+id/daddy_dute"
@@ -422,12 +298,12 @@
                     </LinearLayout>
 
                 </LinearLayout>
-\
 
                     <android.support.v7.widget.RecyclerView
                     android:id="@+id/current_bets"
                     android:layout_width="match_parent"
                     android:background="@color/main"
+                        android:visibility="gone"
                     android:layout_height="wrap_content">
 
 
@@ -439,11 +315,11 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/tester"/>
 
-                    <include layout="@layout/bet2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tester"
-                        android:id="@+id/tester2"/>
+                    <!--<include layout="@layout/bet2"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@id/tester"-->
+                        <!--android:id="@+id/tester2"/>-->
 \
 
                 <!--this is temperary just for show -->
@@ -456,10 +332,129 @@
                     android:layout_marginRight="16dp"/>
 
 
+            <!--action buttons-->
+            <LinearLayout
+                android:id="@+id/action_layout"
+                android:layout_width="match_parent"
+                android:background="@color/white"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal"
+                android:layout_height="50dp">
+
+                <Button
+                    android:id="@+id/clear_bet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:text="delete"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorAccent"
+                    android:background="@color/white"
+                    android:text="schedule"/>
+
+                <Button
+                    android:id="@+id/send_bet"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/colorAccent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:layout_weight="1"
+                    android:text="send"/>
+
+            </LinearLayout>
+
+            <!--player list done button-->
+            <LinearLayout
+                android:id="@+id/players_list_done"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="bottom"
+                android:visibility="gone"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="0dp">
+
+                <Button
+                    android:id="@+id/done"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="done choosing"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorPrimary"
+                    android:background="@color/white"
+                    android:layout_gravity="right|bottom"
+                    android:visibility="invisible"
+                    />
+
+            </LinearLayout>
+
+            <!--bet card completed buttons-->
+            <LinearLayout
+                android:id="@+id/done_discard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:gravity="bottom"
+                android:visibility="visible"
+                android:layout_marginBottom="0dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/discard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:textSize="14sp"
+                    android:visibility="visible"
+                    android:background="@color/white"
+                    android:textColor="@color/colorAccent"
+                    android:text="discard"/>
+
+                <Button
+                    android:id="@+id/createTag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:textSize="14sp"
+                    android:visibility="visible"
+                    android:background="@color/white"
+                    android:textColor="@color/colorAccent"
+                    android:text="done"/>
 
 
+            </LinearLayout>
 
-        </RelativeLayout>
+            <!--add new button-->
+            <LinearLayout
+                android:id="@+id/add_new_layout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="bottom"
+                android:layout_marginBottom="50dp"
+                android:layout_alignParentBottom="true"
+
+                android:visibility="visible"
+                >
+
+                <Button
+                    android:id="@+id/add_new_bet"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:background="@color/white"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:text="New"/>
+
+
+            </LinearLayout>
+
+       </RelativeLayout>
 
 
     </ScrollView>
