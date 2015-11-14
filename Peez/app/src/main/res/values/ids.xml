@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 Copyright 2015 Google Inc. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,13 +16,13 @@ limitations under the License.
 <resources>
 
     <item name="tag_clipboard_value" type="id" />
-    <item name="tag_action" type="id"/>
+    <item name="tag_action" type="id" />
     <item name="iid_select_sender_id" type="id">Select sender id</item>
     <item name="iid_select_api_key" type="id">Select API key</item>
-    <item name="tag_senderid" type="id"/>
-    <item name="tag_topic" type="id"/>
-    <item name="tag_group" type="id"/>
-    <item name="tag_token" type="id"/>
-    <item name="tag_scope" type="id"/>
+    <item name="tag_senderid" type="id" />
+    <item name="tag_topic" type="id" />
+    <item name="tag_group" type="id" />
+    <item name="tag_token" type="id" />
+    <item name="tag_scope" type="id" />
 
 </resources>

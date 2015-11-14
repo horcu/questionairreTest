@@ -22,7 +22,8 @@ import org.json.JSONObject;
 
 import java.util.Iterator;
 
-import static com.horcu.apps.peez.model.app.Constants.*;
+import static com.horcu.apps.peez.model.app.Constants.TOKENS;
+
 /**
  * Persist a {@link com.google.android.gms.iid.InstanceID}'s Token
  */

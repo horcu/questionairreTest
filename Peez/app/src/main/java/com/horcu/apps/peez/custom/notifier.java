@@ -21,7 +21,7 @@ public class notifier {
     public static void showNotification(Intent intent, Context context, Class<MainActivity> goWhere) {
         try {
             Bundle bundle = intent.getExtras();
-           // String message = bundle.getString("message");
+            // String message = bundle.getString("message");
             String key = bundle.getString("collapse_key");
 
             //get message from intent
@@ -34,7 +34,7 @@ public class notifier {
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 1421, go, 0);
 
             //create and launch the notification
-            NewBetNotification.notify(context,pendingIntent, message, 1, new Date().getTime() + 86400000);
+            NewBetNotification.notify(context, pendingIntent, message, 1, new Date().getTime() + 86400000);
 
             //sounds the ringtone alarm
             Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);

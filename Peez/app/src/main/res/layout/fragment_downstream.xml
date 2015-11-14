@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 Copyright 2015 Google Inc. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,7 +23,7 @@ limitations under the License.
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/fragment_description"
-        android:text="@string/downstream_description"/>
+        android:text="@string/downstream_description" />
 
     <include layout="@layout/downstream_chooser" />
 
@@ -34,13 +33,15 @@ limitations under the License.
         android:layout_height="wrap_content"
         android:hint="@string/downstream_collapse_key_hint"
         android:inputType="text" />
+
     <EditText
         android:id="@+id/downstream_restricted_package_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/downstream_restricted_package_name_hint"
         android:inputType="text" />
-     <EditText
+
+    <EditText
         android:id="@+id/downstream_ttl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -56,23 +57,25 @@ limitations under the License.
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height ="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/downstream_more_options"
             android:textStyle="bold"
             style="@style/TextAppearance.AppCompat.Caption"
-            android:layout_weight="0.3"/>
+            android:layout_weight="0.3" />
 
-        <CheckBox android:id="@+id/downstream_delay_while_idle"
+        <CheckBox
+            android:id="@+id/downstream_delay_while_idle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/downstream_delay_while_idle_text"
-            android:layout_weight="0.4"/>
+            android:layout_weight="0.4" />
 
-        <CheckBox android:id="@+id/downstream_dry_run"
+        <CheckBox
+            android:id="@+id/downstream_dry_run"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/downstream_dry_run_text"
-            android:layout_weight="0.3"/>
+            android:layout_weight="0.3" />
     </LinearLayout>
 
     <RadioGroup
@@ -84,11 +87,11 @@ limitations under the License.
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height ="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/downstream_request_format"
             android:textStyle="bold"
             android:layout_weight="0.3"
-            style="@style/TextAppearance.AppCompat.Caption"/>
+            style="@style/TextAppearance.AppCompat.Caption" />
 
         <RadioButton
             android:id="@+id/downstream_radio_json"
@@ -96,7 +99,7 @@ limitations under the License.
             android:layout_height="wrap_content"
             android:checked="true"
             android:text="@string/downstream_json_request"
-            android:layout_weight="0.4"/>
+            android:layout_weight="0.4" />
 
         <RadioButton
             android:id="@+id/downstream_radio_cleartext"
@@ -104,7 +107,7 @@ limitations under the License.
             android:layout_height="wrap_content"
             android:checked="false"
             android:text="@string/downstream_plaintext_request"
-            android:layout_weight="0.3"/>
+            android:layout_weight="0.3" />
     </RadioGroup>
 
     <com.horcu.apps.peez.ui.EditableMapView

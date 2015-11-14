@@ -25,8 +25,8 @@ import android.view.View;
 
 import com.horcu.apps.common.utilities.consts;
 import com.horcu.apps.peez.model.app.DeviceGroup;
-import com.horcu.apps.peez.model.app.SenderCollection;
 import com.horcu.apps.peez.model.app.Sender;
+import com.horcu.apps.peez.model.app.SenderCollection;
 import com.horcu.apps.peez.service.LoggingService;
 
 import org.json.JSONArray;
@@ -37,7 +37,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.horcu.apps.peez.logic.HttpRequest.*;
+import static com.horcu.apps.peez.logic.HttpRequest.CONTENT_TYPE_JSON;
+import static com.horcu.apps.peez.logic.HttpRequest.HEADER_AUTHORIZATION;
+import static com.horcu.apps.peez.logic.HttpRequest.HEADER_CONTENT_TYPE;
+import static com.horcu.apps.peez.logic.HttpRequest.HEADER_PROJECT_ID;
 
 
 public class DeviceGroupsHelper {
@@ -58,22 +61,22 @@ public class DeviceGroupsHelper {
 
     /**
      * Execute the HTTP call to create the Device Group in background.
-     *
+     * <p/>
      * <code>
-     *   Content-Type: application/json
-     *   Authorization: key=API_KEY
-     *   project_id: SENDER_ID
-     *   {
-     *     "operation": "create",
-     *     "notification_key_name": "appUser-Chris",
-     *     "registration_ids": ["4", "8", "15", "16", "23", "42"]
-     *   }
+     * Content-Type: application/json
+     * Authorization: key=API_KEY
+     * project_id: SENDER_ID
+     * {
+     * "operation": "create",
+     * "notification_key_name": "appUser-Chris",
+     * "registration_ids": ["4", "8", "15", "16", "23", "42"]
+     * }
      * </code>
      */
     public void asyncCreateGroup(final View snackbarView, final String senderId, final String apiKey,
                                  final String groupName, Bundle members) {
         final Bundle newMembers = new Bundle(members);
-        new AsyncTask<Void, Void, Void>(){
+        new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
                 try {
@@ -95,7 +98,7 @@ public class DeviceGroupsHelper {
                     if (responseBody.has("error")) {
                         mLogger.log(Log.INFO, "Group creation failed."
                                 + "\ngroupName: " + groupName
-                                + "\nhttpResponse:" + httpRequest.getResponseBody(),"error");
+                                + "\nhttpResponse:" + httpRequest.getResponseBody(), "error");
                         Snackbar.make(snackbarView, "couldnt put that group together. my bad" +
                                 responseBody.getString("error"), Snackbar.LENGTH_LONG).show();
                     } else {
@@ -130,12 +133,12 @@ public class DeviceGroupsHelper {
 
     /**
      * Execute the HTTP call to delete a Device Group.
-     *
+     * <p/>
      * This is obtained by removing all the members of the group.
      */
     public void asyncDeleteGroup(final View snackbarView, final String senderId, final String apiKey,
                                  final String groupName) {
-        new AsyncTask<Void, Void, Void>(){
+        new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
                 Sender sender = mSenders.getSender(senderId);
@@ -164,19 +167,19 @@ public class DeviceGroupsHelper {
     /**
      * Execute in background the HTTP calls to add and remove members.
      */
-    public void asyncUpdateGroup(final View snackbarView,  final String senderId, final String apiKey,
+    public void asyncUpdateGroup(final View snackbarView, final String senderId, final String apiKey,
                                  final String groupName, final String groupKey,
                                  Bundle newMembers, Bundle removedMembers) {
         final Bundle members2Add = new Bundle(newMembers);
         final Bundle members2Remove = new Bundle(removedMembers);
-        new AsyncTask<Void, Void, Void>(){
+        new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
                 if (members2Add.size() > 0) {
                     addMembers(snackbarView, senderId, apiKey, groupName, groupKey, members2Add);
                 }
                 if (members2Remove.size() > 0) {
-                    removeMembers(snackbarView,senderId, apiKey, groupName, groupKey, members2Remove);
+                    removeMembers(snackbarView, senderId, apiKey, groupName, groupKey, members2Remove);
                 }
                 return null;
             }
@@ -185,17 +188,17 @@ public class DeviceGroupsHelper {
 
     /**
      * Execute the HTTP call to remove registration_ids from a the Device Group.
-     *
+     * <p/>
      * <code>
-     *   Content-Type: application/json
-     *   Authorization: key=API_KEY
-     *   project_id: SENDER_ID
-     *   {
-     *     "operation": "add",
-     *     "notification_key_name": "appUser-Chris",
-     *     "notification_key": "aUniqueKey",
-     *     "registration_ids": ["4", "8", "15", "16", "23", "42"]
-     *   }
+     * Content-Type: application/json
+     * Authorization: key=API_KEY
+     * project_id: SENDER_ID
+     * {
+     * "operation": "add",
+     * "notification_key_name": "appUser-Chris",
+     * "notification_key": "aUniqueKey",
+     * "registration_ids": ["4", "8", "15", "16", "23", "42"]
+     * }
      * </code>
      */
     public void addMembers(final View snackbarView, String senderId, String apiKey, String groupName,
@@ -228,7 +231,7 @@ public class DeviceGroupsHelper {
                 // Store the group in the local storage.
                 Sender sender = mSenders.getSender(senderId);
                 DeviceGroup newGroup = sender.groups.get(groupName);
-                for(String name : members.keySet()) {
+                for (String name : members.keySet()) {
                     newGroup.tokens.put(name, members.getString(name));
                 }
                 mSenders.updateSender(sender);
@@ -250,17 +253,17 @@ public class DeviceGroupsHelper {
 
     /**
      * Execute the HTTP call to remove registration_ids from a the Device Group.
-     *
+     * <p/>
      * <code>
-     *   Content-Type: application/json
-     *   Authorization: key=API_KEY
-     *   project_id: SENDER_ID
-     *   {
-     *     "operation": "remove",
-     *     "notification_key_name": "appUser-Chris",
-     *     "notification_key": "aUniqueKey",
-     *     "registration_ids": ["4", "8", "15", "16", "23", "42"]
-     *   }
+     * Content-Type: application/json
+     * Authorization: key=API_KEY
+     * project_id: SENDER_ID
+     * {
+     * "operation": "remove",
+     * "notification_key_name": "appUser-Chris",
+     * "notification_key": "aUniqueKey",
+     * "registration_ids": ["4", "8", "15", "16", "23", "42"]
+     * }
      * </code>
      */
     public void removeMembers(final View snackbarView, String senderId, String apiKey, String groupName,
@@ -283,9 +286,9 @@ public class DeviceGroupsHelper {
 
             if (responseBody.has("error")) {
                 mLogger.log(Log.INFO, "Error while removing group members."
-                    + "\ngroupName: " + groupName
-                    + "\ngroupKey: " + groupKey
-                    + "\nhttpResponse: " + httpRequest.getResponseBody(), "error");
+                        + "\ngroupName: " + groupName
+                        + "\ngroupKey: " + groupKey
+                        + "\nhttpResponse: " + httpRequest.getResponseBody(), "error");
                 Snackbar.make(snackbarView, "couldnt remove member. my bad" +
                         responseBody.getString("error"), Snackbar.LENGTH_LONG).show();
             } else {
@@ -293,7 +296,7 @@ public class DeviceGroupsHelper {
                 SenderCollection senders = SenderCollection.getInstance(mContext);
                 Sender sender = senders.getSender(senderId);
                 DeviceGroup newGroup = sender.groups.get(groupName);
-                for(String name : members.keySet()) {
+                for (String name : members.keySet()) {
                     newGroup.tokens.remove(name);
                 }
                 senders.updateSender(sender);
@@ -301,14 +304,14 @@ public class DeviceGroupsHelper {
                 mLogger.log(Log.INFO, "Group members removed successfully."
                         + "\ngroupName: " + groupName
                         + "\ngroupKey: " + groupKey, "error");
-                Snackbar.make(snackbarView, "gone..bye"  , Snackbar.LENGTH_LONG).show();
+                Snackbar.make(snackbarView, "gone..bye", Snackbar.LENGTH_LONG).show();
             }
         } catch (JSONException | IOException e) {
             mLogger.log(Log.INFO, "Exception while removing group members."
                     + "\nerror: " + e.getMessage()
                     + "\ngroupName: " + groupName
                     + "\ngroupKey: " + groupKey, "error");
-            Snackbar.make(snackbarView, "couldnt remove them.. my bad"  , Snackbar.LENGTH_LONG).show();
+            Snackbar.make(snackbarView, "couldnt remove them.. my bad", Snackbar.LENGTH_LONG).show();
         }
     }
 

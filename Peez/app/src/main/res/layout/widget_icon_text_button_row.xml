@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 Copyright 2015 Google Inc. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,7 +33,7 @@ limitations under the License.
         android:id="@+id/widget_itbr_text"
         android:layout_gravity="center_vertical"
         android:layout_weight="0.5"
-        style="@style/TextAppearance.AppCompat"/>
+        style="@style/TextAppearance.AppCompat" />
 
     <Button
         android:layout_width="wrap_content"

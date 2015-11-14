@@ -29,12 +29,11 @@ import android.widget.Spinner;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.logic.quicktest.QuickTest;
 import com.horcu.apps.peez.service.LoggingService;
-import com.horcu.apps.peez.ui.activities.GroupActivity;
 import com.horcu.apps.peez.ui.MainMenu;
+import com.horcu.apps.peez.ui.activities.GroupActivity;
 import com.horcu.apps.peez.ui.addressbook.SelectActivity;
 
 import java.util.ArrayList;
-
 import java.util.LinkedHashMap;
 import java.util.List;
 

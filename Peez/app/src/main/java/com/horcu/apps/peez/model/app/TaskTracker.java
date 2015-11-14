@@ -18,7 +18,6 @@ package com.horcu.apps.peez.model.app;
 import android.os.SystemClock;
 import android.util.Log;
 
-
 import com.horcu.apps.peez.service.LoggingService;
 
 import org.json.JSONException;
@@ -27,7 +26,15 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.horcu.apps.peez.model.app.Constants.*;
+import static com.horcu.apps.peez.model.app.Constants.CANCELLED;
+import static com.horcu.apps.peez.model.app.Constants.CREATED_AT_ELAPSED_SECS;
+import static com.horcu.apps.peez.model.app.Constants.EXECUTED;
+import static com.horcu.apps.peez.model.app.Constants.FLEX;
+import static com.horcu.apps.peez.model.app.Constants.PERIOD;
+import static com.horcu.apps.peez.model.app.Constants.TAG;
+import static com.horcu.apps.peez.model.app.Constants.WINDOW_START_ELAPSED_SECS;
+import static com.horcu.apps.peez.model.app.Constants.WINDOW_STOP_ELAPSED_SECS;
+
 /**
  * Keep track of task so when it is sent back we can ensure correct execution criteria.
  */
@@ -148,14 +155,14 @@ public class TaskTracker {
         if (!cancelled) {
             if (executed && period == 0) {
                 logger.log(Log.ERROR, "Attempt to execute one off task  " + tag + " multiple " +
-                        "times","error");
+                        "times", "error");
                 return;
             } else {
                 this.executed = true;
                 this.executionTimes.add(elapsedNowSecs);
             }
         } else {
-            logger.log(Log.ERROR, "Attempt to execute task  " + tag + " after it was cancelled","error");
+            logger.log(Log.ERROR, "Attempt to execute task  " + tag + " after it was cancelled", "error");
             return;
         }
 
@@ -166,21 +173,21 @@ public class TaskTracker {
         if (period == 0) { // one-off task
             if (elapsedNowSecs > windowStopElapsedSecs + driftAllowed ||
                     elapsedNowSecs < windowStartElapsedSecs - driftAllowed) {
-                logger.log(Log.ERROR, "Mistimed execution for task " + tag,"error");
+                logger.log(Log.ERROR, "Mistimed execution for task " + tag, "error");
             } else {
-                logger.log(Log.INFO, "Successfully executed one-off task " + tag,"error");
+                logger.log(Log.INFO, "Successfully executed one-off task " + tag, "error");
             }
         } else { // periodic
             final int n = executionTimes.size(); // This is the nth execution
             if (elapsedNowSecs + driftAllowed
                     < (createdAtElapsedSecs) + (n - 1) * this.period) {
                 // Run too early.
-                logger.log(Log.ERROR, "Mistimed execution for task " + tag + ": run too early","error");
+                logger.log(Log.ERROR, "Mistimed execution for task " + tag + ": run too early", "error");
             } else if (elapsedNowSecs - driftAllowed > (createdAtElapsedSecs) + n * period) {
                 // Run too late.
-                logger.log(Log.ERROR, "Mistimed execution for task " + tag + ": run too late","error");
+                logger.log(Log.ERROR, "Mistimed execution for task " + tag + ": run too late", "error");
             } else {
-                logger.log(Log.INFO, "Successfully executed periodic task " + tag,"error");
+                logger.log(Log.INFO, "Successfully executed periodic task " + tag, "error");
             }
         }
     }

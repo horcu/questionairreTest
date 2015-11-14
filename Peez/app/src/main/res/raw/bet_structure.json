@@ -1,1 +1,200 @@
-{"Stats":{"wins":{"timePeriod":["week","month"],"eligible":["team","conference","division"]},"tds":{"timePeriod":["week","month","1st quarter","2nd quarter","3rd quarter","4th quarter","1st half","2nd half"],"eligible":["team","conference","division","quarterback","runningback","widereceiver","defense","tightend"]},"yds":{"timePeriod":["week","month","1st quarter","2nd quarter","3rd quarter","4th quarter","1st half","2nd half"],"eligible":["team","quarterback","runningback","widereceiver","tightend"]},"rec":{"timePeriod":["week","month","1st quarter","2nd quarter","3rd quarter","4th quarter","1st half","2nd half"],"eligible":["team","runningback","widereceiver","tightend"]},"rush":{"timePeriod":["week","month","1st quarter","2nd quarter","3rd quarter","4th quarter","1st half","2nd half"],"eligible":["team","quarterback","runningback"]},"ret yds":{"timePeriod":["week","month","1st quarter","2nd quarter","3rd quarter","4th quarter","1st half","2nd half"],"eligible":["team","specialteams"]},"net yds":{"timePeriod":["week","month","1st quarter","2nd quarter","3rd quarter","4th quarter","1st half","2nd half"],"eligible":["team","conference","division","quarterback","runningback","widereceiver","tightend"]},"int":{"timePeriod":["week","month","1st quarter","2nd quarter","3rd quarter","4th quarter","1st half","2nd half"],"eligible":["team","conference","division","defense"]},"cat":{"timePeriod":["week","month","1st quarter","2nd quarter","3rd quarter","4th quarter","1st half","2nd half"],"eligible":["team","conference","division","runningback","widereceiver","tightend"]},"cat a":{"timePeriod":["week","month","1st quarter","2nd quarter","3rd quarter","4th quarter","1st half","2nd half"],"eligible":["team","conference","division","defense"]},"pen yds":{"timePeriod":["week","month","1st quarter","2nd quarter","3rd quarter","4th quarter","1st half","2nd half"],"eligible":["team","defense"]}}}
+{
+  "Stats": {
+    "wins": {
+      "timePeriod": [
+        "week",
+        "month"
+      ],
+      "eligible": [
+        "team",
+        "conference",
+        "division"
+      ]
+    },
+    "tds": {
+      "timePeriod": [
+        "week",
+        "month",
+        "1st quarter",
+        "2nd quarter",
+        "3rd quarter",
+        "4th quarter",
+        "1st half",
+        "2nd half"
+      ],
+      "eligible": [
+        "team",
+        "conference",
+        "division",
+        "quarterback",
+        "runningback",
+        "widereceiver",
+        "defense",
+        "tightend"
+      ]
+    },
+    "yds": {
+      "timePeriod": [
+        "week",
+        "month",
+        "1st quarter",
+        "2nd quarter",
+        "3rd quarter",
+        "4th quarter",
+        "1st half",
+        "2nd half"
+      ],
+      "eligible": [
+        "team",
+        "quarterback",
+        "runningback",
+        "widereceiver",
+        "tightend"
+      ]
+    },
+    "rec": {
+      "timePeriod": [
+        "week",
+        "month",
+        "1st quarter",
+        "2nd quarter",
+        "3rd quarter",
+        "4th quarter",
+        "1st half",
+        "2nd half"
+      ],
+      "eligible": [
+        "team",
+        "runningback",
+        "widereceiver",
+        "tightend"
+      ]
+    },
+    "rush": {
+      "timePeriod": [
+        "week",
+        "month",
+        "1st quarter",
+        "2nd quarter",
+        "3rd quarter",
+        "4th quarter",
+        "1st half",
+        "2nd half"
+      ],
+      "eligible": [
+        "team",
+        "quarterback",
+        "runningback"
+      ]
+    },
+    "ret yds": {
+      "timePeriod": [
+        "week",
+        "month",
+        "1st quarter",
+        "2nd quarter",
+        "3rd quarter",
+        "4th quarter",
+        "1st half",
+        "2nd half"
+      ],
+      "eligible": [
+        "team",
+        "specialteams"
+      ]
+    },
+    "net yds": {
+      "timePeriod": [
+        "week",
+        "month",
+        "1st quarter",
+        "2nd quarter",
+        "3rd quarter",
+        "4th quarter",
+        "1st half",
+        "2nd half"
+      ],
+      "eligible": [
+        "team",
+        "conference",
+        "division",
+        "quarterback",
+        "runningback",
+        "widereceiver",
+        "tightend"
+      ]
+    },
+    "int": {
+      "timePeriod": [
+        "week",
+        "month",
+        "1st quarter",
+        "2nd quarter",
+        "3rd quarter",
+        "4th quarter",
+        "1st half",
+        "2nd half"
+      ],
+      "eligible": [
+        "team",
+        "conference",
+        "division",
+        "defense"
+      ]
+    },
+    "cat": {
+      "timePeriod": [
+        "week",
+        "month",
+        "1st quarter",
+        "2nd quarter",
+        "3rd quarter",
+        "4th quarter",
+        "1st half",
+        "2nd half"
+      ],
+      "eligible": [
+        "team",
+        "conference",
+        "division",
+        "runningback",
+        "widereceiver",
+        "tightend"
+      ]
+    },
+    "cat a": {
+      "timePeriod": [
+        "week",
+        "month",
+        "1st quarter",
+        "2nd quarter",
+        "3rd quarter",
+        "4th quarter",
+        "1st half",
+        "2nd half"
+      ],
+      "eligible": [
+        "team",
+        "conference",
+        "division",
+        "defense"
+      ]
+    },
+    "pen yds": {
+      "timePeriod": [
+        "week",
+        "month",
+        "1st quarter",
+        "2nd quarter",
+        "3rd quarter",
+        "4th quarter",
+        "1st half",
+        "2nd half"
+      ],
+      "eligible": [
+        "team",
+        "defense"
+      ]
+    }
+  }
+}

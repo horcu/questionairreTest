@@ -13,7 +13,7 @@
         android:layout_height="25dp"
         app:civ_border_width="2dp"
         app:civ_border_color="#dddddd"
-        android:src="@drawable/demo"/>
+        android:src="@drawable/demo" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -22,7 +22,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginStart="10dp"
         android:textColor="@android:color/holo_blue_dark"
-        android:text="#OrigamiPunaniMurdera"/>
+        android:text="#OrigamiPunaniMurdera" />
 
     <!--<TextView-->
     <!--android:layout_width="wrap_content"-->

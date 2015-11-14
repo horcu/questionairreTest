@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FF65A7C4</color>
-    <color name="colorPrimaryDark">#FF65A7C4</color>
-    <color name="colorAccent">#FF7297AA</color>
+    <color name="colorPrimary">#ff3f51b5</color>
+    <color name="colorPrimaryDark">#7b7e90</color>
+    <color name="colorAccent">#ff3f51b5</color>
     <color name="grey_500">#dddddd</color>
-    <color name="primary_material_light_1">#FF65A7C4</color>
-    <color name="accent_material_light">#FF65A7C4</color>
-    <color name="black">#ff202020</color>
+    <color name="primary_material_light_1">#ff3f51b5</color>
+    <color name="accent_material_light">#a7a8a9</color>
+    <color name="black">#7b7e90</color>
     <color name="light_grey">#ffebebeb</color>
-    <color name="cyan_500">#00BCD4</color>
-    <color name="background_material_light">#ffffff</color>
-    <color name="accent_material_light_1">#96999b</color>
-    <color name="primary_dark_material_light">#65a7c4</color>
+    <color name="cyan_500">#ff3f51b5</color>
+    <color name="background_material_light">#7b7e90</color>
+    <color name="accent_material_light_1">#7e8283</color>
+    <color name="primary_dark_material_light">#7b7e90</color>
 
     <color name="white_alpha">#8FFF</color>
-    <color name="cyan">#0097A7</color>
-    <color name="primary_material_light">#65a7c4</color>
-    <color name="foreground_material_light">#2f2f2f</color>
-    <color name="primary_text_material_light">#212121</color>
+    <color name="cyan">#ff3f51b5</color>
+    <color name="primary_material_light">#7b7e90</color>
+    <color name="foreground_material_light">#eceaea</color>
+    <color name="primary_text_material_light">#bcb9b9</color>
     <color name="text">#222222</color>
 
 

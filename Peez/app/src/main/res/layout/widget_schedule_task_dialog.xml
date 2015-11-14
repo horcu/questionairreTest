@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 Copyright 2015 Google Inc. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,53 +13,62 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <TextView
         android:id="@+id/task_connectivity_constraints_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/task_constraints_connectivity"/>
+        android:text="@string/task_constraints_connectivity" />
+
     <RadioGroup
         android:id="@+id/task_connectivity_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <RadioButton
             android:layout_weight="0.33"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:id="@+id/task_connectivity_connected"
             android:text="@string/task_connectivity_connected"
-            android:checked="true"/>
+            android:checked="true" />
+
         <RadioButton
             android:layout_weight="0.33"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:id="@+id/task_connectivity_unmetered"
-            android:text="@string/task_connectivity_unmetered"/>
+            android:text="@string/task_connectivity_unmetered" />
+
         <RadioButton
             android:layout_weight="0.33"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:id="@+id/task_connectivity_any"
-            android:text="@string/task_connectivity_any"/>
+            android:text="@string/task_connectivity_any" />
     </RadioGroup>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <CheckBox android:id="@+id/task_charging_checkbox"
+
+        <CheckBox
+            android:id="@+id/task_charging_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/task_constraints_charging"/>
-        <CheckBox android:id="@+id/task_persistence_checkbox"
+            android:text="@string/task_constraints_charging" />
+
+        <CheckBox
+            android:id="@+id/task_persistence_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/task_constraints_persistence"/>
+            android:text="@string/task_constraints_persistence" />
     </LinearLayout>
     <!-- Layout for scheduling -->
     <LinearLayout
@@ -68,33 +76,38 @@ limitations under the License.
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_margin="5dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/task_param1_title"
-            android:text="param1"/>
+            android:text="param1" />
+
         <EditText
             android:id="@+id/task_param1"
             android:inputType="number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_margin="5dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/task_param2_title"
-            android:text="param2"/>
+            android:text="param2" />
+
         <EditText
             android:id="@+id/task_param2"
             android:inputType="number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
     </LinearLayout>
 </LinearLayout>

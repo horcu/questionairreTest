@@ -30,7 +30,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(path: ':backend', configuration: 'android-endpoints')
     compile project(':common')
-   // compile project(':discreteseekbar')
+    // compile project(':discreteseekbar')
     // UiAutomatorTesting
     androidTestCompile 'com.android.support.test:runner:0.3'
     androidTestCompile 'com.android.support.test:rules:0.3'

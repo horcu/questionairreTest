@@ -19,7 +19,6 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.os.Bundle;
-
 import android.support.v4.util.SimpleArrayMap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -100,7 +99,7 @@ public class GroupsFragment extends AbstractFragment
     public void onClick(View v) {
         if (v.getId() == R.id.groups_create_new) {
             getActivity().startActivity(new Intent(getActivity(), GroupActivity.class));
-        } else if(ACTION_OPEN_GROUP.equals(v.getTag(R.id.tag_action))) {
+        } else if (ACTION_OPEN_GROUP.equals(v.getTag(R.id.tag_action))) {
             Intent intent = new Intent(getActivity(), GroupActivity.class);
             intent.putExtra(GroupActivity.EXTRA_SENDER_ID, (String) v.getTag(R.id.tag_senderid));
             intent.putExtra(GroupActivity.EXTRA_GROUP_NAME, (String) v.getTag(R.id.tag_group));

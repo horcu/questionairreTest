@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.horcu.apps.peez.ui.activities.BetActivity">
 
-    <item android:id="@+id/spinner_filter"
+    <item
+        android:id="@+id/spinner_filter"
         android:title="filter"
         app:showAsAction="never"
-        app:actionViewClass="com.horcu.apps.peez.spinner.NiceSpinner"
-        />
+        app:actionViewClass="com.horcu.apps.peez.spinner.NiceSpinner" />
 </menu>

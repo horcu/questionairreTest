@@ -17,7 +17,6 @@ package com.horcu.apps.peez.model.app;
 
 import android.support.v4.util.ArrayMap;
 
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,7 +25,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static com.horcu.apps.peez.model.app.Constants.*;
+import static com.horcu.apps.peez.model.app.Constants.API_KEYS;
+import static com.horcu.apps.peez.model.app.Constants.APP_TOKENS;
+import static com.horcu.apps.peez.model.app.Constants.GROUPS;
+import static com.horcu.apps.peez.model.app.Constants.NAME;
+import static com.horcu.apps.peez.model.app.Constants.OTHER_TOKENS;
+import static com.horcu.apps.peez.model.app.Constants.SENDER_ID;
+import static com.horcu.apps.peez.model.app.Constants.TOPICS;
+
 /**
  * This class is an address book entry corresponding to a server using GCM.
  */

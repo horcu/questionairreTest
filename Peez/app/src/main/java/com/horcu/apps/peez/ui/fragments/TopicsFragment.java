@@ -30,7 +30,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.logic.PubSubHelper;
 import com.horcu.apps.peez.model.app.Sender;
@@ -179,7 +178,7 @@ public class TopicsFragment extends AbstractFragment
         Sender sender = mSenders.getSender(senderId);
         Token gcmToken = (sender != null) ? sender.getGcmDemoAppToken() : null;
         if (gcmToken == null) {
-            mLogger.log(Log.ERROR, "gcmToken missing while un-subscribing from topic.","error");
+            mLogger.log(Log.ERROR, "gcmToken missing while un-subscribing from topic.", "error");
             return;
         }
         Toast.makeText(getActivity(),

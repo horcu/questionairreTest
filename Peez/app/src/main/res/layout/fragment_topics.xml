@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 Copyright 2015 Google Inc. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +24,7 @@ limitations under the License.
         android:layout_height="wrap_content"
         android:id="@+id/topics_description"
         android:text="@string/topics_description"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="8dp" />
 
     <FrameLayout
         android:layout_width="match_parent"

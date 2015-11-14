@@ -28,7 +28,6 @@ import android.support.test.uiautomator.Until;
 import com.google.android.gms.appinvite.AppInviteReferral;
 import com.horcu.apps.peez.ui.activities.InviteActivity;
 
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

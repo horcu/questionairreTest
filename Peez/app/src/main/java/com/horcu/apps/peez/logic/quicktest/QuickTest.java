@@ -18,14 +18,13 @@ package com.horcu.apps.peez.logic.quicktest;
 import android.content.Context;
 import android.support.v4.util.SimpleArrayMap;
 
-
 import com.horcu.apps.peez.service.LoggingService;
 
 import java.util.List;
 
 /**
  * Quick Tests are pre-configured requests that test specific GCM behaviors.
- *
+ * <p/>
  * The user can execute the quick tests through the dropdown menu placed in
  * the first screen of the app.
  * This class contains the list of tests {@see #getTests}
@@ -33,6 +32,8 @@ import java.util.List;
  **/
 public interface QuickTest {
     int getName();
+
     List<Integer> getRequiredParameters();
+
     void execute(LoggingService.Logger logger, Context context, SimpleArrayMap<Integer, String> params);
 }

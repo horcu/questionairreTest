@@ -8,8 +8,8 @@
         android:layout_width="38dp"
         android:layout_height="38dp"
         android:layout_marginLeft="16dp"
-       android:layout_marginRight="7dp"
-        android:src="@android:drawable/sym_contact_card"/>
+        android:layout_marginRight="7dp"
+        android:src="@android:drawable/sym_contact_card" />
 
     <TextView
         android:id="@+id/friend"
@@ -19,12 +19,12 @@
         android:textColor="@color/black"
         android:gravity="center"
 
-        android:text="JrBonilla4@gmail.com"/>
+        android:text="JrBonilla4@gmail.com" />
 
     <Space
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="100"/>
+        android:layout_weight="100" />
 
 
     <ImageView
@@ -33,5 +33,5 @@
         android:src="@drawable/check_circle_grey600"
         android:layout_gravity="center"
         android:gravity="center"
-        android:layout_marginRight="16dp"/>
+        android:layout_marginRight="16dp" />
 </LinearLayout>

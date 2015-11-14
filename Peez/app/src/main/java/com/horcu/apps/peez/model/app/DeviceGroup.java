@@ -22,7 +22,10 @@ import org.json.JSONObject;
 
 import java.util.Iterator;
 
-import static com.horcu.apps.peez.model.app.Constants.*;
+import static com.horcu.apps.peez.model.app.Constants.NOTIFICATION_KEY;
+import static com.horcu.apps.peez.model.app.Constants.NOTIFICATION_KEY_NAME;
+import static com.horcu.apps.peez.model.app.Constants.TOKENS;
+
 /**
  * This class is used to persist a {@link Sender}'s groups
  */

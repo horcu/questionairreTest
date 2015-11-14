@@ -3,7 +3,6 @@ package com.horcu.apps.peez.logic;
 import android.support.v4.util.SimpleArrayMap;
 import android.util.Log;
 
-
 import com.horcu.apps.peez.service.LoggingService;
 
 import java.io.BufferedReader;
@@ -32,7 +31,8 @@ public class HttpRequest {
 
     /**
      * Add a request header
-     * @param name the header's name
+     *
+     * @param name  the header's name
      * @param value the header's value
      */
     public void setHeader(String name, String value) {
@@ -47,7 +47,6 @@ public class HttpRequest {
     }
 
     /**
-     *
      * @return this request's response body
      */
     public String getResponseBody() {
@@ -56,7 +55,8 @@ public class HttpRequest {
 
     /**
      * Post the request
-     * @param url where to post to
+     *
+     * @param url         where to post to
      * @param requestBody the body of the request
      * @throws IOException
      */

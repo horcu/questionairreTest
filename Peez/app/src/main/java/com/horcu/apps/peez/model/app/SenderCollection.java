@@ -81,7 +81,7 @@ public class SenderCollection {
             in = new FileInputStream(file);
             int bytesRead = in.read(bytes);
             if (bytesRead == -1) {
-                mLogger.log(Log.ERROR, "Failed to read senders file.","error");
+                mLogger.log(Log.ERROR, "Failed to read senders file.", "error");
             } else {
                 JSONArray sendersJson = new JSONArray(new String(bytes));
                 for (int i = 0; i < sendersJson.length(); i++) {
@@ -90,9 +90,9 @@ public class SenderCollection {
                 }
             }
         } catch (IOException e) {
-            mLogger.log(Log.ERROR, "Failed to read senders file.","error", e);
+            mLogger.log(Log.ERROR, "Failed to read senders file.", "error", e);
         } catch (JSONException e) {
-            mLogger.log(Log.ERROR, "Failed to deserialize senders.","error", e);
+            mLogger.log(Log.ERROR, "Failed to deserialize senders.", "error", e);
         } finally {
             if (in != null) {
                 try {
@@ -116,9 +116,9 @@ public class SenderCollection {
             out = new FileOutputStream(file);
             out.write(jsonArray.toString().getBytes());
         } catch (IOException e) {
-            mLogger.log(Log.ERROR, "Failed to write senders file.","error", e);
+            mLogger.log(Log.ERROR, "Failed to write senders file.", "error", e);
         } catch (JSONException e) {
-            mLogger.log(Log.ERROR, "Failed to serialize senders.","error", e);
+            mLogger.log(Log.ERROR, "Failed to serialize senders.", "error", e);
         } finally {
             if (out != null) {
                 try {

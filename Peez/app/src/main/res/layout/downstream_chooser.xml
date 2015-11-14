@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 Copyright 2015 Google Inc. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,8 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:orientation="vertical">
@@ -28,11 +26,11 @@ limitations under the License.
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height ="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/downstream_api_key"
             android:layout_weight="0.3"
             android:textStyle="bold"
-            style="@style/TextAppearance.AppCompat.Caption"/>
+            style="@style/TextAppearance.AppCompat.Caption" />
 
         <TextView
             android:layout_width="0dp"
@@ -40,7 +38,7 @@ limitations under the License.
             android:id="@+id/downstream_api_key"
             android:text="@string/downstream_api_key_hint"
             android:layout_weight="0.7"
-            style="@style/Widget.AppCompat.Spinner.Underlined"/>
+            style="@style/Widget.AppCompat.Spinner.Underlined" />
     </LinearLayout>
 
     <LinearLayout
@@ -48,13 +46,14 @@ limitations under the License.
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="1">
+
         <TextView
             android:layout_width="0dp"
-            android:layout_height ="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/downstream_token"
             android:layout_weight="0.3"
             android:textStyle="bold"
-            style="@style/TextAppearance.AppCompat.Caption"/>
+            style="@style/TextAppearance.AppCompat.Caption" />
 
         <TextView
             android:layout_width="0dp"
@@ -62,6 +61,6 @@ limitations under the License.
             android:id="@+id/downstream_token"
             android:text="@string/downstream_token_hint"
             android:layout_weight="0.7"
-            style="@style/Widget.AppCompat.Spinner.Underlined"/>
+            style="@style/Widget.AppCompat.Spinner.Underlined" />
     </LinearLayout>
 </LinearLayout>

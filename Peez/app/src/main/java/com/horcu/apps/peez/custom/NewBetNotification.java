@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
@@ -77,7 +76,7 @@ public class NewBetNotification {
 
                         // Provide a large icon, shown with the notification in the
                         // notification drawer on devices running Android 3.0 or later.
-    //            .setLargeIcon(picture)
+                        //            .setLargeIcon(picture)
 
                         // Set ticker text (preview) information for this notification.
                 .setTicker(ticker)

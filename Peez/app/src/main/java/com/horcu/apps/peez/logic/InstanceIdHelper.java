@@ -35,7 +35,7 @@ import java.util.List;
  * Registration involves getting the app's instance id and using it to request a token with
  * the scope
  */
- //{@link GoogleCloudMessaging.INSTANCE_ID_SCOPE} and the audience set to the project's
+//{@link GoogleCloudMessaging.INSTANCE_ID_SCOPE} and the audience set to the project's
 
 public class InstanceIdHelper {
 
@@ -53,7 +53,7 @@ public class InstanceIdHelper {
      * Get a Instance ID authorization Token
      */
     public void getTokenInBackground(final String authorizedEntity, final String scope,
-                                        final Bundle extras) {
+                                     final Bundle extras) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
@@ -147,7 +147,7 @@ public class InstanceIdHelper {
                     mLogger.log(Log.INFO, "delete instanceId succeeded.", "error");
 
                     // Remove all appTokens and topics subscriptions tied to any Sender.
-                    for (int i = 0;  i < mSenders.getSenders().size(); i++) {
+                    for (int i = 0; i < mSenders.getSenders().size(); i++) {
                         Sender sender = mSenders.getSenders().valueAt(i);
                         boolean senderIsDirty = false;
                         if (sender.appTokens.size() > 0) {

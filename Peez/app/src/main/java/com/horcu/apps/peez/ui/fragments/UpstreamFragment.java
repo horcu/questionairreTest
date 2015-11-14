@@ -25,7 +25,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.model.app.Sender;
@@ -123,16 +122,16 @@ public class UpstreamFragment extends AbstractFragment implements View.OnClickLi
                                     Long.parseLong(ttl), data);
                         } catch (NumberFormatException ex) {
                             mLogger.log(Log.ERROR,
-                                    "Error sending upstream message: could not parse ttl","error", ex);
+                                    "Error sending upstream message: could not parse ttl", "error", ex);
                             return "Error sending upstream message: could not parse ttl";
                         }
                     } else {
                         gcm.send(senderId + "@gcm.googleapis.com", msgId, data);
                     }
-                    mLogger.log(Log.INFO, "Successfully sent upstream message","error");
+                    mLogger.log(Log.INFO, "Successfully sent upstream message", "error");
                     return null;
                 } catch (IOException ex) {
-                    mLogger.log(Log.ERROR, "Error sending upstream message","error", ex);
+                    mLogger.log(Log.ERROR, "Error sending upstream message", "error", ex);
                     return "Error sending upstream message:" + ex.getMessage();
                 }
             }

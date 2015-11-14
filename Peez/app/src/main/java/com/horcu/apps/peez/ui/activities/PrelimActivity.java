@@ -1,13 +1,12 @@
 package com.horcu.apps.peez.ui.activities;
+
 import android.accounts.AccountManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -16,26 +15,15 @@ import android.view.View;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
-import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 import com.greenfrvr.rubberloader.RubberLoaderView;
 import com.horcu.apps.common.utilities.consts;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.userApi.UserApi;
 import com.horcu.apps.peez.backend.models.userApi.model.User;
 import com.horcu.apps.peez.backend.models.userSettingsApi.UserSettingsApi;
-import com.horcu.apps.peez.backend.models.userSettingsApi.model.UserSettings;
-import com.horcu.apps.peez.backend.registration.Registration;
 import com.horcu.apps.peez.custom.Api;
 import com.horcu.apps.peez.registration.RegistrationIntentService;
-
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class PrelimActivity extends AppCompatActivity {
 
@@ -65,9 +53,8 @@ public class PrelimActivity extends AppCompatActivity {
         settings = getSharedPreferences("Peez", 0);
         userApi = Api.BuildUserApiService();
         userSettingsApi = Api.BuildUserSettingsApiService();
-        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
-       loader =  ((RubberLoaderView) findViewById(R.id.loader1));
+        loader = ((RubberLoaderView) findViewById(R.id.loader1));
         loader.startLoading();
 
         settings = getSharedPreferences("Peez", 0);
@@ -82,10 +69,10 @@ public class PrelimActivity extends AppCompatActivity {
                         .getBoolean(consts.SENT_TOKEN_TO_SERVER, false);
                 if (sentToken) {
                     navigateToApp();
-                    Snackbar.make(loader,"token sent",Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(loader, "token sent", Snackbar.LENGTH_LONG).show();
                     settings.edit().putBoolean(consts.DEVICE_REGISTERED, true).apply();
                 } else {
-                    Snackbar.make(loader,"token not sent",Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(loader, "token not sent", Snackbar.LENGTH_LONG).show();
                     String msg = "token was not successfully sent to the server. kill app and retry. \r OK only for dev mode. CANNOT HAPPEN IN PROD";
                     settings.edit().putBoolean(consts.DEVICE_REGISTERED, false).apply();
                     navigateToErrorPage(msg);
@@ -95,11 +82,9 @@ public class PrelimActivity extends AppCompatActivity {
 
         String name = settings.getString(consts.PREF_ACCOUNT_NAME, null);
 
-        if(name == null)
-        {
+        if (name == null) {
             chooseAccount();
-        }
-        else {
+        } else {
 
             //check if device is registered
             boolean isRegistered = settings.getBoolean(consts.DEVICE_REGISTERED, false);

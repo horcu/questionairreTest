@@ -116,7 +116,7 @@ public class NiceSpinner extends TextView {
 
         setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
         setPadding(resources.getDimensionPixelSize(R.dimen.three_grid_unit), defaultPadding, defaultPadding,
-            defaultPadding);
+                defaultPadding);
         setClickable(true);
         setBackgroundResource(R.drawable.selector);
 
@@ -196,7 +196,7 @@ public class NiceSpinner extends TextView {
 
     /**
      * Set the default spinner item using its index
-     * 
+     *
      * @param position the item's position
      */
     public void setSelectedIndex(int position) {

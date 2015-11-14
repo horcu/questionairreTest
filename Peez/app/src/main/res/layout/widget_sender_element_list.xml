@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 Copyright 2015 Google Inc. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,17 +17,20 @@ limitations under the License.
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <TextView
         android:id="@+id/sender_element_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/ripple_material_light" />
+
     <LinearLayout
         android:orientation="vertical"
         android:id="@+id/sender_element_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.9" />
+
     <Button
         android:layout_gravity="end"
         android:layout_width="wrap_content"
@@ -38,5 +40,5 @@ limitations under the License.
         android:layout_marginTop="2dp"
         android:layout_marginBottom="2dp"
         android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"/>
+        android:layout_marginRight="2dp" />
 </LinearLayout>

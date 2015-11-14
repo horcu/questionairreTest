@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_below="@+id/bet_info"
@@ -12,7 +11,7 @@
         android:layout_weight="1"
         android:textColor="#4caf50"
 
-        android:text="accept"/>
+        android:text="accept" />
 
     <ImageView
         android:layout_width="40dp"
@@ -20,7 +19,7 @@
         android:layout_weight="1"
         android:textColor="#9c27b0"
 
-        android:text="park"/>
+        android:text="park" />
 
     <ImageView
         android:layout_width="40dp"
@@ -28,5 +27,5 @@
         android:layout_weight="1"
         android:textColor="#8F5656"
 
-        android:text="decline"/>
+        android:text="decline" />
 </LinearLayout>

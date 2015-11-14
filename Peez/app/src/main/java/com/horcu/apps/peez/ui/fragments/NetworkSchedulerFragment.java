@@ -41,7 +41,6 @@ import com.google.android.gms.gcm.GcmNetworkManager;
 import com.google.android.gms.gcm.OneoffTask;
 import com.google.android.gms.gcm.PeriodicTask;
 import com.google.android.gms.gcm.Task;
-
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.model.app.TaskCollection;
 import com.horcu.apps.peez.model.app.TaskTracker;

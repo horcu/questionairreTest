@@ -3,9 +3,6 @@ package com.horcu.apps.peez.ui.activities;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -52,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements testItemFragment.
         setContentView(R.layout.activity_main);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setElevation(2);
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
+            //   getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
         }
 
         mLogger = new LoggingService.Logger(this);
@@ -63,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements testItemFragment.
             public void onReceive(Context context, Intent intent) {
                 switch (intent.getAction()) {
                     case LoggingService.ACTION_CLEAR_LOGS:
-                      //  mLogsUI.setText("");
+                        //  mLogsUI.setText("");
                         break;
                     case LoggingService.ACTION_LOG:
 
@@ -109,18 +106,15 @@ public class MainActivity extends AppCompatActivity implements testItemFragment.
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
-        }
-        else if( id == R.id.action_bet){
+            Intent intent = new Intent(this, FeedActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.action_bet) {
             Intent intent = new Intent(this, BetActivity.class);
             startActivity(intent);
-        }
-        else if(id == R.id.action_invite){
+        } else if (id == R.id.action_invite) {
             Intent intent = new Intent(this, InviteActivity.class);
             startActivity(intent);
-        }
-        else if (id == R.id.action_msg)
-        {
+        } else if (id == R.id.action_msg) {
             Intent intent = new Intent(this, GCMActivity.class);
             startActivity(intent);
         }

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 Copyright 2015 Google Inc. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,7 +32,7 @@ limitations under the License.
             android:text="@string/group_sender_id"
             android:layout_weight="0.3"
             android:textStyle="bold"
-            style="@style/TextAppearance.AppCompat.Caption"/>
+            style="@style/TextAppearance.AppCompat.Caption" />
 
         <TextView
             android:layout_width="0dp"
@@ -42,7 +41,7 @@ limitations under the License.
             android:id="@+id/group_sender_id"
             android:layout_weight="0.7"
             style="@style/TextAppearance.AppCompat"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <TextView
             android:layout_width="0dp"
@@ -50,7 +49,7 @@ limitations under the License.
             android:text="@string/group_sender_id_hint"
             android:id="@+id/group_choose_sender_id"
             android:layout_weight="0.7"
-            style="@style/Widget.AppCompat.Spinner.Underlined"/>
+            style="@style/Widget.AppCompat.Spinner.Underlined" />
     </LinearLayout>
 
     <LinearLayout
@@ -65,7 +64,7 @@ limitations under the License.
             android:text="@string/group_sender_api_key"
             android:layout_weight="0.3"
             android:textStyle="bold"
-            style="@style/TextAppearance.AppCompat.Caption"/>
+            style="@style/TextAppearance.AppCompat.Caption" />
 
         <TextView
             android:layout_width="0dp"
@@ -74,7 +73,7 @@ limitations under the License.
             android:layout_weight="0.7"
             style="@style/Widget.AppCompat.Spinner.Underlined"
             android:text="@string/group_sender_api_key_hint"
-            android:enabled="false"/>
+            android:enabled="false" />
     </LinearLayout>
 
     <LinearLayout
@@ -89,14 +88,14 @@ limitations under the License.
             android:text="@string/group_name"
             android:textStyle="bold"
             android:layout_weight="0.3"
-            style="@style/TextAppearance.AppCompat.Caption"/>
+            style="@style/TextAppearance.AppCompat.Caption" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/group_name"
             android:layout_weight="0.7"
-            style="@style/TextAppearance.AppCompat"/>
+            style="@style/TextAppearance.AppCompat" />
     </LinearLayout>
 
     <EditText
@@ -120,14 +119,14 @@ limitations under the License.
             android:text="@string/group_key"
             android:textStyle="bold"
             android:layout_weight="0.3"
-            style="@style/TextAppearance.AppCompat.Caption"/>
+            style="@style/TextAppearance.AppCompat.Caption" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/group_key"
             android:layout_weight="0.7"
-            style="@style/TextAppearance.AppCompat"/>
+            style="@style/TextAppearance.AppCompat" />
     </LinearLayout>
 
     <LinearLayout
@@ -142,7 +141,7 @@ limitations under the License.
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:layout_marginTop="8dp"
-            style="@style/TextAppearance.AppCompat.Caption"/>
+            style="@style/TextAppearance.AppCompat.Caption" />
 
         <LinearLayout
             android:id="@+id/group_current_members_list"
@@ -164,7 +163,7 @@ limitations under the License.
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:layout_marginTop="8dp"
-            style="@style/TextAppearance.AppCompat.Caption"/>
+            style="@style/TextAppearance.AppCompat.Caption" />
 
         <LinearLayout
             android:id="@+id/group_removed_members_list"
@@ -186,7 +185,7 @@ limitations under the License.
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:layout_marginTop="8dp"
-            style="@style/TextAppearance.AppCompat.Caption"/>
+            style="@style/TextAppearance.AppCompat.Caption" />
 
         <LinearLayout
             android:id="@+id/group_new_members_list"
@@ -211,11 +210,11 @@ limitations under the License.
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        style="?android:attr/borderlessButtonStyle"/>
+        style="?android:attr/borderlessButtonStyle" />
 
-   <Button
+    <Button
         android:id="@+id/group_submit"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

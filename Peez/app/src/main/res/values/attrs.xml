@@ -18,8 +18,8 @@
     <attr name="sifNextIcon" format="reference" />
     <attr name="sifFinishIcon" format="reference" />
 
-  <declare-styleable name="NiceSpinner">
-    <attr name="arrowTint" format="color" />
-    <attr name="hideArrow" format="boolean" />
-  </declare-styleable>
+    <declare-styleable name="NiceSpinner">
+        <attr name="arrowTint" format="color" />
+        <attr name="hideArrow" format="boolean" />
+    </declare-styleable>
 </resources>

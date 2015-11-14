@@ -20,12 +20,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
-
 import com.google.android.gms.gcm.GcmPubSub;
 import com.horcu.apps.peez.model.app.Sender;
 import com.horcu.apps.peez.model.app.SenderCollection;
 import com.horcu.apps.peez.service.LoggingService;
-
 
 import java.io.IOException;
 
@@ -45,11 +43,10 @@ public class PubSubHelper {
     }
 
     /**
-     *
      * @param senderId the project id used by the app's server
      * @param gcmToken the registration token obtained by registering
-     * @param topic the topic to subscribe to
-     * @param extras bundle with extra parameters
+     * @param topic    the topic to subscribe to
+     * @param extras   bundle with extra parameters
      */
     public void subscribeTopic(final String senderId, final String gcmToken,
                                final String topic, final Bundle extras) {
@@ -83,10 +80,9 @@ public class PubSubHelper {
     }
 
     /**
-     *
      * @param senderId the project id used by the app's server
      * @param gcmToken the registration token obtained by registering
-     * @param topic the topic to unsubscribe from
+     * @param topic    the topic to unsubscribe from
      */
     public void unsubscribeTopic(final String senderId, final String gcmToken, final String topic) {
         new AsyncTask<Void, Void, Void>() {

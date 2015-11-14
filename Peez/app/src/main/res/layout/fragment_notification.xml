@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 Copyright 2015 Google Inc. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,7 +23,7 @@ limitations under the License.
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/fragment_description"
-        android:text="@string/notification_description"/>
+        android:text="@string/notification_description" />
 
     <include layout="@layout/downstream_chooser" />
 
@@ -35,6 +34,7 @@ limitations under the License.
         android:hint="@string/notification_icon_hint"
         android:text="icon"
         android:inputType="text" />
+
     <EditText
         android:id="@+id/notification_title"
         android:layout_width="match_parent"
@@ -42,12 +42,14 @@ limitations under the License.
         android:hint="@string/notification_title_hint"
         android:text="@string/notification_title_default"
         android:inputType="text" />
+
     <EditText
         android:id="@+id/notification_body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/notification_body_hint"
         android:inputType="text" />
+
     <EditText
         android:id="@+id/notification_click_action"
         android:layout_width="match_parent"
@@ -55,6 +57,7 @@ limitations under the License.
         android:hint="@string/notification_click_action_hint"
         android:text="gcm_test_app_notification_click_action"
         android:inputType="text" />
+
     <EditText
         android:id="@+id/notification_sound"
         android:layout_width="match_parent"
@@ -62,12 +65,14 @@ limitations under the License.
         android:hint="@string/notification_sound_hint"
         android:text="default"
         android:inputType="text" />
+
     <EditText
         android:id="@+id/notification_tag"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/notification_tag_hint"
         android:inputType="text" />
+
     <EditText
         android:id="@+id/notification_color"
         android:layout_width="match_parent"
@@ -79,6 +84,7 @@ limitations under the License.
         android:id="@+id/downstream_data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></com.horcu.apps.peez.ui.EditableMapView>
+
     <Button
         android:id="@+id/downstream_send_button"
         android:layout_width="match_parent"

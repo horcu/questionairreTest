@@ -16,11 +16,10 @@ limitations under the License.
 package com.horcu.apps.peez.service;
 
 
-
 import android.app.IntentService;
 import android.content.BroadcastReceiver;
-import android.content.Intent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -117,7 +116,7 @@ public class LoggingService extends IntentService {
         }
 
         public void log(int level, String msg, String sender) {
-            log(level, msg,sender, null);
+            log(level, msg, sender, null);
         }
 
         public void log(int priority, String msg, String sender, Throwable tr) {

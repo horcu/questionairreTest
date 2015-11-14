@@ -195,7 +195,7 @@ public class GCMActivity extends AppCompatActivity implements AdapterView.OnItem
         int lastScreenId = getAppPreferences().getInt(PREF_LAST_SCREEN_ID, 0);
         selectItem(lastScreenId);
         if (!activityResumed && openDrawer) {
-           mDrawerLayout.openDrawer(mDrawerView);
+            mDrawerLayout.openDrawer(mDrawerView);
         }
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
@@ -211,7 +211,7 @@ public class GCMActivity extends AppCompatActivity implements AdapterView.OnItem
             Bundle data = launchIntent.getExtras();
             data.isEmpty(); // Force the bundle to unparcel so that toString() works
             String format = getResources().getString(R.string.notification_intent_received);
-            mLogger.log(Log.INFO, String.format(format, data),"error");
+            mLogger.log(Log.INFO, String.format(format, data), "error");
         }
     }
 
@@ -220,7 +220,7 @@ public class GCMActivity extends AppCompatActivity implements AdapterView.OnItem
         super.onSupportActionModeStarted(mode);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             // Set a status bar color while in action mode (text copy&paste)
-          //  getWindow().setStatusBarColor(getResources().getColor(R.color.google_blue_900));
+            //  getWindow().setStatusBarColor(getResources().getColor(R.color.google_blue_900));
         }
     }
 
@@ -411,8 +411,8 @@ public class GCMActivity extends AppCompatActivity implements AdapterView.OnItem
 
     static public void showToast(final Context context, final int msgId, final Object... args) {
         Handler handler = new Handler(context.getMainLooper());
-        handler.post( new Runnable(){
-            public void run(){
+        handler.post(new Runnable() {
+            public void run() {
                 Toast.makeText(context, context.getString(msgId, args), Toast.LENGTH_LONG).show();
             }
         });

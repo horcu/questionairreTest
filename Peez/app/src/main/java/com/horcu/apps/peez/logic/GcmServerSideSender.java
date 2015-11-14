@@ -23,7 +23,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-
 import java.net.URLEncoder;
 import java.util.Map;
 
@@ -94,7 +93,7 @@ public class GcmServerSideSender {
             }
         }
 
-       HttpRequest httpRequest = new HttpRequest();
+        HttpRequest httpRequest = new HttpRequest();
         httpRequest.setHeader(HEADER_CONTENT_TYPE, CONTENT_TYPE_FORM_ENCODED);
         httpRequest.setHeader(HEADER_AUTHORIZATION, "key=" + key);
         httpRequest.doPost(GCM_SEND_ENDPOINT, request.toString());
@@ -117,7 +116,7 @@ public class GcmServerSideSender {
 
         switch (firstLineValues[0]) {
             case RESPONSE_PLAINTEXT_MESSAGE_ID:
-                logger.log(Log.INFO, "Message sent.\nid: " + firstLineValues[1],"error");
+                logger.log(Log.INFO, "Message sent.\nid: " + firstLineValues[1], "error");
                 // check for canonical registration id
                 if (lines.length > 1) {
                     // If the response includes a 2nd line we expect it to be the CANONICAL REG ID
@@ -125,19 +124,19 @@ public class GcmServerSideSender {
                     if (secondLineValues.length == 2
                             && secondLineValues[0].equals(RESPONSE_PLAINTEXT_CANONICAL_REG_ID)) {
                         logger.log(Log.INFO, "Message sent: canonical registration id = "
-                                + secondLineValues[1],"error");
+                                + secondLineValues[1], "error");
                     } else {
                         logger.log(Log.ERROR, "Invalid response from GCM."
-                                + "\nResponse: " + httpRequest.getResponseBody(),"error");
+                                + "\nResponse: " + httpRequest.getResponseBody(), "error");
                     }
                 }
                 break;
             case RESPONSE_PLAINTEXT_ERROR:
-                logger.log(Log.ERROR, "Message failed.\nError: " + firstLineValues[1],"error");
+                logger.log(Log.ERROR, "Message failed.\nError: " + firstLineValues[1], "error");
                 break;
             default:
                 logger.log(Log.ERROR, "Invalid response from GCM."
-                        + "\nResponse: " + httpRequest.getResponseBody(),"error");
+                        + "\nResponse: " + httpRequest.getResponseBody(), "error");
                 break;
         }
     }
@@ -146,11 +145,11 @@ public class GcmServerSideSender {
      * Send a downstream message via HTTP JSON.
      *
      * @param destination the registration id of the recipient app.
-     * @param message        the message to be sent
+     * @param message     the message to be sent
      * @throws IOException
      */
     public String sendHttpJsonDownstreamMessage(String destination,
-                                              Message message) throws IOException {
+                                                Message message) throws IOException {
 
         JSONObject jsonBody = new JSONObject();
         try {
@@ -169,11 +168,11 @@ public class GcmServerSideSender {
                 jsonBody.put(PARAM_JSON_NOTIFICATION_PARAMS, jsonNotificationParams);
             }
         } catch (JSONException e) {
-            logger.log(Log.ERROR, "Failed to build JSON body","error");
+            logger.log(Log.ERROR, "Failed to build JSON body", "error");
             throw new IOException("Failed to build JSON body");
         }
 
-       HttpRequest httpRequest = new HttpRequest();
+        HttpRequest httpRequest = new HttpRequest();
         httpRequest.setHeader(HEADER_CONTENT_TYPE, CONTENT_TYPE_JSON);
         httpRequest.setHeader(HEADER_AUTHORIZATION, "key=" + key);
         httpRequest.doPost(GCM_SEND_ENDPOINT, jsonBody.toString());
@@ -187,10 +186,10 @@ public class GcmServerSideSender {
         JSONObject jsonResponse;
         try {
             jsonResponse = new JSONObject(httpRequest.getResponseBody());
-            logger.log(Log.INFO, "Send message:\n" + jsonResponse.toString(2),"error");
+            logger.log(Log.INFO, "Send message:\n" + jsonResponse.toString(2), "error");
         } catch (JSONException e) {
             logger.log(Log.ERROR, "Failed to parse server response:\n"
-                    + httpRequest.getResponseBody(),"error");
+                    + httpRequest.getResponseBody(), "error");
         }
         return httpRequest.getResponseBody();
     }

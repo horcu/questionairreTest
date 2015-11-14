@@ -23,16 +23,16 @@ import java.util.Map;
 /**
  * GCM message copied from GCM HTTP helper library.
  * https://github.com/google/gcm/tree/master/gcm-server/src/com/google/android/gcm/server
- *
- * <p>
+ * <p/>
+ * <p/>
  * Instances of this class are immutable and should be created using a
  * {@link Builder}. Examples:
- *
+ * <p/>
  * <strong>Simplest message:</strong>
  * <pre><code>
  * Message message = new Message.Builder().build();
  * </pre></code>
- *
+ * <p/>
  * <strong>Message with optional attributes:</strong>
  * <pre><code>
  * Message message = new Message.Builder()
@@ -43,7 +43,7 @@ import java.util.Map;
  *    .restrictedPackageName(restrictedPackageName)
  *    .build();
  * </pre></code>
- *
+ * <p/>
  * <strong>Message with optional attributes and payload data:</strong>
  * <pre><code>
  * Message message = new Message.Builder()

@@ -12,7 +12,7 @@ import com.daimajia.androidanimations.library.YoYo;
 public class ViewController {
 
 
-    public ViewController showThis(View v, Techniques technique){
+    public ViewController showThis(View v, Techniques technique) {
 
         YoYo.with(technique)
                 .duration(400)
@@ -21,7 +21,7 @@ public class ViewController {
         return ViewController.this;
     }
 
-    public ViewController hideThis(View v, Techniques technique){
+    public ViewController hideThis(View v, Techniques technique) {
 
         YoYo.with(technique)
                 .duration(400)

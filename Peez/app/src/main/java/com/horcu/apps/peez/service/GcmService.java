@@ -16,7 +16,6 @@ limitations under the License.
 package com.horcu.apps.peez.service;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.util.Log;
@@ -40,7 +39,7 @@ public class GcmService extends GcmListenerService {
     public void onMessageReceived(String from, Bundle data) {
 
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        wl = pm.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK,"peez");
+        wl = pm.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, "peez");
         wl.acquire();
         sendNotification("Received GCM Message: " + data.toString());
     }
@@ -66,6 +65,6 @@ public class GcmService extends GcmListenerService {
     // a GCM message.
     private void sendNotification(String msg) {
 
-        logger.log(Log.INFO, msg,"error");
+        logger.log(Log.INFO, msg, "error");
     }
 }

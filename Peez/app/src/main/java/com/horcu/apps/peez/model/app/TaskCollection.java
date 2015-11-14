@@ -19,7 +19,6 @@ import android.content.Context;
 import android.support.v4.util.SimpleArrayMap;
 import android.util.Log;
 
-
 import com.horcu.apps.peez.service.LoggingService;
 
 import org.json.JSONArray;
@@ -83,9 +82,9 @@ public class TaskCollection {
                 }
             }
         } catch (IOException e) {
-            mLogger.log(Log.ERROR, "Failed to read tasks file.","error", e);
+            mLogger.log(Log.ERROR, "Failed to read tasks file.", "error", e);
         } catch (JSONException e) {
-            mLogger.log(Log.ERROR, "Failed to deserialize tasks.","error", e);
+            mLogger.log(Log.ERROR, "Failed to deserialize tasks.", "error", e);
         } finally {
             if (in != null) {
                 try {

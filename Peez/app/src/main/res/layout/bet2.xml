@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:custom="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="5dp"
@@ -20,9 +19,8 @@
         app:loaderPrimeColor="@color/colorPrimaryDark" />
 
     <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="40dp"
-        >
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -31,12 +29,12 @@
             android:textStyle="italic|bold"
             android:layout_gravity="center_vertical"
             android:textSize="12dp"
-            android:text="5hrs ago"/>
+            android:text="5hrs ago" />
 
         <View
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="100"/>
+            android:layout_weight="100" />
 
 
         <TextView
@@ -50,7 +48,7 @@
             android:textStyle="bold|italic"
             android:layout_marginRight="5dp"
             android:background="?android:attr/selectableItemBackground"
-            android:text="$62"/>
+            android:text="$62" />
 
 
     </LinearLayout>
@@ -75,7 +73,7 @@
 
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
-                android:src="@drawable/ic_player"/>
+                android:src="@drawable/ic_player" />
 
             <TextView
                 android:id="@+id/entity_name"
@@ -93,7 +91,7 @@
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="10"/>
+                android:layout_weight="10" />
 
 
             <TextView
@@ -158,7 +156,7 @@
                     android:fontFamily="sans-serif-thin"
                     android:layout_gravity="center_vertical"
                     android:background="@android:color/transparent"
-                    android:text="Will record more than 1200 yds this year"/>
+                    android:text="Will record more than 1200 yds this year" />
 
                 <View
                     android:layout_width="wrap_content"
@@ -169,7 +167,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="top"
-                    android:id="@+id/dynamicArcView2"/>
+                    android:id="@+id/dynamicArcView2" />
 
             </LinearLayout>
 
@@ -192,7 +190,7 @@
                     android:fontFamily="sans-serif-thin"
                     android:layout_gravity="center_vertical"
                     android:background="@android:color/transparent"
-                    android:text=" and will also have more than 10 tds"/>
+                    android:text=" and will also have more than 10 tds" />
 
                 <View
                     android:layout_width="wrap_content"
@@ -203,7 +201,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="top"
-                    android:id="@+id/dynamicArcView2a"/>
+                    android:id="@+id/dynamicArcView2a" />
 
             </LinearLayout>
 
@@ -237,12 +235,11 @@
             android:alpha=".3"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
-            android:src="@drawable/ic_social_notifications"/>
+            android:src="@drawable/ic_social_notifications" />
 
         <View
             android:layout_width="40dp"
-            android:layout_height="match_parent"
-            />
+            android:layout_height="match_parent" />
 
 
         <TextView
@@ -254,7 +251,7 @@
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             android:background="?android:attr/selectableItemBackground"
-            android:text="12k"/>
+            android:text="12k" />
 
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -265,12 +262,11 @@
             android:layout_marginLeft="-5dp"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
-            android:src="@drawable/ic_social_person"/>
+            android:src="@drawable/ic_social_person" />
 
         <View
             android:layout_width="5dp"
-            android:layout_height="match_parent"
-            />
+            android:layout_height="match_parent" />
 
 
         <TextView
@@ -282,7 +278,7 @@
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             android:background="?android:attr/selectableItemBackground"
-            android:text="53"/>
+            android:text="53" />
 
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -293,7 +289,7 @@
             android:layout_marginLeft="-5dp"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
-            android:src="@drawable/ic_msg"/>
+            android:src="@drawable/ic_msg" />
 
 
         <View
@@ -303,6 +299,7 @@
 
 
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

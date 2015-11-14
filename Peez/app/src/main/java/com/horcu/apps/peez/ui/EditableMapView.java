@@ -31,7 +31,6 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
-
 import com.horcu.apps.peez.R;
 
 import java.util.ArrayList;

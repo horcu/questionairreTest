@@ -69,11 +69,11 @@ public class MainMenu {
             case R.id.toggle_logs: {
                 CharSequence showLogs = mActivity.getString(R.string.show_logs);
                 if (showLogs.equals(item.getTitle())) {
-                   // mActivity.toggleLogsView(true);
+                    // mActivity.toggleLogsView(true);
                     item.setTitle(R.string.hide_logs);
                     item.setIcon(R.drawable.visibility_off_white);
                 } else {
-                 //   mActivity.toggleLogsView(false);
+                    //   mActivity.toggleLogsView(false);
                     item.setTitle(R.string.show_logs);
                     item.setIcon(R.drawable.visibility_white);
                 }

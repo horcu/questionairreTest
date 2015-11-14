@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 Copyright 2015 Google Inc. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +24,7 @@ limitations under the License.
         android:layout_height="wrap_content"
         android:id="@+id/upstream_description"
         android:text="@string/upstream_description"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="8dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,11 +34,11 @@ limitations under the License.
 
         <TextView
             android:layout_width="0px"
-            android:layout_height ="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/upstream_sender_id"
             android:layout_weight="0.3"
             android:textStyle="bold"
-            style="@style/TextAppearance.AppCompat.Caption"/>
+            style="@style/TextAppearance.AppCompat.Caption" />
 
         <TextView
             android:layout_width="0px"
@@ -47,7 +46,7 @@ limitations under the License.
             android:id="@+id/upstream_sender_id"
             android:text="@string/upstream_sender_id_hint"
             android:layout_weight="0.7"
-            style="@style/Widget.AppCompat.Spinner.Underlined"/>
+            style="@style/Widget.AppCompat.Spinner.Underlined" />
     </LinearLayout>
 
     <EditText
@@ -55,7 +54,7 @@ limitations under the License.
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/upstream_message_id_hint"
-        android:inputType="text"/>
+        android:inputType="text" />
 
     <EditText
         android:id="@+id/upstream_ttl"
@@ -73,6 +72,6 @@ limitations under the License.
         android:id="@+id/upstream_send_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/upstream_send_text"/>
+        android:text="@string/upstream_send_text" />
 
 </LinearLayout>

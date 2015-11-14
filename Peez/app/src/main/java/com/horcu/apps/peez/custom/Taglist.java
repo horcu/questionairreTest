@@ -1,12 +1,8 @@
 package com.horcu.apps.peez.custom;
 
-import android.widget.ArrayAdapter;
-
-import com.google.api.client.json.Json;
 import com.google.gson.Gson;
 import com.horcu.apps.common.utilities.consts;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -70,17 +66,16 @@ public class Taglist {
 
         List<String> allowedVerbs = new ArrayList<>();
 
-        for (int x = 0; x < stats.length(); x++)
-        {
+        for (int x = 0; x < stats.length(); x++) {
             try {
                 String key = getActionVerbs().get(x);
                 JSONObject thisStat = (JSONObject) stats.get(key);
-                if(thisStat.get(consts.ELIGIBLE).toString().contains(entityQuarterback));
+                if (thisStat.get(consts.ELIGIBLE).toString().contains(entityQuarterback)) ;
                 allowedVerbs.add(key);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        return  allowedVerbs;
+        return allowedVerbs;
     }
 }

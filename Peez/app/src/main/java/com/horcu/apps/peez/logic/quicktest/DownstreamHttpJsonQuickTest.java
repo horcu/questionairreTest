@@ -48,8 +48,8 @@ public class DownstreamHttpJsonQuickTest implements QuickTest {
                         SimpleArrayMap<Integer, String> params) {
         final String apiKey = params.get(R.id.home_api_key);
         final String destination = params.get(R.id.home_destination);
-        logger.log(Log.INFO, context.getText(R.string.quicktest_downstream_http_json).toString(),"error");
-        new AsyncTask<Void, Void, Void>(){
+        logger.log(Log.INFO, context.getText(R.string.quicktest_downstream_http_json).toString(), "error");
+        new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
                 final Message.Builder messageBuilder = new Message.Builder();
@@ -60,7 +60,7 @@ public class DownstreamHttpJsonQuickTest implements QuickTest {
                     GCMActivity.showToast(context,
                             R.string.downstream_toast_success, response);
                 } catch (IOException ex) {
-                    logger.log(Log.INFO, "Downstream HTTP JSON failed:\nerror: " + ex.getMessage(),"error");
+                    logger.log(Log.INFO, "Downstream HTTP JSON failed:\nerror: " + ex.getMessage(), "error");
                     GCMActivity.showToast(context,
                             R.string.downstream_toast_failure, ex.getMessage());
                 }
