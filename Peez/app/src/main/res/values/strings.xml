@@ -382,4 +382,5 @@
     <string name="action_addnew">Add new</string>
     <string name="title_activity_feed">FeedActivity</string>
     <string name="title_activity_main2">Main2Activity</string>
+    <string name="list">list all</string>
 </resources>

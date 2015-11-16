@@ -7,28 +7,35 @@
     <item
         android:id="@+id/action_msg"
         android:title="@string/messages"
-        android:icon="@drawable/ic_action_action_question_answer"
+        android:icon="@drawable/ic_messenger"
         android:orderInCategory="100"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_invite"
         android:title="@string/invite"
-        android:icon="@drawable/ic_action_social_group_add"
+        android:icon="@drawable/ic_users"
         android:orderInCategory="100"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_bet"
         android:title="@string/bet"
-        android:icon="@drawable/ic_action_action_label_outline"
+        android:icon="@drawable/ic_new"
+        android:orderInCategory="100"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_list"
+        android:title="@string/list"
+        android:icon="@drawable/ic_list"
         android:orderInCategory="100"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_settings"
         android:title="@string/bet"
-        android:icon="@drawable/ic_action_action_settings"
+        android:icon="@drawable/ic_settings"
         android:orderInCategory="100"
         app:showAsAction="always" />
 </menu>

@@ -106,8 +106,7 @@ public class MainActivity extends AppCompatActivity implements testItemFragment.
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, FeedActivity.class);
-            startActivity(intent);
+
         } else if (id == R.id.action_bet) {
             Intent intent = new Intent(this, BetActivity.class);
             startActivity(intent);
@@ -116,6 +115,9 @@ public class MainActivity extends AppCompatActivity implements testItemFragment.
             startActivity(intent);
         } else if (id == R.id.action_msg) {
             Intent intent = new Intent(this, GCMActivity.class);
+            startActivity(intent);
+        }else if (id == R.id.action_list) {
+            Intent intent = new Intent(this, FeedActivity.class);
             startActivity(intent);
         }
 

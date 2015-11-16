@@ -89,7 +89,7 @@ public class LetterImageView extends ImageView {
         return 8 * getResources().getDisplayMetrics().density;
     }
 
-    private int randomColor() {
+    public int randomColor() {
         Random random = new Random();
         String[] colorsArr = getResources().getStringArray(R.array.colors);
         return Color.parseColor(colorsArr[random.nextInt(colorsArr.length)]);

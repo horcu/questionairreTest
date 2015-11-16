@@ -1,1 +1,1 @@
-include ':app', ':backend', ':common', ':rounded_letters'//, ':sample_databinding'//, ':gcm' ,':singleInputExample',':library',
+include ':rounded_letters', ':app', ':backend', ':common'//, ':sample_databinding'//, ':gcm' ,':singleInputExample',':library',

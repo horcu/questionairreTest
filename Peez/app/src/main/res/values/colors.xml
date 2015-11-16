@@ -7,7 +7,8 @@
     <color name="primary_material_light_1">#ff3f51b5</color>
     <color name="accent_material_light">#375c39</color>
     <color name="black">#375c39</color>
-    <color name="light_grey">#ffebebeb</color>
+    <color name="light_grey">#f9f9f9</color>
+    <color name="selected_bg">#f1fdfe</color>
     <color name="cyan_500">#ff3f51b5</color>
     <color name="background_material_light">#ebebeb</color>
     <color name="accent_material_light_1">#7e8283</color>

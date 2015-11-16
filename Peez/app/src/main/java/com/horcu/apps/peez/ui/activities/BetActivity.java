@@ -1,5 +1,6 @@
 package com.horcu.apps.peez.ui.activities;
 
+import android.app.ActionBar;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
@@ -25,6 +26,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.GridLayout;
+import android.widget.GridView;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -46,6 +50,7 @@ import com.hookedonplay.decoviewlib.charts.SeriesItem;
 import com.hookedonplay.decoviewlib.events.DecoEvent;
 import com.horcu.apps.common.utilities.consts;
 import com.horcu.apps.peez.R;
+import com.horcu.apps.peez.adapters.SelUsersAdapter;
 import com.horcu.apps.peez.adapters.UserAdapter;
 import com.horcu.apps.peez.backend.models.betApi.BetApi;
 import com.horcu.apps.peez.backend.models.betApi.model.Bet;
@@ -57,6 +62,7 @@ import com.horcu.apps.peez.backend.models.userApi.model.CollectionResponseUser;
 import com.horcu.apps.peez.backend.models.userApi.model.User;
 import com.horcu.apps.peez.backend.models.userSettingsApi.UserSettingsApi;
 import com.horcu.apps.peez.custom.Api;
+import com.horcu.apps.peez.custom.LetterImageView;
 import com.horcu.apps.peez.custom.Money;
 import com.horcu.apps.peez.custom.ViewController;
 import com.horcu.apps.peez.custom.notifier;
@@ -141,6 +147,7 @@ public class BetActivity extends AppCompatActivity
     private LinearLayout peezbar;
     private RecyclerView current_bets;
     private TextView friendsListText;
+    private HorizontalScrollView selected_users_scrollView;
 
 
     @Override
@@ -247,6 +254,8 @@ public class BetActivity extends AppCompatActivity
 
         peezbar_root = (RelativeLayout) findViewById(R.id.peezbar_root);
         peezbar = (LinearLayout) findViewById(R.id.peezbar);
+
+        selected_users_scrollView = (HorizontalScrollView)findViewById(R.id.selected_users_scrollView);
 
         CircleImageView test = (CircleImageView) findViewById(R.id.entitiy_img);
         // CircleImageView test2 = (CircleImageView)findViewById(R.id.entitiy_img2);
@@ -630,7 +639,29 @@ public class BetActivity extends AppCompatActivity
                 if(selectedFriends == null)
                     return;
 
-                friendsListText.setText(selectedFriends.toString());
+                selected_users_scrollView.setVisibility(View.VISIBLE);
+                new ViewController().showThis(selected_users_scrollView, Techniques.BounceInLeft);
+
+                GridLayout userGrid = (GridLayout) selected_users_scrollView.findViewById(R.id.selected_users_grid);
+
+                for (String name : selectedFriends)
+                {
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    params.height = 76;
+                    params.width = 76;
+                    params.setMargins(3,3,3,3);
+                    LetterImageView liv = new LetterImageView(this, null);
+                    liv.setLayoutParams(params);
+                    liv.setTextColor(R.color.white);
+                    liv.setBackgroundColor(liv.randomColor());
+                    liv.setLetter(name.charAt(0));
+
+                    TextView tv = new TextView(this);
+                    tv.setText(name);
+
+                    userGrid.addView(liv);
+                    userGrid.addView(tv);
+                }
             }
         }
     }

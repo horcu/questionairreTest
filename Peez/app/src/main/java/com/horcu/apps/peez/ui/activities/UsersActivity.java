@@ -41,12 +41,12 @@ public class UsersActivity extends AppCompatActivity implements
     private SharedPreferences settings;
     private String me;
     private RecyclerView friendsList;
-    ArrayList<User> selectedUsers = new ArrayList<>();
+    public ArrayList<User> selectedUsers = new ArrayList<>();
     ArrayList<User> DisplayedUsersList = new ArrayList<>();
     ViewController viewController = new ViewController();
     private Button done;
 
-    private ArrayList<String> returnedSelectedUsers;
+    public ArrayList<String> returnedSelectedUsers = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +105,7 @@ public class UsersActivity extends AppCompatActivity implements
                         }
                     }
 
-                    UserAdapter userAdapter = new UserAdapter(DisplayedUsersList, getApplicationContext());// new ArrayAdapter<>(getApplicationContext(), R.layout.user_item, R.id.friend, friends);
+                    UserAdapter userAdapter = new UserAdapter(DisplayedUsersList, UsersActivity.this);// new ArrayAdapter<>(getApplicationContext(), R.layout.user_item, R.id.friend, friends);
                     friendsList.setAdapter(userAdapter);
                     userAdapter.notifyDataSetChanged();
 

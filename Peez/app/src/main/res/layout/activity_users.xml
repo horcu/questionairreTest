@@ -21,6 +21,9 @@
 
     </android.support.v7.widget.RecyclerView>
 
+    <!--loader here -->
+
+
     <!--player list done button-->
     <LinearLayout
         android:id="@+id/players_list_done"
