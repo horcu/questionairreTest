@@ -1,6 +1,5 @@
 package com.horcu.apps.peez.backend.models;
 
-
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
@@ -19,6 +18,7 @@ public class User {
    public String userName;
    public String alias;
    public double cash;
+   public String imageUri;
 
    public String phone;
    public String joined;
@@ -82,4 +82,13 @@ public class User {
     public String getEmail() {
         return email;
     }
+
+    public String getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(String imageUri) {
+        this.imageUri = imageUri;
+    }
+
 }

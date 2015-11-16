@@ -1,4 +1,12 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="bet" type="com.horcu.apps.peez.backend.models.betApi.model.Bet" />
+    </data>
+
+<RelativeLayout
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,18 +15,16 @@
     tools:showIn="@layout/activity_feed">
 
 
-    <include layout="@layout/peez_bar"
-        android:id="@+id/bet"/>
 
-    <include layout="@layout/bet"
-        android:id="@+id/bet1"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/bets_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"/>
+        android:layout_height="wrap_content">
 
-    <!--<include layout="@layout/bet"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/bet1"/>-->
+
+    </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>
+
+
+</layout>

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#ff3f51b5</color>
-    <color name="colorPrimaryDark">#7b7e90</color>
+    <color name="colorPrimaryDark">#375c39</color>
     <color name="colorAccent">#ff3f51b5</color>
     <color name="grey_500">#dddddd</color>
     <color name="primary_material_light_1">#ff3f51b5</color>
-    <color name="accent_material_light">#a7a8a9</color>
-    <color name="black">#7b7e90</color>
+    <color name="accent_material_light">#375c39</color>
+    <color name="black">#375c39</color>
     <color name="light_grey">#ffebebeb</color>
     <color name="cyan_500">#ff3f51b5</color>
-    <color name="background_material_light">#7b7e90</color>
+    <color name="background_material_light">#ebebeb</color>
     <color name="accent_material_light_1">#7e8283</color>
-    <color name="primary_dark_material_light">#7b7e90</color>
+    <color name="primary_dark_material_light">#375c39</color>
 
     <color name="white_alpha">#8FFF</color>
     <color name="cyan">#ff3f51b5</color>
-    <color name="primary_material_light">#7b7e90</color>
+    <color name="primary_material_light">#375c39</color>
     <color name="foreground_material_light">#eceaea</color>
     <color name="primary_text_material_light">#bcb9b9</color>
     <color name="text">#222222</color>

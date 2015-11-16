@@ -5,8 +5,8 @@
     android:layout_height="wrap_content">
 
     <com.horcu.apps.peez.spinner.NiceSpinner
+
         android:layout_width="match_parent"
-        android:background="@color/colorPrimaryDark"
         android:layout_height="50dp">
 
     </com.horcu.apps.peez.spinner.NiceSpinner>

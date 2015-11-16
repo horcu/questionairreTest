@@ -14,19 +14,23 @@ public class ViewController {
 
     public ViewController showThis(View v, Techniques technique) {
 
-        YoYo.with(technique)
-                .duration(400)
-                .playOn(v);
-        v.setVisibility(View.VISIBLE);
+        if(v != null && v.getVisibility() == View.GONE) {
+            YoYo.with(technique)
+                    .duration(200)
+                    .playOn(v);
+            v.setVisibility(View.VISIBLE);
+        }
         return ViewController.this;
     }
 
     public ViewController hideThis(View v, Techniques technique) {
 
-        YoYo.with(technique)
-                .duration(400)
-                .playOn(v);
-        v.setVisibility(View.GONE);
+        if(v != null && v.getVisibility() == View.VISIBLE) {
+            YoYo.with(technique)
+                    .duration(200)
+                    .playOn(v);
+            v.setVisibility(View.GONE);
+        }
         return ViewController.this;
     }
 

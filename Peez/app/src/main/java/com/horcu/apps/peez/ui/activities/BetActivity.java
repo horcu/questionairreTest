@@ -6,16 +6,22 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -40,6 +46,7 @@ import com.hookedonplay.decoviewlib.charts.SeriesItem;
 import com.hookedonplay.decoviewlib.events.DecoEvent;
 import com.horcu.apps.common.utilities.consts;
 import com.horcu.apps.peez.R;
+import com.horcu.apps.peez.adapters.UserAdapter;
 import com.horcu.apps.peez.backend.models.betApi.BetApi;
 import com.horcu.apps.peez.backend.models.betApi.model.Bet;
 import com.horcu.apps.peez.backend.models.betApi.model.NFLPlayer;
@@ -53,6 +60,7 @@ import com.horcu.apps.peez.custom.Api;
 import com.horcu.apps.peez.custom.Money;
 import com.horcu.apps.peez.custom.ViewController;
 import com.horcu.apps.peez.custom.notifier;
+import com.horcu.apps.peez.databinding.BetRowBinding;
 import com.horcu.apps.peez.logic.GcmServerSideSender;
 import com.horcu.apps.peez.logic.Message;
 import com.horcu.apps.peez.service.LoggingService;
@@ -67,6 +75,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.UUID;
+import java.util.zip.Inflater;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -90,6 +99,7 @@ public class BetActivity extends AppCompatActivity
     private UserApi userApi;
     private BetStructureApi betStructureApi;
     private CollectionResponseUser allFriends;
+    private List<User> allLocalFriends;
     private UserSettingsApi userSettingsApi;
     private String me;
     private TextView friends;
@@ -118,7 +128,8 @@ public class BetActivity extends AppCompatActivity
     private LinearLayout doneDiscard;
     private LinearLayout daddyDuteItem;
 
-    private ListView friendsList;
+    private RecyclerView friendsList;
+
     private RubberLoaderView loader;
 
     HashtagView betHashTag;
@@ -127,6 +138,9 @@ public class BetActivity extends AppCompatActivity
     NiceSpinner bet_stats, stat_element, equality_result, when_result;
 
     LinearLayout toptagmaker;
+    private LinearLayout peezbar;
+    private RecyclerView current_bets;
+    private TextView friendsListText;
 
 
     @Override
@@ -138,9 +152,13 @@ public class BetActivity extends AppCompatActivity
             //  getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
         }
 
+
+        //User user = new User();
+
+
         viewController = new ViewController();
 
-        //  ContentTestBetBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_test_bet);
+       // BetRowBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_test_bet);
         //  Bet bet = new Bet();
         //  binding.setBet(bet);
 
@@ -177,6 +195,8 @@ public class BetActivity extends AppCompatActivity
 
         ArrayAdapter<String> adapter4 = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, listWhen);
 
+        friendsListText = (TextView)findViewById(R.id.users_groups_betting);
+
         player_team = (Button) findViewById(R.id.player_team);
 
         bet_stats = (NiceSpinner) findViewById(R.id.bet_stats);
@@ -191,18 +211,7 @@ public class BetActivity extends AppCompatActivity
         when_result = (NiceSpinner) findViewById(R.id.when);
         when_result.setAdapter(adapter4);
 
-        players_list_done = (LinearLayout) findViewById(R.id.players_list_done);
-        players_list_done.setOnClickListener(this);
-
         doneDiscard = (LinearLayout) findViewById(R.id.done_discard);
-
-        addnewLayout = (LinearLayout) findViewById(R.id.add_new_layout);
-        addNewBet = (Button) addnewLayout.findViewById(R.id.add_new_bet);
-        addNewBet.setOnClickListener(this);
-
-        bet_hashtags = (LinearLayout) findViewById(R.id.hashtag_bet_container);
-
-        betHashTag = (HashtagView) bet_hashtags.findViewById(R.id.hashtagview);
 
         numbers = (Button) findViewById(R.id.numbers);
         numbers.setOnClickListener(this);
@@ -222,15 +231,12 @@ public class BetActivity extends AppCompatActivity
         getFriends = (LinearLayout) findViewById(R.id.bet_who_layout);
         getFriends.setOnClickListener(this);
 
-        friendsList = (ListView) findViewById(android.R.id.list);
-        friendsList.setOnItemClickListener(this);
+        friendsList = (RecyclerView) findViewById(R.id.users_list);
 
         friendslayout = (LinearLayout) findViewById(R.id.friends_reg_layout);
 
         friends = (TextView) findViewById(R.id.friends_reg_list);
 
-        doneSelectingFriends = (Button) findViewById(R.id.done);
-        doneSelectingFriends.setOnClickListener(this);
         doneDiscard = (LinearLayout) findViewById(R.id.done_discard);
         doneDiscard.setOnClickListener(this);
 
@@ -240,6 +246,7 @@ public class BetActivity extends AppCompatActivity
         sendBet.setOnClickListener(this);
 
         peezbar_root = (RelativeLayout) findViewById(R.id.peezbar_root);
+        peezbar = (LinearLayout) findViewById(R.id.peezbar);
 
         CircleImageView test = (CircleImageView) findViewById(R.id.entitiy_img);
         // CircleImageView test2 = (CircleImageView)findViewById(R.id.entitiy_img2);
@@ -249,75 +256,10 @@ public class BetActivity extends AppCompatActivity
         CircleImageView playerTeamImage = (CircleImageView) findViewById(R.id.chosen_player_team);
 
         String uri2 = "https://storage.googleapis.com/ballrz/images/bengals_away.png";
-        String uri = String.format("%sBOL283010.png", consts.IMG_DEF_URI);
+        String uri = String.format("%sROD339293.png", consts.IMG_DEF_URI);
         Picasso.with(this).load(uri).into(playerTeamImage);
-        Picasso.with(this).load(uri).into(test);
+//        Picasso.with(this).load(uri).into(test);
         //Picasso.with(this).load(uri2).into(test2);
-
-        DecoView arcView1 = (DecoView) findViewById(R.id.dynamicArcView1);
-        DecoView arcView1a = (DecoView) findViewById(R.id.dynamicArcView1a);
-        // DecoView arcView2 = (DecoView)findViewById(R.id.dynamicArcView2);
-        //  DecoView arcView2a = (DecoView)findViewById(R.id.dynamicArcView2a);
-
-//       // Create background track
-//        arcView1.addSeries(new SeriesItem.Builder(Color.argb(255, 102, 102, 102))
-//                .setRange(0, 100, 100)
-//                .setInitialVisibility(false)
-//                .setLineWidth(8f)
-//                .setChartStyle(SeriesItem.ChartStyle.STYLE_LINE_HORIZONTAL)
-//                .build());
-//
-//      // Create background track
-//        arcView2.addSeries(new SeriesItem.Builder(Color.argb(255, 218, 218, 218))
-//                .setRange(0, 100, 100)
-//                .setInitialVisibility(false)
-//                .setChartStyle(SeriesItem.ChartStyle.STYLE_LINE_HORIZONTAL)
-//                .setLineWidth(8f)
-//                .build());
-
-        //Create data series track
-        SeriesItem seriesItem1 = new SeriesItem.Builder(Color.parseColor("#FFE082"))
-                .setRange(0, 100, 0)
-                .setLineWidth(16f)
-                .setShowPointWhenEmpty(true)
-                .setChartStyle(SeriesItem.ChartStyle.STYLE_PIE)
-                .build();
-
-        int series1Index1 = arcView1.addSeries(seriesItem1);
-
-        //Create data series track
-        SeriesItem seriesItem2 = new SeriesItem.Builder(Color.parseColor("#EF9A9A"))
-                .setRange(0, 100, 0)
-                .setLineWidth(16f)
-                .setShowPointWhenEmpty(true)
-                .setChartStyle(SeriesItem.ChartStyle.STYLE_PIE)
-                .build();
-
-        int series1Index2 = arcView1a.addSeries(seriesItem2);
-
-        arcView1.addEvent(new DecoEvent.Builder(DecoEvent.EventType.EVENT_SHOW, true)
-                .setDelay(500)
-                .setDuration(2000)
-                .setColor(android.R.color.holo_purple)
-                .build());
-
-//        arcView2.addEvent(new DecoEvent.Builder(DecoEvent.EventType.EVENT_SHOW, true)
-//                .setDelay(1000)
-//                .setDuration(2000)
-//                .setColor(android.R.color.holo_red_dark)
-//                .build());
-
-        arcView1.addEvent(new DecoEvent.Builder(90).setIndex(series1Index1).setDelay(500).build());
-        arcView1.addEvent(new DecoEvent.Builder(84).setIndex(series1Index1).setDelay(500).build());
-
-        arcView1a.addEvent(new DecoEvent.Builder(80).setIndex(series1Index2).setDelay(500).build());
-        arcView1a.addEvent(new DecoEvent.Builder(64).setIndex(series1Index2).setDelay(500).build());
-
-//        arcView2.addEvent(new DecoEvent.Builder(45).setIndex(series1Index2).setDelay(4000).build());
-//        arcView2.addEvent(new DecoEvent.Builder(70).setIndex(series1Index2).setDelay(8000).build());
-//
-//        arcView2a.addEvent(new DecoEvent.Builder(70).setIndex(series1Index1).setDelay(8000).build());
-//        arcView2a.addEvent(new DecoEvent.Builder(70).setIndex(series1Index1).setDelay(8000).build());
 
 
         StringBuilder friendsString = null;
@@ -550,13 +492,6 @@ public class BetActivity extends AppCompatActivity
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.add_new_bet: {
-                viewController.hideThis(peezbar_root, Techniques.FadeOut);
-                openbetCard();
-
-                break;
-            }
-
             case R.id.players_list_done: {
                 openbetCard();
                 break;
@@ -584,8 +519,8 @@ public class BetActivity extends AppCompatActivity
                         .showThis(betCardDoneButton, Techniques.SlideOutRight)
                         .showThis(bet_stats, Techniques.SlideInLeft)
                         .showThis(loader, Techniques.FadeIn);
-                loader.setVisibility(View.VISIBLE);
-                loader.startLoading();
+          //      loader.setVisibility(View.VISIBLE);
+           //     loader.startLoading();
                 String tagString = getTagString(v);
 
                 if (!tagString.equals(""))
@@ -600,7 +535,7 @@ public class BetActivity extends AppCompatActivity
                 // existingList.setVisibility(View.VISIBLE);
                 break;
             }
-            case R.id.bet_amount: {
+            case R.id.bet_amount_layout: {
                 NumberPickerBuilder numberPicker = new NumberPickerBuilder()
                         .setFragmentManager(getSupportFragmentManager())
                         .setReference(1)
@@ -618,50 +553,18 @@ public class BetActivity extends AppCompatActivity
 
             }
             case R.id.bet_who_layout: {
-                viewController
-                        .showThis(doneSelectingFriends, Techniques.SlideInUp)
-                        .showThis(friendslayout, Techniques.SlideInDown)
-                        .hideThis(daddy, Techniques.SlideInDown)
-                        .hideThis(doneDiscard, Techniques.SlideOutDown)
-                        .hideThis(friendsListButtons, Techniques.SlideOutDown);
+//                viewController
+//                        .showThis(doneSelectingFriends, Techniques.SlideInUp)
+//                        .showThis(friendslayout, Techniques.SlideInDown)
+//                        .showThis(friendsList, Techniques.SlideInDown)
+//                        .showThis(friendsListButtons, Techniques.SlideInDown)
+//                        .hideThis(daddy, Techniques.SlideInDown)
+//                        .hideThis(doneDiscard, Techniques.SlideOutDown)
+//                        .hideThis(bet_amount, Techniques.SlideOutDown)
+//                        .hideThis(peezbar, Techniques.SlideOutUp);
+                        Intent usersIntent = new Intent(getApplicationContext(),UsersActivity.class);
+                startActivityForResult(usersIntent,consts.GET_CONTACTS_RESULTS);
 
-                new AsyncTask<Void, Void, Void>() {
-                    @Override
-                    protected Void doInBackground(Void... params) {
-                        try {
-                            allFriends = userApi
-                                    .list()
-                                    .execute();
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            return null;
-                        }
-                        return null;
-                    }
-
-                    @Override
-                    protected void onPostExecute(Void result) {
-
-                        try {
-                            ArrayAdapter<String> adapter;
-                            List<String> friends = new ArrayList<>();
-                            me = settings.getString(consts.PREF_ACCOUNT_NAME, "");
-                            for (User user : allFriends.getItems()) {
-                                if (!user.getEmail().equals(me)) {
-                                    String userEmail = user.getEmail();
-                                    friends.add(userEmail);
-                                }
-                            }
-                            adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.user_item, R.id.friend, friends);
-                            friendsList.setAdapter(adapter);
-                            adapter.notifyDataSetChanged();
-                            // friendsList.notify();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }.execute();
                 break;
             }
             case R.id.send_bet: {
@@ -716,6 +619,22 @@ public class BetActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == consts.GET_CONTACTS_RESULTS){
+            if(resultCode == RESULT_OK)
+            {
+                ArrayList<String> selectedFriends = (ArrayList<String>) data.getExtras().get(consts.SELECTED_FRIENDS);
+                if(selectedFriends == null)
+                    return;
+
+                friendsListText.setText(selectedFriends.toString());
+            }
+        }
+    }
+
     private void openbetCard() {
         showNewStage();
 
@@ -732,29 +651,29 @@ public class BetActivity extends AppCompatActivity
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         switch (view.getId()) {
-            case android.R.id.list: {
-                try {
+            case R.id.users_list: {
+  //              try {
 
-                    doneSelectingFriends.setVisibility(View.VISIBLE);
-                    ArrayAdapter adapter = (ArrayAdapter) friendsList.getAdapter();
-                    String item = adapter.getItem(position).toString();
-                    String existing;
-                    if (friends.getText() != null)
-                        existing = friends.getText().toString();
-                    else
-                        existing = "";
+//                    doneSelectingFriends.setVisibility(View.VISIBLE);
+//                    UserAdapter adapter = (UserAdapter) friendsList.getAdapter();
+//                    String item = adapter.get .getItem(position).toString();
+//                    String existing;
+//                    if (friends.getText() != null)
+//                        existing = friends.getText().toString();
+//                    else
+//                        existing = "";
+//
+//                    String selected = existing.equals("")
+//                            ? item
+//                            : existing.contains(item) ? existing : existing + ("," + item);
 
-                    String selected = existing.equals("")
-                            ? item
-                            : existing.contains(item) ? existing : existing + ("," + item);
-
-                    if (selected != null && selected != "")
-                        friends.setText(selected);
-                    else
-                        friends.setText("no one chosen");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+//                    if (selected != null && selected != "")
+//                        friends.setText(selected);
+//                    else
+//                        friends.setText("no one chosen");
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+ //             }
                 break;
             }
         }
@@ -765,4 +684,7 @@ public class BetActivity extends AppCompatActivity
     public void onItemClicked(Object item) {
         Snackbar.make(addnewLayout, "Tag clicked and should go to edit if you parked it or if you are creating a new only", Snackbar.LENGTH_LONG).show();
     }
+
+
+
 }

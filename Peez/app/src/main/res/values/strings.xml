@@ -1,4 +1,23 @@
 <resources>
+    <string-array name="colors" translatable="false">
+        <item>#99cc00</item>
+        <item>#33b5e5</item>
+        <item>#0099cc</item>
+        <item>#547bca</item>
+        <item>#aa66cc</item>
+        <item>#9933cc</item>
+        <item>#669900</item>
+        <item>#aeb857</item>
+        <item>#cc0000</item>
+        <item>#df5948</item>
+        <item>#ff4444</item>
+        <item>#ae6b23</item>
+        <item>#ff8800</item>
+        <item>#e5ae4f</item>
+        <item>#ffbb33</item>
+        <item>#cccccc</item>
+        <item>#888888</item>
+    </string-array>
 
     <string name="email">E-mail</string>
     <string name="email_error">Empty or not well-formed</string>
@@ -362,4 +381,5 @@
     <string name="title_activity_failure">FailureActivity</string>
     <string name="action_addnew">Add new</string>
     <string name="title_activity_feed">FeedActivity</string>
+    <string name="title_activity_main2">Main2Activity</string>
 </resources>

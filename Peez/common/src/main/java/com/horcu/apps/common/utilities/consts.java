@@ -24,6 +24,8 @@ public class consts {
    public static final String ELIGIBLE = "eligible";
    public static final String TIMEPERIOD = "timePeriod";
    public static final String IMG_DEF_URI = "http://static.nfl.com/static/content/public/static/img/fantasy/transparent/200x200/";
+   public static final int GET_CONTACTS_RESULTS = 1200;
+   public static final String SELECTED_FRIENDS = "selectedFriends";
    //end entity constants
 
    //turn dev mode on and off

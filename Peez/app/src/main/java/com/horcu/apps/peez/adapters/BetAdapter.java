@@ -1,47 +1,62 @@
 package com.horcu.apps.peez.adapters;
-
-import android.content.Context;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import com.horcu.apps.peez.R;
+import com.horcu.apps.peez.backend.models.betApi.model.Bet;
+import com.horcu.apps.peez.databinding.BetRowBinding;
 
 import java.util.List;
 
 /**
  * Created by hacz on 10/14/2015.
  */
-public class BetAdapter extends ArrayAdapter<String> {
-    private Context context;
-    private String[] objects;
+/**
+ * Created by phanirajabhandari on 7/6/2015.
+ */
+public class BetAdapter extends RecyclerView.Adapter<BetAdapter.BindingHolder> {
+    private List<Bet> bets;
 
-    public BetAdapter(Context context, int resource) {
-        super(context, resource);
+    public static class BindingHolder extends RecyclerView.ViewHolder {
+        private BetRowBinding binding;
+
+        public BindingHolder(View v) {
+            super(v);
+
+        }
+
+        public BetRowBinding getBinding() {
+            return binding;
+        }
     }
 
-    public BetAdapter(Context context, int resource, int textViewResourceId) {
-        super(context, resource, textViewResourceId);
-    }
-
-    public BetAdapter(Context context, int resource, String[] objects) {
-        super(context, resource, objects);
-    }
-
-    public BetAdapter(Context context, int resource, int textViewResourceId, String[] objects) {
-        super(context, resource, textViewResourceId, objects);
-        this.context = context;
-        this.objects = objects;
-    }
-
-    public BetAdapter(Context context, int resource, List<String> objects) {
-        super(context, resource, objects);
-    }
-
-    public BetAdapter(Context context, int resource, int textViewResourceId, List<String> objects) {
-        super(context, resource, textViewResourceId, objects);
+    public BetAdapter(List<Bet> movies) {
+        this.bets = movies;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        return super.getView(position, convertView, parent);
+    public BindingHolder onCreateViewHolder(ViewGroup parent, int type) {
+
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View v = inflater.inflate(R.layout.bet_row, parent, false);
+
+        BindingHolder holder = new BindingHolder(v);
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(BindingHolder holder, int position) {
+        final Bet bet = bets.get(position);
+       // holder.getBinding().setVariable(BR.bet, bet);
+       // holder.getBinding().executePendingBindings();
+    }
+
+    @Override
+    public int getItemCount() {
+
+        return bets != null ? bets.size() : 0;
     }
 }
