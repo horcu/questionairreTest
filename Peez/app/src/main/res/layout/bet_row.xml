@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    >
 
     <data>
 
@@ -68,41 +69,44 @@
                         android:id="@+id/user_name_layout_inner"
                         android:layout_width="match_parent"
                         android:background="@color/white"
-                        android:layout_height="70dp">
+                        android:layout_height="80dp">
 
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/chosen_player_team"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:layout_weight="1"
-                            android:layout_gravity="center_vertical"
-                            android:gravity="center_vertical"
-                            android:src="@drawable/ic_player" />
-
-                        <Button
-                            android:id="@+id/player_team"
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:text="Aaron Rogers"
-                            android:textColor="@color/black"
-                            android:textSize="16sp"
-                            android:layout_weight="2"
-                            android:layout_marginLeft="10dp"
-                            android:layout_gravity="center_vertical"
-                            android:gravity="center_vertical"
-                            android:textStyle="bold"
-                            android:background="@android:color/transparent" />
+                            android:layout_weight="1">
 
 
-                        <com.horcu.apps.peez.spinner.NiceSpinner
-                            android:id="@+id/when"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:layout_gravity="center_vertical"
-                            android:gravity="center_vertical"
-                            android:background="@android:color/transparent"
-                            android:hint="vs Detroit Lions" />
+                            <ImageView
+                                android:id="@+id/chosen_player_team"
+                                android:layout_width="60dp"
+                                android:layout_height="70dp"
+                                android:layout_weight="1"
+                                android:scaleType="centerInside"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_vertical"
+                                android:src="@drawable/ic_player" />
+
+                            <Button
+                                android:id="@+id/player_team"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="Aaron Rogers"
+                                android:textColor="@color/black"
+                                android:textSize="16sp"
+                                android:layout_weight="2"
+                                android:fontFamily="sans-serif-condense"
+                                android:layout_marginLeft="10dp"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_vertical"
+                                android:textStyle="bold"
+                                android:background="@android:color/transparent" />
+
+
+
+                        </LinearLayout>
+
+
 
 
                     </LinearLayout>
@@ -132,6 +136,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="50dp"
                             android:hint="will record"
+                            android:fontFamily="sans-serif-condense"
                             android:layout_weight="3"
                             android:background="@android:color/transparent" />
 
@@ -140,6 +145,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="50dp"
                             android:hint="more than"
+                            android:fontFamily="sans-serif-condense"
                             android:layout_weight="1"
                             android:background="@android:color/transparent" />
 
@@ -149,6 +155,7 @@
                             android:layout_height="wrap_content"
                             android:background="@android:color/transparent"
                             android:textSize="16sp"
+                            android:fontFamily="sans-serif-condense"
                             android:visibility="visible"
                             android:layout_weight="1"
                             android:textColor="@color/black"
@@ -159,6 +166,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="50dp"
                             android:layout_weight="3"
+                            android:fontFamily="sans-serif-condense"
                             android:background="@android:color/transparent"
                             android:hint="tds" />
 
@@ -223,18 +231,10 @@
                 >
 
                 <LinearLayout
+                    android:id="@+id/select_opp_layout"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_vertical"
-                        android:gravity="center_vertical"
-                        android:src="@drawable/ic_social_people"
-                        android:layout_marginRight="10dp" />
-
 
                     <TextView
                         android:id="@+id/users_groups_betting"
@@ -242,11 +242,13 @@
                         android:layout_height="match_parent"
                         android:textColor="@color/black"
                         android:textSize="16sp"
+                        android:textStyle="bold"
                         android:layout_gravity="center_vertical"
                         android:gravity="center_vertical"
-                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-condense"
+                        android:layout_marginLeft="16dp"
                         android:background="?android:attr/selectableItemBackground"
-                        android:text="Who are you betting ?" />
+                        android:text="Select opponents" />
 
 
                     <View
@@ -255,33 +257,83 @@
                         android:layout_weight="10"/>
 
                     <ImageView
-                        android:layout_width="38dp"
-                        android:layout_height="38dp"
-                        android:layout_marginRight="6dp"
-                        android:alpha=".5"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_chevron_right"/>
+                        android:gravity="center_vertical"
+                        android:src="@drawable/ic_social_people"
+                        android:layout_marginRight="16dp" />
 
 
                 </LinearLayout>
 
-                <HorizontalScrollView
-                    android:id="@+id/selected_users_scrollView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:visibility="gone">
-
                     <GridLayout
                         android:id="@+id/selected_users_grid"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:visibility="visible"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
                         android:padding="3dp"
-                        android:columnCount="1"
+                        android:rowCount="1"
+                        android:columnCount="4"
                         >
+
+                        <com.horcu.apps.peez.custom.LetterImageView
+                            android:id="@+id/friend_1"
+                            android:layout_height="40dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_width="40dp"/>
+
+                        <com.horcu.apps.peez.custom.LetterImageView
+                            android:id="@+id/friend_2"
+                            android:layout_height="40dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_width="40dp"/>
+
+                        <com.horcu.apps.peez.custom.LetterImageView
+                            android:id="@+id/friend_3"
+                            android:layout_height="40dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_width="40dp"/>
+
+                        <TextView
+                            android:id="@+id/extra_friends_count"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="and 4 others invited"/>
                     </GridLayout>
 
-                </HorizontalScrollView>
+            </LinearLayout>
 
+            <!--amount to bet-->
+            <LinearLayout
+                android:id="@+id/bet_amount_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_below="@+id/bet_who_layout"
+                android:layout_marginBottom="55dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+
+                <Button
+                    android:id="@+id/bet_amount"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:text="price"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:fontFamily="sans-serif-condense"
+                    android:textStyle="bold"
+                    android:background="?android:attr/selectableItemBackground" />
 
             </LinearLayout>
 
@@ -383,83 +435,6 @@
             </FrameLayout>
 
 
-            <ListView
-                android:id="@+id/other_players_list"
-                android:layout_width="match_parent"
-                android:layout_below="@+id/daddy_dute"
-                android:visibility="gone"
-                android:background="@color/white"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="100dp"
-                android:layout_height="match_parent">
-
-            </ListView>
-
-            <!--amount to bet-->
-            <LinearLayout
-                android:id="@+id/bet_amount_layout"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_below="@+id/bet_who_layout"
-                android:layout_marginTop="5dp"
-                android:background="@color/white"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:src="@drawable/ic_money"
-                    android:layout_marginRight="6dp" />
-
-                <TextView
-                    android:id="@+id/bet_amount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="How much?"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:textStyle="bold"
-                    android:layout_marginRight="6dp"
-                    android:background="?android:attr/selectableItemBackground" />
-
-
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="15"/>
-
-                <TextView
-                    android:id="@+id/bet_amount2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="avg $10 |  $15"
-                    android:textColor="@color/black"
-                    android:textSize="10sp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="16dp"
-                    android:gravity="right"
-                    android:textStyle="italic"
-                    android:background="?android:attr/selectableItemBackground" />
-
-
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="15"/>
-
-                <ImageView
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="10dp"
-                    android:alpha=".5"
-                    android:src="@drawable/ic_chevron_right"/>
-
-            </LinearLayout>
 
 
         </RelativeLayout>

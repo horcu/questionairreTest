@@ -25,10 +25,6 @@ import java.util.List;
 /**
  * Created by hacz on 10/14/2015.
  */
-
-/**
- * Created by phanirajabhandari on 7/6/2015.
- */
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.BindingHolder> {
     private List<User> mUsers;
     private Context ctx;
@@ -41,7 +37,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.BindingHolder>
         public BindingHolder(View v) {
             super(v);
         }
-
     }
 
     public UserAdapter(List<User> recyclerUsers, Context context) {
@@ -89,7 +84,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.BindingHolder>
             }
         });
 
-
         return holder;
     }
 
@@ -102,7 +96,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.BindingHolder>
             holder.userImage.setLetter(user.getUserName().charAt(0));
 
             Picasso.with(ctx).load(user.getImageUri()).into(holder.userImage);
-
     }
 
     @Override

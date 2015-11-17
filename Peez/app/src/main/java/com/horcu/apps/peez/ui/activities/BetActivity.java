@@ -29,6 +29,7 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -136,6 +137,9 @@ public class BetActivity extends AppCompatActivity
 
     private RecyclerView friendsList;
 
+    private LetterImageView friend_1, friend_2, friend_3;
+    private TextView extra_friends_count;
+
     private RubberLoaderView loader;
 
     HashtagView betHashTag;
@@ -148,6 +152,7 @@ public class BetActivity extends AppCompatActivity
     private RecyclerView current_bets;
     private TextView friendsListText;
     private HorizontalScrollView selected_users_scrollView;
+    private GridLayout userGrid;
 
 
     @Override
@@ -189,7 +194,7 @@ public class BetActivity extends AppCompatActivity
 
         List<String> listEquality = new LinkedList<>(Arrays.asList("less than", "exactly", "more than"));
 
-        List<String> listWhen = new LinkedList<>(Arrays.asList("game", "month", "year", "1st quarter", "2nd quarter", "3rd quarter", "4th quarter", "1st half, 2nd half"));
+        List<String> listWhen = new LinkedList<>(Arrays.asList("This week vs The Baltimore Ravens", "For the entire month of June", "For the 2015 Nfl regular season", "At the end of the 1st quarter", "2nd quarter", "3rd quarter", "4th quarter", "1st half, 2nd half"));
 
         toptagmaker = (LinearLayout) findViewById(R.id.top_tagmaker_section);
         //betCardsButtons = (LinearLayout)findViewById(R.id.done_discard);
@@ -201,6 +206,8 @@ public class BetActivity extends AppCompatActivity
         ArrayAdapter<String> adapter3 = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, listEquality);
 
         ArrayAdapter<String> adapter4 = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, listWhen);
+
+        userGrid = (GridLayout)findViewById(R.id.selected_users_grid);
 
         friendsListText = (TextView)findViewById(R.id.users_groups_betting);
 
@@ -255,21 +262,15 @@ public class BetActivity extends AppCompatActivity
         peezbar_root = (RelativeLayout) findViewById(R.id.peezbar_root);
         peezbar = (LinearLayout) findViewById(R.id.peezbar);
 
-        selected_users_scrollView = (HorizontalScrollView)findViewById(R.id.selected_users_scrollView);
+        ImageView playerTeamImage = (ImageView) findViewById(R.id.chosen_player_team);
 
-        CircleImageView test = (CircleImageView) findViewById(R.id.entitiy_img);
-        // CircleImageView test2 = (CircleImageView)findViewById(R.id.entitiy_img2);
-        //daddyDuteItem = (LinearLayout)findViewById(R.id.daddy_dute_item);
-        // daddyDuteItem2 = (LinearLayout)findViewById(R.id.daddy_dute_item2);
-
-        CircleImageView playerTeamImage = (CircleImageView) findViewById(R.id.chosen_player_team);
+        friend_1  = (LetterImageView)findViewById(R.id.friend_1);
+        friend_2  = (LetterImageView)findViewById(R.id.friend_2);
+        friend_3  = (LetterImageView)findViewById(R.id.friend_3);
 
         String uri2 = "https://storage.googleapis.com/ballrz/images/bengals_away.png";
         String uri = String.format("%sROD339293.png", consts.IMG_DEF_URI);
         Picasso.with(this).load(uri).into(playerTeamImage);
-//        Picasso.with(this).load(uri).into(test);
-        //Picasso.with(this).load(uri2).into(test2);
-
 
         StringBuilder friendsString = null;
 
@@ -639,29 +640,20 @@ public class BetActivity extends AppCompatActivity
                 if(selectedFriends == null)
                     return;
 
-                selected_users_scrollView.setVisibility(View.VISIBLE);
-                new ViewController().showThis(selected_users_scrollView, Techniques.BounceInLeft);
+                userGrid.setVisibility(View.VISIBLE);
+                new ViewController().showThis(userGrid, Techniques.SlideInDown);
 
-                GridLayout userGrid = (GridLayout) selected_users_scrollView.findViewById(R.id.selected_users_grid);
+                LetterImageView liv = new LetterImageView(this, null);
+                friend_1.setOval(true);
+                friend_1.setTextColor(R.color.white);
+                friend_1.setLetter(selectedFriends.get(0).charAt(0));
+                friend_2.setOval(true);
+                friend_2.setTextColor(R.color.white);
+                friend_2.setLetter(selectedFriends.get(1).charAt(0));
+                friend_3.setOval(true);
+                friend_3.setTextColor(R.color.white);
+                friend_3.setLetter(selectedFriends.get(2).charAt(0));
 
-                for (String name : selectedFriends)
-                {
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    params.height = 76;
-                    params.width = 76;
-                    params.setMargins(3,3,3,3);
-                    LetterImageView liv = new LetterImageView(this, null);
-                    liv.setLayoutParams(params);
-                    liv.setTextColor(R.color.white);
-                    liv.setBackgroundColor(liv.randomColor());
-                    liv.setLetter(name.charAt(0));
-
-                    TextView tv = new TextView(this);
-                    tv.setText(name);
-
-                    userGrid.addView(liv);
-                    userGrid.addView(tv);
-                }
             }
         }
     }

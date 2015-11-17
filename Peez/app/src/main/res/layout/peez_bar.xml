@@ -4,11 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+
     <com.horcu.apps.peez.spinner.NiceSpinner
-
+        android:id="@+id/when"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
-
-    </com.horcu.apps.peez.spinner.NiceSpinner>
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-condense"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:background="@android:color/transparent"
+        android:hint="Sunday 1pm \@ the Detroit Lions" />
 
 </LinearLayout>
