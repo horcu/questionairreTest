@@ -113,7 +113,7 @@ public class BetActivity extends AppCompatActivity
     private UserSettingsApi userSettingsApi;
     private String me;
     private TextView friends;
-    private TextView bet_amount_txt;
+   // private TextView bet_amount_txt;
     private LinearLayout bet_amount;
     private String structure;
     private TextView selected_stat;
@@ -241,16 +241,16 @@ public class BetActivity extends AppCompatActivity
 
         loader = (RubberLoaderView) findViewById(R.id.loader2);
 
-        bet_amount = (LinearLayout) findViewById(R.id.bet_amount_layout);
-        bet_amount.setOnClickListener(this);
-        bet_amount_txt = (TextView) bet_amount.findViewById(R.id.bet_amount);
+    //    bet_amount = (LinearLayout) findViewById(R.id.bet_amount_layout);
+   //     bet_amount.setOnClickListener(this);
+       // bet_amount_txt = (TextView) bet_amount.findViewById(R.id.bet_amount);
 
         getFriends = (LinearLayout) findViewById(R.id.bet_who_layout);
         getFriends.setOnClickListener(this);
 
         friendsList = (RecyclerView) findViewById(R.id.users_list);
 
-        friendslayout = (LinearLayout) findViewById(R.id.friends_reg_layout);
+       // friendslayout = (LinearLayout) findViewById(R.id.friends_reg_layout);
 
         friends = (TextView) findViewById(R.id.friends_reg_list);
 
@@ -272,7 +272,7 @@ public class BetActivity extends AppCompatActivity
         friend_3  = (LetterImageView)findViewById(R.id.friend_3);
 
         String uri2 = "https://storage.googleapis.com/ballrz/images/bengals_away.png";
-        String uri = String.format("%sROD339293.png", consts.IMG_DEF_URI);
+        String uri = String.format("%sBRO000001.png", consts.IMG_DEF_URI);
         Picasso.with(this).load(uri).into(playerTeamImage);
 
         StringBuilder friendsString = null;
@@ -483,7 +483,7 @@ public class BetActivity extends AppCompatActivity
 
         if (reference == 1) {
             Money.decreaseTotalAmountBy(number);
-            bet_amount_txt.setText(number + " credits");
+           // bet_amount_txt.setText(number + " credits");
         } else if (reference == 2) {
             numbers.setText(String.valueOf(number));
             betNumber = number;
@@ -583,7 +583,7 @@ public class BetActivity extends AppCompatActivity
             case R.id.send_bet: {
                 final String playerTeam = player_team.getText().toString();
                 final String betStats = bet_stats.getText().toString();
-                final String betAmount = bet_amount_txt.getText().toString();
+              //  final String betAmount = bet_amount_txt.getText().toString();
                 final String userGroups = friends.getText().toString();
 
                 new AsyncTask<Void, Void, List>() {
@@ -607,8 +607,8 @@ public class BetActivity extends AppCompatActivity
                                             //.setSentTo(registrationIds) //TODO add this property
                                     .setBetterRegId(settings.getString(consts.REG_ID, ""))
                                     .setTeam(new Team().setName("Baltimore Ravens"))
-                                    .setPlayer(new NFLPlayer().setName(playerTeam))
-                                    .setWager(Double.valueOf(betAmount));
+                                    .setPlayer(new NFLPlayer().setName(playerTeam));
+                                    //.setWager(Double.valueOf(betAmount));
 
                             //first make the bet
 
@@ -687,6 +687,10 @@ public class BetActivity extends AppCompatActivity
 //                userGrid.addView(l2);
 //                userGrid.addView(l3);
 
+                TextView f1 = (TextView) userGrid.findViewById(R.id.friend_1_text);
+                TextView f2 = (TextView) userGrid.findViewById(R.id.friend_2_text);
+                TextView f3 = (TextView) userGrid.findViewById(R.id.friend_3_text);
+
                 friend_1.setOval(true);
                 friend_1.setTextColor(R.color.white);
                 friend_1.setLetter(selectedFriends.get(0).charAt(0));
@@ -696,6 +700,18 @@ public class BetActivity extends AppCompatActivity
                 friend_3.setOval(true);
                 friend_3.setTextColor(R.color.white);
                 friend_3.setLetter(selectedFriends.get(2).charAt(0));
+
+                viewController
+                        .showThis(friend_1, Techniques.SlideInLeft)
+                        .showThis(friend_2, Techniques.SlideInLeft)
+                        .showThis(friend_3, Techniques.SlideInLeft)
+                        .showThis(f1, Techniques.FadeIn)
+                        .showThis(f2, Techniques.FadeIn)
+                        .showThis(f3, Techniques.FadeIn);
+
+                f1.setText(selectedFriends.get(0));
+                f2.setText(selectedFriends.get(1));
+                f3.setText(selectedFriends.get(2));
             }
         }
     }

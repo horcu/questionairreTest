@@ -18,7 +18,7 @@
         android:layout_gravity="center"
         android:layout_centerInParent="true"
         android:layout_marginBottom="18dp"
-        app:loaderExtraColor="@color/colorPrimary"
+        app:loaderExtraColor="@color/white"
         app:loaderPrimeColor="@color/colorPrimaryDark" />
 
     <TextView
@@ -27,6 +27,6 @@
         android:layout_below="@+id/loader1"
         android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"
-        android:text="gettin' shit done boss.." />
+        android:text="registering device...." />
 
 </RelativeLayout>

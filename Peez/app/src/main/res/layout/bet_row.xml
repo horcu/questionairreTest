@@ -25,19 +25,19 @@
                 android:layout_height="50dp" />
 
 
-            <!--Friends list Listview-->
-            <LinearLayout
-                android:id="@+id/friends_reg_layout"
-                android:layout_below="@+id/peezbar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/light_grey"
-                android:visibility="visible"
-                android:orientation="vertical">
+            <!--&lt;!&ndash;Friends list Listview&ndash;&gt;-->
+            <!--<LinearLayout-->
+                <!--android:id="@+id/friends_reg_layout"-->
+                <!--android:layout_below="@+id/peezbar"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:background="@color/light_grey"-->
+                <!--android:visibility="visible"-->
+                <!--android:orientation="vertical">-->
 
 
 
-            </LinearLayout>
+            <!--</LinearLayout>-->
 
             <LinearLayout
                 android:id="@+id/daddy_dute"
@@ -61,18 +61,14 @@
                 <LinearLayout
                     android:id="@+id/user_name_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="80dp"
                     android:background="@color/white"
                     android:orientation="vertical">
 
-                    <LinearLayout
-                        android:id="@+id/user_name_layout_inner"
-                        android:layout_width="match_parent"
-                        android:background="@color/white"
-                        android:layout_height="80dp">
+
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1">
 
@@ -87,26 +83,54 @@
                                 android:gravity="center_vertical"
                                 android:src="@drawable/ic_player" />
 
-                            <Button
-                                android:id="@+id/player_team"
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:text="Aaron Rogers"
-                                android:textColor="@color/black"
-                                android:textSize="16sp"
                                 android:layout_weight="2"
-                                android:fontFamily="sans-serif-condense"
-                                android:layout_marginLeft="10dp"
-                                android:layout_gravity="center_vertical"
-                                android:gravity="center_vertical"
-                                android:textStyle="bold"
-                                android:background="@android:color/transparent" />
+                                android:orientation="vertical">
 
+                                <Button
+                                    android:id="@+id/player_team"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Antonio Brown"
+                                    android:textColor="#FFC107"
+                                    android:textSize="16sp"
+                                    android:fontFamily="sans-serif-condense"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_gravity="bottom"
+                                    android:gravity="bottom"
+                                    android:textStyle="bold"
+                                    android:background="@android:color/transparent" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="12sp"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:text="WR - Pittsburg Steelers"/>
 
 
                         </LinearLayout>
 
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="right"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                >
 
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-light"
+                                    android:textStyle="bold|italic"
+                                    android:textColor="@color/colorPrimaryDark"
+                                    android:textSize="14sp"
+                                    android:text="$45.00"/>
+                            </LinearLayout>
 
 
                     </LinearLayout>
@@ -225,7 +249,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
                 android:layout_marginTop="5dp"
-                android:background="@color/white"
+                android:background="@android:color/transparent"
                 android:layout_below="@+id/daddy_dute"
                 android:orientation="vertical"
                 >
@@ -234,7 +258,15 @@
                     android:id="@+id/select_opp_layout"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:background="@color/white"
                     android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="16dp"
+                        android:src="@drawable/ic_social_people"/>
 
                     <TextView
                         android:id="@+id/users_groups_betting"
@@ -248,8 +280,23 @@
                         android:fontFamily="sans-serif-condense"
                         android:layout_marginLeft="16dp"
                         android:background="?android:attr/selectableItemBackground"
-                        android:text="Select opponents" />
+                        android:text="Group" />
 
+
+
+                    <TextView
+                        android:id="@+id/users_groups_betting_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/black"
+                        android:textSize="10sp"
+
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:fontFamily="sans-serif-thin"
+                        android:layout_marginLeft="20dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:text="click to add or invite friends to play" />
 
                     <View
                         android:layout_width="wrap_content"
@@ -257,9 +304,11 @@
                         android:layout_weight="10"/>
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/ic_arrow_drop_down_black_24dp"/>
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="16dp"
+                    android:src="@drawable/ic_content_add"/>
 
 
                 </LinearLayout>
@@ -269,9 +318,9 @@
                         android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginRight="16dp"
+                        android:background="@android:color/transparent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:padding="3dp"
                         android:orientation="vertical">
 
@@ -284,26 +333,29 @@
                                 android:layout_height="35dp"
                                 android:layout_marginRight="5dp"
                                 android:layout_width="35dp"
-                                android:layout_marginBottom="5dp"/>
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_vertical"
+                                />
 
                             <TextView
+                                android:id="@+id/friend_1_text"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:gravity="center_vertical"
+                                android:layout_marginLeft="5dp"
                                 android:text="Info about user"/>
 
                             <Space
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:layout_weight="10"/>
+                                android:layout_weight="100"/>
 
                             <Button
                                 android:id="@+id/bet_amount_4"
-
-                                android:layout_width="match_parent"
+                                android:layout_width="30dp"
                                 android:layout_height="50dp"
-                                android:text="price"
+                                android:text="20"
                                 android:textColor="@color/black"
                                 android:textSize="16sp"
                                 android:layout_gravity="center_vertical|right"
@@ -316,35 +368,37 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="5dp">
+                            >
 
                             <com.horcu.apps.peez.custom.LetterImageView
                                 android:id="@+id/friend_2"
                                 android:layout_height="35dp"
                                 android:layout_marginRight="5dp"
+                                android:layout_gravity="center_vertical|right"
+                                android:gravity="center"
                                 android:layout_width="35dp" />
 
                             <TextView
+                                android:id="@+id/friend_2_text"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:gravity="center_vertical"
+                                android:layout_marginLeft="5dp"
                                 android:text="Info about user"/>
 
-                            <Space
+                            <View
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_weight="10"/>
 
                             <Button
                                 android:id="@+id/bet_amount_3"
-
-                                android:layout_width="match_parent"
+                                android:layout_width="30dp"
                                 android:layout_height="50dp"
-                                android:text="price"
+                                android:text="25"
                                 android:textColor="@color/black"
                                 android:textSize="16sp"
-                                android:layout_gravity="center_vertical|right"
                                 android:gravity="center"
                                 android:fontFamily="sans-serif-condense"
                                 android:textStyle="bold"
@@ -361,25 +415,28 @@
                                 android:id="@+id/friend_3"
                                 android:layout_height="35dp"
                                 android:layout_marginRight="5dp"
+                                android:layout_gravity="center_vertical|right"
+                                android:gravity="center"
                                 android:layout_width="35dp" />
                             <TextView
+                                android:id="@+id/friend_3_text"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:gravity="center_vertical"
+                                android:layout_marginLeft="5dp"
                                 android:text="Info about user"/>
 
                             <Space
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:layout_weight="10"/>
+                                android:layout_weight="100"/>
 
                             <Button
                                 android:id="@+id/bet_amount_1"
-
-                                android:layout_width="match_parent"
+                                android:layout_width="30dp"
                                 android:layout_height="50dp"
-                                android:text="price"
+                                android:text="15"
                                 android:textColor="@color/black"
                                 android:textSize="16sp"
                                 android:layout_gravity="center_vertical|right"
@@ -391,37 +448,45 @@
 
                     </LinearLayout>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:layout_marginTop="40dp"
+                    android:layout_gravity="center_horizontal"
+                    android:text="empty group :("/>
+
             </LinearLayout>
 
             <!--amount to bet-->
-            <LinearLayout
-                android:id="@+id/bet_amount_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:visibility="gone"
-                android:layout_below="@+id/bet_who_layout"
-                android:layout_marginBottom="55dp"
-                android:layout_marginTop="5dp"
-                android:background="@color/white"
-                android:orientation="horizontal">
+            <!--<LinearLayout-->
+                <!--android:id="@+id/bet_amount_layout"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:visibility="gone"-->
+                <!--android:layout_below="@+id/bet_who_layout"-->
+                <!--android:layout_marginBottom="55dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:background="@color/white"-->
+                <!--android:orientation="horizontal">-->
 
 
-                <Button
-                    android:id="@+id/bet_amount"
+                <!--<Button-->
+                    <!--android:id="@+id/bet_amount"-->
 
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:text="price"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:fontFamily="sans-serif-condense"
-                    android:textStyle="bold"
-                    android:background="?android:attr/selectableItemBackground" />
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="50dp"-->
+                    <!--android:text="price"-->
+                    <!--android:textColor="@color/black"-->
+                    <!--android:textSize="16sp"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:gravity="center"-->
+                    <!--android:fontFamily="sans-serif-condense"-->
+                    <!--android:textStyle="bold"-->
+                    <!--android:background="?android:attr/selectableItemBackground" />-->
 
-            </LinearLayout>
+            <!--</LinearLayout>-->
 
 
             <View
@@ -517,6 +582,8 @@
 
 
             </LinearLayout>
+
+
 
             </FrameLayout>
 
