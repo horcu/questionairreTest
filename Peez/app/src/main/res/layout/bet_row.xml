@@ -256,55 +256,140 @@
                         android:layout_height="match_parent"
                         android:layout_weight="10"/>
 
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_vertical"
-                        android:gravity="center_vertical"
-                        android:src="@drawable/ic_social_people"
-                        android:layout_marginRight="16dp" />
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/ic_arrow_drop_down_black_24dp"/>
 
 
                 </LinearLayout>
 
-                    <GridLayout
+                    <LinearLayout
                         android:id="@+id/selected_users_grid"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
                         android:layout_marginLeft="16dp"
                         android:layout_marginRight="16dp"
                         android:padding="3dp"
-                        android:rowCount="1"
-                        android:columnCount="4"
-                        >
+                        android:orientation="vertical">
 
-                        <com.horcu.apps.peez.custom.LetterImageView
-                            android:id="@+id/friend_1"
-                            android:layout_height="40dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_width="40dp"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                        <com.horcu.apps.peez.custom.LetterImageView
-                            android:id="@+id/friend_2"
-                            android:layout_height="40dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_width="40dp"/>
+                            <com.horcu.apps.peez.custom.LetterImageView
+                                android:id="@+id/friend_1"
+                                android:layout_height="35dp"
+                                android:layout_marginRight="5dp"
+                                android:layout_width="35dp"
+                                android:layout_marginBottom="5dp"/>
 
-                        <com.horcu.apps.peez.custom.LetterImageView
-                            android:id="@+id/friend_3"
-                            android:layout_height="40dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_width="40dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_vertical"
+                                android:text="Info about user"/>
 
-                        <TextView
-                            android:id="@+id/extra_friends_count"
+                            <Space
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="10"/>
+
+                            <Button
+                                android:id="@+id/bet_amount_4"
+
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:text="price"
+                                android:textColor="@color/black"
+                                android:textSize="16sp"
+                                android:layout_gravity="center_vertical|right"
+                                android:gravity="center"
+                                android:fontFamily="sans-serif-condense"
+                                android:textStyle="bold"
+                                android:background="?android:attr/selectableItemBackground" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:text="and 4 others invited"/>
-                    </GridLayout>
+                            android:layout_marginBottom="5dp">
+
+                            <com.horcu.apps.peez.custom.LetterImageView
+                                android:id="@+id/friend_2"
+                                android:layout_height="35dp"
+                                android:layout_marginRight="5dp"
+                                android:layout_width="35dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_vertical"
+                                android:text="Info about user"/>
+
+                            <Space
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="10"/>
+
+                            <Button
+                                android:id="@+id/bet_amount_3"
+
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:text="price"
+                                android:textColor="@color/black"
+                                android:textSize="16sp"
+                                android:layout_gravity="center_vertical|right"
+                                android:gravity="center"
+                                android:fontFamily="sans-serif-condense"
+                                android:textStyle="bold"
+                                android:background="?android:attr/selectableItemBackground" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp">
+
+                            <com.horcu.apps.peez.custom.LetterImageView
+                                android:id="@+id/friend_3"
+                                android:layout_height="35dp"
+                                android:layout_marginRight="5dp"
+                                android:layout_width="35dp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_vertical"
+                                android:text="Info about user"/>
+
+                            <Space
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="10"/>
+
+                            <Button
+                                android:id="@+id/bet_amount_1"
+
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:text="price"
+                                android:textColor="@color/black"
+                                android:textSize="16sp"
+                                android:layout_gravity="center_vertical|right"
+                                android:gravity="center"
+                                android:fontFamily="sans-serif-condense"
+                                android:textStyle="bold"
+                                android:background="?android:attr/selectableItemBackground" />
+                        </LinearLayout>
+
+                    </LinearLayout>
 
             </LinearLayout>
 
@@ -314,6 +399,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:visibility="gone"
                 android:layout_below="@+id/bet_who_layout"
                 android:layout_marginBottom="55dp"
                 android:layout_marginTop="5dp"

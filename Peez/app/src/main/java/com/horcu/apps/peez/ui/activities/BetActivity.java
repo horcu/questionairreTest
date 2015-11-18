@@ -17,6 +17,8 @@ import android.provider.ContactsContract;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.drawable.DrawableUtils;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -82,6 +84,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.UUID;
+import java.util.jar.Attributes;
 import java.util.zip.Inflater;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -152,7 +155,7 @@ public class BetActivity extends AppCompatActivity
     private RecyclerView current_bets;
     private TextView friendsListText;
     private HorizontalScrollView selected_users_scrollView;
-    private GridLayout userGrid;
+    private LinearLayout userGrid;
 
 
     @Override
@@ -207,7 +210,7 @@ public class BetActivity extends AppCompatActivity
 
         ArrayAdapter<String> adapter4 = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, listWhen);
 
-        userGrid = (GridLayout)findViewById(R.id.selected_users_grid);
+        userGrid = (LinearLayout)findViewById(R.id.selected_users_grid);
 
         friendsListText = (TextView)findViewById(R.id.users_groups_betting);
 
@@ -572,7 +575,7 @@ public class BetActivity extends AppCompatActivity
 //                        .hideThis(doneDiscard, Techniques.SlideOutDown)
 //                        .hideThis(bet_amount, Techniques.SlideOutDown)
 //                        .hideThis(peezbar, Techniques.SlideOutUp);
-                        Intent usersIntent = new Intent(getApplicationContext(),UsersActivity.class);
+                Intent usersIntent = new Intent(getApplicationContext(),UsersActivity.class);
                 startActivityForResult(usersIntent,consts.GET_CONTACTS_RESULTS);
 
                 break;
@@ -643,7 +646,47 @@ public class BetActivity extends AppCompatActivity
                 userGrid.setVisibility(View.VISIBLE);
                 new ViewController().showThis(userGrid, Techniques.SlideInDown);
 
-                LetterImageView liv = new LetterImageView(this, null);
+//                LinearLayout lin = new LinearLayout(this);
+//                lin.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 50));
+//                lin.setOrientation(LinearLayout.HORIZONTAL);
+//
+//                LetterImageView l1 = new LetterImageView(this, null);
+//                l1.setLayoutParams(new LinearLayoutCompat.LayoutParams(30, 30, 1));
+//                l1.setOval(true);
+//                l1.setLetter(selectedFriends.get(0).charAt(0));
+//
+//                TextView tv1 = new TextView(this);
+//                l1.setLayoutParams(new LinearLayoutCompat.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT, 10));
+//                tv1.setText(selectedFriends.get(0));
+//
+//                ImageView iv1 = new ImageView(this);
+//                iv1.setLayoutParams(new LinearLayoutCompat.LayoutParams(20,20, 1));
+//                iv1.setBackground(getDrawable(R.drawable.ic_money));
+//                iv1.setAlpha(.4f);
+
+//                lin.addView(iv1);
+//                lin.addView(tv1);
+//                lin.addView(l1);
+
+//                LetterImageView l1 = new LetterImageView(this, null);
+//                l1.setLayoutParams(new LinearLayoutCompat.LayoutParams(30, 30));
+//                l1.setOval(true);
+//                l1.setLetter(selectedFriends.get(0).charAt(0));
+//
+//                LetterImageView l2 = new LetterImageView(this, null);
+//                l2.setLayoutParams(new LinearLayoutCompat.LayoutParams(30, 30));
+//                l2.setOval(true);
+//                l2.setLetter(selectedFriends.get(1).charAt(0));
+//
+//                LetterImageView l3 = new LetterImageView(this, null);
+//                l3.setLayoutParams(new LinearLayoutCompat.LayoutParams(30,30));
+//                l3.setOval(true);
+//                l3.setLetter(selectedFriends.get(2).charAt(0));
+//
+//                userGrid.addView(l1);
+//                userGrid.addView(l2);
+//                userGrid.addView(l3);
+
                 friend_1.setOval(true);
                 friend_1.setTextColor(R.color.white);
                 friend_1.setLetter(selectedFriends.get(0).charAt(0));
@@ -653,7 +696,6 @@ public class BetActivity extends AppCompatActivity
                 friend_3.setOval(true);
                 friend_3.setTextColor(R.color.white);
                 friend_3.setLetter(selectedFriends.get(2).charAt(0));
-
             }
         }
     }
