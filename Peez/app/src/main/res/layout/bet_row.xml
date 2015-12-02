@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
 
     <data>
 
-        <variable
-            name="bet"
-            type="com.horcu.apps.peez.backend.models.betApi.model.Bet" />
+        <variable name="bet" type="com.horcu.apps.peez.backend.models.betApi.model.Bet" />
+
+
     </data>
 
     <ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -18,11 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <include
-                layout="@layout/peez_bar"
-                android:id="@+id/peezbar"
-                android:layout_width="match_parent"
-                android:layout_height="50dp" />
+
 
 
             <!--&lt;!&ndash;Friends list Listview&ndash;&gt;-->
@@ -44,25 +40,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
-                android:layout_below="@id/peezbar"
-                android:padding="5dp"
                 android:background="@color/white"
                 android:orientation="vertical">
-
-                <!--<com.greenfrvr.rubberloader.RubberLoaderView-->
-                <!--android:id="@+id/loader2"-->
-                <!--android:layout_width="50dp"-->
-                <!--android:layout_height="50dp"-->
-                <!--android:layout_gravity="center|center_vertical"-->
-                <!--app:loaderExtraColor="@color/colorPrimary"-->
-                <!--app:loaderPrimeColor="@color/colorPrimaryDark" />-->
 
                 <!--player or team or conference or division as bet bait-->
                 <LinearLayout
                     android:id="@+id/user_name_layout"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:background="@color/white"
                     android:orientation="vertical">
 
 
@@ -93,8 +78,8 @@
                                     android:id="@+id/player_team"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Antonio Brown"
-                                    android:textColor="#FFC107"
+                                    android:text="Preston Brown"
+                                    android:textColor="@color/white"
                                     android:textSize="16sp"
                                     android:fontFamily="sans-serif-condense"
                                     android:layout_marginLeft="10dp"
@@ -109,7 +94,8 @@
                                     android:textSize="12sp"
                                     android:layout_marginTop="5dp"
                                     android:layout_marginLeft="10dp"
-                                    android:text="WR - Pittsburg Steelers"/>
+                                    android:textColor="@color/white"
+                                    android:text="WR - San francisco 49ers"/>
 
 
                         </LinearLayout>
@@ -127,8 +113,8 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="sans-serif-light"
                                     android:textStyle="bold|italic"
-                                    android:textColor="@color/colorPrimaryDark"
                                     android:textSize="14sp"
+                                    android:textColor="@color/black"
                                     android:text="$45.00"/>
                             </LinearLayout>
 
@@ -152,6 +138,7 @@
                         android:id="@+id/top_tagmaker_section"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
 
@@ -161,7 +148,7 @@
                             android:layout_height="50dp"
                             android:hint="will record"
                             android:fontFamily="sans-serif-condense"
-                            android:layout_weight="3"
+                            android:layout_weight="1"
                             android:background="@android:color/transparent" />
 
                         <com.horcu.apps.peez.spinner.NiceSpinner
@@ -175,7 +162,7 @@
 
                         <Button
                             android:id="@+id/numbers"
-                            android:layout_width="30dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@android:color/transparent"
                             android:textSize="16sp"
@@ -189,10 +176,11 @@
                             android:id="@+id/stat_element"
                             android:layout_width="wrap_content"
                             android:layout_height="50dp"
-                            android:layout_weight="3"
+                            android:layout_weight="1"
+
                             android:fontFamily="sans-serif-condense"
                             android:background="@android:color/transparent"
-                            android:hint="tds" />
+                            android:hint="sacks" />
 
 
                     </LinearLayout>
@@ -242,6 +230,14 @@
 
             </LinearLayout>
 
+            <include
+                layout="@layout/peez_bar"
+                android:id="@+id/peezbar"
+                android:layout_below="@+id/daddy_dute"
+                android:layout_width="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_height="50dp" />
+
             <!--who to bet layout-->
             <LinearLayout
                 android:id="@+id/bet_who_layout"
@@ -250,7 +246,7 @@
                 android:layout_weight="4"
                 android:layout_marginTop="5dp"
                 android:background="@android:color/transparent"
-                android:layout_below="@+id/daddy_dute"
+                android:layout_below="@+id/peezbar"
                 android:orientation="vertical"
                 >
 
@@ -307,7 +303,7 @@
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginRight="10dp"
                     android:src="@drawable/ic_content_add"/>
 
 

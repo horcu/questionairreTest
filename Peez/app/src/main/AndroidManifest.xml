@@ -115,7 +115,7 @@
         <activity
             android:name=".ui.activities.PrelimActivity"
             android:label="@string/title_activity_prelim"
-            android:theme="@style/Theme.AppCompat.Light.Translucent.NoActionBar">
+            android:theme="@style/app_default">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -158,7 +158,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.horcu.apps.peez.ui.activities.PrelimActivity" />
         </activity>
-        <activity android:name=".ui.activities.UsersActivity"></activity>
+        <activity android:name=".ui.activities.UsersActivity" />
+        <activity
+            android:name=".ui.activities.GridActivity"
+            android:label="@string/title_activity_grid"
+            android:theme="@style/app_default.NoActionBar"></activity>
     </application>
 
 </manifest>

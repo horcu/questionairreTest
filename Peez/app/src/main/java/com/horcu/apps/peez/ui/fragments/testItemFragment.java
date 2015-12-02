@@ -1,19 +1,35 @@
 package com.horcu.apps.peez.ui.fragments;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.horcu.apps.peez.R;
+import com.horcu.apps.peez.adapters.BetAdapter;
+import com.horcu.apps.peez.backend.models.betApi.BetApi;
+import com.horcu.apps.peez.backend.models.betApi.model.Bet;
+import com.horcu.apps.peez.backend.models.betApi.model.CollectionResponseBet;
 import com.horcu.apps.peez.backend.models.userApi.model.User;
+import com.horcu.apps.peez.custom.Api;
 import com.horcu.apps.peez.dummy.DummyContent;
+import com.horcu.apps.peez.listener.RecyclerItemClickListener;
+import com.horcu.apps.peez.ui.activities.BetActivity;
+import com.horcu.apps.peez.ui.activities.GridActivity;
+
+import java.io.IOException;
+import java.util.List;
 
 
 /**
@@ -31,7 +47,8 @@ public class testItemFragment extends Fragment implements AbsListView.OnItemClic
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "user";
 
-
+    private BetAdapter mBetAdapter;
+    private RecyclerView betList;
     // TODO: Rename and change types of parameters
     private User user;
 
@@ -96,7 +113,79 @@ public class testItemFragment extends Fragment implements AbsListView.OnItemClic
 
         View view = inflater.inflate(R.layout.fragment_testitem, container, false);
 
+        Button newBet = (Button)view.findViewById(R.id.new_bet_btn);
+        Button newGrid = (Button)view.findViewById(R.id.new_grid_btn);
+
+        newBet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StartNewBet();
+            }
+        });
+
+        newGrid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              StartNewGrid();
+            }
+        });
+
+        betList = (RecyclerView)view.findViewById(R.id.bets_list);
+        getAllBets(); //pass email address
+
+        betList.setLayoutManager(new LinearLayoutManager(getContext()));
+        betList.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(View view, int position, float x, float y) {
+                StartNewBet();
+            }
+        }));
         return view;
+    }
+
+    private void StartNewGrid() {
+        Intent intent = new Intent(getContext(), GridActivity.class);
+        startActivity(intent);
+    }
+
+    private void StartNewBet() {
+        Intent intent = new Intent(getContext(), BetActivity.class);
+        startActivity(intent);
+    }
+
+
+    private void getAllBets() {
+
+
+        new AsyncTask<Void, Void, Void>() {
+            public List<Bet> mBets;
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                BetApi betService = Api.BuildBetApiService();
+                try {
+                    CollectionResponseBet collection = betService.list().execute();
+                    if(collection !=null)
+                        mBets = collection.getItems();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void v) {
+                if (mBetAdapter == null) {
+                    mBetAdapter = new BetAdapter(mBets);
+                    betList.setAdapter(mBetAdapter);
+                } else {
+                    mBetAdapter = new BetAdapter(mBets);
+                    betList.setAdapter(mBetAdapter);
+                    mBetAdapter.notifyDataSetChanged();
+                }
+            }
+        }.execute();
     }
 
     @Override
