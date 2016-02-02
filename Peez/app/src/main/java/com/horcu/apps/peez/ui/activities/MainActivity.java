@@ -35,7 +35,7 @@ import java.io.IOException;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements testItemFragment.OnFragmentInteractionListener {
+public class MainActivity extends BaseActivity implements testItemFragment.OnFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide

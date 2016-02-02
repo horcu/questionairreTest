@@ -37,7 +37,7 @@ import com.horcu.apps.peez.R;
  * Main Activity for sending App Invites and launching the DeepLinkActivity when an
  * App Invite is received.
  */
-public class InviteActivity extends AppCompatActivity implements
+public class InviteActivity extends BaseActivity implements
         View.OnClickListener {
 
     private static final String TAG = InviteActivity.class.getSimpleName();

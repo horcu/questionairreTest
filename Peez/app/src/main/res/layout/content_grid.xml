@@ -19,19 +19,17 @@
         android:background="#fff"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        app:columnCount="7"
+        app:columnCount="1"
         app:horizontalSpace="4.5dp"
         app:verticalSpace="4.5dp">
 
         <!--secondLevelRow-->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="4a"
-            android:textSize="10dp"
-            android:textColor="@color/grey_500"
+        <com.github.ivbaranov.mli.MaterialLetterIcon
+            android:layout_width="@dimen/letter_icon_size"
+            android:layout_height="@dimen/letter_icon_size"
             android:gravity="center"
             android:background="@android:color/white"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -200,6 +198,65 @@
             android:background="@android:color/white"/>
         <!--end-->
 
+
+        <!--backField-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="7a"
+            android:textSize="10dp"
+            android:textColor="@color/grey_500"
+            android:gravity="center"
+            android:background="@android:color/white"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="7b"
+            android:textSize="10dp"
+            android:textColor="@color/grey_500"
+            android:gravity="center"
+            android:background="@android:color/white"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="7c"
+            android:textSize="10dp"
+            android:textColor="@color/grey_500"
+            android:gravity="center"
+            android:background="@android:color/white"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="7d"
+            android:textSize="10dp"
+            android:textColor="@color/grey_500"
+            android:gravity="center"
+            android:background="@android:color/white"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="7e"
+            android:textSize="10dp"
+            android:textColor="@color/grey_500"
+            android:gravity="center"
+            android:background="@android:color/white"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="7f"
+            android:textSize="10dp"
+            android:textColor="@color/grey_500"
+            android:gravity="center"
+            android:background="@android:color/white"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="7g"
+            android:textSize="10dp"
+            android:textColor="@color/grey_500"
+            android:gravity="center"
+            android:background="@android:color/white"/>
+        <!--end-->
 
 
     </com.horcu.apps.peez.custom.AutoFitGridLayout>

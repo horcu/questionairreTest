@@ -1,16 +1,14 @@
 package com.horcu.apps.peez.adapters;
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.betApi.model.Bet;
 import com.horcu.apps.peez.databinding.BetRowBinding;
 
 import java.util.List;
-
 /**
  * Created by hacz on 10/14/2015.
  */

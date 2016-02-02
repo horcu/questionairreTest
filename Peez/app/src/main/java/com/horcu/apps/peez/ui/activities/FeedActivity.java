@@ -24,7 +24,7 @@ import java.util.List;
 
 
 
-public class FeedActivity extends AppCompatActivity {
+public class FeedActivity extends BaseActivity {
 
     private BetAdapter mBetAdapter;
     private RecyclerView betList;
