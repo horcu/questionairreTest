@@ -6,7 +6,9 @@ import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 import com.horcu.apps.common.utilities.consts;
 import com.horcu.apps.peez.backend.models.betApi.BetApi;
-import com.horcu.apps.peez.backend.models.misc.betStructureApi.BetStructureApi;
+import com.horcu.apps.peez.backend.models.gameboard.pieceApi.PieceApi;
+import com.horcu.apps.peez.backend.models.gameboard.tileApi.TileApi;
+import com.horcu.apps.peez.backend.models.misc.betStructApi.BetStructApi;
 import com.horcu.apps.peez.backend.models.userApi.UserApi;
 import com.horcu.apps.peez.backend.models.userSettingsApi.UserSettingsApi;
 import com.horcu.apps.peez.backend.registration.Registration;
@@ -61,8 +63,8 @@ public class Api {
                 }).build();
     }
 
-    public static BetStructureApi BuildBetStructureApiService() {
-        return new BetStructureApi.Builder(AndroidHttp.newCompatibleTransport()
+    public static BetStructApi BuildBetStructureApiService() {
+        return new BetStructApi.Builder(AndroidHttp.newCompatibleTransport()
                 , new AndroidJsonFactory(), null)
                 .setRootUrl(consts.DEV_MODE
                         ? consts.DEV_URL
@@ -77,6 +79,36 @@ public class Api {
 
     public static BetApi BuildBetApiService() {
         return new BetApi.Builder(AndroidHttp.newCompatibleTransport()
+                , new AndroidJsonFactory(), null)
+                .setRootUrl(consts.DEV_MODE
+                        ? consts.DEV_URL
+                        : consts.PROD_URL)
+                .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
+                    @Override
+                    public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
+                        abstractGoogleClientRequest.setDisableGZipContent(true);
+                    }
+                }).build();
+
+    }
+
+    public static TileApi BuildTileApiService() {
+        return new TileApi.Builder(AndroidHttp.newCompatibleTransport()
+                , new AndroidJsonFactory(), null)
+                .setRootUrl(consts.DEV_MODE
+                        ? consts.DEV_URL
+                        : consts.PROD_URL)
+                .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
+                    @Override
+                    public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
+                        abstractGoogleClientRequest.setDisableGZipContent(true);
+                    }
+                }).build();
+
+    }
+
+    public static PieceApi BuildPieceApiService() {
+        return new PieceApi.Builder(AndroidHttp.newCompatibleTransport()
                 , new AndroidJsonFactory(), null)
                 .setRootUrl(consts.DEV_MODE
                         ? consts.DEV_URL

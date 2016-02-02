@@ -66,6 +66,8 @@ dependencies {
     // compile 'com.jakewharton.timber:timber:2.7.1'
 
     // compile 'com.jakewharton:butterknife:6.1.0'
+
+    compile 'br.com.zbra:android-linq:1.0.1'
     compile project(':CustomImageView')
 }
 
