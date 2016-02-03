@@ -44,7 +44,7 @@ import com.horcu.apps.peez.ui.fragments.AbstractFragment;
 /**
  * Activity for adding or editing a device group
  */
-public class GroupActivity extends BaseActivity
+public class GroupActivity extends AppCompatActivity
         implements View.OnClickListener {
 
     public static final String EXTRA_SENDER_ID = "INTENT_EXTRA_SENDER_ID";

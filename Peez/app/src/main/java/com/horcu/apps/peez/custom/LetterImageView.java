@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 
 import com.horcu.apps.peez.R;
+import com.horcu.apps.peez.backend.models.gameboard.tileApi.model.Tile;
 
 import java.util.Random;
 
@@ -20,6 +21,7 @@ public class LetterImageView extends ImageView {
     private Paint mBackgroundPaint;
     private int mTextColor = Color.WHITE;
     private boolean isOval;
+    private Tile tile;
 
     public LetterImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -93,5 +95,13 @@ public class LetterImageView extends ImageView {
         Random random = new Random();
         String[] colorsArr = getResources().getStringArray(R.array.colors);
         return Color.parseColor(colorsArr[random.nextInt(colorsArr.length)]);
+    }
+
+    public Tile getTile() {
+        return tile;
+    }
+
+    public void setTile(Tile tile) {
+        this.tile = tile;
     }
 }

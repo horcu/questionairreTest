@@ -25,7 +25,7 @@ import com.horcu.apps.peez.backend.models.userSettingsApi.UserSettingsApi;
 import com.horcu.apps.peez.custom.Api;
 import com.horcu.apps.peez.registration.RegistrationIntentService;
 
-public class PrelimActivity extends BaseActivity {
+public class PrelimActivity extends AppCompatActivity {
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static final String TAG = "PrelimActivity";

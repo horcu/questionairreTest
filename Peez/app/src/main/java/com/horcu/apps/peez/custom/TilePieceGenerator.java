@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -38,6 +39,7 @@ public class TilePieceGenerator {
     Map<String,Integer> tilePieceMap = new LinkedHashMap<>();
     private ArrayList<Tile> tileList = new ArrayList<>();
     private ArrayList<Tile> gameTileList = new ArrayList<>();
+    private ArrayList<LetterImageView> gameReadyViews = new ArrayList<>();
 
     TileApi tileApi = Api.BuildTileApiService();
     static final List<Integer> piecesRange = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
@@ -112,57 +114,96 @@ public class TilePieceGenerator {
 
     //generate the appropriate pieces for each of the 36 tiles
 
-   private void GenersteTileIdentities(){
+   private void GenersteTileIdentities(ArrayList<LetterImageView> gridTiles){
        Random r = new Random();
 
-        for(int i =0; i < tileList.size() ; i++)
-        {
-            //get the random number representing the index of the number to select from the available range values
-            int idx = r.nextInt(piecesRange.size());
-            int selected = piecesRange.get(idx);
+       ArrayList<Tile> tempTileList = (ArrayList<Tile>) tileList.clone();
 
-            //use that number to get the tile type (piece) that should be used here
-            Iterator iterator = tilePieceMap.entrySet().iterator();
-            int n = 0;
-             String alias = "";
-            int allowed = 0;
-            while(iterator.hasNext()){
-                if(selected == n)
-                {
-                     alias = (String) iterator.next();
-                     allowed = tilePieceMap.get(alias);
-                    break;
-                }
-                n++;
-            }
+       //all lists for MO, GF, BA, MT,GH
+       //MO
+       List<Tile> MOTiles = new ArrayList<>();
 
-            final String finalAlias = alias;
+       for(int i = 0; i< tilePieceMap.get("MO"); i++)
+       {
+           int idx = r.nextInt(tempTileList.size());
+           Tile chosenTile = tempTileList.get(idx);
+           if(chosenTile.getSpot() == idx)
+           {
+               chosenTile.setPiece("MO");
+               MOTiles.add(i,chosenTile);
+               tempTileList.remove(idx);
+           }
+       }
 
-            //now use the alias and allowed to determine what tile to add
+       List<Tile> GFTiles = new ArrayList<>();
 
-            //check if the allowed amount has been exceeded
-            int left = tilePieceMap.get(alias).intValue();
+       for(int i = 0; i< tilePieceMap.get("GF"); i++)
+       {
+           int idx = r.nextInt(tempTileList.size());
+           Tile chosenTile = tempTileList.get(idx);
+           if(chosenTile.getSpot() == idx)
+           {
+               chosenTile.setPiece("GF");
+               GFTiles.add(i,chosenTile);
+               tempTileList.remove(idx);
+           }
+       }
+       List<Tile> BATiles = new ArrayList<>();
 
-            if(left == 0)//cannot use anymore of this piece type
-                return;
+       for(int i = 0; i< tilePieceMap.get("BA"); i++)
+       {
+           int idx = r.nextInt(tempTileList.size());
+           Tile chosenTile = tempTileList.get(idx);
+           if(chosenTile.getSpot() == idx)
+           {
+               chosenTile.setPiece("BA");
+               BATiles.add(i,chosenTile);
+               tempTileList.remove(idx);
+           }
+       }
 
-            //you can assign more
-            //find the tile in the tileList from the server using the linq like syntax eg. where tile.name == "blah blah"
-            Tile newTile = stream(tileList).where(t-> t.getName() == finalAlias);
+       List<Tile> MTTiles = new ArrayList<>();
 
-            //decorate the tile accordingly
-            //newTile.set
+       for(int i = 0; i< tilePieceMap.get("MT"); i++)
+       {
+           int idx = r.nextInt(tempTileList.size());
+           Tile chosenTile = tempTileList.get(idx);
+           if(chosenTile.getSpot() == idx)
+           {
+               chosenTile.setPiece("MT");
+               MTTiles.add(i,chosenTile);
+               tempTileList.remove(idx);
+           }
+       }
 
-            // Add the newly assigned tile to the gameTileList to send off to the server to represent this game instance tile layout
-             gameTileList.add(i,newTile);
+       List<Tile> GHTiles = new ArrayList<>();
 
-            if(left == 1) //this is the last one remove the type from the tilePieceMap and the pieces range
-            {
-             tileList.remove(alias);
-             piecesRange.remove(selected);
-            }
-        }
-    }
+       for(int i = 0; i< tilePieceMap.get("GH"); i++)
+       {
+           int idx = r.nextInt(tempTileList.size());
+           Tile chosenTile = tempTileList.get(idx);
+           if(chosenTile.getSpot() == idx)
+           {
+               chosenTile.setPiece("GH");
+               GHTiles.add(i,chosenTile);
+               tempTileList.remove(idx);
+           }
+       }
+
+       List<Tile> masterList = new ArrayList<>();
+       masterList.addAll(MTTiles);
+       masterList.addAll(MOTiles);
+       masterList.addAll(GHTiles);
+       masterList.addAll(BATiles);
+       masterList.addAll(GFTiles);
+
+       Collections.shuffle(masterList);
+
+       for(int i =0; i < gridTiles.size(); i++)
+       {
+          gridTiles.get(i).setTile(masterList.get(i));
+       }
+   }
 
 
 

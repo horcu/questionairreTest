@@ -32,7 +32,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsersActivity extends BaseActivity implements
+public class UsersActivity extends AppCompatActivity implements
             View.OnClickListener{
 
     private UserApi userApi;

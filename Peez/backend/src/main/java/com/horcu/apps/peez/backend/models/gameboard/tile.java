@@ -13,6 +13,10 @@ public class tile {
     @SerializedName("name")
     @Expose
     private String name;
+
+    @SerializedName("spot")
+    @Expose
+    private int spot;
     @SerializedName("owner")
     @Expose
     private String owner;
@@ -74,6 +78,29 @@ public class tile {
 
     public tile withName(String name) {
         this.name = name;
+        return this;
+    }
+
+    /**
+     *
+     * @return
+     * The name
+     */
+    public int getSpot() {
+        return spot;
+    }
+
+    /**
+     *
+     * @param name
+     * The name
+     */
+    public void setSpot(int spot) {
+        this.spot = spot;
+    }
+
+    public tile withSpot(int spot) {
+        this.spot = spot;
         return this;
     }
 

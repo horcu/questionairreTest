@@ -38,7 +38,7 @@ import com.horcu.apps.peez.ui.fragments.AbstractFragment;
 /**
  * Activity for creating an InstanceID Authorization Token
  */
-public class TokenActivity extends BaseActivity implements View.OnClickListener {
+public class TokenActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String STATE_AUDIENCE = "STATE_AUDIENCE";
 
     private TextView audienceIdTexView;
