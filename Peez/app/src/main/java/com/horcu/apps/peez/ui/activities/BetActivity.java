@@ -1,39 +1,27 @@
 package com.horcu.apps.peez.ui.activities;
 
-import android.app.ActionBar;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.databinding.DataBindingUtil;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.graphics.drawable.DrawableUtils;
-import android.support.v7.widget.LinearLayoutCompat;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.GridLayout;
-import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,25 +29,16 @@ import android.widget.Toast;
 import com.codetroopers.betterpickers.numberpicker.NumberPickerBuilder;
 import com.codetroopers.betterpickers.numberpicker.NumberPickerDialogFragment;
 import com.daimajia.androidanimations.library.Techniques;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.extensions.android.json.AndroidJsonFactory;
-import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
-import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 import com.google.api.client.util.DateTime;
 import com.greenfrvr.hashtagview.HashtagView;
 import com.greenfrvr.rubberloader.RubberLoaderView;
-import com.hookedonplay.decoviewlib.DecoView;
-import com.hookedonplay.decoviewlib.charts.SeriesItem;
-import com.hookedonplay.decoviewlib.events.DecoEvent;
 import com.horcu.apps.common.utilities.consts;
 import com.horcu.apps.peez.R;
-import com.horcu.apps.peez.adapters.SelUsersAdapter;
-import com.horcu.apps.peez.adapters.UserAdapter;
 import com.horcu.apps.peez.backend.models.betApi.BetApi;
 import com.horcu.apps.peez.backend.models.betApi.model.Bet;
 import com.horcu.apps.peez.backend.models.betApi.model.NFLPlayer;
 import com.horcu.apps.peez.backend.models.betApi.model.Team;
-import com.horcu.apps.peez.backend.models.misc.betStructureApi.BetStructureApi;
+import com.horcu.apps.peez.backend.models.misc.betStructApi.BetStructApi;
 import com.horcu.apps.peez.backend.models.userApi.UserApi;
 import com.horcu.apps.peez.backend.models.userApi.model.CollectionResponseUser;
 import com.horcu.apps.peez.backend.models.userApi.model.User;
@@ -69,7 +48,6 @@ import com.horcu.apps.peez.custom.LetterImageView;
 import com.horcu.apps.peez.custom.Money;
 import com.horcu.apps.peez.custom.ViewController;
 import com.horcu.apps.peez.custom.notifier;
-import com.horcu.apps.peez.databinding.BetRowBinding;
 import com.horcu.apps.peez.logic.GcmServerSideSender;
 import com.horcu.apps.peez.logic.Message;
 import com.horcu.apps.peez.service.LoggingService;
@@ -84,10 +62,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.UUID;
-import java.util.jar.Attributes;
-import java.util.zip.Inflater;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class BetActivity extends AppCompatActivity
         implements NumberPickerDialogFragment.NumberPickerDialogHandler
@@ -107,7 +81,7 @@ public class BetActivity extends AppCompatActivity
     private NotificationManager manager;
     private Notification myNotication;
     private UserApi userApi;
-    private BetStructureApi betStructureApi;
+    private BetStructApi betStructureApi;
     private CollectionResponseUser allFriends;
     private List<User> allLocalFriends;
     private UserSettingsApi userSettingsApi;
@@ -144,8 +118,8 @@ public class BetActivity extends AppCompatActivity
     private TextView extra_friends_count;
 
     private RubberLoaderView loader;
-
-    HashtagView betHashTag;
+//
+  //  HashtagView betHashTag;
 
     int betNumber;
     NiceSpinner bet_stats, stat_element, equality_result, when_result;
@@ -156,6 +130,7 @@ public class BetActivity extends AppCompatActivity
     private TextView friendsListText;
     private HorizontalScrollView selected_users_scrollView;
     private LinearLayout userGrid;
+    private ImageView playerTeamImage;
 
 
     @Override
@@ -164,29 +139,18 @@ public class BetActivity extends AppCompatActivity
         setContentView(R.layout.activity_test_bet);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setElevation(2);
-            //  getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
         }
 
 
-        //User user = new User();
-
-
         viewController = new ViewController();
-
-       // BetRowBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_test_bet);
-        //  Bet bet = new Bet();
-        //  binding.setBet(bet);
 
         manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         settings = getSharedPreferences("Peez", 0);
 
         daddy = (LinearLayout) findViewById(R.id.daddy_dute);
-        //existingList = (RelativeLayout)findViewById(R.id.existingList);
-
-
-        BuildBetService();
+        betApi = Api.BuildBetApiService();
         BuildMessageService();
-        BuildUserApiService();
+        userApi = Api.BuildUserApiService();
 
         betStructureApi = Api.BuildBetStructureApiService();
         mLogger = new LoggingService.Logger(this);
@@ -200,7 +164,6 @@ public class BetActivity extends AppCompatActivity
         List<String> listWhen = new LinkedList<>(Arrays.asList("This week vs The Baltimore Ravens", "For the entire month of June", "For the 2015 Nfl regular season", "At the end of the 1st quarter", "2nd quarter", "3rd quarter", "4th quarter", "1st half, 2nd half"));
 
         toptagmaker = (LinearLayout) findViewById(R.id.top_tagmaker_section);
-        //betCardsButtons = (LinearLayout)findViewById(R.id.done_discard);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, list);
 
@@ -241,16 +204,10 @@ public class BetActivity extends AppCompatActivity
 
         loader = (RubberLoaderView) findViewById(R.id.loader2);
 
-    //    bet_amount = (LinearLayout) findViewById(R.id.bet_amount_layout);
-   //     bet_amount.setOnClickListener(this);
-       // bet_amount_txt = (TextView) bet_amount.findViewById(R.id.bet_amount);
-
         getFriends = (LinearLayout) findViewById(R.id.bet_who_layout);
         getFriends.setOnClickListener(this);
 
         friendsList = (RecyclerView) findViewById(R.id.users_list);
-
-       // friendslayout = (LinearLayout) findViewById(R.id.friends_reg_layout);
 
         friends = (TextView) findViewById(R.id.friends_reg_list);
 
@@ -265,14 +222,15 @@ public class BetActivity extends AppCompatActivity
         peezbar_root = (RelativeLayout) findViewById(R.id.peezbar_root);
         peezbar = (LinearLayout) findViewById(R.id.peezbar);
 
-        ImageView playerTeamImage = (ImageView) findViewById(R.id.chosen_player_team);
+        playerTeamImage = (ImageView) findViewById(R.id.chosen_player_team);
+        playerTeamImage.setElevation(2f);
 
         friend_1  = (LetterImageView)findViewById(R.id.friend_1);
         friend_2  = (LetterImageView)findViewById(R.id.friend_2);
         friend_3  = (LetterImageView)findViewById(R.id.friend_3);
 
-        String uri2 = "https://storage.googleapis.com/ballrz/images/bengals_away.png";
-        String uri = String.format("%sBRO000001.png", consts.IMG_DEF_URI);
+      //  String uri2 = "https://storage.googleapis.com/ballrz/images/bengals_away.png";
+        String uri = String.format("%sBRO581187.png", consts.IMG_DEF_URI);
         Picasso.with(this).load(uri).into(playerTeamImage);
 
         StringBuilder friendsString = null;
@@ -299,10 +257,6 @@ public class BetActivity extends AppCompatActivity
 
         data.add(tagString);
 
-        betHashTag.addOnTagClickListener(this);
-        betHashTag.setRowMode(HashtagView.MODE_STRETCH);
-
-
         new AsyncTask<Void, Void, Drawable>() {
             @Override
             protected Drawable doInBackground(Void... params) {
@@ -316,7 +270,6 @@ public class BetActivity extends AppCompatActivity
             }
         }.execute();
 
-        betHashTag.setData(data);
         toptagmaker.setVisibility(View.GONE);
         doneDiscard.setVisibility(View.GONE);
     }
@@ -423,23 +376,6 @@ public class BetActivity extends AppCompatActivity
         }.execute();
     }
 
-    public void BuildBetService() {
-        if (betApi == null) {
-            BetApi.Builder builder = new BetApi.Builder(AndroidHttp.newCompatibleTransport()
-                    , new AndroidJsonFactory(), null)
-                    .setRootUrl(consts.DEV_MODE
-                            ? consts.DEV_URL
-                            : consts.PROD_URL)
-                    .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
-                        @Override
-                        public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
-                            abstractGoogleClientRequest.setDisableGZipContent(true);
-                        }
-                    });
-            betApi = builder.build();
-        }
-    }
-
     public void BuildMessageService() {
         String userName = settings.getString(consts.PREF_ACCOUNT_NAME, "anonymous user");
 
@@ -461,22 +397,6 @@ public class BetActivity extends AppCompatActivity
         }
     }
 
-    private void BuildUserApiService() {
-        if (userApi == null) {
-            UserApi.Builder builder = new UserApi.Builder(AndroidHttp.newCompatibleTransport()
-                    , new AndroidJsonFactory(), null)
-                    .setRootUrl(consts.DEV_MODE
-                            ? consts.DEV_URL
-                            : consts.PROD_URL)
-                    .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
-                        @Override
-                        public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
-                            abstractGoogleClientRequest.setDisableGZipContent(true);
-                        }
-                    });
-            userApi = builder.build();
-        }
-    }
 
     @Override
     public void onDialogNumberSet(int reference, int number, double decimal, boolean isNegative, double fullNumber) {
@@ -543,9 +463,6 @@ public class BetActivity extends AppCompatActivity
                         .hideThis(loader, Techniques.FadeOut)
                         .hideThis(betCardDoneButton, Techniques.SlideOutDown)
                         .hideThis(daddy, Techniques.SlideOutUp);
-                //.showThis(existingList, Techniques.FadeIn);
-
-                // existingList.setVisibility(View.VISIBLE);
                 break;
             }
             case R.id.bet_amount_layout: {

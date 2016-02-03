@@ -13,9 +13,9 @@
         android:gravity="center_vertical"
         android:textStyle="bold"
         android:fontFamily="sans-serif-condense"
-        android:textSize="20sp"
+        android:textSize="14sp"
         android:textColor="@color/black"
         android:background="@android:color/transparent"
-        android:hint="Sunday 1pm \@ the Detroit Lions" />
+        android:hint="this Sunday 1pm \@ the Detroit Lions" />
 
 </LinearLayout>

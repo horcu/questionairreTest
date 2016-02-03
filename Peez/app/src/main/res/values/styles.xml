@@ -3,17 +3,17 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:backgroundStacked">@color/white</item>
-        <item name="android:colorBackground">@color/background_material_light</item>
-        <item name="android:navigationBarColor">@color/white</item>
+        <item name="colorAccent">@color/bpLight_gray</item>
+        <item name="android:backgroundStacked">@color/light_grey</item>
+        <item name="android:colorBackground">@color/light_grey</item>
+        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
     </style>
 
     <style name="Theme.AppCompat.Light.Translucent">
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@color/main</item>
+        <item name="android:windowBackground">@color/light_grey</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -21,15 +21,17 @@
     </style>
 
     <style name="app_default" parent="Theme.AppCompat.Light.Translucent">
-        <item name="android:colorAccent">@color/accent_material_light_1</item>
+        <item name="android:colorAccent">@color/colorPrimaryDark</item>
         <item name="android:colorPrimaryDark">@color/primary_dark_material_light</item>
         <item name="android:colorPrimary">@color/primary_material_light</item>
-        <item name="android:colorForeground">@color/foreground_material_light</item>
+        <item name="android:colorForeground">@color/light_grey</item>
         <item name="android:textColorPrimary">@color/primary_text_material_light</item>
         <item name="android:textColor">@color/text</item>
-        <item name="android:colorBackground">@color/background_material_light</item>
-        <item name="android:navigationBarColor">@color/black</item>
+        <item name="android:colorBackground">@color/colorPrimaryDark</item>
+        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:textColorPrimaryInverse">@color/primary_text_material_dark</item>
+        <item name="android:textColorSecondary">@color/secondary_text_material_light</item>
     </style>
 
     <style name="MyDropDownNav" parent="android:style/Widget.Holo.Light.Spinner">

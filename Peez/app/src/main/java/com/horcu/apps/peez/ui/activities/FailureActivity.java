@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import com.horcu.apps.peez.R;
 
-public class FailureActivity extends AppCompatActivity {
+public class FailureActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

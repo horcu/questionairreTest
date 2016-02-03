@@ -3,12 +3,15 @@ package com.horcu.apps.peez.ui.activities;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,13 +20,22 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.horcu.apps.peez.R;
+import com.horcu.apps.peez.adapters.BetAdapter;
+import com.horcu.apps.peez.backend.models.betApi.BetApi;
+import com.horcu.apps.peez.backend.models.betApi.model.Bet;
+import com.horcu.apps.peez.backend.models.betApi.model.CollectionResponseBet;
 import com.horcu.apps.peez.backend.models.userApi.model.User;
+import com.horcu.apps.peez.custom.Api;
 import com.horcu.apps.peez.custom.notifier;
+import com.horcu.apps.peez.listener.RecyclerItemClickListener;
 import com.horcu.apps.peez.service.LoggingService;
 import com.horcu.apps.peez.ui.fragments.testItemFragment;
 
+import java.io.IOException;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements testItemFragment.OnFragmentInteractionListener {
+
+public class MainActivity extends BaseActivity implements testItemFragment.OnFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -43,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements testItemFragment.
     private BroadcastReceiver mLoggerCallback;
     private LoggingService.Logger mLogger;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements testItemFragment.
             getSupportActionBar().setElevation(2);
             //   getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
         }
+
 
         mLogger = new LoggingService.Logger(this);
         Bundle bundle = getIntent().getExtras();
@@ -64,18 +79,20 @@ public class MainActivity extends AppCompatActivity implements testItemFragment.
                         break;
                     case LoggingService.ACTION_LOG:
 
-                        //TODO the expiration needs to be 5 mins before the time of the nfl game in question
                         notifier.showNotification(intent, MainActivity.this, MainActivity.class);
                         break;
                 }
             }
         };
 
+
+
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
     }
+
 
     @Override
     protected void onPause() {
@@ -107,19 +124,17 @@ public class MainActivity extends AppCompatActivity implements testItemFragment.
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
 
-        } else if (id == R.id.action_bet) {
-            Intent intent = new Intent(this, BetActivity.class);
-            startActivity(intent);
+//        } else if (id == R.id.action_bet) {
+//            Intent intent = new Intent(this, BetActivity.class);
+//            startActivity(intent);
         } else if (id == R.id.action_invite) {
             Intent intent = new Intent(this, InviteActivity.class);
             startActivity(intent);
         } else if (id == R.id.action_msg) {
             Intent intent = new Intent(this, GCMActivity.class);
             startActivity(intent);
-        }else if (id == R.id.action_list) {
-            Intent intent = new Intent(this, FeedActivity.class);
-            startActivity(intent);
         }
+
 
         return super.onOptionsItemSelected(item);
     }
