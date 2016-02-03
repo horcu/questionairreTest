@@ -242,6 +242,11 @@
 
             </LinearLayout>
 
+            <include
+                layout="@layout/group_members"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
             <!--who to bet layout-->
             <LinearLayout
                 android:id="@+id/bet_who_layout"
@@ -250,7 +255,6 @@
                 android:layout_weight="4"
                 android:layout_marginTop="5dp"
                 android:background="@android:color/transparent"
-                android:layout_below="@+id/daddy_dute"
                 android:orientation="vertical"
                 >
 
@@ -313,148 +317,7 @@
 
                 </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/selected_users_grid"
-                        android:visibility="gone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:padding="3dp"
-                        android:orientation="vertical">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <com.horcu.apps.peez.custom.LetterImageView
-                                android:id="@+id/friend_1"
-                                android:layout_height="35dp"
-                                android:layout_marginRight="5dp"
-                                android:layout_width="35dp"
-                                android:layout_gravity="center_vertical"
-                                android:gravity="center_vertical"
-                                />
-
-                            <TextView
-                                android:id="@+id/friend_1_text"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:gravity="center_vertical"
-                                android:layout_marginLeft="5dp"
-                                android:text="Info about user"/>
-
-                            <Space
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_weight="100"/>
-
-                            <Button
-                                android:id="@+id/bet_amount_4"
-                                android:layout_width="30dp"
-                                android:layout_height="50dp"
-                                android:text="20"
-                                android:textColor="@color/black"
-                                android:textSize="16sp"
-                                android:layout_gravity="center_vertical|right"
-                                android:gravity="center"
-                                android:fontFamily="sans-serif-condense"
-                                android:textStyle="bold"
-                                android:background="?android:attr/selectableItemBackground" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            >
-
-                            <com.horcu.apps.peez.custom.LetterImageView
-                                android:id="@+id/friend_2"
-                                android:layout_height="35dp"
-                                android:layout_marginRight="5dp"
-                                android:layout_gravity="center_vertical|right"
-                                android:gravity="center"
-                                android:layout_width="35dp" />
-
-                            <TextView
-                                android:id="@+id/friend_2_text"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:gravity="center_vertical"
-                                android:layout_marginLeft="5dp"
-                                android:text="Info about user"/>
-
-                            <View
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_weight="10"/>
-
-                            <Button
-                                android:id="@+id/bet_amount_3"
-                                android:layout_width="30dp"
-                                android:layout_height="50dp"
-                                android:text="25"
-                                android:textColor="@color/black"
-                                android:textSize="16sp"
-                                android:gravity="center"
-                                android:fontFamily="sans-serif-condense"
-                                android:textStyle="bold"
-                                android:background="?android:attr/selectableItemBackground" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="5dp">
-
-                            <com.horcu.apps.peez.custom.LetterImageView
-                                android:id="@+id/friend_3"
-                                android:layout_height="35dp"
-                                android:layout_marginRight="5dp"
-                                android:layout_gravity="center_vertical|right"
-                                android:gravity="center"
-                                android:layout_width="35dp" />
-                            <TextView
-                                android:id="@+id/friend_3_text"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:gravity="center_vertical"
-                                android:layout_marginLeft="5dp"
-                                android:text="Info about user"/>
-
-                            <Space
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_weight="100"/>
-
-                            <Button
-                                android:id="@+id/bet_amount_1"
-                                android:layout_width="30dp"
-                                android:layout_height="50dp"
-                                android:text="15"
-                                android:textColor="@color/black"
-                                android:textSize="16sp"
-                                android:layout_gravity="center_vertical|right"
-                                android:gravity="center"
-                                android:fontFamily="sans-serif-condense"
-                                android:textStyle="bold"
-                                android:background="?android:attr/selectableItemBackground" />
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:layout_marginTop="40dp"
-                    android:layout_gravity="center_horizontal"
-                    android:text="empty group :("/>
 
             </LinearLayout>
 
