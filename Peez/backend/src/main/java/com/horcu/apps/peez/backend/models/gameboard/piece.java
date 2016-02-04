@@ -3,9 +3,15 @@ package com.horcu.apps.peez.backend.models.gameboard;
 import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.googlecode.objectify.annotation.Id;
 
 @Generated("org.jsonschema2pojo")
 public class piece {
+
+    @Id
+    @SerializedName("id")
+    @Expose
+    private String id;
 
     @SerializedName("description")
     @Expose
@@ -39,6 +45,15 @@ public class piece {
         this.color = color;
         this.icon = icon;
         this.alias = alias;
+    }
+
+    /**
+     *
+     * @return
+     * The id
+     */
+    public String getId() {
+        return id;
     }
 
     /**

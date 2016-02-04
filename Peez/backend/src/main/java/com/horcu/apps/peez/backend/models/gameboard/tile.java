@@ -1,14 +1,20 @@
 package com.horcu.apps.peez.backend.models.gameboard;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.annotation.Generated;
+import com.google.appengine.api.datastore.Text;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.googlecode.objectify.annotation.Id;
+
+import javax.annotation.Generated;
 
 
 @Generated("org.jsonschema2pojo")
 public class tile {
+
+    @Id
+    @SerializedName("id")
+    @Expose
+    private String id;
 
     @SerializedName("name")
     @Expose
@@ -31,7 +37,7 @@ public class tile {
     private String finishLine;
     @SerializedName("neighbours")
     @Expose
-    private List<String> neighbours = new ArrayList<String>();
+    private Text neighbours;
 
     /**
      * No args constructor for use in serialization
@@ -49,13 +55,22 @@ public class tile {
      * @param neighbours
      * @param piece
      */
-    public tile(String name, String owner, String piece, String used, String finishLine, List<String> neighbours) {
+    public tile(String name, String owner, String piece, String used, String finishLine, Text neighbours) {
         this.name = name;
         this.owner = owner;
         this.piece = piece;
         this.used = used;
         this.finishLine = finishLine;
         this.neighbours = neighbours;
+    }
+
+    /**
+     *
+     * @return
+     * The id
+     */
+    public String getId() {
+        return id;
     }
 
     /**
@@ -201,7 +216,7 @@ public class tile {
      * @return
      * The neighbours
      */
-    public List<String> getNeighbours() {
+    public Text getNeighbours() {
         return neighbours;
     }
 
@@ -210,11 +225,11 @@ public class tile {
      * @param neighbours
      * The neighbours
      */
-    public void setNeighbours(List<String> neighbours) {
+    public void setNeighbours(Text neighbours) {
         this.neighbours = neighbours;
     }
 
-    public tile withNeighbours(List<String> neighbours) {
+    public tile withNeighbours(Text neighbours) {
         this.neighbours = neighbours;
         return this;
     }

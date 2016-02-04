@@ -3,12 +3,21 @@ package com.horcu.apps.peez.backend.endpoints.gameboard;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
+import com.google.api.server.spi.response.CollectionResponse;
+import com.google.appengine.api.datastore.Cursor;
+import com.google.appengine.api.datastore.QueryResultIterator;
+import com.googlecode.objectify.cmd.Query;
 import com.horcu.apps.peez.backend.models.gameboard.piece;
 import com.horcu.apps.peez.backend.utilities.consts;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
+import javax.annotation.Nullable;
 import javax.inject.Named;
+
+import static com.googlecode.objectify.ObjectifyService.ofy;
 
 /**
  * An endpoint class we are exposing
@@ -29,6 +38,7 @@ import javax.inject.Named;
 public class pieceEndpoint {
 
     private static final Logger logger = Logger.getLogger(pieceEndpoint.class.getName());
+    private static final Integer DEFAULT_LIST_LIMIT = 5;
 
     /**
      * This method gets the <code>piece</code> object associated with the specified <code>id</code>.
@@ -54,5 +64,30 @@ public class pieceEndpoint {
         // TODO: Implement this function
         logger.info("Calling insertpiece method");
         return piece;
+    }
+
+    /**
+     * List all entities.
+     *
+     * @param cursor used for pagination to determine which page to return
+     * @param limit  the maximum number of entries to return
+     * @return a response that encapsulates the result list and the next page token/cursor
+     */
+    @ApiMethod(
+            name = "list",
+            path = "tile",
+            httpMethod = ApiMethod.HttpMethod.GET)
+    public CollectionResponse<piece> list(@Nullable @Named("cursor") String cursor, @Nullable @Named("limit") Integer limit) {
+        limit = limit == null ? DEFAULT_LIST_LIMIT : limit;
+        Query<piece> query = ofy().load().type(piece.class).limit(limit);
+        if (cursor != null) {
+            query = query.startAt(Cursor.fromWebSafeString(cursor));
+        }
+        QueryResultIterator<piece> queryIterator = query.iterator();
+        List<piece> userList = new ArrayList<piece>(limit);
+        while (queryIterator.hasNext()) {
+            userList.add(queryIterator.next());
+        }
+        return CollectionResponse.<piece>builder().setItems(userList).setNextPageToken(queryIterator.getCursor().toWebSafeString()).build();
     }
 }

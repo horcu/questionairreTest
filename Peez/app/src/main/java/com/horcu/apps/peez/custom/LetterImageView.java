@@ -1,6 +1,7 @@
 package com.horcu.apps.peez.custom;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -22,18 +23,21 @@ public class LetterImageView extends ImageView {
     private int mTextColor = Color.WHITE;
     private boolean isOval;
     private Tile tile;
+    private int spot;
 
     public LetterImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context, attrs);
     }
 
-    private void init() {
+    private void init(Context context, AttributeSet attrs) {
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.LetterImageView);
         mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mTextPaint.setColor(mTextColor);
         mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBackgroundPaint.setStyle(Paint.Style.FILL);
         mBackgroundPaint.setColor(randomColor());
+        spot = a.getInt(R.styleable.LetterImageView_spot, 0);
     }
 
     public char getLetter() {
@@ -103,5 +107,13 @@ public class LetterImageView extends ImageView {
 
     public void setTile(Tile tile) {
         this.tile = tile;
+    }
+
+    public int getSpot() {
+        return spot;
+    }
+
+    public void setSpot(int spot) {
+        this.spot = spot;
     }
 }

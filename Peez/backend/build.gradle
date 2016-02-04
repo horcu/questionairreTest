@@ -23,9 +23,9 @@ targetCompatibility = JavaVersion.VERSION_1_7
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    appengineSdk 'com.google.appengine:appengine-java-sdk:1.9.27'
-    compile 'com.google.appengine:appengine-endpoints:1.9.27'
-    compile 'com.google.appengine:appengine-endpoints-deps:1.9.27'
+    appengineSdk 'com.google.appengine:appengine-java-sdk:1.9.31'
+    compile 'com.google.appengine:appengine-endpoints:1.9.31'
+    compile 'com.google.appengine:appengine-endpoints-deps:1.9.31'
     compile 'javax.servlet:servlet-api:2.5'
     compile 'com.ganyo:gcm-server:1.0.2'
     compile 'com.fasterxml.jackson.core:jackson-core:2.1.3'

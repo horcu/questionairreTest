@@ -1,25 +1,30 @@
 package com.horcu.apps.peez.custom;
 
-import android.support.v4.content.res.TypedArrayUtils;
+import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.gameboard.tileApi.TileApi;
 import com.horcu.apps.peez.backend.models.gameboard.tileApi.model.Tile;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
-import static br.com.zbra.androidlinq.Linq.stream;
 
 /**
  * Created by hcummings on 2/2/2016.
@@ -36,14 +41,15 @@ public class TilePieceGenerator {
 //
 //    piece MO - 18 total
 
-    Map<String,Integer> tilePieceMap = new LinkedHashMap<>();
-    private ArrayList<Tile> tileList = new ArrayList<>();
+    private static Map<String,Integer> tilePieceMap = new LinkedHashMap<>();
+    private static ArrayList<Tile> tileList = new ArrayList<>();
     private ArrayList<Tile> gameTileList = new ArrayList<>();
     private ArrayList<LetterImageView> gameReadyViews = new ArrayList<>();
 
     TileApi tileApi = Api.BuildTileApiService();
     static final List<Integer> piecesRange = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
     static final String[] tileNames = new String[] {"GF","GH","BA","MT","MO"};
+    private Context context;
 
     public void setTilePieceMap(Map<String, Integer> tilePieceMap) {
         this.tilePieceMap = tilePieceMap;
@@ -53,7 +59,8 @@ public class TilePieceGenerator {
         return tilePieceMap;
     }
 
-    public TilePieceGenerator(){
+    public TilePieceGenerator(Context ctx){
+        context = ctx;
 
         //use this default map unless the other constructor is used that allows you to pass in
         //a specific map
@@ -78,16 +85,59 @@ public class TilePieceGenerator {
     }
 
     private ArrayList<Tile> buildTileList() {
+
+        //TODO remove - for testing only
+
+        InputStream is = context.getResources().openRawResource(context.getResources().getIdentifier("tiles",
+                "raw", context.getPackageName()));
+        Writer writer = new StringWriter();
+        char[] buffer = new char[1024];
+        try {
+            Reader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            int n;
+            while ((n = reader.read(buffer)) != -1) {
+                writer.write(buffer, 0, n);
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        String jsonString = writer.toString();
+
+//        InputStream raw =  context.getResources().openRawResource(R.raw.tiles);
+//        Reader rd = new BufferedReader(new InputStreamReader(raw));
+        Gson gson = new Gson();
+       Tile[] tiles = gson.fromJson(jsonString, new TypeToken<Tile[]>() {}.getType());
+
+        for (Tile t: tiles)
+        {
+            try {
+                tileApi.inserttile(t);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //TODO - end remove
+
         ArrayList<Tile> tlist = null;
         try {
-            TileApi.List tiles = tileApi.list();
+            TileApi.List tiles2 = tileApi.list();
             tlist  = new ArrayList<>();
-            tlist = new Gson().fromJson(tiles.toString(), new TypeToken<List<Tile>>() {}.getType());
+            tlist = new Gson().fromJson(tiles2.toString(), new TypeToken<List<Tile>>() {}.getType());
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return tlist;
+        return null;
+       // return tlist;
     }
 
     public void setTileList(ArrayList<Tile> tileList) {
@@ -114,7 +164,7 @@ public class TilePieceGenerator {
 
     //generate the appropriate pieces for each of the 36 tiles
 
-   private void GenersteTileIdentities(ArrayList<LetterImageView> gridTiles){
+   public static ArrayList<LetterImageView> GenersteTileIdentities(ArrayList<LetterImageView> gridTiles){
        Random r = new Random();
 
        ArrayList<Tile> tempTileList = (ArrayList<Tile>) tileList.clone();
@@ -123,6 +173,7 @@ public class TilePieceGenerator {
        //MO
        List<Tile> MOTiles = new ArrayList<>();
 
+       int mo_count = tilePieceMap.get("MO");
        for(int i = 0; i< tilePieceMap.get("MO"); i++)
        {
            int idx = r.nextInt(tempTileList.size());
@@ -203,6 +254,8 @@ public class TilePieceGenerator {
        {
           gridTiles.get(i).setTile(masterList.get(i));
        }
+
+       return gridTiles;
    }
 
 

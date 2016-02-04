@@ -6,10 +6,8 @@ import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.response.CollectionResponse;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.QueryResultIterator;
-import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.cmd.Query;
 import com.horcu.apps.peez.backend.models.gameboard.tile;
-import com.horcu.apps.peez.backend.models.league.Team;
 import com.horcu.apps.peez.backend.utilities.consts;
 
 import java.util.ArrayList;
@@ -40,13 +38,7 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 public class tileEndpoint {
 
     private static final Logger logger = Logger.getLogger(tileEndpoint.class.getName());
-
-    private static final int DEFAULT_LIST_LIMIT = 36;
-
-    static {
-        // Typically you would register this inside an OfyServive wrapper. See: https://code.google.com/p/objectify-appengine/wiki/BestPractices
-        ObjectifyService.register(tile.class);
-    }
+    private static final Integer DEFAULT_LIST_LIMIT = 36;
 
     /**
      * This method gets the <code>tile</code> object associated with the specified <code>id</code>.
@@ -75,7 +67,11 @@ public class tileEndpoint {
     }
 
     /**
-     * This gets the server defined list of tiles.
+     * List all entities.
+     *
+     * @param cursor used for pagination to determine which page to return
+     * @param limit  the maximum number of entries to return
+     * @return a response that encapsulates the result list and the next page token/cursor
      */
     @ApiMethod(
             name = "list",
@@ -88,10 +84,10 @@ public class tileEndpoint {
             query = query.startAt(Cursor.fromWebSafeString(cursor));
         }
         QueryResultIterator<tile> queryIterator = query.iterator();
-        List<tile> tileList = new ArrayList<>(limit);
+        List<tile> userList = new ArrayList<tile>(limit);
         while (queryIterator.hasNext()) {
-            tileList.add(queryIterator.next());
+            userList.add(queryIterator.next());
         }
-        return CollectionResponse.<tile>builder().setItems(tileList).setNextPageToken(queryIterator.getCursor().toWebSafeString()).build();
+        return CollectionResponse.<tile>builder().setItems(userList).setNextPageToken(queryIterator.getCursor().toWebSafeString()).build();
     }
 }
