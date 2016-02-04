@@ -22,7 +22,7 @@ public class tile {
 
     @SerializedName("spot")
     @Expose
-    private int spot;
+    private String spot;
     @SerializedName("owner")
     @Expose
     private String owner;
@@ -37,7 +37,7 @@ public class tile {
     private String finishLine;
     @SerializedName("neighbours")
     @Expose
-    private Text neighbours;
+    private String neighbours;
 
     /**
      * No args constructor for use in serialization
@@ -55,7 +55,7 @@ public class tile {
      * @param neighbours
      * @param piece
      */
-    public tile(String name, String owner, String piece, String used, String finishLine, Text neighbours) {
+    public tile(String name, String owner, String piece, String used, String finishLine, String neighbours) {
         this.name = name;
         this.owner = owner;
         this.piece = piece;
@@ -101,7 +101,7 @@ public class tile {
      * @return
      * The name
      */
-    public int getSpot() {
+    public String getSpot() {
         return spot;
     }
 
@@ -110,11 +110,11 @@ public class tile {
      * @param name
      * The name
      */
-    public void setSpot(int spot) {
+    public void setSpot(String spot) {
         this.spot = spot;
     }
 
-    public tile withSpot(int spot) {
+    public tile withSpot(String spot) {
         this.spot = spot;
         return this;
     }
@@ -216,7 +216,7 @@ public class tile {
      * @return
      * The neighbours
      */
-    public Text getNeighbours() {
+    public String getNeighbours() {
         return neighbours;
     }
 
@@ -225,11 +225,11 @@ public class tile {
      * @param neighbours
      * The neighbours
      */
-    public void setNeighbours(Text neighbours) {
+    public void setNeighbours(String neighbours) {
         this.neighbours = neighbours;
     }
 
-    public tile withNeighbours(Text neighbours) {
+    public tile withNeighbours(String neighbours) {
         this.neighbours = neighbours;
         return this;
     }

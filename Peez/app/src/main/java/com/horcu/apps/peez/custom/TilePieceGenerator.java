@@ -1,6 +1,9 @@
 package com.horcu.apps.peez.custom;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -14,11 +17,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -43,12 +43,8 @@ public class TilePieceGenerator {
 
     private static Map<String,Integer> tilePieceMap = new LinkedHashMap<>();
     private static ArrayList<Tile> tileList = new ArrayList<>();
-    private ArrayList<Tile> gameTileList = new ArrayList<>();
-    private ArrayList<LetterImageView> gameReadyViews = new ArrayList<>();
 
     TileApi tileApi = Api.BuildTileApiService();
-    static final List<Integer> piecesRange = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
-    static final String[] tileNames = new String[] {"GF","GH","BA","MT","MO"};
     private Context context;
 
     public void setTilePieceMap(Map<String, Integer> tilePieceMap) {
@@ -61,10 +57,6 @@ public class TilePieceGenerator {
 
     public TilePieceGenerator(Context ctx){
         context = ctx;
-
-        //use this default map unless the other constructor is used that allows you to pass in
-        //a specific map
-
         Map<String,Integer> defaultMap = new HashMap<>( );
         defaultMap.put("GF", 3);
         defaultMap.put("GH", 4);
@@ -72,22 +64,23 @@ public class TilePieceGenerator {
         defaultMap.put("MT", 6);
         defaultMap.put("MO", 18);
 
-        setTilePieceMap(defaultMap);
-
-        setTileList(buildTileList());
+        SetTilePiecesMapAndTileList(defaultMap);
     }
 
     public TilePieceGenerator(Map<String, Integer> tilePieceMap){
+        SetTilePiecesMapAndTileList(tilePieceMap);
+    }
 
-        setTilePieceMap(tilePieceMap);
+    public void SetTilePiecesMapAndTileList(Map<String, Integer> map){
+
+        setTilePieceMap(map);
         setTileList(buildTileList());
-
     }
 
     private ArrayList<Tile> buildTileList() {
 
         //TODO remove - for testing only
-
+        List<Tile> tiles = new ArrayList<>();
         InputStream is = context.getResources().openRawResource(context.getResources().getIdentifier("tiles",
                 "raw", context.getPackageName()));
         Writer writer = new StringWriter();
@@ -98,32 +91,32 @@ public class TilePieceGenerator {
             while ((n = reader.read(buffer)) != -1) {
                 writer.write(buffer, 0, n);
             }
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             try {
                 is.close();
+
+                String jsonString = writer.toString();
+                Gson gson = new Gson();
+                tiles = gson.fromJson(jsonString, new TypeToken<List<Tile>>() {
+                }.getType());
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-        String jsonString = writer.toString();
-
-//        InputStream raw =  context.getResources().openRawResource(R.raw.tiles);
-//        Reader rd = new BufferedReader(new InputStreamReader(raw));
-        Gson gson = new Gson();
-       Tile[] tiles = gson.fromJson(jsonString, new TypeToken<Tile[]>() {}.getType());
-
-        for (Tile t: tiles)
-        {
+        for (int t = 0; t < tiles.size(); t++) {
             try {
-                tileApi.inserttile(t);
+                Tile tile = tiles.get(t);
+                tile.setId(String.valueOf(t));
+               TileApi.Inserttile inserted = tileApi.inserttile(tile);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
         }
 
         //TODO - end remove
@@ -131,13 +124,16 @@ public class TilePieceGenerator {
         ArrayList<Tile> tlist = null;
         try {
             TileApi.List tiles2 = tileApi.list();
-            tlist  = new ArrayList<>();
-            tlist = new Gson().fromJson(tiles2.toString(), new TypeToken<List<Tile>>() {}.getType());
+            if(tiles2.size() > 0) {
+                tlist = new ArrayList<>();
+                tlist = new Gson().fromJson(tiles2.toString(), new TypeToken<List<Tile>>() {
+                }.getType());
+            }
         } catch (IOException e) {
             e.printStackTrace();
+            //return null;
         }
-        return null;
-       // return tlist;
+        return (ArrayList<Tile>) tiles;
     }
 
     public void setTileList(ArrayList<Tile> tileList) {
@@ -164,100 +160,147 @@ public class TilePieceGenerator {
 
     //generate the appropriate pieces for each of the 36 tiles
 
-   public static ArrayList<LetterImageView> GenersteTileIdentities(ArrayList<LetterImageView> gridTiles){
-       Random r = new Random();
+   public  ArrayList<LetterImageView> GenersteTileIdentities(ArrayList<LetterImageView> gridTiles){
+       try {
+           Random r = new Random();
 
-       ArrayList<Tile> tempTileList = (ArrayList<Tile>) tileList.clone();
+           ArrayList<Tile> tempTileList = (ArrayList<Tile>) tileList.clone();
 
-       //all lists for MO, GF, BA, MT,GH
-       //MO
-       List<Tile> MOTiles = new ArrayList<>();
+           //all lists for MO, GF, BA, MT,GH
+           //MO
+           List<Tile> MOTiles = new ArrayList<>();
 
-       int mo_count = tilePieceMap.get("MO");
-       for(int i = 0; i< tilePieceMap.get("MO"); i++)
-       {
-           int idx = r.nextInt(tempTileList.size());
-           Tile chosenTile = tempTileList.get(idx);
-           if(chosenTile.getSpot() == idx)
+           int mo_count = tilePieceMap.get("MO");
+           for(int i = 0; i < mo_count; i++)
            {
-               chosenTile.setPiece("MO");
-               MOTiles.add(i,chosenTile);
-               tempTileList.remove(idx);
+               int idx = r.nextInt(tempTileList.size());
+               Tile chosenTile = tempTileList.get(idx);
+                   chosenTile.setPiece("MO");
+                   MOTiles.add(chosenTile);
+                   tempTileList.remove(idx);
            }
-       }
 
-       List<Tile> GFTiles = new ArrayList<>();
+           List<Tile> GFTiles = new ArrayList<>();
 
-       for(int i = 0; i< tilePieceMap.get("GF"); i++)
-       {
-           int idx = r.nextInt(tempTileList.size());
-           Tile chosenTile = tempTileList.get(idx);
-           if(chosenTile.getSpot() == idx)
+           int gf_count = tilePieceMap.get("GF");
+           for(int i = 0; i < gf_count; i++)
            {
-               chosenTile.setPiece("GF");
-               GFTiles.add(i,chosenTile);
-               tempTileList.remove(idx);
+               int idx = r.nextInt(tempTileList.size());
+               Tile chosenTile = tempTileList.get(idx);
+                   chosenTile.setPiece("GF");
+                   GFTiles.add(chosenTile);
+                   tempTileList.remove(idx);
            }
-       }
-       List<Tile> BATiles = new ArrayList<>();
+           List<Tile> BATiles = new ArrayList<>();
 
-       for(int i = 0; i< tilePieceMap.get("BA"); i++)
-       {
-           int idx = r.nextInt(tempTileList.size());
-           Tile chosenTile = tempTileList.get(idx);
-           if(chosenTile.getSpot() == idx)
+           int ba_count = tilePieceMap.get("BA");
+           for(int i = 0; i < ba_count; i++)
            {
-               chosenTile.setPiece("BA");
-               BATiles.add(i,chosenTile);
-               tempTileList.remove(idx);
+               int idx = r.nextInt(tempTileList.size());
+               Tile chosenTile = tempTileList.get(idx);
+                   chosenTile.setPiece("BA");
+                   BATiles.add(chosenTile);
+                   tempTileList.remove(idx);
            }
-       }
 
-       List<Tile> MTTiles = new ArrayList<>();
+           List<Tile> MTTiles = new ArrayList<>();
 
-       for(int i = 0; i< tilePieceMap.get("MT"); i++)
-       {
-           int idx = r.nextInt(tempTileList.size());
-           Tile chosenTile = tempTileList.get(idx);
-           if(chosenTile.getSpot() == idx)
+           int mt_count = tilePieceMap.get("MT");
+           for(int i = 0; i < mt_count; i++)
            {
-               chosenTile.setPiece("MT");
-               MTTiles.add(i,chosenTile);
-               tempTileList.remove(idx);
+               int idx = r.nextInt(tempTileList.size());
+               Tile chosenTile = tempTileList.get(idx);
+                   chosenTile.setPiece("MT");
+                   MTTiles.add(chosenTile);
+                   tempTileList.remove(idx);
            }
-       }
 
-       List<Tile> GHTiles = new ArrayList<>();
+           List<Tile> GHTiles = new ArrayList<>();
 
-       for(int i = 0; i< tilePieceMap.get("GH"); i++)
-       {
-           int idx = r.nextInt(tempTileList.size());
-           Tile chosenTile = tempTileList.get(idx);
-           if(chosenTile.getSpot() == idx)
+           int gh_count = tilePieceMap.get("GH");
+           for(int i = 0; i < gh_count; i++)
            {
-               chosenTile.setPiece("GH");
-               GHTiles.add(i,chosenTile);
-               tempTileList.remove(idx);
+               int idx = r.nextInt(tempTileList.size());
+               Tile chosenTile = tempTileList.get(idx);
+                   chosenTile.setPiece("GH");
+                   GHTiles.add(chosenTile);
+                   tempTileList.remove(idx);
            }
-       }
 
-       List<Tile> masterList = new ArrayList<>();
-       masterList.addAll(MTTiles);
-       masterList.addAll(MOTiles);
-       masterList.addAll(GHTiles);
-       masterList.addAll(BATiles);
-       masterList.addAll(GFTiles);
+           List<Tile> masterList = new ArrayList<>();
+           masterList.addAll(MTTiles);
+           masterList.addAll(MOTiles);
+           masterList.addAll(GHTiles);
+           masterList.addAll(BATiles);
+           masterList.addAll(GFTiles);
 
-       Collections.shuffle(masterList);
+           Collections.shuffle(masterList);
 
-       for(int i =0; i < gridTiles.size(); i++)
-       {
-          gridTiles.get(i).setTile(masterList.get(i));
+           SetTileAttributes(masterList);
+
+           for(int i =0; i < masterList.size() -1; i++)
+           {
+               LetterImageView tileHouse = gridTiles.get(i);
+               Tile masterListTile = masterList.get(i);
+               tileHouse.setTile(masterListTile);
+               tileHouse.setSpot(Integer.parseInt(masterListTile.getSpot()));
+               tileHouse.setBackgroundColor(randomColor());
+               tileHouse.setTextColor(Color.LTGRAY);
+               tileHouse.setLetter(masterListTile.getName().charAt(0));
+
+           }
+       } catch (NumberFormatException e) {
+           e.printStackTrace();
        }
 
        return gridTiles;
    }
 
+    public int randomColor() {
+        Random random = new Random();
+        String[] colorsArr = context.getResources().getStringArray(R.array.colors);
+        return Color.parseColor(colorsArr[random.nextInt(colorsArr.length)]);
+    }
+
+    private int getColorForPieceType(String piece) {
+        switch (piece)
+        {
+            case "MO":
+            {
+                return Color.GREEN;
+            }
+            case "MT":
+            {
+              return Color.BLUE;
+            }
+            case "BF":
+            {
+              return Color.CYAN;
+            }
+            case "GA":
+            {
+               return Color.MAGENTA;
+            }
+            case "GH":
+            {
+                return Color.RED;
+            }
+        }
+        return 0;
+    }
+
+    private static void SetTileAttributes(List<Tile> masterList) {
+
+        for(int i=0; i < masterList.size(); i++)
+        {
+            Tile tile =  masterList.get(i);
+            Tile tempTile = tileList.get(i);
+            tile.setNeighbours(tempTile.getNeighbours());
+            tile.setSpot(String.valueOf(i));
+            tile.setName(tempTile.getName());
+        }
+
+    }
 
 
     //a. BuildNumbersList() - this is the list of numbers to choose from randomly to determine the type of piece to occupy the given tile

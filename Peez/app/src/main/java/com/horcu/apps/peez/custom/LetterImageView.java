@@ -30,13 +30,41 @@ public class LetterImageView extends ImageView {
         init(context, attrs);
     }
 
+    private int getColorForPieceType(String piece) {
+        switch (piece)
+        {
+            case "MO":
+            {
+                return Color.GREEN;
+            }
+            case "MT":
+            {
+                return Color.BLUE;
+            }
+            case "BF":
+            {
+                return Color.CYAN;
+            }
+            case "GA":
+            {
+                return Color.MAGENTA;
+            }
+            case "GH":
+            {
+                return Color.RED;
+            }
+        }
+        return Color.YELLOW;
+    }
+
     private void init(Context context, AttributeSet attrs) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.LetterImageView);
         mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+       // mTextColor = Color.;
         mTextPaint.setColor(mTextColor);
         mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBackgroundPaint.setStyle(Paint.Style.FILL);
-        mBackgroundPaint.setColor(randomColor());
+       // mBackgroundPaint.setColor(Color.WHITE); //randomColor()
         spot = a.getInt(R.styleable.LetterImageView_spot, 0);
     }
 
@@ -95,11 +123,7 @@ public class LetterImageView extends ImageView {
         return 8 * getResources().getDisplayMetrics().density;
     }
 
-    public int randomColor() {
-        Random random = new Random();
-        String[] colorsArr = getResources().getStringArray(R.array.colors);
-        return Color.parseColor(colorsArr[random.nextInt(colorsArr.length)]);
-    }
+
 
     public Tile getTile() {
         return tile;
