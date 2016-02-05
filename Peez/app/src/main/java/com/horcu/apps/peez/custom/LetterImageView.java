@@ -61,10 +61,10 @@ public class LetterImageView extends ImageView {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.LetterImageView);
         mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
        // mTextColor = Color.;
-        mTextPaint.setColor(mTextColor);
+       // mTextPaint.setColor(mTextColor);
         mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBackgroundPaint.setStyle(Paint.Style.FILL);
-       // mBackgroundPaint.setColor(Color.WHITE); //randomColor()
+        mBackgroundPaint.setColor(Color.WHITE); //randomColor()
         spot = a.getInt(R.styleable.LetterImageView_spot, 0);
     }
 

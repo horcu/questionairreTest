@@ -1,27 +1,20 @@
 package com.horcu.apps.peez.ui.activities;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.horcu.apps.peez.R;
-import com.horcu.apps.peez.backend.models.gameboard.tileApi.model.Tile;
 import com.horcu.apps.peez.custom.AutoFitGridLayout;
 import com.horcu.apps.peez.custom.LetterImageView;
 import com.horcu.apps.peez.custom.TilePieceGenerator;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.ArrayList;
-import java.util.List;
 
 public class GridActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener {
 
@@ -47,24 +40,35 @@ public class GridActivity extends AppCompatActivity implements View.OnClickListe
          }
 
 
-        ArrayList<LetterImageView> returnedViews = new TilePieceGenerator(this).GenersteTileIdentities(views);
+
+        ArrayList<LetterImageView> returnedViews = new TilePieceGenerator(getApplicationContext()).GenerateTileIdentities(views);
 
     }
 
     @Override
     public void onClick(View v) {
-        Snackbar.make(v,((
-                LetterImageView)v)
-                .getTile()
-                .getPiece() +  " at spot " + ((LetterImageView)v).getTile().getSpot(), Snackbar.LENGTH_LONG).show();
+       Snackbar snack = Snackbar.make(v, ((
+               LetterImageView) v)
+               .getTile()
+               .getPiece() + " at spot " + ((LetterImageView) v).getTile().getSpot(), Snackbar.LENGTH_LONG)
+                .setActionTextColor(Color.CYAN);
+
+        View snackbarView = snack.getView();
+        snackbarView.setBackgroundColor(Color.LTGRAY);
+                snack.show();
     }
 
     @Override
     public boolean onLongClick(View v) {
-        Snackbar.make(v,((
+        Snackbar snack =   Snackbar.make(v,((
                 LetterImageView)v)
                 .getTile()
-                .getName() +  " at spot " + ((LetterImageView)v).getTile().getSpot(), Snackbar.LENGTH_LONG).show();
+                .getName() +  " at spot " + ((LetterImageView)v).getTile().getSpot(), Snackbar.LENGTH_LONG)
+                .setActionTextColor(Color.CYAN);
+
+        View snackbarView = snack.getView();
+        snackbarView.setBackgroundColor(Color.LTGRAY);
+                snack.show();
 
         return true;
     }

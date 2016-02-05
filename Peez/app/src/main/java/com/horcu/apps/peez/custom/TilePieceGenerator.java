@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.support.v7.graphics.drawable.DrawableUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.gameboard.tileApi.TileApi;
 import com.horcu.apps.peez.backend.models.gameboard.tileApi.model.Tile;
+import com.squareup.picasso.Picasso;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -111,7 +113,7 @@ public class TilePieceGenerator {
             try {
                 Tile tile = tiles.get(t);
                 tile.setId(String.valueOf(t));
-               TileApi.Inserttile inserted = tileApi.inserttile(tile);
+                TileApi.Inserttile inserted = tileApi.inserttile(tile);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -140,121 +142,78 @@ public class TilePieceGenerator {
         this.tileList = tileList;
     }
 
-    //    \\Psuedo//
-//
-//    prerequisite:
-//            1. Make a map with the List name as the key and a value representing the amount of tiles possible for this list as the value [GFList, 3 ; BAList, 5 etc...]
-//            2. get the list of tiles from the datastore and cache it
+    public  ArrayList<LetterImageView> GenerateTileIdentities(ArrayList<LetterImageView> gridTiles){
+        try {
+            Random r = new Random();
+            List<Tile> masterList = new ArrayList<>();
+            ArrayList<Tile> tempTileList = (ArrayList<Tile>) tileList.clone();
 
-//            for each spot [0-35]
-//            for spot 0
-//    a  select randomly from a sea of number [1,2,3,4,5]  => each number represents a type of piece {1 reps piece aliased as GF}
-//    b     number is 1
-//    c	      set tile one to use a GF piece
-//    d		      reduce GFList value by one [GFList.value --]
-//    e			      check for lists with at least one item left. {If the list is empty then no more tiles can use that piece}
-//    f				        if list is empty remove number representing list [1]
-//    repeat step a without this number in the list [2,3,4,5]
+            for(int i =0; i < tilePieceMap.size(); i++)
+            {
+                String key = (new ArrayList<>(tilePieceMap.keySet())).get(i);
+                int occurence = tilePieceMap.get(key);
 
-    //Write code here
+                for (int x=0; x < occurence; x++)
+                {
+                    int idx = r.nextInt(tempTileList.size());
+                    Tile chosenTile = tempTileList.get(idx);
+                    chosenTile.setPiece(key);
+                    masterList.add(i,chosenTile);
+                    tempTileList.remove(idx);
+                }
+            }
 
-    //generate the appropriate pieces for each of the 36 tiles
+            Collections.shuffle(masterList);
 
-   public  ArrayList<LetterImageView> GenersteTileIdentities(ArrayList<LetterImageView> gridTiles){
-       try {
-           Random r = new Random();
+            SetTileAttributes(masterList);
 
-           ArrayList<Tile> tempTileList = (ArrayList<Tile>) tileList.clone();
+            for(int i =0; i < masterList.size(); i++)
+            {
+                LetterImageView tileHouse = gridTiles.get(i);
+                Tile masterListTile = masterList.get(i);
+                tileHouse.setTile(masterListTile);
+                tileHouse.setSpot(Integer.parseInt(masterListTile.getSpot()));
+                tileHouse.setBackgroundColor(randomColor());
+                tileHouse.setTextColor(Color.LTGRAY);
+                tileHouse.setLetter(masterListTile.getName().charAt(0));
 
-           //all lists for MO, GF, BA, MT,GH
-           //MO
-           List<Tile> MOTiles = new ArrayList<>();
+                int icon = getIconForPieceType(masterListTile.getPiece());
 
-           int mo_count = tilePieceMap.get("MO");
-           for(int i = 0; i < mo_count; i++)
-           {
-               int idx = r.nextInt(tempTileList.size());
-               Tile chosenTile = tempTileList.get(idx);
-                   chosenTile.setPiece("MO");
-                   MOTiles.add(chosenTile);
-                   tempTileList.remove(idx);
-           }
+                Picasso.with(context).load(icon).into(tileHouse);
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
 
-           List<Tile> GFTiles = new ArrayList<>();
+        return gridTiles;
+    }
 
-           int gf_count = tilePieceMap.get("GF");
-           for(int i = 0; i < gf_count; i++)
-           {
-               int idx = r.nextInt(tempTileList.size());
-               Tile chosenTile = tempTileList.get(idx);
-                   chosenTile.setPiece("GF");
-                   GFTiles.add(chosenTile);
-                   tempTileList.remove(idx);
-           }
-           List<Tile> BATiles = new ArrayList<>();
-
-           int ba_count = tilePieceMap.get("BA");
-           for(int i = 0; i < ba_count; i++)
-           {
-               int idx = r.nextInt(tempTileList.size());
-               Tile chosenTile = tempTileList.get(idx);
-                   chosenTile.setPiece("BA");
-                   BATiles.add(chosenTile);
-                   tempTileList.remove(idx);
-           }
-
-           List<Tile> MTTiles = new ArrayList<>();
-
-           int mt_count = tilePieceMap.get("MT");
-           for(int i = 0; i < mt_count; i++)
-           {
-               int idx = r.nextInt(tempTileList.size());
-               Tile chosenTile = tempTileList.get(idx);
-                   chosenTile.setPiece("MT");
-                   MTTiles.add(chosenTile);
-                   tempTileList.remove(idx);
-           }
-
-           List<Tile> GHTiles = new ArrayList<>();
-
-           int gh_count = tilePieceMap.get("GH");
-           for(int i = 0; i < gh_count; i++)
-           {
-               int idx = r.nextInt(tempTileList.size());
-               Tile chosenTile = tempTileList.get(idx);
-                   chosenTile.setPiece("GH");
-                   GHTiles.add(chosenTile);
-                   tempTileList.remove(idx);
-           }
-
-           List<Tile> masterList = new ArrayList<>();
-           masterList.addAll(MTTiles);
-           masterList.addAll(MOTiles);
-           masterList.addAll(GHTiles);
-           masterList.addAll(BATiles);
-           masterList.addAll(GFTiles);
-
-           Collections.shuffle(masterList);
-
-           SetTileAttributes(masterList);
-
-           for(int i =0; i < masterList.size() -1; i++)
-           {
-               LetterImageView tileHouse = gridTiles.get(i);
-               Tile masterListTile = masterList.get(i);
-               tileHouse.setTile(masterListTile);
-               tileHouse.setSpot(Integer.parseInt(masterListTile.getSpot()));
-               tileHouse.setBackgroundColor(randomColor());
-               tileHouse.setTextColor(Color.LTGRAY);
-               tileHouse.setLetter(masterListTile.getName().charAt(0));
-
-           }
-       } catch (NumberFormatException e) {
-           e.printStackTrace();
-       }
-
-       return gridTiles;
-   }
+    private int getIconForPieceType(String piece) {
+        switch (piece)
+        {
+            case "MO":
+            {
+                return R.drawable.ic_social_notifications;
+            }
+            case "MT":
+            {
+                return R.drawable.ic_no_tables;
+            }
+            case "GF":
+            {
+                return R.drawable.ic_social_people;
+            }
+            case "BA":
+            {
+                return R.drawable.ic_social_person;
+            }
+            case "GH":
+            {
+                return R.drawable.ic_navigation_close;
+            }
+        }
+        return R.drawable.ic_social_notifications;
+    }
 
     public int randomColor() {
         Random random = new Random();
@@ -271,15 +230,15 @@ public class TilePieceGenerator {
             }
             case "MT":
             {
-              return Color.BLUE;
+                return Color.BLUE;
             }
             case "BF":
             {
-              return Color.CYAN;
+                return Color.CYAN;
             }
             case "GA":
             {
-               return Color.MAGENTA;
+                return Color.MAGENTA;
             }
             case "GH":
             {
