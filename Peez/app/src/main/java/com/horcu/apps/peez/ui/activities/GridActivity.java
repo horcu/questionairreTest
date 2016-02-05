@@ -27,8 +27,9 @@ public class GridActivity extends AppCompatActivity implements View.OnClickListe
     private static int selectedViewBgColor = Color.WHITE;
     ArrayList<TileView> ImageViewTiles = null;
     TileView selectedView = null;
-    private AbstractList<TileView> playerViews;
-    private AbstractList<TileView> opponentViews;
+    private AbstractList<TileView> playerViews = new ArrayList<>();;
+    private AbstractList<TileView> opponentViews = new ArrayList<>();
+    private ArrayList<TileView> gameboardViews = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +57,7 @@ public class GridActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         AutoFitGridLayout gameBoard = (AutoFitGridLayout)findViewById(R.id.gameboard_grid);
-        ArrayList<TileView> gameboardViews = new ArrayList<>();
+
 
          for (int i=0; i < gameBoard.getChildCount(); i++)
          {
@@ -122,6 +123,9 @@ public class GridActivity extends AppCompatActivity implements View.OnClickListe
         //check and see if selectedView and this view are neighbours
         //assume its a LetterImageView or else... kabooooosh!!!!!!!!!! haha
 
+        if(selectedView == null)
+           return false;
+
         ArrayList<TileView> listOne = GetNeighbours(selectedView);
         ArrayList<TileView> listTwo = GetNeighbours((TileView) v);
         boolean areNeighbours = false;
@@ -175,16 +179,14 @@ public class GridActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void highlightNeighbours(ArrayList<TileView> highlighted) {
+
         for (int i = 0; i < highlighted.size(); i++) {
 
             TileView currentView = highlighted.get(i);
-            currentView.setDrawingCacheEnabled(true);
-            int origColor = currentView.getDrawingCacheBackgroundColor();
-            currentView.setBackgroundColor(Color.YELLOW);
+            currentView.setBackgroundColor(Color.LTGRAY);
             //add some sort of icon here temporarily .. then..
             YoYo.with(Techniques.Pulse).duration(1000).playOn(currentView);
-            currentView.setBackgroundColor(origColor);
-            currentView.setDrawingCacheEnabled(false);
+            currentView.setBackgroundColor(Color.WHITE);
         }
     }
 
