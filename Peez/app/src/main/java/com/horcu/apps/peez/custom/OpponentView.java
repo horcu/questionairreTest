@@ -7,15 +7,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.widget.ImageView;
-
 
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.gameboard.tileApi.model.Tile;
 
-import java.util.Random;
-
-public class LetterImageView extends ImageView {
+public class OpponentView extends TileView {
 
     private char mLetter;
     private Paint mTextPaint;
@@ -24,48 +20,34 @@ public class LetterImageView extends ImageView {
     private boolean isOval;
     private Tile tile;
     private int spot;
+    private String mode = "" ;
 
-    public LetterImageView(Context context, AttributeSet attrs) {
+    public OpponentView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
-    private int getColorForPieceType(String piece) {
-        switch (piece)
+    //TODO make this a user choice eventually
+    private int getColorForPlayer(String home) {
+        if(home.equals("false"))
         {
-            case "MO":
-            {
-                return Color.GREEN;
-            }
-            case "MT":
-            {
-                return Color.BLUE;
-            }
-            case "BF":
-            {
-                return Color.CYAN;
-            }
-            case "GA":
-            {
-                return Color.MAGENTA;
-            }
-            case "GH":
-            {
-                return Color.RED;
-            }
+           return Color.RED;
         }
-        return Color.YELLOW;
+        else {
+            return Color.BLACK;
+        }
     }
 
     private void init(Context context, AttributeSet attrs) {
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.LetterImageView);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TileView);
         mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
        // mTextColor = Color.;
        // mTextPaint.setColor(mTextColor);
         mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBackgroundPaint.setStyle(Paint.Style.FILL);
-        mBackgroundPaint.setColor(Color.WHITE); //randomColor()
-        spot = a.getInt(R.styleable.LetterImageView_spot, 0);
+        mBackgroundPaint.setColor(getColorForPlayer("false")); //randomColor()
+        spot = a.getInt(R.styleable.TileView_spot, 0);
+        setOval(true);
     }
 
     public char getLetter() {
@@ -139,5 +121,25 @@ public class LetterImageView extends ImageView {
 
     public void setSpot(int spot) {
         this.spot = spot;
+    }
+
+    public boolean IsInDefaultMode() {
+        return mode.equals("default");
+    }
+
+    public boolean IsInRevealMode() {
+        return mode.equals("revealed");
+    }
+
+    public boolean IsInOwnedMode() {
+        return mode.equals("owned");
+    }
+
+    public boolean IsOnTheMoveMode() {
+        return mode.equals("onTheMove");
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
     }
 }

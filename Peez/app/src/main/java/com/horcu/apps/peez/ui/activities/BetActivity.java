@@ -44,7 +44,7 @@ import com.horcu.apps.peez.backend.models.userApi.model.CollectionResponseUser;
 import com.horcu.apps.peez.backend.models.userApi.model.User;
 import com.horcu.apps.peez.backend.models.userSettingsApi.UserSettingsApi;
 import com.horcu.apps.peez.custom.Api;
-import com.horcu.apps.peez.custom.LetterImageView;
+import com.horcu.apps.peez.custom.TileView;
 import com.horcu.apps.peez.custom.Money;
 import com.horcu.apps.peez.custom.ViewController;
 import com.horcu.apps.peez.custom.notifier;
@@ -114,7 +114,7 @@ public class BetActivity extends AppCompatActivity
 
     private RecyclerView friendsList;
 
-    private LetterImageView friend_1, friend_2, friend_3;
+    private TileView friend_1, friend_2, friend_3;
     private TextView extra_friends_count;
 
     private RubberLoaderView loader;
@@ -225,9 +225,9 @@ public class BetActivity extends AppCompatActivity
         playerTeamImage = (ImageView) findViewById(R.id.chosen_player_team);
         playerTeamImage.setElevation(2f);
 
-        friend_1  = (LetterImageView)findViewById(R.id.friend_1);
-        friend_2  = (LetterImageView)findViewById(R.id.friend_2);
-        friend_3  = (LetterImageView)findViewById(R.id.friend_3);
+        friend_1  = (TileView)findViewById(R.id.friend_1);
+        friend_2  = (TileView)findViewById(R.id.friend_2);
+        friend_3  = (TileView)findViewById(R.id.friend_3);
 
       //  String uri2 = "https://storage.googleapis.com/ballrz/images/bengals_away.png";
         String uri = String.format("%sBRO581187.png", consts.IMG_DEF_URI);

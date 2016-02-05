@@ -1,11 +1,6 @@
 package com.horcu.apps.peez.adapters;
 import android.content.Context;
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.UiThread;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +10,7 @@ import android.widget.TextView;
 
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.userApi.model.User;
-import com.horcu.apps.peez.custom.LetterImageView;
+import com.horcu.apps.peez.custom.TileView;
 import com.horcu.apps.peez.ui.activities.UsersActivity;
 import com.squareup.picasso.Picasso;
 
@@ -32,7 +27,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.BindingHolder>
     public static class BindingHolder extends RecyclerView.ViewHolder {
         public TextView userName;
         public ImageView selected;
-        public LetterImageView userImage;
+        public TileView userImage;
 
         public BindingHolder(View v) {
             super(v);
@@ -51,7 +46,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.BindingHolder>
 
         holder.userName = (TextView)v.findViewById(R.id.friend);
         holder.selected = (ImageView)v.findViewById(R.id.selected);
-        holder.userImage = (LetterImageView)v.findViewById(R.id.user_img);
+        holder.userImage = (TileView)v.findViewById(R.id.user_img);
 
         v.setOnClickListener(new View.OnClickListener() {
             @Override

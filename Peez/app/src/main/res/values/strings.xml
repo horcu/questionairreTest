@@ -19,6 +19,17 @@
         <item>#888888</item>
     </string-array>
 
+
+    <string-array name="piece_colors" translatable="false">
+        <item>#547bca</item>
+        <item>#9933cc</item>
+        <item>#669900</item>
+        <item>#cc0000</item>
+        <item>#ff8800</item>
+
+
+    </string-array>
+
     <string name="email">E-mail</string>
     <string name="email_error">Empty or not well-formed</string>
     <string name="email_details">Your e-mail will be used as your login. Type the one you use most often.</string>

@@ -11,6 +11,74 @@
     tools:showIn="@layout/activity_grid">
 
     <com.horcu.apps.peez.custom.AutoFitGridLayout
+        android:id="@+id/gameboard_grid_opponent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="6dp"
+        android:paddingTop="6dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        app:columnCount="6"
+        android:layout_centerInParent="true"
+        app:horizontalSpace="2.5dp"
+        android:layout_above="@+id/gameboard_grid"
+        app:verticalSpace="2.5dp">
+
+        <com.horcu.apps.peez.custom.OpponentView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="4b"
+            android:textSize="10dp"
+            android:textColor="@color/grey_500"
+            android:gravity="center"
+            android:background="@android:color/transparent"/>
+        <com.horcu.apps.peez.custom.OpponentView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="4c"
+            android:textSize="10dp"
+            android:textColor="@color/grey_500"
+            android:gravity="center"
+            android:background="@drawable/ic_player"/>
+        <com.horcu.apps.peez.custom.OpponentView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="4d"
+            android:textSize="10dp"
+            android:textColor="@color/grey_500"
+            android:gravity="center"
+            android:background="@drawable/ic_player"/>
+        <com.horcu.apps.peez.custom.OpponentView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="4e"
+            android:textSize="10dp"
+            android:textColor="@color/grey_500"
+            android:gravity="center"
+            android:background="@drawable/ic_player"/>
+
+        <com.horcu.apps.peez.custom.OpponentView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="4d"
+            android:textSize="10dp"
+            android:textColor="@color/grey_500"
+            android:gravity="center"
+            android:background="@drawable/ic_player"/>
+        <com.horcu.apps.peez.custom.OpponentView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="4e"
+            android:textSize="10dp"
+            android:textColor="@color/grey_500"
+            android:gravity="center"
+            android:background="@android:color/transparent"/>
+
+        </com.horcu.apps.peez.custom.AutoFitGridLayout>
+
+
+    <com.horcu.apps.peez.custom.AutoFitGridLayout
         android:id="@+id/gameboard_grid"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -26,15 +94,15 @@
 
         <!--secondLevelRow-->
       
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="4b"
             android:textSize="10dp"
             android:textColor="@color/grey_500"
             android:gravity="center"
-            android:background="#444444"/>
-        <com.horcu.apps.peez.custom.LetterImageView
+            android:background="@android:color/white"/>
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="4c"
@@ -42,7 +110,7 @@
             android:textColor="@color/grey_500"
             android:gravity="center"
             android:background="@android:color/white"/>
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="4d"
@@ -50,7 +118,7 @@
             android:textColor="@color/grey_500"
             android:gravity="center"
             android:background="@android:color/white"/>
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="4e"
@@ -58,7 +126,7 @@
             android:textColor="@color/grey_500"
             android:gravity="center"
             android:background="@android:color/white"/>
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="4f"
@@ -66,7 +134,7 @@
             android:textColor="@color/grey_500"
             android:gravity="center"
             android:background="@android:color/white"/>
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="4g"
@@ -75,7 +143,7 @@
             android:gravity="center"
             android:background="@android:color/white"/>
 
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="5a"
@@ -83,7 +151,7 @@
             android:textColor="@color/grey_500"
             android:gravity="center"
             android:background="@android:color/white"/>
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="5b"
@@ -91,7 +159,7 @@
             android:textColor="@color/grey_500"
             android:gravity="center"
             android:background="@android:color/white"/>
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="5c"
@@ -99,7 +167,7 @@
             android:textColor="@color/grey_500"
             android:gravity="center"
             android:background="@android:color/white"/>
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="5d"
@@ -107,7 +175,7 @@
             android:textColor="@color/grey_500"
             android:gravity="center"
             android:background="@android:color/white"/>
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="5e"
@@ -115,7 +183,7 @@
             android:textColor="@color/grey_500"
             android:gravity="center"
             android:background="@android:color/white"/>
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="5f"
@@ -126,7 +194,7 @@
 
 
 
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="6a"
@@ -134,7 +202,7 @@
             android:textColor="@color/grey_500"
             android:gravity="center"
             android:background="@android:color/white"/>
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="6b"
@@ -142,7 +210,7 @@
             android:textColor="@color/grey_500"
             android:gravity="center"
             android:background="@android:color/white"/>
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="6c"
@@ -150,7 +218,7 @@
             android:textColor="@color/grey_500"
             android:gravity="center"
             android:background="@android:color/white"/>
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="6d"
@@ -158,7 +226,7 @@
             android:textColor="@color/grey_500"
             android:gravity="center"
             android:background="@android:color/white"/>
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="6e"
@@ -166,7 +234,7 @@
             android:textColor="@color/grey_500"
             android:gravity="center"
             android:background="@android:color/white"/>
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="6f"
@@ -176,7 +244,7 @@
             android:background="@android:color/white"/>
 
 
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="7a"
@@ -184,7 +252,7 @@
             android:textColor="@color/grey_500"
             android:gravity="center"
             android:background="@android:color/white"/>
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="7b"
@@ -192,7 +260,7 @@
             android:textColor="@color/grey_500"
             android:gravity="center"
             android:background="@android:color/white"/>
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="7c"
@@ -200,7 +268,7 @@
             android:textColor="@color/grey_500"
             android:gravity="center"
             android:background="@android:color/white"/>
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="7d"
@@ -208,7 +276,7 @@
             android:textColor="@color/grey_500"
             android:gravity="center"
             android:background="@android:color/white"/>
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="7e"
@@ -216,7 +284,7 @@
             android:textColor="@color/grey_500"
             android:gravity="center"
             android:background="@android:color/white"/>
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="7f"
@@ -226,7 +294,7 @@
             android:background="@android:color/white"/>
 
 
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="7a"
@@ -234,7 +302,7 @@
             android:textColor="@color/grey_500"
             android:gravity="center"
             android:background="@android:color/white"/>
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="7b"
@@ -242,7 +310,7 @@
             android:textColor="@color/grey_500"
             android:gravity="center"
             android:background="@android:color/white"/>
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="7c"
@@ -250,7 +318,7 @@
             android:textColor="@color/grey_500"
             android:gravity="center"
             android:background="@android:color/white"/>
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="7d"
@@ -258,7 +326,7 @@
             android:textColor="@color/grey_500"
             android:gravity="center"
             android:background="@android:color/white"/>
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="7e"
@@ -266,7 +334,7 @@
             android:textColor="@color/grey_500"
             android:gravity="center"
             android:background="@android:color/white"/>
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="7f"
@@ -275,7 +343,7 @@
             android:gravity="center"
             android:background="@android:color/white"/>
 
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="7a"
@@ -283,7 +351,7 @@
             android:textColor="@color/grey_500"
             android:gravity="center"
             android:background="@android:color/white"/>
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="7b"
@@ -291,7 +359,7 @@
             android:textColor="@color/grey_500"
             android:gravity="center"
             android:background="@android:color/white"/>
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="7c"
@@ -299,7 +367,7 @@
             android:textColor="@color/grey_500"
             android:gravity="center"
             android:background="@android:color/white"/>
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="7d"
@@ -307,7 +375,7 @@
             android:textColor="@color/grey_500"
             android:gravity="center"
             android:background="@android:color/white"/>
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="7e"
@@ -315,7 +383,7 @@
             android:textColor="@color/grey_500"
             android:gravity="center"
             android:background="@android:color/white"/>
-        <com.horcu.apps.peez.custom.LetterImageView
+        <com.horcu.apps.peez.custom.TileView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="7f"
@@ -323,6 +391,73 @@
             android:textColor="@color/grey_500"
             android:gravity="center"
             android:background="@android:color/white"/>
+
+    </com.horcu.apps.peez.custom.AutoFitGridLayout>
+
+    <com.horcu.apps.peez.custom.AutoFitGridLayout
+        android:id="@+id/gameboard_grid_user"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="6dp"
+        android:paddingTop="6dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        app:columnCount="6"
+        android:layout_centerInParent="true"
+        app:horizontalSpace="2.5dp"
+        android:layout_below="@+id/gameboard_grid"
+        app:verticalSpace="2.5dp">
+
+        <com.horcu.apps.peez.custom.PlayerView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="4b"
+            android:textSize="10dp"
+            android:textColor="@color/grey_500"
+            android:gravity="center"
+            android:background="@android:color/transparent"/>
+        <com.horcu.apps.peez.custom.PlayerView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="4c"
+            android:textSize="10dp"
+            android:textColor="@color/grey_500"
+            android:gravity="center"
+            android:background="@drawable/ic_social_person"/>
+        <com.horcu.apps.peez.custom.PlayerView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="4d"
+            android:textSize="10dp"
+            android:textColor="@color/grey_500"
+            android:gravity="center"
+            android:background="@drawable/ic_social_person"/>
+        <com.horcu.apps.peez.custom.PlayerView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="4e"
+            android:textSize="10dp"
+            android:textColor="@color/grey_500"
+            android:gravity="center"
+            android:background="@drawable/ic_social_person"/>
+
+        <com.horcu.apps.peez.custom.PlayerView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="4d"
+            android:textSize="10dp"
+            android:textColor="@color/grey_500"
+            android:gravity="center"
+            android:background="@drawable/ic_social_person"/>
+        <com.horcu.apps.peez.custom.PlayerView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="4e"
+            android:textSize="10dp"
+            android:textColor="@color/grey_500"
+            android:gravity="center"
+            android:background="@android:color/transparent"/>
 
     </com.horcu.apps.peez.custom.AutoFitGridLayout>
 

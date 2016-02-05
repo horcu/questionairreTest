@@ -29,7 +29,7 @@
             <attr name="verticalSpace" format="dimension"/>
         </declare-styleable>
 
-    <declare-styleable name="LetterImageView">
+    <declare-styleable name="TileView">
         <attr name="spot" format="integer"/>
     </declare-styleable>
 

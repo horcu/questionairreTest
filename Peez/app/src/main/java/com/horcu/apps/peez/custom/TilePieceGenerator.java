@@ -1,10 +1,7 @@
 package com.horcu.apps.peez.custom;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.support.v7.graphics.drawable.DrawableUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -142,7 +139,7 @@ public class TilePieceGenerator {
         this.tileList = tileList;
     }
 
-    public  ArrayList<LetterImageView> GenerateTileIdentities(ArrayList<LetterImageView> gridTiles){
+    public  ArrayList<TileView> GenerateTileIdentities(ArrayList<TileView> gridTiles){
         try {
             Random r = new Random();
             List<Tile> masterList = new ArrayList<>();
@@ -169,15 +166,14 @@ public class TilePieceGenerator {
 
             for(int i =0; i < masterList.size(); i++)
             {
-                LetterImageView tileHouse = gridTiles.get(i);
+                TileView tileHouse = gridTiles.get(i);
                 Tile masterListTile = masterList.get(i);
                 tileHouse.setTile(masterListTile);
                 tileHouse.setSpot(Integer.parseInt(masterListTile.getSpot()));
-                tileHouse.setBackgroundColor(randomColor());
+                tileHouse.setBackgroundColor(Color.WHITE);
                 tileHouse.setTextColor(Color.LTGRAY);
-                tileHouse.setLetter(masterListTile.getName().charAt(0));
-
                 int icon = getIconForPieceType(masterListTile.getPiece());
+                tileHouse.getTile().setNeighbours(masterListTile.getNeighbours());
 
                 Picasso.with(context).load(icon).into(tileHouse);
             }
@@ -193,60 +189,29 @@ public class TilePieceGenerator {
         {
             case "MO":
             {
-                return R.drawable.ic_social_notifications;
+                return R.drawable.ic_mo;
             }
             case "MT":
             {
-                return R.drawable.ic_no_tables;
+                return R.drawable.ic_mt;
             }
             case "GF":
             {
-                return R.drawable.ic_social_people;
+                return R.drawable.ic_gf;
             }
             case "BA":
             {
-                return R.drawable.ic_social_person;
+                return R.drawable.ic_ba;
             }
             case "GH":
             {
-                return R.drawable.ic_navigation_close;
-            }
-        }
-        return R.drawable.ic_social_notifications;
-    }
-
-    public int randomColor() {
-        Random random = new Random();
-        String[] colorsArr = context.getResources().getStringArray(R.array.colors);
-        return Color.parseColor(colorsArr[random.nextInt(colorsArr.length)]);
-    }
-
-    private int getColorForPieceType(String piece) {
-        switch (piece)
-        {
-            case "MO":
-            {
-                return Color.GREEN;
-            }
-            case "MT":
-            {
-                return Color.BLUE;
-            }
-            case "BF":
-            {
-                return Color.CYAN;
-            }
-            case "GA":
-            {
-                return Color.MAGENTA;
-            }
-            case "GH":
-            {
-                return Color.RED;
+                return R.drawable.ic_gh;
             }
         }
         return 0;
     }
+
+
 
     private static void SetTileAttributes(List<Tile> masterList) {
 

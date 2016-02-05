@@ -1,22 +1,19 @@
 package com.horcu.apps.peez.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.userApi.model.User;
-import com.horcu.apps.peez.custom.LetterImageView;
+import com.horcu.apps.peez.custom.TileView;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 /**
  * Created by hcummings on 11/16/2015.
@@ -63,7 +60,7 @@ public class SelUsersAdapter extends BaseAdapter {
         else {
              v = (GridView) convertView;
         }
-        LetterImageView liv = new LetterImageView(mContext, null);
+        TileView liv = new TileView(mContext, null);
         liv.setMinimumHeight(38);
         liv.setMinimumHeight(38);
         liv.setLetter(usr.getUserName().charAt(0));
