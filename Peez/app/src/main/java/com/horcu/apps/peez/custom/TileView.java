@@ -62,8 +62,8 @@ public class TileView extends ImageView {
        // mTextColor = Color.;
        // mTextPaint.setColor(mTextColor);
         mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mBackgroundPaint.setStyle(Paint.Style.FILL);
-        mBackgroundPaint.setColor(Color.WHITE); //randomColor()
+        mBackgroundPaint.setStyle(Paint.Style.STROKE);
+        mBackgroundPaint.setColor(Color.parseColor("#efefef")); //randomColor()
         spot = a.getInt(R.styleable.TileView_spot, 0);
     }
 

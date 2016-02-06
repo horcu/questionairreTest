@@ -27,7 +27,7 @@
 
         <com.horcu.apps.peez.custom.OpponentView
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:text="4b"
             android:textSize="10dp"
             android:textColor="@color/grey_500"
@@ -40,7 +40,8 @@
             android:textSize="10dp"
             android:textColor="@color/grey_500"
             android:gravity="center"
-            android:background="@drawable/ic_player"/>
+            android:background="@drawable/ic_yoga_04_128"
+            />
         <com.horcu.apps.peez.custom.OpponentView
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -48,7 +49,8 @@
             android:textSize="10dp"
             android:textColor="@color/grey_500"
             android:gravity="center"
-            android:background="@drawable/ic_player"/>
+            android:background="@drawable/ic_yoga_04_128"
+           />
         <com.horcu.apps.peez.custom.OpponentView
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -56,7 +58,8 @@
             android:textSize="10dp"
             android:textColor="@color/grey_500"
             android:gravity="center"
-            android:background="@drawable/ic_player"/>
+            android:background="@drawable/ic_yoga_04_128"
+            />
 
         <com.horcu.apps.peez.custom.OpponentView
             android:layout_width="match_parent"
@@ -65,7 +68,8 @@
             android:textSize="10dp"
             android:textColor="@color/grey_500"
             android:gravity="center"
-            android:background="@drawable/ic_player"/>
+            android:background="@drawable/ic_yoga_04_128"
+           />
         <com.horcu.apps.peez.custom.OpponentView
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -88,9 +92,10 @@
         android:layout_marginLeft="6dp"
         android:layout_marginRight="6dp"
         app:columnCount="6"
+        android:background="@android:color/transparent"
         android:layout_centerInParent="true"
-        app:horizontalSpace="2.5dp"
-        app:verticalSpace="2.5dp">
+        app:horizontalSpace="1.2dp"
+        app:verticalSpace="1.2dp">
 
         <!--secondLevelRow-->
       
@@ -424,7 +429,8 @@
             android:textSize="10dp"
             android:textColor="@color/grey_500"
             android:gravity="center"
-            android:background="@drawable/ic_social_person"/>
+            android:background="@drawable/ic_warrior_128"
+           />
         <com.horcu.apps.peez.custom.PlayerView
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -432,7 +438,8 @@
             android:textSize="10dp"
             android:textColor="@color/grey_500"
             android:gravity="center"
-            android:background="@drawable/ic_social_person"/>
+            android:background="@drawable/ic_warrior_128"
+            />
         <com.horcu.apps.peez.custom.PlayerView
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -440,7 +447,8 @@
             android:textSize="10dp"
             android:textColor="@color/grey_500"
             android:gravity="center"
-            android:background="@drawable/ic_social_person"/>
+            android:background="@drawable/ic_warrior_128"
+            />
 
         <com.horcu.apps.peez.custom.PlayerView
             android:layout_width="match_parent"
@@ -449,7 +457,8 @@
             android:textSize="10dp"
             android:textColor="@color/grey_500"
             android:gravity="center"
-            android:background="@drawable/ic_social_person"/>
+            android:background="@drawable/ic_warrior_128"
+            />
         <com.horcu.apps.peez.custom.PlayerView
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -457,7 +466,7 @@
             android:textSize="10dp"
             android:textColor="@color/grey_500"
             android:gravity="center"
-            android:background="@android:color/transparent"/>
+           />
 
     </com.horcu.apps.peez.custom.AutoFitGridLayout>
 

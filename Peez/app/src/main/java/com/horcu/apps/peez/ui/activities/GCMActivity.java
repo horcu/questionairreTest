@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,6 +35,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.SpannableString;
 import android.util.Log;
@@ -68,9 +70,9 @@ public class GCMActivity extends AppCompatActivity implements AdapterView.OnItem
     static final String PREF_OPEN_DRAWER_AT_STARTUP = "open_drawer_at_startup";
 
     private ActionBarDrawerToggle mDrawerToggle;
-  //  private DrawerLayout mDrawerLayout;
-  //  private FrameLayout mDrawerView;
- //   private ListView mDrawerMenu;
+    private DrawerLayout mDrawerLayout;
+    private FrameLayout mDrawerView;
+    private ListView mDrawerMenu;
     private View mDrawerScrim;
     private LoggingService.Logger mLogger;
     private TextView mLogsUI;
@@ -115,24 +117,24 @@ public class GCMActivity extends AppCompatActivity implements AdapterView.OnItem
             }
         };
 
-        //  Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-     //   mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-      //  mDrawerView = (FrameLayout) findViewById(R.id.navigation_drawer);
-      //  mDrawerMenu = (ListView) findViewById(R.id.navigation_drawer_menu);
+          Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerView = (FrameLayout) findViewById(R.id.navigation_drawer);
+        mDrawerMenu = (ListView) findViewById(R.id.navigation_drawer_menu);
         mDrawerScrim = findViewById(R.id.navigation_drawer_scrim);
 
-        // setSupportActionBar(toolbar);
-        //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+         setSupportActionBar(toolbar);
+         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TypedArray colorPrimaryDark =
                 getTheme().obtainStyledAttributes(new int[]{R.attr.colorPrimaryDark});
-       // mDrawerLayout.setStatusBarBackgroundColor(colorPrimaryDark.getColor(0, 0xFF000000));
-      // mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+        mDrawerLayout.setStatusBarBackgroundColor(colorPrimaryDark.getColor(0, 0xFF000000));
+       mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         colorPrimaryDark.recycle();
 
         ImageView drawerHeader = new ImageView(this);
         drawerHeader.setImageResource(R.drawable.drawer_gcm_logo);
-       // mDrawerMenu.addHeaderView(drawerHeader);
+        mDrawerMenu.addHeaderView(drawerHeader);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             // Set the drawer width accordingly with the guidelines: window_width - toolbar_height.
@@ -175,29 +177,29 @@ public class GCMActivity extends AppCompatActivity implements AdapterView.OnItem
                 android.R.layout.simple_list_item_checked;
 
         mMainMenu = new MainMenu(this);
-       // mDrawerMenu.setOnItemClickListener(this);
-      //  mDrawerMenu.setAdapter(new ArrayAdapter<>(getSupportActionBar().getThemedContext(),
-     //           activeItemIndicator, android.R.id.text1, mMainMenu.getEntries()));
+        mDrawerMenu.setOnItemClickListener(this);
+        mDrawerMenu.setAdapter(new ArrayAdapter<>(getSupportActionBar().getThemedContext(),
+                activeItemIndicator, android.R.id.text1, mMainMenu.getEntries()));
 
-//        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open,
-//                R.string.drawer_close) {
-//            @Override
-//            public void onDrawerOpened(View drawerView) {
-//                // The user learned how to open the drawer. Do not open it for him anymore.
-//                getAppPreferences().edit()
-//                        .putBoolean(PREF_OPEN_DRAWER_AT_STARTUP, false).apply();
-//                super.onDrawerOpened(drawerView);
-//            }
-//        };
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open,
+                R.string.drawer_close) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                // The user learned how to open the drawer. Do not open it for him anymore.
+                getAppPreferences().edit()
+                        .putBoolean(PREF_OPEN_DRAWER_AT_STARTUP, false).apply();
+                super.onDrawerOpened(drawerView);
+            }
+        };
 
         boolean activityResumed = (savedState != null);
         boolean openDrawer = getAppPreferences().getBoolean(PREF_OPEN_DRAWER_AT_STARTUP, true);
         int lastScreenId = getAppPreferences().getInt(PREF_LAST_SCREEN_ID, 0);
         selectItem(lastScreenId);
-//        if (!activityResumed && openDrawer) {
-//            mDrawerLayout.openDrawer(mDrawerView);
-//        }
-//        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        if (!activityResumed && openDrawer) {
+            mDrawerLayout.openDrawer(mDrawerView);
+        }
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         /*
          * Here we check if the Activity was created by the user clicking on one of our GCM
@@ -220,7 +222,7 @@ public class GCMActivity extends AppCompatActivity implements AdapterView.OnItem
         super.onSupportActionModeStarted(mode);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             // Set a status bar color while in action mode (text copy&paste)
-            //  getWindow().setStatusBarColor(getResources().getColor(R.color.google_blue_900));
+              getWindow().setStatusBarColor(Color.parseColor("#efefef"));
         }
     }
 
@@ -237,6 +239,8 @@ public class GCMActivity extends AppCompatActivity implements AdapterView.OnItem
     @Override
     public void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+
+       // if(mDrawerToggle != null)
         mDrawerToggle.syncState();
     }
 
@@ -271,13 +275,13 @@ public class GCMActivity extends AppCompatActivity implements AdapterView.OnItem
         if (showView) {
             // The logsView height set in XML is a placeholder, we need to compute at runtime
             // how much is 0.4 of the screen height.
-          //  int height = (int) (0.4 * mDrawerLayout.getHeight());
+            int height = (int) (0.4 * mDrawerLayout.getHeight());
 
             // The LogsView is hidden being placed off-screen with a negative bottomMargin.
             // We need to update its height and bottomMargin to the correct runtime values.
             logsLayoutParams.bottomMargin = -logsLayoutParams.height;
             logsView.setLayoutParams(logsLayoutParams);
-       //     logsLayoutParams.height = height;
+            logsLayoutParams.height = height;
 
             // Prepare the value for the Show animation.
             startLogsY = logsLayoutParams.bottomMargin;
@@ -373,8 +377,8 @@ public class GCMActivity extends AppCompatActivity implements AdapterView.OnItem
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-//        selectItem(pos - 1);
-//        mDrawerLayout.closeDrawer(mDrawerView);
+        selectItem(pos - 1);
+        mDrawerLayout.closeDrawer(mDrawerView);
     }
 
     @Override

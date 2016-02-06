@@ -17,7 +17,9 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -42,6 +44,9 @@ public class TilePieceGenerator {
 
     private static Map<String,Integer> tilePieceMap = new LinkedHashMap<>();
     private static ArrayList<Tile> tileList = new ArrayList<>();
+
+    //static map for positioning views correctly in the grid
+    private static Map<Integer, String> PosAndNeighboursList = new HashMap<>(36);
 
     TileApi tileApi = Api.BuildTileApiService();
     private Context context;
@@ -107,6 +112,7 @@ public class TilePieceGenerator {
         }
 
         for (int t = 0; t < tiles.size(); t++) {
+         //   PosAndNeighboursList.put(t, tiles.get(t).getNeighbours());
             try {
                 Tile tile = tiles.get(t);
                 tile.setId(String.valueOf(t));
@@ -115,7 +121,6 @@ public class TilePieceGenerator {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
 
         //TODO - end remove
@@ -162,19 +167,19 @@ public class TilePieceGenerator {
 
             Collections.shuffle(masterList);
 
-            SetTileAttributes(masterList);
-
             for(int i =0; i < masterList.size(); i++)
             {
                 TileView tileHouse = gridTiles.get(i);
+                tileHouse.setSpot(i);
                 Tile masterListTile = masterList.get(i);
-                tileHouse.setTile(masterListTile);
-                tileHouse.setSpot(Integer.parseInt(masterListTile.getSpot()));
-                tileHouse.setBackgroundColor(Color.WHITE);
-                tileHouse.setTextColor(Color.LTGRAY);
-                int icon = getIconForPieceType(masterListTile.getPiece());
-                tileHouse.getTile().setNeighbours(masterListTile.getNeighbours());
+                masterListTile.setId(String.valueOf(i));
+                masterListTile.setName(tileList.get(i).getName());
+                masterListTile.setNeighbours(tileList.get(i).getNeighbours());
+                masterListTile.setFinishLine(tileList.get(i).getFinishLine());
+                masterListTile.setPiece(tileList.get(i).getPiece());
+                masterListTile.setSpot(String.valueOf(i));
 
+                int icon = getIconForPieceType(masterListTile.getPiece());
                 Picasso.with(context).load(icon).into(tileHouse);
             }
         } catch (NumberFormatException e) {
@@ -211,31 +216,4 @@ public class TilePieceGenerator {
         return 0;
     }
 
-
-
-    private static void SetTileAttributes(List<Tile> masterList) {
-
-        for(int i=0; i < masterList.size(); i++)
-        {
-            Tile tile =  masterList.get(i);
-            Tile tempTile = tileList.get(i);
-            tile.setNeighbours(tempTile.getNeighbours());
-            tile.setSpot(String.valueOf(i));
-            tile.setName(tempTile.getName());
-        }
-
-    }
-
-
-    //a. BuildNumbersList() - this is the list of numbers to choose from randomly to determine the type of piece to occupy the given tile
-
-    //b.	BuildMap() - this will build the map that holds the list name as the key and its corresponding amount of spaces to occupy as the value
-
-    //c. GetRandomNumber() - Choose number randomly when given the specific numbers in range
-
-    //g. RemoveOneFromListValue() - When passed the list it will reduce the amount of remaining spots to occupy by one
-
-    //e. CheckEnsureListsHaveItems() - Checks to ensure that each list in the map has at least one space left to occupy
-
-    //f. RemoveListNumberFromOptions() - if the value in the map for amy list is 0 then remove that item from the map
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ThemedSpinnerAdapter;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
@@ -15,6 +16,7 @@ import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.custom.AutoFitGridLayout;
 import com.horcu.apps.peez.custom.OpponentView;
 import com.horcu.apps.peez.custom.PlayerView;
+import com.horcu.apps.peez.custom.TileHelper;
 import com.horcu.apps.peez.custom.TileView;
 import com.horcu.apps.peez.custom.TilePieceGenerator;
 
@@ -25,7 +27,7 @@ import java.util.Arrays;
 public class GridActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener {
 
     private static int selectedViewBgColor = Color.WHITE;
-    ArrayList<TileView> ImageViewTiles = null;
+
     TileView selectedView = null;
     private AbstractList<TileView> playerViews = new ArrayList<>();;
     private AbstractList<TileView> opponentViews = new ArrayList<>();
@@ -68,8 +70,7 @@ public class GridActivity extends AppCompatActivity implements View.OnClickListe
          }
 
 
-
-        ImageViewTiles = new TilePieceGenerator(getApplicationContext()).GenerateTileIdentities(gameboardViews);
+        ArrayList<TileView> ImageViewTiles = new TilePieceGenerator(getApplicationContext()).GenerateTileIdentities(gameboardViews);
     }
 
 
@@ -77,7 +78,10 @@ public class GridActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
 
         if(TileIsOccupied())
-        {}
+        {
+            //this spot cannot be a destination
+            String owner = ((TileView) v).getTile().getOwner() != null ? ((TileView) v).getTile().getOwner() : "anonymous";
+        }
         else
         {
             if (SelectedPlayerCanMoveHere(v)) {
@@ -85,13 +89,13 @@ public class GridActivity extends AppCompatActivity implements View.OnClickListe
                 YoYo.with(Techniques.Pulse).duration(1000).playOn(lView);
 
                 //set the selected view
-                UpdateSelectedView((TileView) v);
+                UpdateSelectedView(lView);
 
                 //TODO refactor this !!
                 Snackbar snack = Snackbar.make(v, lView
                         .getTile()
-                        .getPiece() + " moving to  " + ((TileView) v).getTile().getSpot(), Snackbar.LENGTH_LONG)
-                        .setActionTextColor(Color.CYAN);
+                        .getPiece() + " who's neighbours are " + lView.getTile().getNeighbours() + " moved to  " + lView.getTile().getSpot(), Snackbar.LENGTH_LONG)
+                        .setActionTextColor(TileHelper.getColorForInnerPieceType(this,lView.getTile().getPiece()));
 
                 View snackView = snack.getView();
                 snackView.setBackgroundColor(Color.LTGRAY);
@@ -126,8 +130,8 @@ public class GridActivity extends AppCompatActivity implements View.OnClickListe
         if(selectedView == null)
            return false;
 
-        ArrayList<TileView> listOne = GetNeighbours(selectedView);
-        ArrayList<TileView> listTwo = GetNeighbours((TileView) v);
+        ArrayList<TileView> listOne = TileHelper.GetNeighbours(gameboardViews, selectedView);
+        ArrayList<TileView> listTwo = TileHelper.GetNeighbours(gameboardViews,(TileView) v);
         boolean areNeighbours = false;
 
         for(int i = 0; i < listOne.size(); i++ )
@@ -162,7 +166,7 @@ public class GridActivity extends AppCompatActivity implements View.OnClickListe
                 snack.show();
 
         //highlight the neighbours
-        ArrayList<TileView> neighbours = GetNeighbours(lView);
+        ArrayList<TileView> neighbours = TileHelper.GetNeighbours(gameboardViews, lView);
         highlightNeighbours(neighbours);
 
         return true;
@@ -183,27 +187,13 @@ public class GridActivity extends AppCompatActivity implements View.OnClickListe
         for (int i = 0; i < highlighted.size(); i++) {
 
             TileView currentView = highlighted.get(i);
-            currentView.setBackgroundColor(Color.LTGRAY);
+            currentView.setBackgroundColor(Color.YELLOW);
             //add some sort of icon here temporarily .. then..
             YoYo.with(Techniques.Pulse).duration(1000).playOn(currentView);
             currentView.setBackgroundColor(Color.WHITE);
         }
     }
 
-    @NonNull
-    private ArrayList<TileView> GetNeighbours(TileView lView) {
-        String ns = lView.getTile().getNeighbours();
-        ArrayList<String> nArrayList = new ArrayList<>(Arrays.asList(ns.split(",")));
-        ArrayList<TileView> highlighted = new ArrayList<>();
 
-        for (int i = 0; i < ImageViewTiles.size(); i++) {
-            TileView currentView = ImageViewTiles.get(i);
-            String name = currentView.getTile().getName();
-            if (nArrayList.contains(name)) {
-                highlighted.add(currentView);
-            }
-        }
-        return highlighted;
-    }
 
 }
