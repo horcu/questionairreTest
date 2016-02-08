@@ -1,3 +1,3 @@
-include ':app', ':backend', ':common', ':shapeimageview'//, ':sample_databinding'//, ':gcm' ,':singleInputExample',':library',
+include ':app', ':backend', ':common', ':shapeimageview', ':BubbleTextView'//, ':sample_databinding'//, ':gcm' ,':singleInputExample',':library',
 include ':ShapeImageView'
 include ':CustomImageView'

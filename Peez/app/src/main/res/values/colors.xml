@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#ff3f51b5</color>
-    <color name="colorPrimaryDark">#5a5a5a</color>
+    <color name="colorPrimaryDark">#4e4c4c</color>
     <color name="colorAccent">#ff3f51b5</color>
     <color name="grey_500">#dddddd</color>
     <color name="primary_material_light_1">#ff3f51b5</color>
@@ -18,10 +18,10 @@
     <color name="cyan">#ff3f51b5</color>
     <color name="primary_material_light">#eae6e6</color>
     <color name="foreground_material_light">#eceaea</color>
-    <color name="primary_text_material_light">#ffffff</color>
+    <color name="primary_text_material_light">#383636</color>
     <color name="text">#333333</color>
-    <color name="primary_text_material_dark">#ffffff</color>
-    <color name="secondary_text_material_light">#ffffdd</color>
+    <color name="primary_text_material_dark">#393939</color>
+    <color name="secondary_text_material_light">#37372f</color>
 
 
 </resources>

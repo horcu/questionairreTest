@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     tools:context="com.horcu.apps.peez.ui.activities.UsersActivity">
 
-    <include layout="@layout/peez_bar"
-        android:id="@+id/peezbar"/>
+    <!--<include layout="@layout/peez_bar"-->
+        <!--android:id="@+id/peezbar"/>-->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/users_list"

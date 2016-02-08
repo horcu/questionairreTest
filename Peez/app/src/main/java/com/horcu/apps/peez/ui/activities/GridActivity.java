@@ -1,14 +1,16 @@
 package com.horcu.apps.peez.ui.activities;
 
+import android.content.Context;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
-
-import android.support.annotation.NonNull;
+import android.support.annotation.BoolRes;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.ThemedSpinnerAdapter;
 import android.view.View;
-import android.view.ViewTreeObserver;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -17,12 +19,14 @@ import com.horcu.apps.peez.custom.AutoFitGridLayout;
 import com.horcu.apps.peez.custom.OpponentView;
 import com.horcu.apps.peez.custom.PlayerView;
 import com.horcu.apps.peez.custom.TileHelper;
-import com.horcu.apps.peez.custom.TileView;
 import com.horcu.apps.peez.custom.TilePieceGenerator;
+import com.horcu.apps.peez.custom.TileView;
 
+import java.io.IOException;
 import java.util.AbstractList;
 import java.util.ArrayList;
-import java.util.Arrays;
+
+import br.com.zbra.androidlinq.Stream;
 
 public class GridActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener {
 
@@ -33,46 +37,90 @@ public class GridActivity extends AppCompatActivity implements View.OnClickListe
     private AbstractList<TileView> opponentViews = new ArrayList<>();
     private ArrayList<TileView> gameboardViews = new ArrayList<>();
 
+    //sections
+    AutoFitGridLayout playerSection = null;
+    AutoFitGridLayout opponentSection = null;
+    AutoFitGridLayout gameBoard = null;
+    //end section
+
+    //switcher for the main views
+    ViewSwitcher switcher = null;
+    //end switcher
+
+    //private TextSurface textSurface;
+    RelativeLayout preGboard;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grid);
 
+        switcher = (ViewSwitcher) findViewById(R.id.gameboard_switcher);
+        //This is the animated pre game stuff
+       // textSurface = findViewById(R.id.text_surface);
 
-        AutoFitGridLayout playerSection = (AutoFitGridLayout)findViewById(R.id.gameboard_grid_user);
-        for (int i=0; i < playerSection.getChildCount(); i++) {
+        //generate the gameboard in the background
+        playerSection = (AutoFitGridLayout)findViewById(R.id.gameboard_grid_user);
+        opponentSection = (AutoFitGridLayout)findViewById(R.id.gameboard_grid_opponent);
+        gameBoard = (AutoFitGridLayout)findViewById(R.id.gameboard_grid);
 
-            PlayerView view = (PlayerView) playerSection.getChildAt(i);
+        GBObject gbo = new GBObject(opponentSection,gameBoard, playerSection, this);
+        SetEvents(gbo);
+        BuildGameBoardAsync(gbo);
+
+        preGboard = (RelativeLayout)findViewById(R.id.pre_gameboard);
+        preGboard.postDelayed(new Runnable() {
+            @Override public void run() {
+                show();
+            }
+        }, 1000);
+
+    }
+
+    private void SetEvents(GBObject gbo) {
+        for (int i = 0; i < gbo.playerList.size(); i++) {
+
+            PlayerView view = gbo.playerList.get(i);
             view.setOnClickListener(this);
             view.setOnLongClickListener(this);
             playerViews.add(i, view);
-
         }
 
-        AutoFitGridLayout opponentSection = (AutoFitGridLayout)findViewById(R.id.gameboard_grid_opponent);
-        for (int i=0; i < opponentSection.getChildCount(); i++) {
+        for (int i = 0; i < gbo.opponentList.size(); i++) {
 
-            OpponentView view = (OpponentView) opponentSection.getChildAt(i);
+            OpponentView view = gbo.opponentList.get(i);
             view.setOnClickListener(this);
             view.setOnLongClickListener(this);
             opponentViews.add(i, view);
         }
 
-        AutoFitGridLayout gameBoard = (AutoFitGridLayout)findViewById(R.id.gameboard_grid);
-
-
-         for (int i=0; i < gameBoard.getChildCount(); i++)
-         {
-                 TileView view = (TileView) gameBoard.getChildAt(i);
-                 view.setOnClickListener(this);
-                 view.setOnLongClickListener(this);
-                 gameboardViews.add(i, view);
-         }
-
-
-        ArrayList<TileView> ImageViewTiles = new TilePieceGenerator(getApplicationContext()).GenerateTileIdentities(gameboardViews);
+        for (int i = 0; i < gbo.gamePiecesList.size(); i++) {
+            TileView view = gbo.gamePiecesList.get(i);
+            view.setOnClickListener(this);
+            view.setOnLongClickListener(this);
+            gameboardViews.add(i, view);
+        }
     }
 
+    private void show() {
+//        textSurface.reset();
+//
+//        Text textDaai = su.levenetc.android.textsurface.TextBuilder
+//                .create("Daai")
+//                .setSize(64)
+//                .setAlpha(0)
+//                .setColor(Color.WHITE)
+//                .setPosition(Paint.Align.CENTER).build();
+//
+//        textSurface.play(
+//                new Sequential(
+//                        Slide.showFrom(Side.TOP, textDaai, 500),
+//                        Delay.duration(500),
+//                        Alpha.hide(textDaai, 1500)
+//                )
+//        );
+        ((TextView)preGboard.findViewById(R.id.Intro_text)).setText("creating gameboard...");
+    }
 
     @Override
     public void onClick(View v) {
@@ -124,28 +172,8 @@ public class GridActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private boolean SelectedPlayerCanMoveHere(View v) {
-        //check and see if selectedView and this view are neighbours
-        //assume its a LetterImageView or else... kabooooosh!!!!!!!!!! haha
 
-        if(selectedView == null)
-           return false;
-
-        ArrayList<TileView> listOne = TileHelper.GetNeighbours(gameboardViews, selectedView);
-        ArrayList<TileView> listTwo = TileHelper.GetNeighbours(gameboardViews,(TileView) v);
-        boolean areNeighbours = false;
-
-        for(int i = 0; i < listOne.size(); i++ )
-        {
-            for(int n = 0; n < listTwo.size(); n++)
-            {
-                if(i == n) {
-                    areNeighbours = true;
-                    return areNeighbours;
-                }
-            }
-        }
-
-        return areNeighbours;
+        return true;
     }
 
     @Override
@@ -194,6 +222,72 @@ public class GridActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private class GBObject {
+        private final AutoFitGridLayout opponentSection;
+        private final AutoFitGridLayout gameBoard;
+        private final AutoFitGridLayout playerSection;
+        private final Context context;
+        private ArrayList<OpponentView> opponentList;
+        private ArrayList<TileView> gamePiecesList;
+        private ArrayList<PlayerView> playerList;
 
 
+        public GBObject(AutoFitGridLayout opponentSection, AutoFitGridLayout gameBoard, AutoFitGridLayout playerSection, Context context) {
+
+            this.opponentSection = opponentSection;
+            this.gameBoard = gameBoard;
+            this.playerSection = playerSection;
+            this.context = context;
+
+            opponentList = new ArrayList<>();
+            playerList = new ArrayList<>();
+            gamePiecesList = new ArrayList<>();
+
+            for(int i=0; i < opponentSection.getChildCount(); i++){opponentList.add(i,(OpponentView) opponentSection.getChildAt(i));}
+            for(int i=0; i < gameBoard.getChildCount(); i++){gamePiecesList.add(i,(TileView) gameBoard.getChildAt(i));}
+            for(int i=0; i < playerSection.getChildCount(); i++){playerList.add(i,(PlayerView) playerSection.getChildAt(i));}
+
+        }
+    }
+
+    private void BuildGameBoardAsync(final GBObject obj) {
+
+        new AsyncTask<Void, Void, Boolean>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                try {
+                    //oh snap..
+                    if (gameboardViews == null){
+                    return null;
+                }
+                    //build up the list
+                  new TilePieceGenerator(obj.context)
+                          .GenerateTileIdentities(gameboardViews);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return false;
+                }
+                return true;
+            }
+
+            @Override
+            protected void onPostExecute(Boolean result) {
+
+                //something bad must have happened
+                if(!result)
+                {
+                    ((TextView)preGboard.findViewById(R.id.Intro_text)).setText("something went wrong.. press back and then retry");
+                    return;
+                }
+                //switch to the gameboard slide elegantly
+                switcher.showNext();
+            }
+        }.execute();
+    }
 }

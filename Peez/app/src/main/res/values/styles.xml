@@ -6,14 +6,15 @@
         <item name="colorPrimary">@color/colorPrimaryDark</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/bpLight_gray</item>
-        <item name="android:backgroundStacked">@color/light_grey</item>
-        <item name="android:colorBackground">@color/light_grey</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:backgroundStacked">@color/colorPrimaryDark</item>
+        <item name="android:colorBackground">@color/colorPrimaryDark</item>
         <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
     </style>
 
     <style name="Theme.AppCompat.Light.Translucent">
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@color/light_grey</item>
+        <item name="android:windowBackground">@color/colorPrimaryDark</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -22,11 +23,11 @@
 
     <style name="app_default" parent="Theme.AppCompat.Light.Translucent">
         <item name="android:colorAccent">@color/colorPrimaryDark</item>
-        <item name="android:colorPrimaryDark">@color/primary_dark_material_light</item>
-        <item name="android:colorPrimary">@color/primary_material_light</item>
-        <item name="android:colorForeground">@color/light_grey</item>
+        <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:colorPrimary">@color/colorPrimaryDark</item>
+        <item name="android:colorForeground">@color/colorPrimaryDark</item>
         <item name="android:textColorPrimary">@color/primary_text_material_light</item>
-        <item name="android:textColor">@color/text</item>
+        <item name="android:textColor">@color/primary_text_material_light</item>
         <item name="android:colorBackground">@color/colorPrimaryDark</item>
         <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
@@ -70,7 +71,6 @@
         <item name="colorButtonNormal">@color/cyan_500</item>
     </style>
 
-
     <color name="white">#ffffff</color>
     <color name="main">#ebebeb</color>
 
@@ -101,4 +101,28 @@
     <style name="app_default.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <string name="fontFam">sans-serif-condense</string>
+
+    <!--<style name="AppTheme" parent="android:Theme.Material.Light">-->
+    <!--</style>-->
+
+
+    <!--<style name="LeBubbleTextView">-->
+        <!--<item name="bubbleBackgroundColor">@color/bubbleView_dark_background</item>-->
+        <!--<item name="bubbleTextColor">@color/bubbleView_dark_text_color</item>-->
+        <!--<item name="bubbleCornerRadius">@dimen/bubbleView_default_radius</item>-->
+        <!--<item name="bubbleTextSize">@dimen/bubbleView_default_text_size</item>-->
+        <!--<item name="bubbleBackgroundPressColor">@color/bubbleView_dark_press_background</item>-->
+    <!--</style>-->
+
+
+    <!--<style name="LeBubbleTextView.Light">-->
+        <!--<item name="bubbleBackgroundColor">@color/bubbleView_light_background</item>-->
+        <!--<item name="bubbleTextColor">@color/bubbleView_light_text_color</item>-->
+        <!--<item name="bubbleBackgroundPressColor">@color/bubbleView_light_press_background</item>-->
+    <!--</style>-->
+    <!--<style name="LeBubbleTextView.Dark">-->
+        <!--<item name="bubbleBackgroundColor">@color/bubbleView_dark_background</item>-->
+        <!--<item name="bubbleTextColor">@color/bubbleView_dark_text_color</item>-->
+        <!--<item name="bubbleBackgroundPressColor">@color/bubbleView_dark_press_background</item>-->
+    <!--</style>-->
 </resources>

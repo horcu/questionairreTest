@@ -10,6 +10,8 @@
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
         -->
+        <item name="android:colorPrimary">@color/holo_light_primary</item>
+        <item name="android:colorBackground">@color/background_holo_light</item>
     </style>
 
     <!-- Application theme. -->

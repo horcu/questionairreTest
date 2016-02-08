@@ -17,6 +17,8 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import cdflynn.android.library.crossview.CrossView;
+
 /**
  * Created by hacz on 10/14/2015.
  */
@@ -26,7 +28,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.BindingHolder>
 
     public static class BindingHolder extends RecyclerView.ViewHolder {
         public TextView userName;
-        public ImageView selected;
+        public CrossView selected;
         public TileView userImage;
 
         public BindingHolder(View v) {
@@ -39,13 +41,20 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.BindingHolder>
         this.ctx = context;
     }
 
+    private final View.OnClickListener mCrossViewClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            ((CrossView)v).toggle();
+        }
+    };
+
     @Override
     public BindingHolder onCreateViewHolder(ViewGroup parent, int type) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_item, parent, false);
         final BindingHolder holder = new BindingHolder(v);
 
         holder.userName = (TextView)v.findViewById(R.id.friend);
-        holder.selected = (ImageView)v.findViewById(R.id.selected);
+        holder.selected = (CrossView)v.findViewById(R.id.selected);
         holder.userImage = (TileView)v.findViewById(R.id.user_img);
 
         v.setOnClickListener(new View.OnClickListener() {
@@ -61,7 +70,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.BindingHolder>
                     v.setSelected(false);
                    // Snackbar.make(v,"un-selected", Snackbar.LENGTH_LONG ).show();
                     Drawable drawable = ctx.getDrawable(R.drawable.ic_navigation_check);
-                    holder.selected.setImageDrawable(drawable);
+                    holder.selected.cross();
 
                     if(list.contains(friendsname))
                       list.remove(friendsname);
@@ -71,7 +80,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.BindingHolder>
                     v.setSelected(true);
                    // Snackbar.make(v,"selected", Snackbar.LENGTH_LONG ).show();
                     Drawable drawable = ctx.getDrawable(R.drawable.ic_navigation_close);
-                    holder.selected.setImageDrawable(drawable);
+                    holder.selected.plus();
 
                     if(!list.contains(friendsname))
                         list.add(friendsname);

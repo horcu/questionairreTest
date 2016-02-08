@@ -123,7 +123,7 @@ public class GCMActivity extends AppCompatActivity implements AdapterView.OnItem
         mDrawerMenu = (ListView) findViewById(R.id.navigation_drawer_menu);
         mDrawerScrim = findViewById(R.id.navigation_drawer_scrim);
 
-         setSupportActionBar(toolbar);
+        // setSupportActionBar(toolbar);
          getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TypedArray colorPrimaryDark =

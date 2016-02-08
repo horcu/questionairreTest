@@ -153,9 +153,9 @@ public class TilePieceGenerator {
             for(int i =0; i < tilePieceMap.size(); i++)
             {
                 String key = (new ArrayList<>(tilePieceMap.keySet())).get(i);
-                int occurence = tilePieceMap.get(key);
+                int occurrence = tilePieceMap.get(key);
 
-                for (int x=0; x < occurence; x++)
+                for (int x=0; x < occurrence; x++)
                 {
                     int idx = r.nextInt(tempTileList.size());
                     Tile chosenTile = tempTileList.get(idx);
