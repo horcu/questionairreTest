@@ -146,10 +146,26 @@ public class TilePieceGenerator {
 
     public  ArrayList<TileView> GenerateTileIdentities(ArrayList<TileView> gridTiles){
         try {
-            Random r = new Random();
-            List<Tile> masterList = new ArrayList<>();
             ArrayList<Tile> tempTileList = (ArrayList<Tile>) tileList.clone();
 
+            //setup the grids first
+            for(int g=0; g < gridTiles.size(); g++)
+            {
+                TileView gtile = gridTiles.get(g);
+             gtile.setSpot(g);
+                gtile.setName(tileList.get(g).getName());
+                gtile.setMode("default");
+                gtile.setTile(tileList.get(g));
+                String[] neighbours = gtile.getTile().getNeighbours().split(",");
+                gtile.setNeighbours(neighbours);
+            }
+
+            Random r = new Random();
+            List<Tile> masterList = new ArrayList<>();
+
+
+            //populate the board with game pieces of different types
+            //piece types and their occurrences are defined in tilePieceMap
             for(int i =0; i < tilePieceMap.size(); i++)
             {
                 String key = (new ArrayList<>(tilePieceMap.keySet())).get(i);
@@ -170,15 +186,10 @@ public class TilePieceGenerator {
             for(int i =0; i < masterList.size(); i++)
             {
                 TileView tileHouse = gridTiles.get(i);
-                tileHouse.setSpot(i);
                 Tile masterListTile = masterList.get(i);
-                masterListTile.setId(String.valueOf(i));
-                masterListTile.setName(tileList.get(i).getName());
-                masterListTile.setNeighbours(tileList.get(i).getNeighbours());
-                masterListTile.setFinishLine(tileList.get(i).getFinishLine());
-                masterListTile.setPiece(tileList.get(i).getPiece());
-                masterListTile.setSpot(String.valueOf(i));
-
+                tileHouse.getTile().setName(masterListTile.getName());
+                tileHouse.getTile().setId(String.valueOf(i));
+                tileHouse.getTile().setPiece(masterListTile.getPiece());
                 int icon = getIconForPieceType(masterListTile.getPiece());
                 Picasso.with(context).load(icon).into(tileHouse);
             }

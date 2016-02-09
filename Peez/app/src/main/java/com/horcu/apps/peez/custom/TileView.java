@@ -23,6 +23,8 @@ public class TileView extends ImageView {
     private Tile tile;
     private int spot;
     private String mode = "" ;
+    private String name;
+    private String[] neighbours;
 
     public TileView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -158,5 +160,21 @@ public class TileView extends ImageView {
 
     public void setMode(String mode) {
         this.mode = mode;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String[] getNeighbours() {
+        return neighbours;
+    }
+
+    public void setNeighbours(String[] neighbours) {
+        this.neighbours = neighbours;
     }
 }

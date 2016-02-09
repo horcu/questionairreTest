@@ -51,9 +51,9 @@ public class TileHelper {
     }
 
     @NonNull
-    public static ArrayList<TileView> GetNeighbours(ArrayList<TileView> staticViews, TileView lView) {
-        String ns = lView.getTile().getNeighbours();
-        ArrayList<String> nArrayList = new ArrayList<>(Arrays.asList(ns.split(",")));
+    public  ArrayList<TileView> GetNeighbours(ArrayList<TileView> staticViews, TileView lView) {
+        String[] ns = lView.getNeighbours();
+        ArrayList<String> nArrayList = new ArrayList<>(Arrays.asList(ns));
         ArrayList<TileView> highlighted = new ArrayList<>();
 
         for (int i = 0; i < staticViews.size(); i++) {
@@ -61,14 +61,19 @@ public class TileHelper {
 
             for(int n =0; n < nArrayList.size(); n ++) {
 
-                String neighboursName = nArrayList.get(n);
-                String name = currentView.getTile().getName();
-                if (neighboursName.equals(name))
+                if (nArrayList.get(n).equals(currentView.getName()))
                     highlighted.add(currentView);
-
             }
         }
         return highlighted;
     }
 
+    /*This method will attempt to use the amount of squares in the grid to determine where
+    * the view is in the grid and therefore determine its neighbours*/
+    public static String[] getNeighbours(int g, int size) {
+
+        double rowCount = Math.sqrt(size);
+
+        return null;
+    }
 }

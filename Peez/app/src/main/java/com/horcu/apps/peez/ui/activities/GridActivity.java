@@ -23,8 +23,11 @@ import com.horcu.apps.peez.custom.TilePieceGenerator;
 import com.horcu.apps.peez.custom.TileView;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import br.com.zbra.androidlinq.Stream;
 
@@ -186,7 +189,7 @@ public class GridActivity extends AppCompatActivity implements View.OnClickListe
 
         Snackbar snack =   Snackbar.make(v, lView
                 .getTile()
-                .getName() +  " here are your neighbours " + ((TileView)v).getTile().getSpot(), Snackbar.LENGTH_LONG)
+                .getPiece() +  " here are your neighbours " + lView.getTile().getNeighbours(), Snackbar.LENGTH_LONG)
                 .setActionTextColor(Color.CYAN);
 
         View snackbarView = snack.getView();
@@ -194,8 +197,16 @@ public class GridActivity extends AppCompatActivity implements View.OnClickListe
                 snack.show();
 
         //highlight the neighbours
-        ArrayList<TileView> neighbours = TileHelper.GetNeighbours(gameboardViews, lView);
-        highlightNeighbours(neighbours);
+        List<String> neighbours = Arrays.asList(lView.getTile().getNeighbours());
+        ArrayList<TileView> vs = new ArrayList<>();
+
+        for(int i=0; i < gameboardViews.size(); i++)
+        {
+            String n = gameboardViews.get(i).getTile().getName();
+            if(neighbours.contains(n))
+                vs.add(i, gameboardViews.get(i));
+        }
+        highlightNeighbours(vs);
 
         return true;
     }
@@ -214,11 +225,17 @@ public class GridActivity extends AppCompatActivity implements View.OnClickListe
 
         for (int i = 0; i < highlighted.size(); i++) {
 
-            TileView currentView = highlighted.get(i);
-            currentView.setBackgroundColor(Color.YELLOW);
+            final TileView currentView = highlighted.get(i);
+            currentView.setBackgroundColor(Color.BLUE);
             //add some sort of icon here temporarily .. then..
-            YoYo.with(Techniques.Pulse).duration(1000).playOn(currentView);
-            currentView.setBackgroundColor(Color.WHITE);
+            YoYo.with(Techniques.Pulse).duration(1500).playOn(currentView);
+
+//            currentView.postDelayed(new Runnable() {
+//                @Override public void run() {
+//                    currentView.setBackgroundColor(Color.WHITE);
+//                }
+//            }, 1200);
+
         }
     }
 
