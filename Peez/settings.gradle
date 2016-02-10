@@ -3,3 +3,4 @@ include':BubbleTextView'
 include ':backend'
 include ':common'
 
+include ':Chat'
