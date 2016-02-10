@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import br.com.zbra.androidlinq.Stream;
+
 
 public class GridActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener {
 

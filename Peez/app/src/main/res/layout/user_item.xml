@@ -30,15 +30,15 @@
             android:layout_height="match_parent"
             android:layout_weight="100" />
 
-    <cdflynn.android.library.crossview.CrossView
-        android:id="@+id/selected"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:padding="14dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_marginRight="10dp"
-        android:background="@android:color/darker_gray"
-        app:lineColor="@android:color/black"/>
+    <!--<cdflynn.android.library.crossview.CrossView-->
+        <!--android:id="@+id/selected"-->
+        <!--android:layout_width="35dp"-->
+        <!--android:layout_height="35dp"-->
+        <!--android:padding="14dp"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:gravity="center"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:background="@android:color/darker_gray"-->
+        <!--app:lineColor="@android:color/black"/>-->
     </LinearLayout>
 

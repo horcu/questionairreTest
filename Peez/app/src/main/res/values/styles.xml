@@ -52,14 +52,6 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="murple" parent="@style/Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/primary_material_light_1</item>
-        <item name="colorPrimaryDark">@color/primary_material_light_1</item>
-        <item name="android:navigationBarColor">@color/black</item>
-        <item name="android:windowBackground">@drawable/p2</item>
-
-    </style>
-
     <!-- Dialog Activity with no Title -->
     <style name="ThemeOverlay.MyDialogActivity" parent="Theme.AppCompat.Light.Dialog">
         <item name="windowActionBar">false</item>
@@ -83,13 +75,6 @@
 
     <style name="Theme.AppCompat.Light.Translucent.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="HashtagView">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingBottom">10dp</item>
-        <item name="android:paddingTop">10dp</item>
-        <item name="tagTextSize">@dimen/regular_text</item>
-    </style>
 
     <style name="app_default.NoActionBar">
         <item name="windowActionBar">false</item>

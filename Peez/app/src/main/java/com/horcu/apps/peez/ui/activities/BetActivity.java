@@ -30,7 +30,6 @@ import com.codetroopers.betterpickers.numberpicker.NumberPickerBuilder;
 import com.codetroopers.betterpickers.numberpicker.NumberPickerDialogFragment;
 import com.daimajia.androidanimations.library.Techniques;
 import com.google.api.client.util.DateTime;
-import com.greenfrvr.hashtagview.HashtagView;
 import com.greenfrvr.rubberloader.RubberLoaderView;
 import com.horcu.apps.common.utilities.consts;
 import com.horcu.apps.peez.R;
@@ -67,7 +66,7 @@ public class BetActivity extends AppCompatActivity
         implements NumberPickerDialogFragment.NumberPickerDialogHandler
         , AdapterView.OnItemSelectedListener
         , AdapterView.OnItemClickListener
-        , View.OnClickListener, HashtagView.TagsClickListener {
+        , View.OnClickListener {
 
     List<Bet> Bets = null;
 
@@ -676,13 +675,5 @@ public class BetActivity extends AppCompatActivity
             }
         }
     }
-
-    //this is for the hashtags
-    @Override
-    public void onItemClicked(Object item) {
-        Snackbar.make(addnewLayout, "Tag clicked and should go to edit if you parked it or if you are creating a new only", Snackbar.LENGTH_LONG).show();
-    }
-
-
 
 }
