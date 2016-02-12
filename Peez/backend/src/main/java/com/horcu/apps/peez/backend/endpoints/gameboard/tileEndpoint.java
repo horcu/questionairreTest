@@ -5,10 +5,12 @@ import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.response.CollectionResponse;
 import com.google.appengine.api.datastore.Cursor;
+
 import com.google.appengine.api.datastore.QueryResultIterator;
 import com.googlecode.objectify.cmd.Query;
-import com.horcu.apps.peez.backend.models.gameboard.tile;
-import com.horcu.apps.peez.backend.utilities.consts;
+import com.horcu.apps.peez.common.models.gameboard.Tile;
+import com.horcu.apps.peez.common.utilities.consts;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +49,7 @@ public class tileEndpoint {
      * @return The <code>tile</code> associated with <code>id</code>.
      */
     @ApiMethod(name = "gettile")
-    public tile gettile(@Named("id") Long id) {
+    public Tile gettile(@Named("id") Long id) {
         // TODO: Implement this function
         logger.info("Calling gettile method");
         return null;
@@ -60,7 +62,7 @@ public class tileEndpoint {
      * @return The object to be added.
      */
     @ApiMethod(name = "inserttile")
-    public tile inserttile(tile tile) {
+    public Tile inserttile(Tile tile) {
         // TODO: Implement this function
         logger.info("Calling inserttile method");
         return tile;
@@ -77,17 +79,17 @@ public class tileEndpoint {
             name = "list",
             path = "tile",
             httpMethod = ApiMethod.HttpMethod.GET)
-    public CollectionResponse<tile> list(@Nullable @Named("cursor") String cursor, @Nullable @Named("limit") Integer limit) {
+    public CollectionResponse<Tile> list(@Nullable @Named("cursor") String cursor, @Nullable @Named("limit") Integer limit) {
         limit = limit == null ? DEFAULT_LIST_LIMIT : limit;
-        Query<tile> query = ofy().load().type(tile.class).limit(limit);
+        Query<Tile> query = ofy().load().type(Tile.class).limit(limit);
         if (cursor != null) {
             query = query.startAt(Cursor.fromWebSafeString(cursor));
         }
-        QueryResultIterator<tile> queryIterator = query.iterator();
-        List<tile> userList = new ArrayList<tile>(limit);
+        QueryResultIterator<Tile> queryIterator = query.iterator();
+        List<Tile> userList = new ArrayList<Tile>(limit);
         while (queryIterator.hasNext()) {
             userList.add(queryIterator.next());
         }
-        return CollectionResponse.<tile>builder().setItems(userList).setNextPageToken(queryIterator.getCursor().toWebSafeString()).build();
+        return CollectionResponse.<Tile>builder().setItems(userList).setNextPageToken(queryIterator.getCursor().toWebSafeString()).build();
     }
 }

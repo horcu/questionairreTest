@@ -30,13 +30,13 @@ import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.horcu.apps.common.utilities.consts;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.userApi.UserApi;
 import com.horcu.apps.peez.backend.models.userApi.model.User;
 import com.horcu.apps.peez.backend.models.userSettingsApi.UserSettingsApi;
 import com.horcu.apps.peez.backend.models.userSettingsApi.model.UserSettings;
 import com.horcu.apps.peez.backend.registration.Registration;
+import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.custom.Api;
 
 import java.io.IOException;

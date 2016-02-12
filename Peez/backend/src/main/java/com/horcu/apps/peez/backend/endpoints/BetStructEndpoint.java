@@ -8,8 +8,10 @@ import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.QueryResultIterator;
 import com.googlecode.objectify.ObjectifyService;
+
 import com.googlecode.objectify.cmd.Query;
-import com.horcu.apps.peez.backend.models.misc.BetStruct;
+import com.horcu.apps.peez.common.models.misc.BetStruct;
+import com.horcu.apps.peez.common.utilities.consts;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,9 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
         name = "betStructApi",
         version = "v1",
         resource = "betStruct",
+        clientIds = {consts.WEB_CLIENT_IDS,
+                consts.ANDROID_CLIENT_IDS},
+        audiences = {consts.WEB_CLIENT_IDS},
         namespace = @ApiNamespace(
                 ownerDomain = "misc.models.backend.peez.apps.horcu.com",
                 ownerName = "misc.models.backend.peez.apps.horcu.com",

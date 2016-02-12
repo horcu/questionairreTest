@@ -15,6 +15,7 @@ import android.widget.ViewSwitcher;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.horcu.apps.peez.R;
+import com.horcu.apps.peez.common.models.gameboard.Tile;
 import com.horcu.apps.peez.custom.AutoFitGridLayout;
 import com.horcu.apps.peez.custom.OpponentView;
 import com.horcu.apps.peez.custom.PlayerView;
@@ -67,9 +68,12 @@ public class GridActivity extends AppCompatActivity implements View.OnClickListe
         opponentSection = (AutoFitGridLayout)findViewById(R.id.gameboard_grid_opponent);
         gameBoard = (AutoFitGridLayout)findViewById(R.id.gameboard_grid);
 
+        //TODO - when this class is shown that means that the server sent a request to
+        //TODO - start the game
+        //TODO - check the intent for the game data aand pass it in as the list of tiles in the BuildGameBoardAsync method below
         GBObject gbo = new GBObject(opponentSection,gameBoard, playerSection, this);
         SetEvents(gbo);
-        BuildGameBoardAsync(gbo);
+        BuildGameBoardAsync(gbo, new ArrayList<Tile>());
 
         preGboard = (RelativeLayout)findViewById(R.id.pre_gameboard);
         preGboard.postDelayed(new Runnable() {
@@ -267,7 +271,7 @@ public class GridActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void BuildGameBoardAsync(final GBObject obj) {
+    private void BuildGameBoardAsync(final GBObject obj, final ArrayList<Tile> tiles) {
 
         new AsyncTask<Void, Void, Boolean>() {
             @Override
@@ -284,7 +288,7 @@ public class GridActivity extends AppCompatActivity implements View.OnClickListe
                 }
                     //build up the list
                   new TilePieceGenerator(obj.context)
-                          .GenerateTileIdentities(gameboardViews);
+                          .GenerateTileIdentities(gameboardViews, tiles);
 
                 } catch (Exception e) {
                     e.printStackTrace();

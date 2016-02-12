@@ -23,7 +23,7 @@ import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 
-import com.horcu.apps.common.utilities.consts;
+import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.model.app.DeviceGroup;
 import com.horcu.apps.peez.model.app.Sender;
 import com.horcu.apps.peez.model.app.SenderCollection;

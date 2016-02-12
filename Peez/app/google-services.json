@@ -8,10 +8,10 @@
     {
       "client_info": {
         "mobilesdk_app_id": "1:932165043385:android:99f8ab11c5035b0f",
-        "client_id": "android:com.horcu.apps.ballrz",
+        "client_id": "android:com.horcu.apps.peez",
         "client_type": 1,
         "android_client_info": {
-          "package_name": "com.horcu.apps.ballrz"
+          "package_name": "com.horcu.apps.peez"
         }
       },
       "oauth_client": [
@@ -19,7 +19,7 @@
           "client_id": "932165043385-li8t1n391drp1gl3joocrekj7apvbmq8.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.horcu.apps.ballrz",
+            "package_name": "com.horcu.apps.peez",
             "certificate_hash": "5126282f0d9ef8674ba59bbc1c8df35bc1297d0d"
           }
         }

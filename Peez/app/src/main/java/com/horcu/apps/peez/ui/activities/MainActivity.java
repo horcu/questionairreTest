@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements testItemFragment.
             Intent intent = new Intent(this, InviteActivity.class);
             startActivity(intent);
         } else if (id == R.id.action_msg) {
-            Intent intent = new Intent(this, GCMActivity.class);
+            Intent intent = new Intent(this, ChatActivity.class);
             startActivity(intent);
         }
 

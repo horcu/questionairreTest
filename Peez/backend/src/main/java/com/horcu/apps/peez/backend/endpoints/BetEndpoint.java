@@ -6,11 +6,13 @@ import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.response.CollectionResponse;
 import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.datastore.Cursor;
+
 import com.google.appengine.api.datastore.QueryResultIterator;
 import com.googlecode.objectify.ObjectifyService;
+
 import com.googlecode.objectify.cmd.Query;
-import com.horcu.apps.peez.backend.models.Bet;
-import com.horcu.apps.peez.backend.utilities.consts;
+import com.horcu.apps.peez.common.models.Bet;
+import com.horcu.apps.peez.common.utilities.consts;
 
 import java.util.ArrayList;
 import java.util.List;

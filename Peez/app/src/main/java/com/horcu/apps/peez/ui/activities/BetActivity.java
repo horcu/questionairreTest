@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
@@ -31,7 +32,7 @@ import com.codetroopers.betterpickers.numberpicker.NumberPickerDialogFragment;
 import com.daimajia.androidanimations.library.Techniques;
 import com.google.api.client.util.DateTime;
 import com.greenfrvr.rubberloader.RubberLoaderView;
-import com.horcu.apps.common.utilities.consts;
+
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.betApi.BetApi;
 import com.horcu.apps.peez.backend.models.betApi.model.Bet;
@@ -42,6 +43,7 @@ import com.horcu.apps.peez.backend.models.userApi.UserApi;
 import com.horcu.apps.peez.backend.models.userApi.model.CollectionResponseUser;
 import com.horcu.apps.peez.backend.models.userApi.model.User;
 import com.horcu.apps.peez.backend.models.userSettingsApi.UserSettingsApi;
+import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.custom.Api;
 import com.horcu.apps.peez.custom.TileView;
 import com.horcu.apps.peez.custom.Money;
@@ -222,7 +224,9 @@ public class BetActivity extends AppCompatActivity
         peezbar = (LinearLayout) findViewById(R.id.peezbar);
 
         playerTeamImage = (ImageView) findViewById(R.id.chosen_player_team);
-        playerTeamImage.setElevation(2f);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            playerTeamImage.setElevation(2f);
+        }
 
         friend_1  = (TileView)findViewById(R.id.friend_1);
         friend_2  = (TileView)findViewById(R.id.friend_2);

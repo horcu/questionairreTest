@@ -60,12 +60,13 @@ import com.horcu.apps.peez.ui.MainMenu;
 import com.horcu.apps.peez.ui.addressbook.SelectActivity;
 import com.horcu.apps.peez.ui.fragments.AbstractFragment;
 
+
 import java.util.List;
 
 /**
  * Tha app's main activity
  */
-public class GCMActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class GCMActivity extends Messaging implements AdapterView.OnItemClickListener {
     static final String PREF_LAST_SCREEN_ID = "selected_screen_id";
     static final String PREF_OPEN_DRAWER_AT_STARTUP = "open_drawer_at_startup";
 

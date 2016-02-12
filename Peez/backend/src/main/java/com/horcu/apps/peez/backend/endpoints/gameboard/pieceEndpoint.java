@@ -7,8 +7,8 @@ import com.google.api.server.spi.response.CollectionResponse;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.QueryResultIterator;
 import com.googlecode.objectify.cmd.Query;
-import com.horcu.apps.peez.backend.models.gameboard.piece;
-import com.horcu.apps.peez.backend.utilities.consts;
+import com.horcu.apps.peez.common.models.gameboard.Piece;
+import com.horcu.apps.peez.common.utilities.consts;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +47,7 @@ public class pieceEndpoint {
      * @return The <code>piece</code> associated with <code>id</code>.
      */
     @ApiMethod(name = "getpiece")
-    public piece getpiece(@Named("id") Long id) {
+    public Piece getpiece(@Named("id") Long id) {
         // TODO: Implement this function
         logger.info("Calling getpiece method");
         return null;
@@ -60,7 +60,7 @@ public class pieceEndpoint {
      * @return The object to be added.
      */
     @ApiMethod(name = "insertpiece")
-    public piece insertpiece(piece piece) {
+    public Piece insertpiece(Piece piece) {
         // TODO: Implement this function
         logger.info("Calling insertpiece method");
         return piece;
@@ -77,17 +77,17 @@ public class pieceEndpoint {
             name = "list",
             path = "tile",
             httpMethod = ApiMethod.HttpMethod.GET)
-    public CollectionResponse<piece> list(@Nullable @Named("cursor") String cursor, @Nullable @Named("limit") Integer limit) {
+    public CollectionResponse<Piece> list(@Nullable @Named("cursor") String cursor, @Nullable @Named("limit") Integer limit) {
         limit = limit == null ? DEFAULT_LIST_LIMIT : limit;
-        Query<piece> query = ofy().load().type(piece.class).limit(limit);
+        Query<Piece> query = ofy().load().type(Piece.class).limit(limit);
         if (cursor != null) {
             query = query.startAt(Cursor.fromWebSafeString(cursor));
         }
-        QueryResultIterator<piece> queryIterator = query.iterator();
-        List<piece> userList = new ArrayList<piece>(limit);
+        QueryResultIterator<Piece> queryIterator = query.iterator();
+        List<Piece> userList = new ArrayList<Piece>(limit);
         while (queryIterator.hasNext()) {
             userList.add(queryIterator.next());
         }
-        return CollectionResponse.<piece>builder().setItems(userList).setNextPageToken(queryIterator.getCursor().toWebSafeString()).build();
+        return CollectionResponse.<Piece>builder().setItems(userList).setNextPageToken(queryIterator.getCursor().toWebSafeString()).build();
     }
 }

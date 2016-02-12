@@ -21,9 +21,7 @@
                 com.horcu.apps.peez.backend.endpoints.schedule.GameEndpoint,
                 com.horcu.apps.peez.backend.endpoints.UserSettingsEndpoint,
                 com.horcu.apps.peez.backend.endpoints.BetStructEndpoint,
-                com.horcu.apps.peez.backend.endpoints.gameboard.pieceEndpoint,
-                com.horcu.apps.peez.backend.endpoints.gameboard.tileEndpoint
-            </param-value>
+                com.horcu.apps.peez.backend.endpoints.gameboard.InvitationEndpoint</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>

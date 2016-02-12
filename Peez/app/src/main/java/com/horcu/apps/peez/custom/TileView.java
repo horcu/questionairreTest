@@ -11,7 +11,7 @@ import android.widget.ImageView;
 
 
 import com.horcu.apps.peez.R;
-import com.horcu.apps.peez.backend.models.gameboard.tileApi.model.Tile;
+import com.horcu.apps.peez.common.models.gameboard.Tile;
 
 public class TileView extends ImageView {
 

@@ -1,7 +1,7 @@
 package com.horcu.apps.peez.custom;
 
 import com.google.gson.Gson;
-import com.horcu.apps.common.utilities.consts;
+import com.horcu.apps.peez.common.utilities.consts;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -27,8 +27,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.horcu.apps.common.utilities.consts;
 import com.horcu.apps.peez.R;
+import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.model.app.Sender;
 
 /**

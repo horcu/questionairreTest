@@ -24,8 +24,7 @@
         android:label="@string/app_name"
         android:logo="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/app_default"
-       >
+        android:theme="@style/app_default" >
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -84,14 +83,15 @@
         <service
             android:name=".registration.RegistrationIntentService"
             android:exported="false" />
+        <service android:name=".chat.services.IMService" />
 
         <activity
             android:name=".ui.activities.MainActivity"
             android:logo="@mipmap/ic_launcher" />
         <activity
             android:name=".ui.activities.TokenActivity"
-            android:parentActivityName=".ui.activities.GCMActivity"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:parentActivityName=".ui.activities.GCMActivity" />
         <activity
             android:name=".ui.activities.GroupActivity"
             android:label="@string/app_name" />
@@ -121,7 +121,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             </intent-filter>
         </activity>
         <activity
@@ -153,8 +153,7 @@
         <activity
             android:name=".ui.activities.FeedActivity"
             android:label="@string/title_activity_feed"
-            android:parentActivityName=".ui.activities.PrelimActivity"
-           >
+            android:parentActivityName=".ui.activities.PrelimActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.horcu.apps.peez.ui.activities.PrelimActivity" />
@@ -162,8 +161,60 @@
         <activity android:name=".ui.activities.UsersActivity" />
         <activity
             android:name=".ui.activities.GridActivity"
-            android:label="@string/title_activity_grid"
-            />
+            android:label="@string/title_activity_grid" />
+        <activity
+            android:name=".ui.activities.ChatActivity"
+            android:label="@string/title_activity_chat"
+            android:theme="@style/app_default.NoActionBar" >
+        </activity>
+        <activity android:name=".ui.activities.FriendList" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.NORMAL" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.activities.Login" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.activities.Messaging" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.NORMAL" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.activities.SignUp" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" >
+                </action>
+
+                <category android:name="android.intent.category.NORMAL" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.activities.AddFriend" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" >
+                </action>
+
+                <category android:name="android.intent.category.NORMAL" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.activities.UnApprovedFriendList" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.NORMAL" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -24,8 +24,8 @@ import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.horcu.apps.common.utilities.consts;
 import com.horcu.apps.peez.BuildConfig;
+import com.horcu.apps.peez.common.utilities.consts;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -76,7 +76,7 @@ public class LoggingService extends IntentService {
         String msg = intent.getStringExtra(EXTRA_LOG_MESSAGE);
 
         // Make the log available through adb logcat
-        Log.println(priority, LOG_TAG, msg);
+        //Log.println(priority, LOG_TAG, msg);
 
         // Add the timestamp to the message
         String timestamp = dateFormat.format(new Date());

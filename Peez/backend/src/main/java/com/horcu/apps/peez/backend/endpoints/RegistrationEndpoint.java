@@ -10,9 +10,8 @@ import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.response.CollectionResponse;
-import com.googlecode.objectify.Key;
-import com.horcu.apps.peez.backend.models.RegistrationRecord;
-import com.horcu.apps.peez.backend.utilities.consts;
+import com.horcu.apps.peez.common.models.RegistrationRecord;
+import com.horcu.apps.peez.common.utilities.consts;
 
 import java.util.List;
 import java.util.logging.Logger;

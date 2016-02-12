@@ -5,32 +5,24 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageView;
-
-import com.daimajia.androidanimations.library.Techniques;
-import com.horcu.apps.common.utilities.consts;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.adapters.UserAdapter;
 import com.horcu.apps.peez.backend.models.userApi.UserApi;
 import com.horcu.apps.peez.backend.models.userApi.model.CollectionResponseUser;
 import com.horcu.apps.peez.backend.models.userApi.model.User;
+import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.custom.Api;
 import com.horcu.apps.peez.custom.ViewController;
-import com.horcu.apps.peez.listener.RecyclerItemClickListener;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 public class UsersActivity extends AppCompatActivity implements
             View.OnClickListener{
