@@ -148,8 +148,19 @@ public class FriendList extends ListActivity
 	private ServiceConnection mConnection = new ServiceConnection() {
 		public void onServiceConnected(ComponentName className, IBinder service) {          
 			imService = ((IMService.IMBinder)service).getService();      
-			
+
+			//TODO - testing remove after
+
 			FriendInfo[] friends = FriendController.getFriendsInfo(); //imService.getLastRawFriendList();
+
+			if(friends == null)
+			{
+				friends = new FriendInfo[1];
+				FriendInfo fi1 = friends[0];
+				fi1.userKey = "12345678";
+				fi1.userName = "timbub";
+			}
+
 			if (friends != null) {    			
 				FriendList.this.updateData(friends, null); // parseFriendInfo(friendList);
 			}    

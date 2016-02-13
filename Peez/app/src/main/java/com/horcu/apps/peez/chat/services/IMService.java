@@ -190,17 +190,19 @@ public class IMService extends Service implements IAppManager, IUpdateData {
 	}
 
 	public boolean sendMessage(String  username, String message) {
-		FriendInfo friendInfo = FriendController.getFriendInfo(username);
-		String IP = friendInfo.ip;
-		//IP = "10.0.2.2";
-		int port = Integer.parseInt(friendInfo.port);
-		
-		String msg = FriendInfo.USERNAME +"=" + URLEncoder.encode(this.username) +
-		 "&" + FriendInfo.USER_KEY + "=" + URLEncoder.encode(userKey) +
-		 "&" + FriendInfo.MESSAGE + "=" + URLEncoder.encode(message) +
-		 "&";
-		
-		return socketOperator.sendMessage(msg, IP,  port);
+//		FriendInfo friendInfo = FriendController.getFriendInfo(username);
+//
+//		String IP = friendInfo.ip;
+//		IP = "10.0.2.2";
+//		int port = Integer.parseInt(friendInfo.port);
+//
+//		String msg = FriendInfo.USERNAME +"=" + URLEncoder.encode(this.username) +
+//		 "&" + FriendInfo.USER_KEY + "=" + URLEncoder.encode(userKey) +
+//		 "&" + FriendInfo.MESSAGE + "=" + URLEncoder.encode(message) +
+//		 "&";
+//
+//		return socketOperator.sendMessage(msg, IP,  port);
+		return true;
 	}
 
 	
