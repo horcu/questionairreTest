@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/BubbleTextView/BubbleTextView.iml" filepath="$PROJECT_DIR$/BubbleTextView/BubbleTextView.iml" />
       <module fileurl="file://$PROJECT_DIR$/Peez.iml" filepath="$PROJECT_DIR$/Peez.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/backend/backend.iml" filepath="$PROJECT_DIR$/backend/backend.iml" />
-      <module fileurl="file://$PROJECT_DIR$/backend_gameboard/backend_gameboard.iml" filepath="$PROJECT_DIR$/backend_gameboard/backend_gameboard.iml" />
-      <module fileurl="file://$PROJECT_DIR$/common/common2.iml" filepath="$PROJECT_DIR$/common/common2.iml" />
     </modules>
   </component>
 </project>
