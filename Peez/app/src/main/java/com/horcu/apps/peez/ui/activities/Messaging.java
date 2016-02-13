@@ -11,29 +11,37 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
+import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.dpt.bubbletextview.widget.LeBubbleTextView;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.chat.interfaces.IAppManager;
 import com.horcu.apps.peez.chat.services.IMService;
 import com.horcu.apps.peez.chat.tools.FriendController;
 import com.horcu.apps.peez.chat.types.FriendInfo;
 
+import java.text.AttributedCharacterIterator;
+
 public class Messaging extends AppCompatActivity {
 
 	private static final int MESSAGE_CANNOT_BE_SENT = 0;
 	private EditText messageText;
-	private EditText messageHistoryText;
+	private LinearLayout messageHistoryLayout;
 	private Button sendMessageButton;
 	private IAppManager imService;
 	private FriendInfo friend = new FriendInfo();
@@ -58,7 +66,7 @@ public class Messaging extends AppCompatActivity {
 		
 		setContentView(R.layout.messaging_screen); //messaging_screen);
 				
-		messageHistoryText = (EditText) findViewById(R.id.messageHistory);
+		messageHistoryLayout = (LinearLayout) findViewById(R.id.messageHistory);
 		
 		messageText = (EditText) findViewById(R.id.message);
 		
@@ -66,23 +74,27 @@ public class Messaging extends AppCompatActivity {
 		
 		sendMessageButton = (Button) findViewById(R.id.sendMessageButton);
 		
-		Bundle extras = this.getIntent().getExtras();
+//		Bundle extras = this.getIntent().getExtras();
+//
+//		friend.userName = extras.getString(FriendInfo.USERNAME);
+//		friend.ip = extras.getString(FriendInfo.IP);
+//		friend.port = extras.getString(FriendInfo.PORT);
+//		String msg = extras.getString(FriendInfo.MESSAGE);
 		
-		friend.userName = extras.getString(FriendInfo.USERNAME);
-		friend.ip = extras.getString(FriendInfo.IP);
-		friend.port = extras.getString(FriendInfo.PORT);
-		String msg = extras.getString(FriendInfo.MESSAGE);
-		
-		
-		setTitle("Messaging with " + friend.userName);
+		friend.userName = "Remy";
+		friend.userKey = "qweaasqwq312";
+		friend.port = "12345";
+		String msg = "Hey daddy dute. can you take me to school?";
+
+		setTitle(friend.userName);
 	
 		
-	//	EditText friendUserName = (EditText) findViewById(R.id.friendUserName);
-	//	friendUserName.setText(friend.userName);
+//		EditText friendUserName = (EditText) findViewById(R.id.friendUserName);
+//		friendUserName.setText(friend.userName);
 		
 		if (msg != null) 
 		{
-			this.appendToMessageHistory(friend.userName , msg);
+			this.appendToMessageHistory(friend.userName , msg, false);
 			((NotificationManager)getSystemService(NOTIFICATION_SERVICE)).cancel((friend.userName+msg).hashCode());
 		}
 		
@@ -93,7 +105,7 @@ public class Messaging extends AppCompatActivity {
 				message = messageText.getText();
 				if (message.length()>0) 
 				{		
-					appendToMessageHistory(imService.getUsername(), message.toString());
+					appendToMessageHistory(imService.getUsername(), message.toString(), true);
 								
 					messageText.setText("");
 					Thread thread = new Thread(){					
@@ -196,7 +208,7 @@ public class Messaging extends AppCompatActivity {
 			if (username != null && message != null)
 			{
 				if (friend.userName.equals(username)) {
-					appendToMessageHistory(username, message);					
+					appendToMessageHistory(username, message, false);
 				}
 				else {
 					if (message.length() > 15) {
@@ -212,10 +224,29 @@ public class Messaging extends AppCompatActivity {
 	};
 	private MessageReceiver messageReceiver = new MessageReceiver();
 	
-	private void appendToMessageHistory(String username, String message) {
+	private void appendToMessageHistory(String username, String message, boolean me) {
 		if (username != null && message != null) {
-			messageHistoryText.append(username + ":\n");								
-			messageHistoryText.append(message + "\n");	
+//			messageHistoryLayout.append(username + ":\n");
+//			messageHistoryLayout.append(message + "\n");
+
+
+			LeBubbleTextView btv = new LeBubbleTextView(this);
+			btv.getContentTextView().setText(username + ":\n" + message);
+
+			if(!me) {
+				btv.getContentTextView().setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+				btv.setBackgroundColor(Color.WHITE);
+				btv.setGravity(Gravity.RIGHT);
+			}
+			else
+			{
+				btv.getContentTextView().setTextColor(Color.WHITE);
+				btv.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+				btv.setGravity(Gravity.LEFT);
+			}
+
+			messageHistoryLayout.addView(btv);
+
 		}
 	}
 	

@@ -43,22 +43,22 @@ public class AddFriend extends Activity {
 		addFriendButton.setOnClickListener(new OnClickListener(){
 
 			public void onClick(View arg0) {
-		//				if ( friendUserNameText.length() > 0 )
-//				{
-//					Thread thread = new Thread(){
-//							@Override
-//							public void run() {
-//								imService.addNewFriendRequest(friendUserNameText.getText().toString());
-//							}
-//						};
-//					thread.start();
-//					Toast.makeText(AddFriend.this, R.string.request_sent, Toast.LENGTH_SHORT)
-//					       .show();
-//					finish();
-//				}
-//				else{
-//					showDialog(TYPE_FRIEND_USERNAME);
-//				}
+						if ( friendUserNameText.length() > 0 )
+				{
+					Thread thread = new Thread(){
+							@Override
+							public void run() {
+								imService.addNewFriendRequest(friendUserNameText.getText().toString());
+							}
+						};
+					thread.start();
+					Toast.makeText(AddFriend.this, R.string.request_sent, Toast.LENGTH_SHORT)
+					       .show();
+					finish();
+				}
+				else{
+					showDialog(TYPE_FRIEND_USERNAME);
+				}
 
 		//invitation =
 			}

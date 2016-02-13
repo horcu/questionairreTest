@@ -1,0 +1,409 @@
+{
+ "kind": "discovery#rpcDescription",
+ "etag": "\"u_zXkMELIlX4ktyNbM2XKD4vK8E/TWSi8RgAZbhy3in11rR_6fUVg34\"",
+ "discoveryVersion": "v1",
+ "id": "betApi:v1",
+ "name": "betApi",
+ "version": "v1",
+ "description": "This is an API",
+ "ownerDomain": "models.backend.peez.apps.horcu.com",
+ "ownerName": "models.backend.peez.apps.horcu.com",
+ "icons": {
+  "x16": "http://www.google.com/images/icons/product/search-16.gif",
+  "x32": "http://www.google.com/images/icons/product/search-32.gif"
+ },
+ "protocol": "rpc",
+ "rootUrl": "https://ballrz-7d916.appspot.com/_ah/api/",
+ "rpcUrl": "https://ballrz-7d916.appspot.com/_ah/api/rpc",
+ "rpcPath": "/_ah/api/rpc",
+ "parameters": {
+  "alt": {
+   "type": "string",
+   "description": "Data format for the response.",
+   "default": "json",
+   "enum": [
+    "json"
+   ],
+   "enumDescriptions": [
+    "Responses with Content-Type of application/json"
+   ],
+   "location": "query"
+  },
+  "fields": {
+   "type": "string",
+   "description": "Selector specifying which fields to include in a partial response.",
+   "location": "query"
+  },
+  "key": {
+   "type": "string",
+   "description": "API key. Your API key identifies your project and provides you with API access, quota, and reports. Required unless you provide an OAuth 2.0 token.",
+   "location": "query"
+  },
+  "oauth_token": {
+   "type": "string",
+   "description": "OAuth 2.0 token for the current user.",
+   "location": "query"
+  },
+  "prettyPrint": {
+   "type": "boolean",
+   "description": "Returns response with indentations and line breaks.",
+   "default": "true",
+   "location": "query"
+  },
+  "quotaUser": {
+   "type": "string",
+   "description": "Available to use for quota purposes for server-side applications. Can be any arbitrary string assigned to a user, but should not exceed 40 characters. Overrides userIp if both are provided.",
+   "location": "query"
+  },
+  "userIp": {
+   "type": "string",
+   "description": "IP address of the site where the request originates. Use this if you want to enforce per-user limits.",
+   "location": "query"
+  }
+ },
+ "auth": {
+  "oauth2": {
+   "scopes": {
+    "https://www.googleapis.com/auth/userinfo.email": {
+     "description": "View your email address"
+    }
+   }
+  }
+ },
+ "schemas": {
+  "Bet": {
+   "id": "Bet",
+   "type": "object",
+   "properties": {
+    "acceptersRegIds": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "bet": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "betAcceptedAt": {
+     "type": "string",
+     "format": "date-time"
+    },
+    "betDeclinedAt": {
+     "type": "string",
+     "format": "date-time"
+    },
+    "betId": {
+     "type": "string"
+    },
+    "betMadeAt": {
+     "type": "string",
+     "format": "date-time"
+    },
+    "betterRegId": {
+     "type": "string"
+    },
+    "declinersRegIds": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "gameId": {
+     "type": "string"
+    },
+    "player": {
+     "$ref": "NFLPlayer"
+    },
+    "team": {
+     "$ref": "Team"
+    },
+    "wager": {
+     "type": "number",
+     "format": "double"
+    }
+   }
+  },
+  "CollectionResponse_Bet": {
+   "id": "CollectionResponse_Bet",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "Bet"
+     }
+    },
+    "nextPageToken": {
+     "type": "string"
+    }
+   }
+  },
+  "NFLPlayer": {
+   "id": "NFLPlayer",
+   "type": "object",
+   "properties": {
+    "img_url": {
+     "type": "string"
+    },
+    "name": {
+     "type": "string"
+    },
+    "number": {
+     "type": "integer",
+     "format": "int32"
+    },
+    "position": {
+     "type": "string"
+    },
+    "school": {
+     "type": "string"
+    },
+    "team": {
+     "$ref": "Team"
+    },
+    "tenure": {
+     "type": "integer",
+     "format": "int32"
+    }
+   }
+  },
+  "Team": {
+   "id": "Team",
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string"
+    },
+    "market": {
+     "type": "string"
+    },
+    "name": {
+     "type": "string"
+    },
+    "teamColors": {
+     "$ref": "TeamColors"
+    },
+    "venue": {
+     "$ref": "Venue"
+    }
+   }
+  },
+  "TeamColors": {
+   "id": "TeamColors",
+   "type": "object",
+   "properties": {
+    "primaryColor": {
+     "type": "string"
+    },
+    "secondaryColor": {
+     "type": "string"
+    },
+    "tertiaryColor": {
+     "type": "string"
+    }
+   }
+  },
+  "Venue": {
+   "id": "Venue",
+   "type": "object",
+   "properties": {
+    "address": {
+     "type": "string"
+    },
+    "capacity": {
+     "type": "string",
+     "format": "int64"
+    },
+    "city": {
+     "type": "string"
+    },
+    "country": {
+     "type": "string"
+    },
+    "id": {
+     "type": "string"
+    },
+    "name": {
+     "type": "string"
+    },
+    "state": {
+     "type": "string"
+    },
+    "surface": {
+     "type": "string"
+    },
+    "type": {
+     "type": "string"
+    },
+    "zip": {
+     "type": "string"
+    }
+   }
+  }
+ },
+ "methods": {
+  "betApi.get": {
+   "id": "betApi.get",
+   "allowGet": true,
+   "parameters": {
+    "BetId": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "BetId"
+   ],
+   "returns": {
+    "$ref": "Bet"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "betApi.insert": {
+   "id": "betApi.insert",
+   "parameters": {
+    "resource": {
+     "$ref": "Bet"
+    }
+   },
+   "parameterOrder": [
+    "resource"
+   ],
+   "returns": {
+    "$ref": "Bet"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "betApi.list": {
+   "id": "betApi.list",
+   "allowGet": true,
+   "parameters": {
+    "cursor": {
+     "type": "string"
+    },
+    "limit": {
+     "type": "integer",
+     "format": "int32"
+    }
+   },
+   "returns": {
+    "$ref": "CollectionResponse_Bet"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "betApi.patch": {
+   "id": "betApi.patch",
+   "supportsPatch": true,
+   "parameters": {
+    "BetId": {
+     "type": "string",
+     "required": true
+    },
+    "acceptersRegIds": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "bet": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "betAcceptedAt": {
+     "type": "string",
+     "format": "date-time"
+    },
+    "betDeclinedAt": {
+     "type": "string",
+     "format": "date-time"
+    },
+    "betId": {
+     "type": "string"
+    },
+    "betMadeAt": {
+     "type": "string",
+     "format": "date-time"
+    },
+    "betterRegId": {
+     "type": "string"
+    },
+    "declinersRegIds": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "gameId": {
+     "type": "string"
+    },
+    "player": {
+     "$ref": "NFLPlayer"
+    },
+    "team": {
+     "$ref": "Team"
+    },
+    "wager": {
+     "type": "number",
+     "format": "double"
+    }
+   },
+   "parameterOrder": [
+    "BetId"
+   ],
+   "returns": {
+    "$ref": "Bet"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "betApi.remove": {
+   "id": "betApi.remove",
+   "parameters": {
+    "BetId": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "BetId"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "betApi.update": {
+   "id": "betApi.update",
+   "parameters": {
+    "BetId": {
+     "type": "string",
+     "required": true
+    },
+    "resource": {
+     "$ref": "Bet"
+    }
+   },
+   "parameterOrder": [
+    "resource",
+    "BetId"
+   ],
+   "returns": {
+    "$ref": "Bet"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  }
+ }
+}

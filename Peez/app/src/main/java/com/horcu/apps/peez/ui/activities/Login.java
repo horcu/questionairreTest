@@ -132,7 +132,7 @@ public class Login extends Activity {
 								 */
 								handler.post(new Runnable(){
 									public void run() {
-										Intent i = new Intent(Login.this, FriendList.class);
+										Intent i = new Intent(Login.this, ChatActivity.class);
 										//i.putExtra(FRIEND_LIST, result);
 										startActivity(i);
 										Login.this.finish();

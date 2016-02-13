@@ -24,15 +24,16 @@
         		android:layout_marginBottom="10dip"
         		android:text="Messages:"/>
     
-    <EditText 	android:id="@+id/messageHistory"
-        		android:layout_width="fill_parent"
-        		android:layout_height="fill_parent"
+    <LinearLayout
+				android:id="@+id/messageHistory"
+        		android:layout_width="match_parent"
+        		android:layout_height="match_parent"
+				android:orientation="vertical"
         		android:clickable="true"	
         		android:layout_weight="1"
-        	    android:editable="false"
-        	    android:gravity="top"
+        	    android:gravity="center"
         	    android:scrollbars="vertical"
-        	    android:scrollbarSize="10px"
+        	    android:scrollbarSize="10dp"
         	    /> 
         
     <LinearLayout android:orientation="horizontal"
@@ -48,8 +49,8 @@
 		      			/>
 		      			 		  
 		    <Button android:id="@+id/sendMessageButton"
-		        	android:layout_width="fill_parent"
-		        	android:layout_height="fill_parent"
+		        	android:layout_width="match_parent"
+		        	android:layout_height="match_parent"
 		        	android:layout_weight="4"
 		        	android:text="Send"/>
    
