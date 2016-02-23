@@ -1,11 +1,4 @@
 package com.horcu.apps.peez.common.models.schedule;
-
-
-import com.google.appengine.repackaged.com.google.gson.annotations.Expose;
-import com.google.appengine.repackaged.com.google.gson.annotations.SerializedName;
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Index;
 import com.horcu.apps.peez.common.models.league.Venue;
 
 
@@ -13,42 +6,27 @@ import com.horcu.apps.peez.common.models.league.Venue;
  * Created by hcummings on 10/9/2015.
  */
 
-@Entity
 public class Game {
 
-    @Id
-    @Index
-    @SerializedName("id")
-    @Expose
     private String id;
 
 
-    @SerializedName("scheduled")
-    @Expose
     private String scheduled;
-    @SerializedName("home_rotation")
-    @Expose
+
     private String homeRotation;
-    @SerializedName("away_rotation")
-    @Expose
+
     private String awayRotation;
-    @SerializedName("home")
-    @Expose
+
     private String home;
-    @SerializedName("away")
-    @Expose
+
     private String away;
-    @SerializedName("status")
-    @Expose
+
     private String status;
-    @SerializedName("venue")
-    @Expose
+
     private Venue venue;
-    @SerializedName("broadcast")
-    @Expose
+
     private Broadcast broadcast;
-    @SerializedName("weather")
-    @Expose
+
     private Weather weather;
 
     /**

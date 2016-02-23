@@ -25,7 +25,7 @@ public class NewBetNotification {
     /**
      * The unique identifier for this type of notification.
      */
-    private static final String NOTIFICATION_TAG = "NewBet";
+    private static final String NOTIFICATION_TAG = "Game invite";
 
     /**
      * Shows the notification, or updates a previously shown notification of

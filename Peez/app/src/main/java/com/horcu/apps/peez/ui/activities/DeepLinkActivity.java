@@ -162,9 +162,9 @@ public class DeepLinkActivity extends AppCompatActivity implements
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.button_ok:
-                finish();
-                break;
+//            case R.id.button_ok:
+//                finish();
+//                break;
         }
     }
 }

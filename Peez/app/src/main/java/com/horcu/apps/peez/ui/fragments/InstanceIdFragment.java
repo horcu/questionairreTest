@@ -79,17 +79,17 @@ public class InstanceIdFragment extends AbstractFragment
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.iid_get_token:
-                getActivity().startActivity(new Intent(getActivity(), TokenActivity.class));
-                break;
-            case R.id.widget_itbr_button:
-                String authorizedEntity = (String) v.getTag(R.id.tag_senderid);
-                String scope = (String) v.getTag(R.id.tag_scope);
-                mInstanceIdHelper.deleteTokenInBackground(authorizedEntity, scope);
-                break;
-            case R.id.iid_delete_instance_id:
-                confirmAndDeleteInstanceId();
-                break;
+//            case R.id.iid_get_token:
+//                getActivity().startActivity(new Intent(getActivity(), TokenActivity.class));
+//                break;
+//            case R.id.widget_itbr_button:
+//                String authorizedEntity = (String) v.getTag(R.id.tag_senderid);
+//                String scope = (String) v.getTag(R.id.tag_scope);
+//                mInstanceIdHelper.deleteTokenInBackground(authorizedEntity, scope);
+//                break;
+//            case R.id.iid_delete_instance_id:
+//                confirmAndDeleteInstanceId();
+//                break;
         }
     }
 

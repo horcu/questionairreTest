@@ -80,17 +80,17 @@ public class DownstreamFragment extends AbstractFragment implements View.OnClick
     public void onClick(View v) {
         Intent intent;
         switch (v.getId()) {
-            case R.id.downstream_send_button:
-                doGcmSend();
-                break;
-            case R.id.downstream_api_key:
-                intent = SelectActivity.pickApiKey(getActivity(), R.id.downstream_api_key);
-                startActivityForResult(intent, 0);
-                break;
-            case R.id.downstream_token:
-                intent = SelectActivity.pickDestination(getActivity(), R.id.downstream_token);
-                startActivityForResult(intent, 0);
-                break;
+//            case R.id.downstream_send_button:
+//                doGcmSend();
+//                break;
+//            case R.id.downstream_api_key:
+//                intent = SelectActivity.pickApiKey(getActivity(), R.id.downstream_api_key);
+//                startActivityForResult(intent, 0);
+//                break;
+//            case R.id.downstream_token:
+//                intent = SelectActivity.pickDestination(getActivity(), R.id.downstream_token);
+//                startActivityForResult(intent, 0);
+//                break;
         }
     }
 

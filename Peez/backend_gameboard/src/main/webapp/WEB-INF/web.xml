@@ -13,10 +13,10 @@
         <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
         <init-param>
             <param-name>services</param-name>
-            <param-value>com.horcu.apps.peez.backend_gameboard.endpoints.GameEndpoint,
-                com.horcu.apps.peez.backend_gameboard.endpoints.BoardEndpoint,
-                com.horcu.apps.peez.backend_gameboard.endpoints.pieceEndpoint,
-                com.horcu.apps.peez.backend_gameboard.endpoints.tileEndpoint</param-value>
+            <param-value>
+                com.horcu.apps.peez.backend_gameboard.endpoints.GameEndpoint,
+                com.horcu.apps.peez.backend_gameboard.endpoints.BoardEndpoint
+            </param-value>
         </init-param>
     </servlet>
     <servlet-mapping>

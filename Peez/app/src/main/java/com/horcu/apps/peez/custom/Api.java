@@ -10,6 +10,7 @@ import com.horcu.apps.peez.backend.models.gameboard.tileApi.TileApi;
 import com.horcu.apps.peez.backend.models.misc.betStructApi.BetStructApi;
 import com.horcu.apps.peez.backend.models.userApi.UserApi;
 import com.horcu.apps.peez.backend.models.userSettingsApi.UserSettingsApi;
+
 import com.horcu.apps.peez.backend.registration.Registration;
 import com.horcu.apps.peez.common.utilities.consts;
 

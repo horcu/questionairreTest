@@ -157,9 +157,9 @@ public class EditableMapView extends LinearLayout implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.data_add:
-                addDataRow(null, null);
-                break;
+//            case R.id.data_add:
+//                addDataRow(null, null);
+//                break;
         }
     }
 

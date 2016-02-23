@@ -1,35 +1,20 @@
 package com.horcu.apps.peez.common.models.gameboard;
 
-
-import com.google.appengine.repackaged.com.google.gson.annotations.Expose;
-import com.google.appengine.repackaged.com.google.gson.annotations.SerializedName;
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Index;
-
 import javax.annotation.Generated;
 
-@Entity
 @Generated("org.jsonschema2pojo")
 public class Piece {
 
-    @Id
-    @Index
-    @SerializedName("id")
-    @Expose
+
     private String id;
 
-    @SerializedName("description")
-    @Expose
+
     private String description;
-    @SerializedName("color")
-    @Expose
+
     private String color;
-    @SerializedName("icon")
-    @Expose
+
     private String icon;
-    @SerializedName("alias")
-    @Expose
+
     private String alias;
 
     /**

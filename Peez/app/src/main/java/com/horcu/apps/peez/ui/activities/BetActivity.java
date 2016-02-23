@@ -97,7 +97,7 @@ public class BetActivity extends AppCompatActivity
     private LinearLayout getFriends;
     private LinearLayout addnewLayout;
     private LinearLayout friendsListButtons;
-    private RelativeLayout peezbar_root;
+   // private RelativeLayout peezbar_root;
     private LinearLayout bet_hashtags;
     private LinearLayout friendslayout;
 
@@ -118,7 +118,7 @@ public class BetActivity extends AppCompatActivity
     private TileView friend_1, friend_2, friend_3;
     private TextView extra_friends_count;
 
-    private RubberLoaderView loader;
+   // private RubberLoaderView loader;
 //
   //  HashtagView betHashTag;
 
@@ -203,7 +203,7 @@ public class BetActivity extends AppCompatActivity
         discard = (Button) findViewById(R.id.discard);
         discard.setOnClickListener(this);
 
-        loader = (RubberLoaderView) findViewById(R.id.loader2);
+        //loader = (RubberLoaderView) findViewById(R.id.loader2);
 
         getFriends = (LinearLayout) findViewById(R.id.bet_who_layout);
         getFriends.setOnClickListener(this);
@@ -220,7 +220,7 @@ public class BetActivity extends AppCompatActivity
         sendBet = (Button) findViewById(R.id.send_bet);
         sendBet.setOnClickListener(this);
 
-        peezbar_root = (RelativeLayout) findViewById(R.id.peezbar_root);
+       // peezbar_root = (RelativeLayout) findViewById(R.id.peezbar_root);
         peezbar = (LinearLayout) findViewById(R.id.peezbar);
 
         playerTeamImage = (ImageView) findViewById(R.id.chosen_player_team);
@@ -428,127 +428,119 @@ public class BetActivity extends AppCompatActivity
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.players_list_done: {
-                openbetCard();
-                break;
-            }
-            case R.id.numbers: {
-                NumberPickerBuilder numberPicker = new NumberPickerBuilder()
-                        .setFragmentManager(getSupportFragmentManager())
-                        .setReference(2)
-                        .setStyleResId(R.style.BetterPickersDialogFragment_Light);
-                numberPicker.show();
-                break;
-            }
-            case R.id.discard: {
-
-                viewController
-                        .hideThis(daddy, Techniques.FadeOutDown)
-                        .hideThis(doneDiscard, Techniques.FadeOutUp)
-                        .showThis(friendsListButtons, Techniques.FadeInUp);
-                break;
-            }
-            case R.id.createTag: {
-
-                viewController
-                        .showThis(bet_hashtags, Techniques.SlideInLeft)
-                        .showThis(betCardDoneButton, Techniques.SlideOutRight)
-                        .showThis(bet_stats, Techniques.SlideInLeft)
-                        .showThis(loader, Techniques.FadeIn);
-          //      loader.setVisibility(View.VISIBLE);
-           //     loader.startLoading();
-                String tagString = getTagString(v);
-
-                if (!tagString.equals(""))
-                    makeTag(tagString);
-
-                viewController
-                        .hideThis(loader, Techniques.FadeOut)
-                        .hideThis(betCardDoneButton, Techniques.SlideOutDown)
-                        .hideThis(daddy, Techniques.SlideOutUp);
-                break;
-            }
-            case R.id.bet_amount_layout: {
-                NumberPickerBuilder numberPicker = new NumberPickerBuilder()
-                        .setFragmentManager(getSupportFragmentManager())
-                        .setReference(1)
-                        .setStyleResId(R.style.BetterPickersDialogFragment_Light);
-                numberPicker.show();
-                break;
-            }
-            case R.id.done: {
-                viewController
-                        .showThis(addnewLayout, Techniques.SlideInDown)
-                        .showThis(friendsListButtons, Techniques.SlideInUp)
-                                // .showThis(daddyDuteItem, Techniques.BounceInRight)
-                        .hideThis(friendsList, Techniques.SlideOutRight);
-                break;
-
-            }
-            case R.id.bet_who_layout: {
+//            case R.id.players_list_done: {
+//                openbetCard();
+//                break;
+//            }
+//            case R.id.numbers: {
+//                NumberPickerBuilder numberPicker = new NumberPickerBuilder()
+//                        .setFragmentManager(getSupportFragmentManager())
+//                        .setReference(2)
+//                        .setStyleResId(R.style.BetterPickersDialogFragment_Light);
+//                numberPicker.show();
+//                break;
+//            }
+//            case R.id.discard: {
+//
 //                viewController
-//                        .showThis(doneSelectingFriends, Techniques.SlideInUp)
-//                        .showThis(friendslayout, Techniques.SlideInDown)
-//                        .showThis(friendsList, Techniques.SlideInDown)
-//                        .showThis(friendsListButtons, Techniques.SlideInDown)
-//                        .hideThis(daddy, Techniques.SlideInDown)
-//                        .hideThis(doneDiscard, Techniques.SlideOutDown)
-//                        .hideThis(bet_amount, Techniques.SlideOutDown)
-//                        .hideThis(peezbar, Techniques.SlideOutUp);
-                Intent usersIntent = new Intent(getApplicationContext(),UsersActivity.class);
-                startActivityForResult(usersIntent,consts.GET_CONTACTS_RESULTS);
-
-                break;
-            }
-            case R.id.send_bet: {
-                final String playerTeam = player_team.getText().toString();
-                final String betStats = bet_stats.getText().toString();
-              //  final String betAmount = bet_amount_txt.getText().toString();
-                final String userGroups = friends.getText().toString();
-
-                new AsyncTask<Void, Void, List>() {
-                    @Override
-                    protected List doInBackground(Void... params) {
-                        List<String> registrationIds = null;
-                        try {
-                            String[] betText = betStats.split(",");
-                            final String[] emails = userGroups.split(",");
-                            registrationIds = new ArrayList<>();
-
-                            for (int i = 0; i < emails.length; i++) {
-                                String regid = userApi.get(emails[i]).execute().getRegistrationId();
-                                registrationIds.add(regid);
-                            }
-
-                            Bet bet = new Bet()
-                                    .setBetId(UUID.randomUUID().toString())
-                                    .setBet(Arrays.asList(betText))
-                                    .setBetMadeAt(new DateTime(new Date(), TimeZone.getDefault()))
-                                            //.setSentTo(registrationIds) //TODO add this property
-                                    .setBetterRegId(settings.getString(consts.REG_ID, ""))
-                                    .setTeam(new Team().setName("Baltimore Ravens"))
-                                    .setPlayer(new NFLPlayer().setName(playerTeam));
-                                    //.setWager(Double.valueOf(betAmount));
-
-                            //first make the bet
-
-                            betApi.insert(bet).execute();
-                            return registrationIds;
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        return new ArrayList();
-                    }
-
-                    @Override
-                    protected void onPostExecute(List ids) {
-                        if (!ids.isEmpty()) {
-                            sendBetNotification(ids);
-                        }
-                    }
-                }.execute();
-                break;
-            }
+//                        .hideThis(daddy, Techniques.FadeOutDown)
+//                        .hideThis(doneDiscard, Techniques.FadeOutUp)
+//                        .showThis(friendsListButtons, Techniques.FadeInUp);
+//                break;
+//            }
+//            case R.id.createTag: {
+//
+//                viewController
+//                        .showThis(bet_hashtags, Techniques.SlideInLeft)
+//                        .showThis(betCardDoneButton, Techniques.SlideOutRight)
+//                        .showThis(bet_stats, Techniques.SlideInLeft);
+//                        //.showThis(loader, Techniques.FadeIn);
+//          //      loader.setVisibility(View.VISIBLE);
+//           //     loader.startLoading();
+//                String tagString = getTagString(v);
+//
+//                if (!tagString.equals(""))
+//                    makeTag(tagString);
+//
+//                viewController
+//                       // .hideThis(loader, Techniques.FadeOut)
+//                        .hideThis(betCardDoneButton, Techniques.SlideOutDown)
+//                        .hideThis(daddy, Techniques.SlideOutUp);
+//                break;
+//            }
+//            case R.id.done: {
+//                viewController
+//                        .showThis(addnewLayout, Techniques.SlideInDown)
+//                        .showThis(friendsListButtons, Techniques.SlideInUp)
+//                                // .showThis(daddyDuteItem, Techniques.BounceInRight)
+//                        .hideThis(friendsList, Techniques.SlideOutRight);
+//                break;
+//
+//            }
+//            case R.id.bet_who_layout: {
+////                viewController
+////                        .showThis(doneSelectingFriends, Techniques.SlideInUp)
+////                        .showThis(friendslayout, Techniques.SlideInDown)
+////                        .showThis(friendsList, Techniques.SlideInDown)
+////                        .showThis(friendsListButtons, Techniques.SlideInDown)
+////                        .hideThis(daddy, Techniques.SlideInDown)
+////                        .hideThis(doneDiscard, Techniques.SlideOutDown)
+////                        .hideThis(bet_amount, Techniques.SlideOutDown)
+////                        .hideThis(peezbar, Techniques.SlideOutUp);
+//                Intent usersIntent = new Intent(getApplicationContext(),UsersActivity.class);
+//                startActivityForResult(usersIntent,consts.GET_CONTACTS_RESULTS);
+//
+//                break;
+//            }
+//            case R.id.send_bet: {
+//                final String playerTeam = player_team.getText().toString();
+//                final String betStats = bet_stats.getText().toString();
+//              //  final String betAmount = bet_amount_txt.getText().toString();
+//                final String userGroups = friends.getText().toString();
+//
+//                new AsyncTask<Void, Void, List>() {
+//                    @Override
+//                    protected List doInBackground(Void... params) {
+//                        List<String> registrationIds = null;
+//                        try {
+//                            String[] betText = betStats.split(",");
+//                            final String[] emails = userGroups.split(",");
+//                            registrationIds = new ArrayList<>();
+//
+//                            for (int i = 0; i < emails.length; i++) {
+//                                String regid = userApi.get(emails[i]).execute().getRegistrationId();
+//                                registrationIds.add(regid);
+//                            }
+//
+//                            Bet bet = new Bet()
+//                                    .setBetId(UUID.randomUUID().toString())
+//                                    .setBet(Arrays.asList(betText))
+//                                    .setBetMadeAt(new DateTime(new Date(), TimeZone.getDefault()))
+//                                            //.setSentTo(registrationIds) //TODO add this property
+//                                    .setBetterRegId(settings.getString(consts.REG_ID, ""))
+//                                    .setTeam(new Team().setName("Baltimore Ravens"))
+//                                    .setPlayer(new NFLPlayer().setName(playerTeam));
+//                                    //.setWager(Double.valueOf(betAmount));
+//
+//                            //first make the bet
+//
+//                            betApi.insert(bet).execute();
+//                            return registrationIds;
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                        return new ArrayList();
+//                    }
+//
+//                    @Override
+//                    protected void onPostExecute(List ids) {
+//                        if (!ids.isEmpty()) {
+//                            sendBetNotification(ids);
+//                        }
+//                    }
+//                }.execute();
+//                break;
+//            }
         }
     }
 
@@ -652,7 +644,7 @@ public class BetActivity extends AppCompatActivity
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         switch (view.getId()) {
-            case R.id.users_list: {
+           // case R.id.users_list: {
   //              try {
 
 //                    doneSelectingFriends.setVisibility(View.VISIBLE);
@@ -675,8 +667,8 @@ public class BetActivity extends AppCompatActivity
 //                } catch (Exception e) {
 //                    e.printStackTrace();
  //             }
-                break;
-            }
+         //       break;
+      //      }
         }
     }
 

@@ -1,10 +1,5 @@
 package com.horcu.apps.peez.common.models.league;
 
-
-
-import com.google.appengine.repackaged.com.google.gson.annotations.Expose;
-import com.google.appengine.repackaged.com.google.gson.annotations.SerializedName;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,11 +7,7 @@ import java.util.List;
  * Created by hacz on 10/7/2015.
  */
 public class GeneralInfo {
-    @SerializedName("leagueName")
-    @Expose
     private String leagueName;
-    @SerializedName("conferences")
-    @Expose
     private List<Conference> conferences = new ArrayList<Conference>();
 
     /**

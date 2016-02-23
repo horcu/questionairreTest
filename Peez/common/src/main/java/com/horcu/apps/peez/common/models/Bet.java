@@ -1,24 +1,18 @@
 package com.horcu.apps.peez.common.models;
 
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Index;
-import com.horcu.apps.peez.common.models.league.Team;
 
+import com.horcu.apps.peez.common.models.league.Team;
 
 import java.util.Date;
 
 /**
  * Created by hacz on 10/7/2015.
  */
-@Entity
+
 public class Bet {
 
-    @Id
-    @Index
     private String BetId;
 
-    @Index
     private String GameId;
 
     private String betterRegId;

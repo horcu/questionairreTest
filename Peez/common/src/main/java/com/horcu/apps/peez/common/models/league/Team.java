@@ -1,36 +1,17 @@
 package com.horcu.apps.peez.common.models.league;
-
-
-import com.google.appengine.repackaged.com.google.gson.annotations.Expose;
-import com.google.appengine.repackaged.com.google.gson.annotations.SerializedName;
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Index;
-
 /**
  * Created by hacz on 10/7/2015.
  */
 
-@Entity
 public class Team {
 
-    @Id
-    @SerializedName("id")
-    @Expose
     private String id;
 
-    @Index
-    @SerializedName("name")
-    @Expose
     private String name;
-    @SerializedName("market")
-    @Expose
+
     private String market;
-    @SerializedName("team_colors")
-    @Expose
+
     private TeamColors teamColors;
-    @SerializedName("venue")
-    @Expose
     private Venue venue;
 
     /**

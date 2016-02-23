@@ -1,18 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    >
-
-    <data>
-
-        <variable
-            name="bet"
-            type="com.horcu.apps.peez.backend.models.betApi.model.Bet" />
-    </data>
-
-    <ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="wrap_content"
-        android:fillViewport="true"
-        android:layout_height="match_parent">
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:fillViewport="true"
+    android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -24,20 +15,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp" />
 
-
-            <!--&lt;!&ndash;Friends list Listview&ndash;&gt;-->
-            <!--<LinearLayout-->
-                <!--android:id="@+id/friends_reg_layout"-->
-                <!--android:layout_below="@+id/peezbar"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:background="@color/light_grey"-->
-                <!--android:visibility="visible"-->
-                <!--android:orientation="vertical">-->
-
-
-
-            <!--</LinearLayout>-->
 
             <LinearLayout
                 android:id="@+id/daddy_dute"
@@ -457,6 +434,3 @@
 
 
     </ScrollView>
-
-
-</layout>

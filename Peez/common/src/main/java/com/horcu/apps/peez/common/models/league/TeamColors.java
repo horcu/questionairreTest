@@ -1,21 +1,14 @@
 package com.horcu.apps.peez.common.models.league;
 
-
-import com.google.appengine.repackaged.com.google.gson.annotations.Expose;
-import com.google.appengine.repackaged.com.google.gson.annotations.SerializedName;
-
 /**
  * Created by hacz on 10/7/2015.
  */
 public class TeamColors {
-    @SerializedName("primary_color")
-    @Expose
+
     private String primaryColor;
-    @SerializedName("secondary_color")
-    @Expose
+
     private String secondaryColor;
-    @SerializedName("tertiary_color")
-    @Expose
+
     private String tertiaryColor;
 
     /**

@@ -64,13 +64,13 @@ public class UpstreamFragment extends AbstractFragment implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.upstream_send_button:
-                doGcmSendUpstreamMessage();
-                break;
-            case R.id.upstream_sender_id:
-                Intent intent = SelectActivity.pickSenderId(getActivity(), R.id.upstream_sender_id);
-                startActivityForResult(intent, 0);
-                break;
+//            case R.id.upstream_send_button:
+//                doGcmSendUpstreamMessage();
+//                break;
+//            case R.id.upstream_sender_id:
+//                Intent intent = SelectActivity.pickSenderId(getActivity(), R.id.upstream_sender_id);
+//                startActivityForResult(intent, 0);
+//                break;
         }
     }
 

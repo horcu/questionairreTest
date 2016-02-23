@@ -5,7 +5,32 @@
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../other/gradle-2.11-bin/gradle-2.11" />
         <option name="gradleJvm" value="1.7" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/BubbleTextView" />
+            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/app_main" />
+            <option value="$PROJECT_DIR$/backend" />
+            <option value="$PROJECT_DIR$/backend_gameboard" />
+            <option value="$PROJECT_DIR$/common" />
+            <option value="$PROJECT_DIR$/recyclerview-binding" />
+          </set>
+        </option>
+        <option name="myModules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/BubbleTextView" />
+            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/app_main" />
+            <option value="$PROJECT_DIR$/backend" />
+            <option value="$PROJECT_DIR$/backend_gameboard" />
+            <option value="$PROJECT_DIR$/common" />
+            <option value="$PROJECT_DIR$/recyclerview-binding" />
+          </set>
+        </option>
       </GradleProjectSettings>
     </option>
   </component>

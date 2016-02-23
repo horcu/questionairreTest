@@ -1,24 +1,14 @@
 package com.horcu.apps.peez.common.models.schedule;
 
-
-import com.google.appengine.repackaged.com.google.gson.annotations.Expose;
-import com.google.appengine.repackaged.com.google.gson.annotations.SerializedName;
-
 /**
  * Created by hcummings on 10/9/2015.
  */
 public class Weather {
-    @SerializedName("temperature")
-    @Expose
     private Object temperature;
-    @SerializedName("condition")
-    @Expose
+
     private Object condition;
-    @SerializedName("humidity")
-    @Expose
+
     private Object humidity;
-    @SerializedName("wind")
-    @Expose
     private Wind wind;
 
     /**

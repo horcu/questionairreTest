@@ -95,13 +95,13 @@ public class TokenActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         Intent intent;
         switch (view.getId()) {
-            case R.id.token_audience:
-                intent = SelectActivity.pickSenderId(this, R.id.group_choose_sender_id);
-                startActivityForResult(intent, 0);
-                break;
-            case R.id.token_generate:
-                doGenerateToken();
-                break;
+//            case R.id.token_audience:
+//                intent = SelectActivity.pickSenderId(this, R.id.group_choose_sender_id);
+//                startActivityForResult(intent, 0);
+//                break;
+//            case R.id.token_generate:
+//                doGenerateToken();
+//                break;
         }
     }
 
@@ -123,11 +123,11 @@ public class TokenActivity extends AppCompatActivity implements View.OnClickList
             int id = data.getIntExtra(SelectActivity.INTENT_EXTRA_ID, 0);
             String name = data.getStringExtra(SelectActivity.INTENT_EXTRA_NAME);
             String value = data.getStringExtra(SelectActivity.INTENT_EXTRA_VALUE);
-            switch (id) {
-                case R.id.group_choose_sender_id:
-                    AbstractFragment.setValue(audienceIdTexView, name, value);
-                    break;
-            }
+//            switch (id) {
+//                case R.id.group_choose_sender_id:
+//                    AbstractFragment.setValue(audienceIdTexView, name, value);
+//                    break;
+//            }
         }
     }
 

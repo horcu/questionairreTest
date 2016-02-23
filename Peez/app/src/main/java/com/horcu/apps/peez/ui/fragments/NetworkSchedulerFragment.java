@@ -105,12 +105,12 @@ public class NetworkSchedulerFragment extends AbstractFragment
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.scheduler_add_oneoff:
-                showDialog(TYPE_ONE_OFF);
-                break;
-            case R.id.scheduler_add_periodic:
-                showDialog(TYPE_PERIODIC);
-                break;
+//            case R.id.scheduler_add_oneoff:
+//                showDialog(TYPE_ONE_OFF);
+//                break;
+//            case R.id.scheduler_add_periodic:
+//                showDialog(TYPE_PERIODIC);
+//                break;
         }
 
     }
@@ -172,15 +172,15 @@ public class NetworkSchedulerFragment extends AbstractFragment
                         }
                         int connectivity = Task.NETWORK_STATE_CONNECTED;
                         switch (connectivityView.getCheckedRadioButtonId()) {
-                            case R.id.task_connectivity_connected:
-                                connectivity = Task.NETWORK_STATE_CONNECTED;
-                                break;
-                            case R.id.task_connectivity_unmetered:
-                                connectivity = Task.NETWORK_STATE_UNMETERED;
-                                break;
-                            case R.id.task_connectivity_any:
-                                connectivity = Task.NETWORK_STATE_ANY;
-                                break;
+//                            case R.id.task_connectivity_connected:
+//                                connectivity = Task.NETWORK_STATE_CONNECTED;
+//                                break;
+//                            case R.id.task_connectivity_unmetered:
+//                                connectivity = Task.NETWORK_STATE_UNMETERED;
+//                                break;
+//                            case R.id.task_connectivity_any:
+//                                connectivity = Task.NETWORK_STATE_ANY;
+//                                break;
                         }
                         boolean charging = chargingView.isChecked();
                         boolean persistence = persistenceView.isChecked();

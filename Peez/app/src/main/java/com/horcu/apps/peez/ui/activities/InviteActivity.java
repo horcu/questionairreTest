@@ -137,9 +137,9 @@ public class InviteActivity extends AppCompatActivity implements
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.invite_button:
-                onInviteClicked();
-                break;
+//            case R.id.invite_button:
+//                onInviteClicked();
+//                break;
         }
     }
 

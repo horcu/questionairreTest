@@ -18,8 +18,7 @@ public class FriendController
 	{
 		FriendController.friendsInfo = friendInfo;
 	}
-	
-	
+
 	
 	public static FriendInfo checkFriend(String username, String userKey)
 	{
@@ -49,8 +48,6 @@ public class FriendController
 		return activeFriend;
 	}
 
-
-
 	public static FriendInfo getFriendInfo(String username) 
 	{
 		FriendInfo result = null;
@@ -67,8 +64,6 @@ public class FriendController
 		}		
 		return result;
 	}
-
-
 
 	public static void setUnapprovedFriendsInfo(FriendInfo[] unapprovedFriends) {
 		unapprovedFriendsInfo = unapprovedFriends;		

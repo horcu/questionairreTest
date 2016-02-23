@@ -1,23 +1,15 @@
 package com.horcu.apps.peez.common.models.league;
 
-
-import com.google.appengine.repackaged.com.google.gson.annotations.Expose;
-import com.google.appengine.repackaged.com.google.gson.annotations.SerializedName;
-
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class Conference {
 
-    @SerializedName("id")
-    @Expose
     private String id;
-    @SerializedName("name")
-    @Expose
+
     private String name;
-    @SerializedName("divisions")
-    @Expose
+
     private List<Division> divisions = new ArrayList<Division>();
 
     /**

@@ -206,19 +206,19 @@ public class GroupActivity extends AppCompatActivity
             String name = data.getStringExtra(SelectActivity.INTENT_EXTRA_NAME);
             String value = data.getStringExtra(SelectActivity.INTENT_EXTRA_VALUE);
             switch (id) {
-                case R.id.group_choose_sender_id:
-                    sender = mSenders.getSender(value);
-                    chooseSenderIdTexView.setText(value);
-                    refresh();
-                    break;
-                case R.id.group_api_key:
-                    senderApiKey = value;
-                    chooseApiKeyTextView.setText(AbstractFragment.truncateToMediumString(value));
-                    break;
-                case R.id.group_new_member:
-                    newMembers.putString(name, value);
-                    refresh();
-                    break;
+//                case R.id.group_choose_sender_id:
+//                    sender = mSenders.getSender(value);
+//                    chooseSenderIdTexView.setText(value);
+//                    refresh();
+//                    break;
+//                case R.id.group_api_key:
+//                    senderApiKey = value;
+//                    chooseApiKeyTextView.setText(AbstractFragment.truncateToMediumString(value));
+//                    break;
+//                case R.id.group_new_member:
+//                    newMembers.putString(name, value);
+//                    refresh();
+//                    break;
             }
         }
     }
@@ -227,28 +227,28 @@ public class GroupActivity extends AppCompatActivity
     public void onClick(View view) {
         Intent intent;
         switch (view.getId()) {
-            case R.id.group_choose_sender_id:
-                intent = SelectActivity.pickSenderId(this, R.id.group_choose_sender_id);
-                startActivityForResult(intent, 0);
-                break;
-            case R.id.group_api_key:
-                intent = SelectActivity.pickApiKey(this, R.id.group_api_key);
-                startActivityForResult(intent, 0);
-                break;
-            case R.id.group_new_member:
-                intent = SelectActivity.pickToken(this, R.id.group_new_member);
-                startActivityForResult(intent, 0);
-                break;
-            case R.id.widget_itbr_button:
-                memberAction(view);
-                break;
-            case R.id.group_submit:
-                if (editMode) {
-                    submitApplyChanges();
-                } else {
-                    submitCreateGroup();
-                }
-                break;
+//            case R.id.group_choose_sender_id:
+//                intent = SelectActivity.pickSenderId(this, R.id.group_choose_sender_id);
+//                startActivityForResult(intent, 0);
+//                break;
+//            case R.id.group_api_key:
+//                intent = SelectActivity.pickApiKey(this, R.id.group_api_key);
+//                startActivityForResult(intent, 0);
+//                break;
+//            case R.id.group_new_member:
+//                intent = SelectActivity.pickToken(this, R.id.group_new_member);
+//                startActivityForResult(intent, 0);
+//                break;
+//            case R.id.widget_itbr_button:
+//                memberAction(view);
+//                break;
+//            case R.id.group_submit:
+//                if (editMode) {
+//                    submitApplyChanges();
+//                } else {
+//                    submitCreateGroup();
+//                }
+//                break;
         }
     }
 

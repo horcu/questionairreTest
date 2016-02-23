@@ -1,30 +1,22 @@
 package com.horcu.apps.peez.common.models;
 
-import com.google.appengine.api.datastore.Text;
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Index;
-
 import java.util.List;
 
 /**
  * Created by hacz on 10/10/2015.
  */
-@Entity
+
 public class UserSettings {
 
     public UserSettings(){}
 
-    @Id
-    @Index
+
     private String name;
 
-    @Index
+
     private String imgUrl;
 
-    private List<Text> friendsEmails;
-
-    @Index
+    private List<String> friendsEmails;
     private String value;
 
 
@@ -54,11 +46,11 @@ public class UserSettings {
     }
 
 
-    public List<Text> getFriendsEmails() {
+    public List<String> getFriendsEmails() {
         return friendsEmails;
     }
 
-    public void setFriendsEmails(List<Text> friendsEmails) {
+    public void setFriendsEmails(List<String> friendsEmails) {
         this.friendsEmails = friendsEmails;
     }
 }

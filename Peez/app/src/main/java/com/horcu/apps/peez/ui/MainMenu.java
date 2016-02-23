@@ -65,27 +65,28 @@ public class MainMenu {
     }
 
     public boolean onOverflowMenuItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.toggle_logs: {
-                CharSequence showLogs = mActivity.getString(R.string.show_logs);
-                if (showLogs.equals(item.getTitle())) {
-                    // mActivity.toggleLogsView(true);
-                    item.setTitle(R.string.hide_logs);
-                    item.setIcon(R.drawable.visibility_off_white);
-                } else {
-                    //   mActivity.toggleLogsView(false);
-                    item.setTitle(R.string.show_logs);
-                    item.setIcon(R.drawable.visibility_white);
-                }
-                return true;
-            }
-            case R.id.clear_logs: {
-                (new LoggingService.Logger(mActivity)).clearLogs();
-                return true;
-            }
-            default:
-                return false;
-        }
+   //     switch (item.getItemId()) {
+//            case R.id.toggle_logs: {
+//                CharSequence showLogs = mActivity.getString(R.string.show_logs);
+//                if (showLogs.equals(item.getTitle())) {
+//                    // mActivity.toggleLogsView(true);
+//                    item.setTitle(R.string.hide_logs);
+//                    item.setIcon(R.drawable.visibility_off_white);
+//                } else {
+//                    //   mActivity.toggleLogsView(false);
+//                    item.setTitle(R.string.show_logs);
+//                    item.setIcon(R.drawable.visibility_white);
+//                }
+//                return true;
+//            }
+//            case R.id.clear_logs: {
+//                (new LoggingService.Logger(mActivity)).clearLogs();
+//                return true;
+//            }
+//            default:
+//                return false;
+      //  }
+    return true;
     }
 
     public static LinkedHashMap<String, QuickTest> getTests(Context context) {

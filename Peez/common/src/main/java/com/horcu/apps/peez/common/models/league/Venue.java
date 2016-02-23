@@ -1,42 +1,27 @@
 package com.horcu.apps.peez.common.models.league;
-
-
-import com.google.appengine.repackaged.com.google.gson.annotations.Expose;
-import com.google.appengine.repackaged.com.google.gson.annotations.SerializedName;
-
 /**
  * Created by hacz on 10/7/2015.
  */
 public class Venue {
-    @SerializedName("id")
-    @Expose
+
     private String id;
-    @SerializedName("country")
-    @Expose
+
     private String country;
-    @SerializedName("name")
-    @Expose
+
     private String name;
-    @SerializedName("city")
-    @Expose
+
     private String city;
-    @SerializedName("state")
-    @Expose
+
     private String state;
-    @SerializedName("capacity")
-    @Expose
+
     private Long capacity;
-    @SerializedName("surface")
-    @Expose
+
     private String surface;
-    @SerializedName("type")
-    @Expose
+
     private String type;
-    @SerializedName("zip")
-    @Expose
+
     private String zip;
-    @SerializedName("address")
-    @Expose
+
     private String address;
 
     /**

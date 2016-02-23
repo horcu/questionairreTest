@@ -148,52 +148,52 @@ public class SenderAdapter
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.select_dialog_add:
-                // Create the dialog
-                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(mActivity);
-                alertBuilder.setTitle(R.string.address_book_add_sender_title);
-                alertBuilder.setMessage(R.string.address_book_add_sender_message);
-                // Create the input fields
-                final EditText nameView = new EditText(mActivity);
-                final EditText idView = new EditText(mActivity);
-                nameView.setHint(R.string.address_book_add_sender_nameHint);
-                idView.setHint(R.string.address_book_add_sender_idhint);
-                LinearLayout layout = mActivity.getAddDialogLayout();
-                layout.addView(nameView);
-                layout.addView(idView);
-                alertBuilder.setView(layout);
-                // Buttons
-                alertBuilder.setPositiveButton(R.string.address_book_dialog_add, null);
-                alertBuilder.setNegativeButton(R.string.address_book_dialog_cancel,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.cancel();
-                            }
-                        });
-                // Show the dialog
-                final AlertDialog dialog = alertBuilder.create();
-                dialog.show();
-                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(
-                        new View.OnClickListener() {
-                            public void onClick(View v) {
-                                // Add a new address book entry
-                                String name = nameView.getText().toString().trim();
-                                String id = idView.getText().toString().trim();
-                                if (!mSenders.getSenders().containsKey(id)) {
-                                    Sender entry = new Sender();
-                                    entry.senderId = id;
-                                    entry.name = name;
-                                    mSenders.updateSender(entry);
-                                    notifyItemInserted(mSenders.getSenders().indexOfKey(id));
-                                    dialog.dismiss();
-                                } else {
-                                    Toast.makeText(mActivity,
-                                            R.string.address_book_add_sender_invalid_sender_id,
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                break;
+//            case R.id.select_dialog_add:
+//                // Create the dialog
+//                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(mActivity);
+//                alertBuilder.setTitle(R.string.address_book_add_sender_title);
+//                alertBuilder.setMessage(R.string.address_book_add_sender_message);
+//                // Create the input fields
+//                final EditText nameView = new EditText(mActivity);
+//                final EditText idView = new EditText(mActivity);
+//                nameView.setHint(R.string.address_book_add_sender_nameHint);
+//                idView.setHint(R.string.address_book_add_sender_idhint);
+//                LinearLayout layout = mActivity.getAddDialogLayout();
+//                layout.addView(nameView);
+//                layout.addView(idView);
+//                alertBuilder.setView(layout);
+//                // Buttons
+//                alertBuilder.setPositiveButton(R.string.address_book_dialog_add, null);
+//                alertBuilder.setNegativeButton(R.string.address_book_dialog_cancel,
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int whichButton) {
+//                                dialog.cancel();
+//                            }
+//                        });
+//                // Show the dialog
+//                final AlertDialog dialog = alertBuilder.create();
+//                dialog.show();
+//                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(
+//                        new View.OnClickListener() {
+//                            public void onClick(View v) {
+//                                // Add a new address book entry
+//                                String name = nameView.getText().toString().trim();
+//                                String id = idView.getText().toString().trim();
+//                                if (!mSenders.getSenders().containsKey(id)) {
+//                                    Sender entry = new Sender();
+//                                    entry.senderId = id;
+//                                    entry.name = name;
+//                                    mSenders.updateSender(entry);
+//                                    notifyItemInserted(mSenders.getSenders().indexOfKey(id));
+//                                    dialog.dismiss();
+//                                } else {
+//                                    Toast.makeText(mActivity,
+//                                            R.string.address_book_add_sender_invalid_sender_id,
+//                                            Toast.LENGTH_SHORT).show();
+//                                }
+//                            }
+//                        });
+//                break;
         }
     }
 

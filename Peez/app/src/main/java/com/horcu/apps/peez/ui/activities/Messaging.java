@@ -34,6 +34,7 @@ import com.horcu.apps.peez.chat.interfaces.IAppManager;
 import com.horcu.apps.peez.chat.services.IMService;
 import com.horcu.apps.peez.chat.tools.FriendController;
 import com.horcu.apps.peez.chat.types.FriendInfo;
+import com.horcu.apps.peez.custom.AutoFitGridLayout;
 
 import java.text.AttributedCharacterIterator;
 
@@ -112,7 +113,6 @@ public class Messaging extends AppCompatActivity {
 						public void run() {
 							if (!imService.sendMessage(friend.userName, message.toString()))
 							{
-								
 								handler.post(new Runnable(){	
 
 									public void run() {
@@ -235,17 +235,20 @@ public class Messaging extends AppCompatActivity {
 
 			if(!me) {
 				btv.getContentTextView().setTextColor(getResources().getColor(R.color.colorPrimaryDark));
-				btv.setBackgroundColor(Color.WHITE);
+				btv.setBackgroundColor(Color.parseColor("#5c6ead"));
 				btv.setGravity(Gravity.RIGHT);
+				btv.layout(5,10,5,20);
 			}
 			else
 			{
-				btv.getContentTextView().setTextColor(Color.WHITE);
+				btv.getContentTextView().setTextColor(Color.parseColor("#5c6ead"));
 				btv.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
 				btv.setGravity(Gravity.LEFT);
+				btv.layout(5,20,5,10);
 			}
 
 			messageHistoryLayout.addView(btv);
+
 
 		}
 	}

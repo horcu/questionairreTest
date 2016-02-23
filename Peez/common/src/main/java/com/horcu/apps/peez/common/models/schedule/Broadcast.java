@@ -1,21 +1,14 @@
 package com.horcu.apps.peez.common.models.schedule;
 
-
-import com.google.appengine.repackaged.com.google.gson.annotations.Expose;
-import com.google.appengine.repackaged.com.google.gson.annotations.SerializedName;
-
 /**
  * Created by hcummings on 10/9/2015.
  */
 public class Broadcast {
-        @SerializedName("network")
-        @Expose
+
         private String network;
-        @SerializedName("satellite")
-        @Expose
+
         private String satellite;
-        @SerializedName("internet")
-        @Expose
+
         private String internet;
 
         /**

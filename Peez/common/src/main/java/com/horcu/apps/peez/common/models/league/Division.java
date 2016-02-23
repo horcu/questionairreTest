@@ -1,9 +1,5 @@
 package com.horcu.apps.peez.common.models.league;
 
-
-import com.google.appengine.repackaged.com.google.gson.annotations.Expose;
-import com.google.appengine.repackaged.com.google.gson.annotations.SerializedName;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,14 +7,10 @@ import java.util.List;
  * Created by hacz on 10/7/2015.
  */
 public class Division {
-    @SerializedName("id")
-    @Expose
     private String id;
-    @SerializedName("name")
-    @Expose
+
     private String name;
-    @SerializedName("teams")
-    @Expose
+
     private List<Team> teams = new ArrayList<Team>();
 
     /**

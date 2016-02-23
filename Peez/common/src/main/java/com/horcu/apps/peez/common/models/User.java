@@ -1,20 +1,13 @@
 package com.horcu.apps.peez.common.models;
 
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Index;
 
 /**
  * Created by hacz on 9/29/2015.
  */
-@Entity
+
 public class User {
 
-    @Id
-    @Index
     public String email;
-
-    @Index
    public String userName;
    public String alias;
    public double cash;

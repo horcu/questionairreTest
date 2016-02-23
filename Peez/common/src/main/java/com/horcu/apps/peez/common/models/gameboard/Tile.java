@@ -1,42 +1,15 @@
 package com.horcu.apps.peez.common.models.gameboard;
 
-import com.google.appengine.repackaged.com.google.gson.annotations.Expose;
-import com.google.appengine.repackaged.com.google.gson.annotations.SerializedName;
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
 
-import javax.annotation.Generated;
-
-@Entity
-@Generated("org.jsonschema2pojo")
 public class Tile {
 
-    @Id
-    @SerializedName("id")
-    @Expose
     private String id;
-
-    @SerializedName("name")
-    @Expose
     private String name;
-
-    @SerializedName("spot")
-    @Expose
     private String spot;
-    @SerializedName("owner")
-    @Expose
     private String owner;
-    @SerializedName("piece")
-    @Expose
     private String piece;
-    @SerializedName("used")
-    @Expose
     private String used;
-    @SerializedName("finishLine")
-    @Expose
     private String finishLine;
-    @SerializedName("neighbours")
-    @Expose
     private String neighbours;
 
     /**

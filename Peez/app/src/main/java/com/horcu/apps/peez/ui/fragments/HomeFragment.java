@@ -105,39 +105,39 @@ public class HomeFragment extends AbstractFragment
     public void onClick(View v) {
         Intent intent;
         switch (v.getId()) {
-            case R.id.home_sender_id:
-                intent = SelectActivity.pickSenderId(getActivity(), R.id.home_sender_id);
-                startActivityForResult(intent, 0);
-                break;
-            case R.id.home_api_key:
-                intent = SelectActivity.pickApiKey(getActivity(), R.id.home_api_key);
-                startActivityForResult(intent, 0);
-                break;
-            case R.id.home_destination:
-                intent = SelectActivity.pickDestination(getActivity(), R.id.home_destination);
-                startActivityForResult(intent, 0);
-                break;
-            case R.id.home_submit:
-                doExecuteSelectedTest();
-                break;
+//            case R.id.home_sender_id:
+//                intent = SelectActivity.pickSenderId(getActivity(), R.id.home_sender_id);
+//                startActivityForResult(intent, 0);
+//                break;
+//            case R.id.home_api_key:
+//                intent = SelectActivity.pickApiKey(getActivity(), R.id.home_api_key);
+//                startActivityForResult(intent, 0);
+//                break;
+//            case R.id.home_destination:
+//                intent = SelectActivity.pickDestination(getActivity(), R.id.home_destination);
+//                startActivityForResult(intent, 0);
+//                break;
+//            case R.id.home_submit:
+//                doExecuteSelectedTest();
+//                break;
         }
     }
 
     @Override
     public void handleAddressBookSelection(int id, String name, String value) {
         switch (id) {
-            case R.id.home_sender_id:
-                mFragmentState.putStringArray(SENDER_ID, new String[]{name, value});
-                setValue(R.id.home_sender_id, name, value);
-                break;
-            case R.id.home_api_key:
-                mFragmentState.putStringArray(API_KEY, new String[]{name, value});
-                setValue(R.id.home_api_key, name, value);
-                break;
-            case R.id.home_destination:
-                mFragmentState.putStringArray(TOKEN, new String[]{name, value});
-                setValue(R.id.home_destination, name, value);
-                break;
+//            case R.id.home_sender_id:
+//                mFragmentState.putStringArray(SENDER_ID, new String[]{name, value});
+//                setValue(R.id.home_sender_id, name, value);
+//                break;
+//            case R.id.home_api_key:
+//                mFragmentState.putStringArray(API_KEY, new String[]{name, value});
+//                setValue(R.id.home_api_key, name, value);
+//                break;
+//            case R.id.home_destination:
+//                mFragmentState.putStringArray(TOKEN, new String[]{name, value});
+//                setValue(R.id.home_destination, name, value);
+//                break;
         }
     }
 

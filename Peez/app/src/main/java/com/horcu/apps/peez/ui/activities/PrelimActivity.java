@@ -55,8 +55,8 @@ public class PrelimActivity extends AppCompatActivity {
         userApi = Api.BuildUserApiService();
         userSettingsApi = Api.BuildUserSettingsApiService();
 
-        loader = ((RubberLoaderView) findViewById(R.id.loader1));
-        loader.startLoading();
+       // loader = ((RubberLoaderView) findViewById(R.id.loader1));
+      //  loader.startLoading();
 
         settings = getSharedPreferences("Peez", 0);
 

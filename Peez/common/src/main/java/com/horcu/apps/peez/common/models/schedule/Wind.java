@@ -1,18 +1,11 @@
 package com.horcu.apps.peez.common.models.schedule;
 
-
-import com.google.appengine.repackaged.com.google.gson.annotations.Expose;
-import com.google.appengine.repackaged.com.google.gson.annotations.SerializedName;
-
 /**
  * Created by hcummings on 10/9/2015.
  */
 public class Wind {
-    @SerializedName("speed")
-    @Expose
+
     private Object speed;
-    @SerializedName("direction")
-    @Expose
     private Object direction;
 
     /**
