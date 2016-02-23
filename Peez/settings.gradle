@@ -1,5 +1,5 @@
-include ':app', ':backend_gameboard', ':common',':app_main', ':recyclerview-binding'
+include ':backend_gameboard', ':common', ':bindingcollectionadapter', ':app_main', ':bindingcollectionadapter-recyclerview'
 include':BubbleTextView'
 include ':backend'
-//include ':common'
+
 

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/no_bets_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:fontFamily="sans-serif-thin"
+        android:textColor="#ed754f"
+        android:layout_gravity="center_vertical"
+        android:layout_centerInParent="true"
+        android:gravity="center_vertical"
+        android:alpha=".4"
+        android:text="no friends :(" />
+
+    <TextView
+        android:id="@+id/empty_img"
+        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:alpha=".3"
+        android:text=":("
+        android:textColor="#ed754f"
+        android:textSize="30dp"
+        android:fontFamily="sans-serif-thin"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/no_bets_txt"
+        android:layout_centerInParent="true"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/bets_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark"
+        android:layout_marginBottom="50dp">
+
+    </android.support.v7.widget.RecyclerView>
+
+
+    <LinearLayout
+        android:id="@+id/bottom_buttons"
+        android:layout_gravity="bottom"
+        android:gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:visibility="visible"
+        android:baselineAligned="true"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimaryDark"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/new_friend_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="+ friend"
+            android:fontFamily="sans-serif-thin"
+            android:textAllCaps="false"
+            android:textSize="22sp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center"
+            />
+
+        <Button
+            android:id="@+id/new_bet_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Bet 'em."
+            android:fontFamily="sans-serif-thin"
+           android:textAllCaps="false"
+            android:textSize="22sp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center"
+            />
+
+        <Button
+            android:id="@+id/new_grid_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="grid"
+            android:fontFamily="sans-serif-thin"
+            android:textAllCaps="false"
+            android:textSize="22sp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center"
+            />
+
+        <Button
+            android:id="@+id/new_grid_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Msg"
+            android:fontFamily="sans-serif-thin"
+            android:textAllCaps="false"
+            android:textSize="22sp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center"
+            />
+
+
+    </LinearLayout>
+
+    <!-- -->
+
+    <!--<TextView-->
+    <!--android:id="@android:id/empty"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:gravity="center" />-->
+
+</RelativeLayout>
