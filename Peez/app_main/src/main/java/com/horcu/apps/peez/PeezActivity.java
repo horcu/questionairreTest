@@ -46,8 +46,8 @@ public class PeezActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_peez);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+      //  Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+     //   setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -151,8 +151,9 @@ public class PeezActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
 
-           binding = FragmentFeedBinding.inflate(inflater,container, false);// DataBindingUtil.setContentView(getActivity(), R.layout.fragment_feed);
+           binding = FragmentFeedBinding.inflate(inflater,container,false); // DataBindingUtil.setContentView(getActivity(), R.layout.fragment_feed);
            View rootView = binding.getRoot();
+
             TextView textView = (TextView) rootView.findViewById(R.id.feed_label);
             textView.setTypeface(Typer.set(getContext()).getFont(Font.ROBOTO_THIN));
            textView.setText("This is the Feed page");
@@ -210,7 +211,7 @@ public class PeezActivity extends AppCompatActivity {
                 case 2:
                     return new ChatFragment();
                 default:
-                    return new GameboardFragment();
+                    return null;
             }
         }
 

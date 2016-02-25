@@ -1,5 +1,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
             name="viewModel"
@@ -29,33 +30,72 @@
             android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginBottom="56dp"
             android:layout_weight="1"
             app:itemIds="@{viewModel.itemIds}"
             app:itemView="@{viewModel.singleItemView}"
             app:items="@{viewModel.items}" />
 
-        <LinearLayout
-            style="?buttonBarStyle"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="56dp"
+            android:background="@color/white"
+            android:visibility="gone">
 
-            <Button
-                android:id="@+id/add"
-                style="?buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClickListener="@{listeners.addItem}"
-                android:text="Add Item" />
+            <com.michaldrabik.tapbarmenulib.TapBarMenu
+                android:id="@+id/tapBarMenu"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_gravity="bottom"
+                android:background="@color/white"
+                android:layout_marginBottom="24dp">
 
-            <Button
-                android:id="@+id/remove"
-                style="?buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClickListener="@{listeners.removeItem}"
-                android:text="Remove Item" />
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/item1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    />
+
+                <ImageView
+                    android:id="@+id/item2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    />
+
+                <ImageView
+                    android:id="@+id/item3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+
+                    />
+
+                <ImageView
+                    android:id="@+id/item4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    />
+
+            </com.michaldrabik.tapbarmenulib.TapBarMenu>
+
+        </FrameLayout>
+
     </LinearLayout>
 </layout>
