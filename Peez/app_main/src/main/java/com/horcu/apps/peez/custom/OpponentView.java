@@ -10,6 +10,8 @@ import android.util.AttributeSet;
 
 import com.horcu.apps.peez.common.models.gameboard.Tile;
 
+import me.tatarka.bindingcollectionadapter.sample.R;
+
 
 public class OpponentView extends TileView {
 

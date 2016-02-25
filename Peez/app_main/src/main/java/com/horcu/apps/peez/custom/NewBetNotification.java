@@ -12,6 +12,8 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
+import me.tatarka.bindingcollectionadapter.sample.R;
+
 
 /**
  * Helper class for showing and canceling new bet
@@ -148,7 +150,7 @@ public class NewBetNotification {
 
     /**
      * Cancels any notifications of this type previously shown using
-     * {@link #notify(Context, String, int, long)}.
+     * .
      */
     @TargetApi(Build.VERSION_CODES.ECLAIR)
     public static void cancel(final Context context) {

@@ -7,10 +7,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
-import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.common.models.gameboard.Tile;
+
+import me.tatarka.bindingcollectionadapter.sample.R;
 
 
 public class UserImageView extends TileView {

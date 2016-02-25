@@ -22,6 +22,7 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
+        javaHeapSize "8gb"
     }
     buildTypes {
         release {
@@ -75,7 +76,7 @@ dependencies {
     compile project(path: ':backend_gameboard', configuration: 'android-endpoints')
 
     compile project(':common')
-    compile project(':BubbleTextView')
+    //compile project(':BubbleTextView')
     compile('com.google.android.gms:play-services:8.4.0') {
         exclude group: 'com.android.support', module: 'support-v4'
     }

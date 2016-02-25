@@ -12,6 +12,7 @@
     <color name="cyan_500">#ff3f51b5</color>
     <color name="background_material_light">#ebebeb</color>
     <color name="accent_material_light_1">#7e8283</color>
+    <color name="bpLight_gray">#7e8283</color>
     <color name="primary_dark_material_light">#eae6e6</color>
 
     <color name="white_alpha">#8FFF</color>

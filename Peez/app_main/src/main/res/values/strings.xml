@@ -437,6 +437,15 @@
     <string name="not_connected_to_network">There is no available connected network</string>
     <string name="message_cannot_be_sent">Message was not been able to sent</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="open_drawer">open drawer</string>
+    <string name="close_drawer">close drawer</string>
+    <string name="title_activity_peez">PeezActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_feed_fragment">feed</string>
+    <string name="hello_gameboard_fragment">gameboard</string>
+    <string name="hello_chat_fragment">chat</string>
 
 
 </resources>

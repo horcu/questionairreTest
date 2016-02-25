@@ -18,12 +18,14 @@ package com.horcu.apps.peez.gcm.quicktest;
 import android.content.Context;
 import android.support.v4.util.SimpleArrayMap;
 
-import com.horcu.apps.peez.R;
+import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.gcm.InstanceIdHelper;
 import com.horcu.apps.peez.service.LoggingService;
 
 import java.util.Arrays;
 import java.util.List;
+
+import me.tatarka.bindingcollectionadapter.sample.R;
 
 public class GetTokenQuickTest implements QuickTest {
 
@@ -34,14 +36,13 @@ public class GetTokenQuickTest implements QuickTest {
 
     @Override
     public List<Integer> getRequiredParameters() {
-        return Arrays.asList(R.id.home_sender_id);
+        return Arrays.asList(Integer.parseInt(consts.SENDER_ID));
     }
 
     @Override
     public void execute(LoggingService.Logger logger, Context context, SimpleArrayMap<Integer, String> params) {
-        final String senderId = params.get(R.id.home_sender_id);
 
         InstanceIdHelper instanceIdHelper = new InstanceIdHelper(context);
-        instanceIdHelper.getTokenInBackground(senderId, "GCM", null);
+        instanceIdHelper.getTokenInBackground(consts.SENDER_ID, "GCM", null);
     }
 }
