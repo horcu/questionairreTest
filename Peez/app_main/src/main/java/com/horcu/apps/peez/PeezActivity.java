@@ -1,7 +1,10 @@
 package com.horcu.apps.peez;
 
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
@@ -15,10 +18,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.elmargomez.typer.Font;
 import com.elmargomez.typer.Typer;
+import com.github.badoualy.morphytoolbar.MorphyToolbar;
 
 import me.tatarka.bindingcollectionadapter.sample.R;
 import me.tatarka.bindingcollectionadapter.sample.databinding.ActivityMainBinding;
@@ -45,9 +50,37 @@ public class PeezActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_peez);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-      //  Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-     //   setSupportActionBar(toolbar);
+
+
+        final MorphyToolbar morphyToolbar = MorphyToolbar.builder(this, toolbar)
+                .withToolbarAsSupportActionBar()
+                .withTitle("who's playing?")
+                .withSubtitle("160 participants")
+                .withPicture(R.drawable.demo)
+                .withToolbarExpandedHeight(300)
+                .withHidePictureWhenCollapsed(false)
+                .build();
+
+
+        morphyToolbar.collapse();
+
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                morphyToolbar.expand();
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        morphyToolbar.collapse();
+                    }
+                }, 5000);
+            }
+        });
+
+        setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());

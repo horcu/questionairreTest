@@ -12,6 +12,7 @@
     </data>
 
     <LinearLayout
+        android:id="@+id/touch"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
@@ -20,11 +21,15 @@
         <TextView
             android:id="@+id/feed_label"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/hello_feed_fragment"
-            android:layout_gravity="center_vertical"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:gravity="center_vertical"/>
+            android:gravity="center"
+            android:textSize="50sp"
+            android:text="feed"
+            android:textColor="@color/bpDark_gray"/>
+
+
 
         <ListView
             android:id="@+id/list"
@@ -36,64 +41,67 @@
             app:itemView="@{viewModel.singleItemView}"
             app:items="@{viewModel.items}" />
 
+
+
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:background="@color/white"
             android:visibility="gone">
 
-            <com.michaldrabik.tapbarmenulib.TapBarMenu
-                android:id="@+id/tapBarMenu"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_gravity="bottom"
-                android:background="@color/white"
-                android:layout_marginBottom="24dp">
+            <!--<com.michaldrabik.tapbarmenulib.TapBarMenu-->
+                <!--android:id="@+id/tapBarMenu"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="56dp"-->
+                <!--android:layout_gravity="bottom"-->
+                <!--android:background="@color/white"-->
+                <!--android:layout_marginBottom="24dp">-->
 
-                <ImageView
-                    android:id="@+id/item1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    />
+                <!--<ImageView-->
+                    <!--android:id="@+id/item1"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:paddingTop="10dp"-->
+                    <!--android:paddingBottom="10dp"-->
+                    <!--/>-->
 
-                <ImageView
-                    android:id="@+id/item2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    />
+                <!--<ImageView-->
+                    <!--android:id="@+id/item2"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:paddingTop="10dp"-->
+                    <!--android:paddingBottom="10dp"-->
+                    <!--/>-->
 
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    />
+                <!--<Space-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--/>-->
 
-                <ImageView
-                    android:id="@+id/item3"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
+                <!--<ImageView-->
+                    <!--android:id="@+id/item3"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:paddingTop="10dp"-->
+                    <!--android:paddingBottom="10dp"-->
 
-                    />
+                    <!--/>-->
 
-                <ImageView
-                    android:id="@+id/item4"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    />
+                <!--<ImageView-->
+                    <!--android:id="@+id/item4"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:paddingTop="10dp"-->
+                    <!--android:paddingBottom="10dp"-->
+                    <!--/>-->
 
-            </com.michaldrabik.tapbarmenulib.TapBarMenu>
+            <!--</com.michaldrabik.tapbarmenulib.TapBarMenu>-->
 
         </FrameLayout>
 
