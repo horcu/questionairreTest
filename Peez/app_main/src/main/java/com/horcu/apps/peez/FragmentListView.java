@@ -20,7 +20,7 @@ public class FragmentListView extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        viewModel = new ViewModel(true);
+        viewModel = new ViewModel(true, true);
     }
 
     @Nullable

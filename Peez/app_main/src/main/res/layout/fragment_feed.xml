@@ -18,19 +18,6 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/feed_label"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:gravity="center"
-            android:textSize="50sp"
-            android:text="feed"
-            android:textColor="@color/bpDark_gray"/>
-
-
-
         <ListView
             android:id="@+id/list"
             android:layout_width="match_parent"
@@ -38,72 +25,69 @@
             android:layout_marginBottom="56dp"
             android:layout_weight="1"
             app:itemIds="@{viewModel.itemIds}"
-            app:itemView="@{viewModel.singleItemView}"
+            app:itemView="@{viewModel.itemView}"
             app:items="@{viewModel.items}" />
 
+        <!--<FrameLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="56dp"-->
+            <!--android:background="@color/white"-->
+            <!--android:visibility="gone">-->
 
+            <!--&lt;!&ndash;<com.michaldrabik.tapbarmenulib.TapBarMenu&ndash;&gt;-->
+                <!--&lt;!&ndash;android:id="@+id/tapBarMenu"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="56dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_gravity="bottom"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:background="@color/white"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_marginBottom="24dp">&ndash;&gt;-->
 
+                <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/item1"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="0dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:paddingTop="10dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:paddingBottom="10dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;/>&ndash;&gt;-->
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="@color/white"
-            android:visibility="gone">
+                <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/item2"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="0dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:paddingTop="10dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:paddingBottom="10dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;/>&ndash;&gt;-->
 
-            <!--<com.michaldrabik.tapbarmenulib.TapBarMenu-->
-                <!--android:id="@+id/tapBarMenu"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="56dp"-->
-                <!--android:layout_gravity="bottom"-->
-                <!--android:background="@color/white"-->
-                <!--android:layout_marginBottom="24dp">-->
+                <!--&lt;!&ndash;<Space&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="0dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+                    <!--&lt;!&ndash;/>&ndash;&gt;-->
 
-                <!--<ImageView-->
-                    <!--android:id="@+id/item1"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:paddingTop="10dp"-->
-                    <!--android:paddingBottom="10dp"-->
-                    <!--/>-->
+                <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/item3"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="0dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:paddingTop="10dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:paddingBottom="10dp"&ndash;&gt;-->
 
-                <!--<ImageView-->
-                    <!--android:id="@+id/item2"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:paddingTop="10dp"-->
-                    <!--android:paddingBottom="10dp"-->
-                    <!--/>-->
+                    <!--&lt;!&ndash;/>&ndash;&gt;-->
 
-                <!--<Space-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--/>-->
+                <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/item4"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="0dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:paddingTop="10dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:paddingBottom="10dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;/>&ndash;&gt;-->
 
-                <!--<ImageView-->
-                    <!--android:id="@+id/item3"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:paddingTop="10dp"-->
-                    <!--android:paddingBottom="10dp"-->
+            <!--&lt;!&ndash;</com.michaldrabik.tapbarmenulib.TapBarMenu>&ndash;&gt;-->
 
-                    <!--/>-->
-
-                <!--<ImageView-->
-                    <!--android:id="@+id/item4"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:paddingTop="10dp"-->
-                    <!--android:paddingBottom="10dp"-->
-                    <!--/>-->
-
-            <!--</com.michaldrabik.tapbarmenulib.TapBarMenu>-->
-
-        </FrameLayout>
+        <!--</FrameLayout>-->
 
     </LinearLayout>
 </layout>

@@ -20,7 +20,7 @@ public class FragmentSpinnerView extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        viewModel = new ViewModel(false);
+        viewModel = new ViewModel(true, false);
     }
 
     @Nullable

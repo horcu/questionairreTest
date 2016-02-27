@@ -3,11 +3,14 @@ package com.horcu.apps.peez;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
 
+import com.horcu.apps.peez.backend.models.userApi.model.User;
+
 import me.tatarka.bindingcollectionadapter.BindingListViewAdapter;
 import me.tatarka.bindingcollectionadapter.BindingViewPagerAdapter;
 import me.tatarka.bindingcollectionadapter.ItemView;
 import me.tatarka.bindingcollectionadapter.ItemViewSelector;
 import me.tatarka.bindingcollectionadapter.sample.R;
+import me.tatarka.bindingcollectionadapter.sample.BR;
 
 
 /**
@@ -16,11 +19,17 @@ import me.tatarka.bindingcollectionadapter.sample.R;
 public class ViewModel {
     private final boolean checkable;
     public final ObservableList<ItemViewModel> items = new ObservableArrayList<>();
+    public final ItemView itemView = ItemView.of(me.tatarka.bindingcollectionadapter.sample.BR.item, R.layout.item);
 
-    public ViewModel(boolean checkable) {
+    public ViewModel(boolean addDummyUsers, boolean checkable) {
         this.checkable = checkable;
-        for (int i = 0; i < 3; i++) {
-            items.add(new ItemViewModel(i, checkable));
+
+        if(addDummyUsers)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                items.add(new ItemViewModel(i,true, new User()));
+            }
         }
     }
 
@@ -72,7 +81,7 @@ public class ViewModel {
     };
 
     public void addItem() {
-        items.add(new ItemViewModel(items.size(), checkable));
+        items.add(new ItemViewModel(items.size(), checkable, new com.horcu.apps.peez.backend.models.userApi.model.User()));
     }
 
     public void removeItem() {

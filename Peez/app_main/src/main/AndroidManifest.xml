@@ -7,11 +7,11 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <activity
-            android:name="com.horcu.apps.peez.MainActivity"
-            android:label="@string/title_activity_main">
+        <!--<activity-->
+            <!--android:name="com.horcu.apps.peez.MainActivity"-->
+            <!--android:label="@string/title_activity_main">-->
 
-        </activity>
+        <!--</activity>-->
         <activity
             android:name="com.horcu.apps.peez.PeezActivity"
             android:label="@string/title_activity_peez"

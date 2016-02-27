@@ -1,10 +1,9 @@
 package com.horcu.apps.peez;
 
 import android.databinding.DataBindingUtil;
-import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
@@ -18,15 +17,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.elmargomez.typer.Font;
 import com.elmargomez.typer.Typer;
-import com.github.badoualy.morphytoolbar.MorphyToolbar;
+import com.horcu.apps.peez.backend.models.userApi.UserApi;
+import com.horcu.apps.peez.backend.models.userApi.model.CollectionResponseUser;
+import com.horcu.apps.peez.backend.models.userApi.model.User;
+import com.horcu.apps.peez.custom.Api;
+//import com.github.badoualy.morphytoolbar.MorphyToolbar;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 import me.tatarka.bindingcollectionadapter.sample.R;
-import me.tatarka.bindingcollectionadapter.sample.databinding.ActivityMainBinding;
 import me.tatarka.bindingcollectionadapter.sample.databinding.FragmentFeedBinding;
 
 public class PeezActivity extends AppCompatActivity {
@@ -52,29 +56,27 @@ public class PeezActivity extends AppCompatActivity {
         setContentView(R.layout.activity_peez);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-
-
-        final MorphyToolbar morphyToolbar = MorphyToolbar.builder(this, toolbar)
-                .withToolbarAsSupportActionBar()
-                .withTitle("who's playing?")
-                .withSubtitle("160 participants")
-                .withPicture(R.drawable.demo)
-                .withToolbarExpandedHeight(300)
-                .withHidePictureWhenCollapsed(false)
-                .build();
-
-
-        morphyToolbar.collapse();
+//        final MorphyToolbar morphyToolbar = MorphyToolbar.builder(this, toolbar)
+//                .withToolbarAsSupportActionBar()
+//                .withTitle("who's playing?")
+//                .withSubtitle("160 participants")
+//                .withPicture(R.drawable.demo)
+//                .withToolbarExpandedHeight(300)
+//                .withHidePictureWhenCollapsed(false)
+//                .build();
+//
+//
+//        morphyToolbar.collapse();
 
         toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                morphyToolbar.expand();
+              //  morphyToolbar.expand();
                 final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        morphyToolbar.collapse();
+               //         morphyToolbar.collapse();
                     }
                 }, 5000);
             }
@@ -88,7 +90,6 @@ public class PeezActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -99,7 +100,6 @@ public class PeezActivity extends AppCompatActivity {
 //        });
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -151,12 +151,13 @@ public class PeezActivity extends AppCompatActivity {
             View rootView = inflater.inflate(R.layout.fragment_game, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.game_label);
             textView.setTypeface(Typer.set(getContext()).getFont(Font.ROBOTO_THIN));
-            textView.setText("This is the gameboard page");
+            textView.setText("Gameboard");
             return rootView;
         }
     }
     /**/
     public static class FeedFragment extends Fragment {
+
 
         FragmentFeedBinding binding = null;
         /**
@@ -181,17 +182,51 @@ public class PeezActivity extends AppCompatActivity {
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-
-           binding = FragmentFeedBinding.inflate(inflater,container,false); // DataBindingUtil.setContentView(getActivity(), R.layout.fragment_feed);
-           View rootView = binding.getRoot();
-
-            TextView textView = (TextView) rootView.findViewById(R.id.feed_label);
-            textView.setTypeface(Typer.set(getContext()).getFont(Font.ROBOTO_THIN));
-           textView.setText("This is the Feed page");
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            binding = DataBindingUtil.setContentView(getActivity(), R.layout.fragment_feed); // FragmentFeedBinding.inflate(inflater,container,false); //
+            View rootView = binding.getRoot();
+            binding.setViewModel(new ViewModel(true, true));
+            GetFriendsAsync();
             return rootView;
-        //    return binding.getRoot();
+        }
+
+        private void GetFriendsAsync() {
+
+            final ViewModel vm = new ViewModel(true, true);
+            final ArrayList<ItemViewModel> rows = new ArrayList<>();
+            new AsyncTask<Void, Void, Void>() {
+
+                public CollectionResponseUser list;
+
+                @Override
+                protected Void doInBackground(Void... params) {
+                    try {
+                          UserApi users = Api.BuildUserApiService();
+                          list = users.list().execute();
+
+                          for (int i = 0; i < list.getItems().size(); i++ ) {
+                              User user = list.getItems().get(i);
+                             ItemViewModel v = new ItemViewModel(i,true, user);
+                              //ItemViewModel v = new ItemViewModel(i,true, new User());
+                              rows.add(v);
+                              vm.items.add(v);
+                             }
+                           } catch (IOException e) {
+                          e.printStackTrace();
+                    }
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    binding.setViewModel(vm);
+                    binding.setListeners(new Listeners(vm));
+                 //   ViewModel vm2 = new ViewModel(true);
+                  //  binding.setViewModel(vm2);
+                  //  binding.setListeners(new Listeners(vm2));
+                    binding.executePendingBindings();
+                }
+            }.execute();
         }
     }
     /**/

@@ -4,6 +4,9 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
 
+import com.horcu.apps.peez.backend.models.userApi.model.User;
+
+
 /**
  * Created by evan on 6/14/15.
  */
@@ -13,11 +16,15 @@ public class ItemViewModel extends BaseObservable {
     private int index;
     @Bindable
     private boolean checked;
+    @Bindable
+    private User user;
 
-    public ItemViewModel(int index, boolean checkable) {
+    public ItemViewModel(int index, boolean checkable, User user) {
         this.index = index;
         this.checkable = checkable;
+        this.user = user;
     }
+    public User getuser(){return user;}
 
     public int getIndex() {
         return index;
