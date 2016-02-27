@@ -14,6 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 --><!-- Workaround required to avoid the default tinting of the overflow button -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha" />
+    <!--<item android:drawable="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha" />-->
 </layer-list>
 

@@ -36,8 +36,6 @@
 //import java.io.IOException;
 //import java.util.List;
 //
-//import me.tatarka.bindingcollectionadapter.ItemView;
-//
 //
 ///**
 // * A fragment representing a list of Items.

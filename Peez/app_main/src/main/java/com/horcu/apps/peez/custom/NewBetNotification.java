@@ -12,8 +12,7 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
-import me.tatarka.bindingcollectionadapter.sample.R;
-
+import com.horcu.apps.peez.R;
 
 /**
  * Helper class for showing and canceling new bet

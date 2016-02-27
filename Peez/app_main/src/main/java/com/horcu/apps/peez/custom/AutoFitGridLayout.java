@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import java.util.ArrayList;
+import com.horcu.apps.peez.R;
 
-import me.tatarka.bindingcollectionadapter.sample.R;
+import java.util.ArrayList;
 
 
 /**

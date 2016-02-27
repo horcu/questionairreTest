@@ -18,14 +18,13 @@ package com.horcu.apps.peez.gcm.quicktest;
 import android.content.Context;
 import android.support.v4.util.SimpleArrayMap;
 
+import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.gcm.InstanceIdHelper;
 import com.horcu.apps.peez.service.LoggingService;
 
 import java.util.Arrays;
 import java.util.List;
-
-import me.tatarka.bindingcollectionadapter.sample.R;
 
 public class GetTokenQuickTest implements QuickTest {
 

@@ -5,7 +5,7 @@ package com.horcu.apps.peez.common.models;
  * Created by hacz on 9/29/2015.
  */
 
-public class User {
+public class User { //extends Player - extend the google gsm player object??
 
     public String email;
    public String userName;

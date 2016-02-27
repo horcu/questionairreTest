@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginBottom="2dp"
+    >
+
+    <data>
+
+        <variable
+            name="user"
+            type="com.horcu.apps.peez.viewmodel.UserViewModel"/>
+    </data>
+
+    <LinearLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="10dp"
+        >
+
+        <!--<com.horcu.apps.peez.chat.LeBubbleTextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="#efefef"-->
+            <!--android:padding="5dp"-->
+            <!--android:layout_margin="5dp">-->
+
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/item_user_name"
+                android:fontFamily="sans-serif-thin"
+                android:textSize="14sp"
+                android:textColor="#555555"
+                android:text="@{user.firstName}"
+                tools:text="Hello"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_below="@+id/item_user_name"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-condensed"
+                android:textSize="20sp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/bpDark_gray"
+                android:id="@+id/item_user_surname"
+                android:text="@{user.lastName}"
+                tools:text="World"
+                />
+
+        <!--</com.horcu.apps.peez.chat.LeBubbleTextView>-->
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/transparent"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="0dp"/>
+    </LinearLayout>
+</layout>

@@ -3,11 +3,12 @@ package com.horcu.apps.peez.custom;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+
+import com.horcu.apps.peez.R;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
-
-import me.tatarka.bindingcollectionadapter.sample.R;
 
 /**
  * Created by hacz on 2/5/2016.

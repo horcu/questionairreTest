@@ -1,20 +1,14 @@
 package com.horcu.apps.peez.custom;
 import android.content.Context;
 
+import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.gameboard.tileApi.TileApi;
 import com.horcu.apps.peez.common.models.gameboard.Tile;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
-
-import me.tatarka.bindingcollectionadapter.sample.R;
 
 /**
  * Created by hcummings on 2/2/2016.

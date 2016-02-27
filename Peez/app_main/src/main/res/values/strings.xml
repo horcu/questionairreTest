@@ -446,6 +446,8 @@
     <string name="hello_feed_fragment">feed</string>
     <string name="hello_gameboard_fragment">gameboard</string>
     <string name="hello_chat_fragment">chat</string>
+    <string name="title_users">Friends</string>
+    <string name="title_activity_baseview">baseview</string>
 
 
 </resources>

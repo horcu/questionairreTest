@@ -9,8 +9,8 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 
-import com.horcu.apps.peez.MainActivity;
 import com.horcu.apps.peez.service.LoggingService;
+import com.horcu.apps.peez.view.PlayersView;
 
 
 import java.util.Date;
@@ -20,7 +20,7 @@ import java.util.Date;
  */
 public class notifier {
 
-    public static void showNotification(Intent intent, Context context, Class<MainActivity> goWhere) {
+    public static void showNotification(Intent intent, Context context, Class<PlayersView> goWhere) {
         try {
             Bundle bundle = intent.getExtras();
             // String message = bundle.getString("message");
