@@ -448,6 +448,8 @@
     <string name="hello_chat_fragment">chat</string>
     <string name="title_users">Friends</string>
     <string name="title_activity_baseview">baseview</string>
+    <string name="title_activity_error_view">ErrorView</string>
+    <string name="title_activity_main_view">main_view</string>
 
 
 </resources>

@@ -153,7 +153,7 @@
 //        }
 //    }
 //    /**/
-//    public static class FeedFragment extends Fragment {
+//    public static class FeedView extends Fragment {
 //
 //
 //        FragmentFeedBinding binding = null;
@@ -163,15 +163,15 @@
 //         */
 //        private static final String ARG_SECTION_NUMBER = "section_number";
 //
-//        public FeedFragment() {
+//        public FeedView() {
 //        }
 //
 //        /**
 //         * Returns a new instance of this fragment for the given section
 //         * number.
 //         */
-//        public static FeedFragment newInstance() {
-//            FeedFragment fragment = new FeedFragment();
+//        public static FeedView newInstance() {
+//            FeedView fragment = new FeedView();
 //            Bundle args = new Bundle();
 //            args.putInt(ARG_SECTION_NUMBER, 0);
 //            fragment.setArguments(args);
@@ -270,7 +270,7 @@
 //        public Fragment getItem(int position) {
 //            switch (position) {
 //                case 0:
-//                    return  FeedFragment.newInstance();
+//                    return  FeedView.newInstance();
 //                case 1:
 //                    return  GameboardFragment.newInstance();
 //                default:

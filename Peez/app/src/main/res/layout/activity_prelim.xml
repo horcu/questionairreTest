@@ -7,6 +7,4 @@
     android:fitsSystemWindows="true"
     tools:context="com.horcu.apps.peez.ui.activities.PrelimActivity">
 
-    <include layout="@layout/content_prelim" />
-
 </RelativeLayout>

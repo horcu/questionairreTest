@@ -39,8 +39,6 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:23.2.0'
-    compile 'com.android.support:design:23.2.0'
 
     // compile project(':app')
 
@@ -53,6 +51,10 @@ dependencies {
     compile('com.google.android.gms:play-services:8.4.0') {
         exclude group: 'com.android.support', module: 'support-v4'
     }
+    //    compile 'com.github.michaldrabik:tapbarmenu:1.0.4'
+
+    compile 'com.android.support:appcompat-v7:23.2.0'
+    compile 'com.android.support:design:23.2.0'
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.android.support:design:23.2.0'
     compile 'com.android.support:support-v4:23.2.0'
@@ -70,8 +72,9 @@ dependencies {
     compile 'com.github.ivbaranov:materiallettericon:0.2.1'
     compile 'cat.ereza:customactivityoncrash:1.4.0'
     compile 'com.google.code.gson:gson:2.5'
-//    compile 'com.github.michaldrabik:tapbarmenu:1.0.4'
     compile 'com.elmargomez.typer:typerlib:1.0.0'
+    compile 'com.github.zzz40500:android-shapeLoadingView:1.0.3.2'
+    compile 'com.android.support:support-v13:23.2.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

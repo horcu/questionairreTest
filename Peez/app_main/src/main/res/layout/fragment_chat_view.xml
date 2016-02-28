@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="usersViewModel"
+            type="com.horcu.apps.peez.viewmodel.UsersViewModel"/>
+
+        <variable
+            name="view"
+            type="com.horcu.apps.peez.view.ChatView"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFF"
+        android:orientation="vertical"
+        android:clickable="true">
+
+        <com.mingle.widget.LoadingView
+            android:id="@+id/loadView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/activity_users_recycler"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:items="@{usersViewModel.users}"
+            app:itemViewBinder="@{view.itemViewBinder}"
+            app:clickHandler="@{view.clickHandler}"
+            app:longClickHandler="@{view.longClickHandler}"
+            android:layout_marginBottom="50dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:minHeight="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/light_grey"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:alpha=".5"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0"
+                    android:id="@+id/users_view_firstname"
+                    android:text="12:56"/>
+                />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:minHeight="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="20"
+                    android:textColor="#777777"
+                    android:text=""
+                    android:layout_marginLeft="5dp"
+                    android:background="@android:color/transparent"
+                    android:hint="so....."
+                    android:id="@+id/users_view_lastname"/>
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="5"
+                    android:text="Send"
+                    android:fontFamily="sans-serif-thin"
+                    android:textSize="15sp"
+                    android:textColor="@color/bpDark_gray"
+                    android:clickable="true"
+                    android:background="@android:color/transparent"
+                    app:onClickListener="@{view.onButtonClick}"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

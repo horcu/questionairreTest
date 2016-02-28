@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_marginBottom="2dp"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="2dp">
 
     <data>
 
@@ -11,48 +11,56 @@
     </data>
 
     <LinearLayout
-        xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:padding="10dp"
-        >
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="15dp"
+        android:background="#FFF">
 
-        <!--<com.horcu.apps.peez.chat.LeBubbleTextView-->
-            <!--android:layout_width="match_parent"-->
+        <com.horcu.apps.peez.chat.LeBubbleTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:padding="3dp"
+            app:bubbleTextColor="#777777"
+            app:bubbleText="This is amazing and no matter what"
+            app:bubbleArrowDirection="left"
+            app:bubbleBackgroundColor="#eeefff"
+            app:bubbleBackgroundPressColor="@color/white"
+            app:bubbleCornerRadius="3dp"
+            android:gravity="left"
+            app:bubbleTextSize="15sp"
+            app:bubbleTitleText="May 3 @@ 12:30am" >
+
+        </com.horcu.apps.peez.chat.LeBubbleTextView>
+
+
+        <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/item_user_name"-->
+                <!--android:fontFamily="sans-serif-thin"-->
+                <!--android:textSize="14sp"-->
+                <!--android:textColor="#555555"-->
+
+                <!--android:text="@{user.firstName}"-->
+                <!--tools:text="Hello"/>-->
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_below="@+id/item_user_name"-->
             <!--android:layout_height="wrap_content"-->
-            <!--android:background="#efefef"-->
-            <!--android:padding="5dp"-->
-            <!--android:layout_margin="5dp">-->
+            <!--android:layout_weight="1"-->
+            <!--android:fontFamily="sans-serif-thin"-->
+            <!--android:textSize="20sp"-->
+            <!--android:textColor="#555555"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:id="@+id/item_user_surname"-->
+            <!--android:text="@{user.lastName}"-->
+            <!--tools:text="World"-->
+            <!--/>-->
 
-
-            <TextView
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/item_user_name"
-                android:fontFamily="sans-serif-thin"
-                android:textSize="14sp"
-                android:textColor="#555555"
-                android:text="@{user.firstName}"
-                tools:text="Hello"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_below="@+id/item_user_name"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="sans-serif-condensed"
-                android:textSize="20sp"
-                android:layout_marginTop="5dp"
-                android:textColor="@color/bpDark_gray"
-                android:id="@+id/item_user_surname"
-                android:text="@{user.lastName}"
-                tools:text="World"
-                />
-
-        <!--</com.horcu.apps.peez.chat.LeBubbleTextView>-->
 
 
         <View

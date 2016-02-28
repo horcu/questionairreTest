@@ -148,8 +148,6 @@ public class LeBubbleView extends RelativeLayout implements Runnable {
 
     private void initContent(float radius, final int backgroundColor, int textColor, float textSize, String content) {
 
-
-
         conRl = new RelativeLayout(mContext);
         conRl.setId(View.generateViewId());
         LayoutParams conRlParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -184,7 +182,6 @@ public class LeBubbleView extends RelativeLayout implements Runnable {
                 arrowParams.addRule(RelativeLayout.END_OF, conRl.getId());
             }
         }
-
         //int arrowRes = backgroundColor == Color.parseColor("#B3000000")?R.drawable.le_bubble_arrow_light:R.drawable.le_bubble_arrow_light;
         int arrowRes = R.drawable.le_bubble_arrow_light;
         Bitmap source = BitmapFactory.decodeResource(this.getResources(), arrowRes);

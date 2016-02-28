@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Peez.iml" filepath="$PROJECT_DIR$/Peez.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app_main/app_main.iml" filepath="$PROJECT_DIR$/app_main/app_main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/backend/backend.iml" filepath="$PROJECT_DIR$/backend/backend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/backend_gameboard/backend_gameboard.iml" filepath="$PROJECT_DIR$/backend_gameboard/backend_gameboard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/recyclerview-binding/recyclerview-binding.iml" filepath="$PROJECT_DIR$/recyclerview-binding/recyclerview-binding.iml" />
+    </modules>
+  </component>
+</project>
