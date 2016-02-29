@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:emojicon="http://schemas.android.com/tools">
 
     <data>
 
@@ -62,17 +63,36 @@
                     android:text="12:56"/>
                 />
 
-                <EditText
+                <!--<EditText-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:minHeight="50dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="20"-->
+                    <!--android:textColor="#777777"-->
+                    <!--android:text=""-->
+                    <!--android:layout_marginLeft="5dp"-->
+                    <!--android:background="@android:color/transparent"-->
+                    <!--android:hint="so....."-->
+                    <!--android:id="@+id/users_view_lastname"/>-->
+
+                <com.rockerhieu.emojicon.EmojiconEditText
+                    android:id="@+id/users_view_lastname"
+                android:text="I \ue32d emojicon"
+                emojicon:emojiconSize="28sp"
                     android:layout_width="0dp"
                     android:minHeight="50dp"
-                    android:layout_height="wrap_content"
                     android:layout_weight="20"
                     android:textColor="#777777"
-                    android:text=""
                     android:layout_marginLeft="5dp"
                     android:background="@android:color/transparent"
                     android:hint="so....."
-                    android:id="@+id/users_view_lastname"/>
+                    android:layout_height="wrap_content"/>
+
+                <fragment
+                android:id="@+id/emojicons"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                class="com.horcu.apps.peez.view.ChatView"/>
 
                 <Button
                     android:layout_width="0dp"
