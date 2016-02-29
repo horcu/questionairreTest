@@ -27,6 +27,9 @@ public class consts {
    public static final int GET_CONTACTS_RESULTS = 1200;
    public static final String SELECTED_FRIENDS = "selectedFriends";
    public static final String REG_KEY = "reg_key";
+   public static final String TEST_GAME_TOPIC = "testGame";
+   public static final String TEST_MSG_ID = "1234567890";
+   public static final String TEST_TINE_TO_LIVE = "200";
    //end entity constants
 
    //turn dev mode on and off

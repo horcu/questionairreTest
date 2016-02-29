@@ -2,7 +2,8 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginBottom="2dp">
+    android:layout_marginBottom="5dp"
+    android:layout_marginTop="5dp">
     <data>
         <variable
             name="user" type="com.horcu.apps.peez.viewmodel.SuperUserViewModel"/>
@@ -12,55 +13,55 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="25dp"
         android:layout_marginEnd="5dp"
+        android:padding="3dp"
+        android:background="#efefef">
 
-        android:background="#FFF">
 
+        <!--<com.horcu.apps.peez.chat.LeBubbleTextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@android:color/transparent"-->
+            <!--android:padding="3dp"-->
+            <!--app:bubbleTextColor="#888888"-->
+            <!--app:bubbleText = "@{user.lastName}"-->
+            <!--app:bubbleArrowDirection="right"-->
+            <!--app:bubbleBackgroundColor="#efefef"-->
+            <!--app:bubbleBackgroundPressColor="@color/white"-->
+            <!--app:bubbleCornerRadius="3dp"-->
+            <!--app:bubbleTextSize="15sp"-->
+            <!--android:gravity="right"-->
+            <!--android:layout_gravity="right"-->
+            <!--app:bubbleTitleText="@{user.firstName}" >-->
 
-        <com.horcu.apps.peez.chat.LeBubbleTextView
+        <!--</com.horcu.apps.peez.chat.LeBubbleTextView>-->
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:padding="3dp"
-            app:bubbleTextColor="#888888"
-            app:bubbleText = "So awesome of you to join us"
-            app:bubbleArrowDirection="right"
-            app:bubbleBackgroundColor="#efefef"
-            app:bubbleBackgroundPressColor="@color/white"
-            app:bubbleCornerRadius="3dp"
-            app:bubbleTextSize="15sp"
-            android:gravity="right"
+            android:layout_weight="0"
+            android:fontFamily="sans-serif-thin"
+            android:textSize="14sp"
+            android:textColor="#888888"
             android:layout_gravity="right"
-            app:bubbleTitleText="May 3 1:35pm" >
+            android:id="@+id/item_user_name"
+            android:text="@{user.firstName}"
+            tools:text="Hello"/>
 
-        </com.horcu.apps.peez.chat.LeBubbleTextView>
-
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="0"-->
-            <!--android:fontFamily="sans-serif-thin"-->
-            <!--android:textSize="14sp"-->
-            <!--android:textColor="#555555"-->
-            <!--android:layout_gravity="right"-->
-            <!--android:id="@+id/item_user_name"-->
-            <!--android:text="@{user.firstName}"-->
-            <!--tools:text="Hello"/>-->
-
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:fontFamily="sans-serif-thin"-->
-            <!--android:textSize="20sp"-->
-            <!--android:textColor="#555555"-->
-            <!--android:layout_gravity="right"-->
-            <!--android:layout_marginTop="5dp"-->
-            <!--android:id="@+id/item_user_surname"-->
-            <!--android:text="@{user.lastName}"-->
-            <!--tools:text="World"-->
-            <!--/>-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-thin"
+            android:textSize="20sp"
+            android:textColor="#888888"
+            android:layout_gravity="right"
+            android:layout_marginTop="5dp"
+            android:id="@+id/item_user_surname"
+            android:text="@{user.lastName}"
+            tools:text="World"
+            />
 
     </LinearLayout>
 </layout>

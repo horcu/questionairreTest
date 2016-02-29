@@ -1,10 +1,13 @@
 package com.horcu.apps.peez.view;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.databinding.DataBindingUtil;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,15 +15,23 @@ import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.BR;
 import com.horcu.apps.peez.binder.SuperUserBinder;
 import com.horcu.apps.peez.binder.UserBinder;
+import com.horcu.apps.peez.common.utilities.consts;
+import com.horcu.apps.peez.custom.MessageSender;
 import com.horcu.apps.peez.databinding.FragmentChatViewBinding;
+import com.horcu.apps.peez.gcm.PubSubHelper;
+import com.horcu.apps.peez.misc.SenderCollection;
 import com.horcu.apps.peez.model.Player;
+import com.horcu.apps.peez.service.LoggingService;
 import com.horcu.apps.peez.viewmodel.SuperUserViewModel;
 import com.horcu.apps.peez.viewmodel.UserViewModel;
 import com.horcu.apps.peez.viewmodel.UsersViewModel;
@@ -54,7 +65,16 @@ public class ChatView extends Fragment {
     private UsersViewModel usersViewModel;
     private FragmentChatViewBinding binding;
 
+    //messaging
+    private SharedPreferences settings;
+    PubSubHelper pubsub = null;
+    private LoggingService.Logger mLogger;
+    private SenderCollection mSenders;
+
     private boolean itsMe;
+    private Spinner users;
+    private BroadcastReceiver mLoggerCallback;
+
     public ChatView() {
         // Required empty public constructor
     }
@@ -72,32 +92,65 @@ public class ChatView extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        pubsub = new PubSubHelper(getContext());
+        final Bundle bundle = new Bundle();
+
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        mLogger = new LoggingService.Logger(getActivity());
+        mSenders = SenderCollection.getInstance(getActivity());
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        settings = getActivity().getSharedPreferences("Peez", 0);
         itsMe = false;
 
-        binding = DataBindingUtil.setContentView(getActivity(), R.layout.fragment_chat_view);
+
+        binding = FragmentChatViewBinding.inflate(inflater, container, false);
         usersViewModel = new UsersViewModel();
-        usersViewModel.users.add(new SuperUserViewModel(new Player(String.valueOf(new Date()), "Hey I'm glad you took up the challenge, Good luck !!")));
+        usersViewModel.users.add(new SuperUserViewModel(new Player(String.valueOf(new Date()), "Good luck !!")));
         binding.setUsersViewModel(usersViewModel);
         binding.setView(this);
-        binding.activityUsersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.getView();
 
-        return inflater.inflate(R.layout.fragment_chat_view, container, false);
+        mLoggerCallback = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                switch (intent.getAction()) {
+
+                    case LoggingService.ACTION_LOG:
+                        String newLog = intent.getStringExtra(LoggingService.EXTRA_LOG_MESSAGE);
+
+                        usersViewModel.users.add(new UserViewModel(new Player(String.valueOf(new Date()), newLog))); //TODO the date should come with the message
+
+//                        Snackbar snack =  Snackbar.make(findViewById(R.id.drawer_layout), Html.fromHtml(stringBuilder.toString()), Snackbar.LENGTH_LONG);
+//                        snack.setActionTextColor(Color.WHITE);
+//                        snack.show();
+                        break;
+                }
+            }
+        };
+
+
+        binding.activityUsersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        return binding.getRoot(); //inflater.inflate(R.layout.fragment_chat_view, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onFragmentInteraction("");
         }
     }
 
@@ -130,7 +183,7 @@ public class ChatView extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(String newMessage);
     }
 
     @Nullable
@@ -148,16 +201,24 @@ public class ChatView extends Fragment {
             @Override
             public void onClick(View v)
             {
-                if(!itsMe)
-                {
-                    usersViewModel.addUser(getStringFromEditText(binding.usersViewFirstname), getStringFromEditText(binding.usersViewLastname),false);
-                    itsMe = true;
-                }
-                else {
-                    usersViewModel.addUser(getStringFromEditText(binding.usersViewFirstname), getStringFromEditText(binding.usersViewLastname), true);
-                    itsMe = false;
-                }
+                Date d = new Date();
+                long time = d.getTime();
 
+                usersViewModel.addUser(String.valueOf(time), getStringFromEditText(binding.usersViewLastname),false);
+
+                String senderId = settings.getString(consts.SENDER_ID, "");
+                if("" != senderId) {
+                    MessageSender sender = new MessageSender(getActivity(), mLogger, mSenders);
+                  if(!sender.sendMessage(consts.TEST_GAME_TOPIC,consts.TEST_MSG_ID,getStringFromEditText(binding.usersViewLastname),consts.TEST_TINE_TO_LIVE, false))
+                  {
+                    //message not sent something went wrong
+                      Snackbar.make(v, ":/ bummer", Snackbar.LENGTH_LONG).show();
+                  }
+                }
+                else
+                {
+                   Snackbar.make(v, ":) sent..werd!", Snackbar.LENGTH_LONG).show();
+                }
                 ((EditText)binding.getRoot().findViewById(R.id.users_view_lastname)).setText("");
                 ((RecyclerView)binding.getRoot().findViewById(R.id.activity_users_recycler)).smoothScrollToPosition(usersViewModel.users.size() - 1);
             }
