@@ -13,6 +13,8 @@
             <option value="$PROJECT_DIR$/backend" />
             <option value="$PROJECT_DIR$/backend_gameboard" />
             <option value="$PROJECT_DIR$/common" />
+            <option value="$PROJECT_DIR$/emoji" />
+            <option value="$PROJECT_DIR$/emoji-example" />
             <option value="$PROJECT_DIR$/recyclerview-binding" />
           </set>
         </option>
@@ -23,6 +25,8 @@
             <option value="$PROJECT_DIR$/backend" />
             <option value="$PROJECT_DIR$/backend_gameboard" />
             <option value="$PROJECT_DIR$/common" />
+            <option value="$PROJECT_DIR$/emoji" />
+            <option value="$PROJECT_DIR$/emoji-example" />
             <option value="$PROJECT_DIR$/recyclerview-binding" />
           </set>
         </option>

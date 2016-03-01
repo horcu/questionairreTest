@@ -12,11 +12,15 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
@@ -42,6 +46,10 @@ import net.droidlabs.mvvm.recyclerview.adapter.binder.CompositeItemBinder;
 import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinder;
 
 import java.util.Date;
+
+import github.ankushsachdeva.emojicon.EmojiconGridView;
+import github.ankushsachdeva.emojicon.EmojiconsPopup;
+import github.ankushsachdeva.emojicon.emoji.Emojicon;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -119,7 +127,7 @@ public class ChatView extends Fragment {
 
         binding = FragmentChatViewBinding.inflate(inflater, container, false);
         usersViewModel = new UsersViewModel();
-        usersViewModel.users.add(new SuperUserViewModel(new Player(String.valueOf(new Date()), "Good luck !!")));
+        usersViewModel.users.add(new SuperUserViewModel(new Player(String.valueOf(new Date()), "lets play :) :D")));
         binding.setUsersViewModel(usersViewModel);
         binding.setView(this);
         binding.getView();
@@ -132,7 +140,16 @@ public class ChatView extends Fragment {
                     case LoggingService.ACTION_LOG:
                         String newLog = intent.getStringExtra(LoggingService.EXTRA_LOG_MESSAGE);
 
-                        usersViewModel.users.add(new UserViewModel(new Player(String.valueOf(new Date()), newLog))); //TODO the date should come with the message
+                       // if(ISentThis())
+                      //  {usersViewModel.users.add(new SuperUserViewModel(new Player(String.valueOf(new Date()), newLog)));
+                      //      itsMe = true;
+                      //  } //TODO the date should come with the message
+                       //     else
+                      //  {
+                            usersViewModel.users.add(new UserViewModel(new Player(String.valueOf(new Date()), newLog)));
+                      //  }
+                       // itsMe = false;
+                      //  } //TODO the date should come with the message
 
 //                        Snackbar snack =  Snackbar.make(findViewById(R.id.drawer_layout), Html.fromHtml(stringBuilder.toString()), Snackbar.LENGTH_LONG);
 //                        snack.setActionTextColor(Color.WHITE);
@@ -141,6 +158,102 @@ public class ChatView extends Fragment {
                 }
             }
         };
+
+        // Give the topmost view of your activity layout hierarchy. This will be used to measure soft keyboard height
+        final EmojiconsPopup popup = new EmojiconsPopup(binding.getRoot(), getActivity());
+
+        //Will automatically set size according to the soft keyboard size
+        popup.setSizeForSoftKeyboard();
+
+        //If the emoji popup is dismissed, change emojiButton to smiley icon
+        popup.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+            @Override
+            public void onDismiss() {
+                changeEmojiKeyboardIcon(binding.getEmojis, R.drawable.smiley);
+            }
+        });
+
+        //If the text keyboard closes, also dismiss the emoji popup
+        popup.setOnSoftKeyboardOpenCloseListener(new EmojiconsPopup.OnSoftKeyboardOpenCloseListener() {
+
+            @Override
+            public void onKeyboardOpen(int keyBoardHeight) {
+
+            }
+
+            @Override
+            public void onKeyboardClose() {
+                if(popup.isShowing())
+                    popup.dismiss();
+            }
+        });
+
+        //On emoji clicked, add it to edittext
+        popup.setOnEmojiconClickedListener(new EmojiconGridView.OnEmojiconClickedListener() {
+
+            @Override
+            public void onEmojiconClicked(Emojicon emojicon) {
+                if (binding.usersViewLastname == null || emojicon == null) {
+                    return;
+                }
+
+                int start = binding.usersViewLastname.getSelectionStart();
+                int end = binding.usersViewLastname.getSelectionEnd();
+                if (start < 0) {
+                    binding.usersViewLastname.append(emojicon.getEmoji());
+                } else {
+                    binding.usersViewLastname.getText().replace(Math.min(start, end),
+                            Math.max(start, end), emojicon.getEmoji(), 0,
+                            emojicon.getEmoji().length());
+                }
+            }
+        });
+
+        //On backspace clicked, emulate the KEYCODE_DEL key event
+        popup.setOnEmojiconBackspaceClickedListener(new EmojiconsPopup.OnEmojiconBackspaceClickedListener() {
+
+            @Override
+            public void onEmojiconBackspaceClicked(View v) {
+                KeyEvent event = new KeyEvent(
+                        0, 0, 0, KeyEvent.KEYCODE_DEL, 0, 0, 0, 0, KeyEvent.KEYCODE_ENDCALL);
+                binding.usersViewLastname.dispatchKeyEvent(event);
+            }
+        });
+
+        // To toggle between text keyboard and emoji keyboard keyboard(Popup)
+        binding.getEmojis.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                //If popup is not showing => emoji keyboard is not visible, we need to show it
+                if(!popup.isShowing()){
+
+                    //If keyboard is visible, simply show the emoji popup
+                    if(popup.isKeyBoardOpen()){
+                        popup.showAtBottom();
+                        changeEmojiKeyboardIcon(binding.getEmojis, R.drawable.ic_action_keyboard);
+                    }
+
+                    //else, open the text keyboard first and immediately after that show the emoji popup
+                    else{
+                        binding.usersViewLastname.setFocusableInTouchMode(true);
+                        binding.usersViewLastname.requestFocus();
+                        popup.showAtBottomPending();
+                        final InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        inputMethodManager.showSoftInput(binding.usersViewLastname, InputMethodManager.SHOW_IMPLICIT);
+                        changeEmojiKeyboardIcon(binding.getEmojis, R.drawable.ic_action_keyboard);
+                    }
+                }
+
+                //If popup is showing, simply dismiss it to show the undelying text keyboard
+                else{
+                    popup.dismiss();
+                }
+            }
+        });
+
 
 
         binding.activityUsersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -204,7 +317,15 @@ public class ChatView extends Fragment {
                 Date d = new Date();
                 long time = d.getTime();
 
-                usersViewModel.addUser(String.valueOf(time), getStringFromEditText(binding.usersViewLastname),false);
+                if(itsMe) {
+                    usersViewModel.users.add(new SuperUserViewModel(new Player(String.valueOf(time), getStringFromEditText(binding.usersViewLastname))));
+                    itsMe = false;
+                }
+                else
+                {
+                    usersViewModel.users.add(new UserViewModel(new Player(String.valueOf(time), getStringFromEditText(binding.usersViewLastname))));
+                    itsMe = true;
+                }
 
                 String senderId = settings.getString(consts.SENDER_ID, "");
                 if("" != senderId) {
@@ -224,6 +345,19 @@ public class ChatView extends Fragment {
             }
         };
     }
+
+//    public View.OnClickListener onEmojiButtonClick()
+//    {
+//        return new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View v)
+//            {
+//
+//            }
+//        };
+//    }
+
 
 
     public ClickHandler<UserViewModel> clickHandler()
@@ -256,5 +390,9 @@ public class ChatView extends Fragment {
                 new SuperUserBinder(BR.user, R.layout.item_super_user),
                 new UserBinder(BR.user, R.layout.item_user)
         );
+    }
+
+    private void changeEmojiKeyboardIcon(ImageView iconToBeChanged, int drawableResourceId){
+        iconToBeChanged.setImageResource(drawableResourceId);
     }
 }

@@ -29,71 +29,38 @@
             android:layout_marginEnd="5dp"
             android:padding="3dp"
             app:cardElevation="0dp"
-            app:cardCornerRadius="4dp"
-            android:layout_gravity="right"
+            app:cardCornerRadius="8dp"
+            android:layout_gravity="left"
             app:contentPadding="10dp"
-            app:cardBackgroundColor="#efefef"
+            app:contentPaddingBottom="5dp"
+            app:cardBackgroundColor="#ffebebeb"
             android:background="#efefef">
-
-
-            <!--<com.horcu.apps.peez.chat.LeBubbleTextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@android:color/transparent"-->
-            <!--android:padding="3dp"-->
-            <!--app:bubbleTextColor="#888888"-->
-            <!--app:bubbleText = "@{user.lastName}"-->
-            <!--app:bubbleArrowDirection="right"-->
-            <!--app:bubbleBackgroundColor="#efefef"-->
-            <!--app:bubbleBackgroundPressColor="@color/white"-->
-            <!--app:bubbleCornerRadius="3dp"-->
-            <!--app:bubbleTextSize="15sp"-->
-            <!--android:gravity="right"-->
-            <!--android:layout_gravity="right"-->
-            <!--app:bubbleTitleText="@{user.firstName}" >-->
-
-            <!--</com.horcu.apps.peez.chat.LeBubbleTextView>-->
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
                 android:fontFamily="sans-serif-thin"
-                android:textSize="12sp"
-                android:textColor="#888888"
+                android:textSize="8sp"
+                android:textColor="#111111"
                 android:layout_gravity="right"
                 android:id="@+id/item_user_name"
                 android:text="@{user.firstName}"
                 tools:text="Hello"/>
 
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:fontFamily="sans-serif-thin"-->
-                <!--android:textSize="16sp"-->
-                <!--android:textColor="#888888"-->
-                <!--android:layout_gravity="right"-->
-                <!--android:layout_marginTop="15dp"-->
-                <!--android:id="@+id/item_user_surname"-->
-                <!--android:text="@{user.lastName}"-->
-                <!--tools:text="World"-->
-                <!--/>-->
-
-            <com.rockerhieu.emojicon.EmojiconTextView
-                android:id="@+id/item_user_surname"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-thin"
                 android:textSize="16sp"
-                android:textColor="#888888"
-                android:layout_gravity="left"
+                android:textColor="#333333"
+                android:layout_gravity="right"
                 android:layout_marginTop="15dp"
-                emojicon:emojiconAlignment="baseline"
-                android:layout_width="wrap_content"
+                android:id="@+id/item_user_surname"
                 android:text="@{user.lastName}"
-                android:layout_height="wrap_content"/>
-
-
+                tools:text="World"
+                />
 
         </android.support.v7.widget.CardView>
 

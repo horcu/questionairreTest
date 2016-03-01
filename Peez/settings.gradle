@@ -4,3 +4,5 @@ include ':backend'
 //include ':backend_gameboard'
 
 
+include ':emoji'
+include ':emoji-example'
