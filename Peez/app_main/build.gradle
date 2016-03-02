@@ -76,6 +76,7 @@ dependencies {
     compile 'com.github.zzz40500:android-shapeLoadingView:1.0.3.2'
     compile 'com.android.support:support-v13:23.2.0'
 
+//    compile project(path: ':emoji')
     compile project(path: ':emoji')
 }
 

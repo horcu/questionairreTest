@@ -73,7 +73,7 @@ public class ChatView extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private UsersViewModel usersViewModel;
-    private FragmentChatViewBinding binding;
+    protected FragmentChatViewBinding binding;
 
     //messaging
     private SharedPreferences settings;
@@ -132,75 +132,6 @@ public class ChatView extends Fragment {
         binding.setUsersViewModel(usersViewModel);
         binding.setView(this);
         binding.getView();
-
-        GcmReceiver test = new GcmReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                switch (intent.getAction()) {
-                    case LoggingService.ACTION_LOG:
-                        String newLog = intent.getStringExtra(LoggingService.EXTRA_LOG_MESSAGE);
-
-                        // if(ISentThis())
-                        //  {usersViewModel.users.add(new SuperUserViewModel(new Player(String.valueOf(new Date()), newLog)));
-                        //      itsMe = true;
-                        //  } //TODO the date should come with the message
-                        //     else
-                        //  {
-                        List<Fragment> allFragments = getActivity().getSupportFragmentManager().getFragments();
-                        for (int i = 0; i < allFragments.size(); i++) {
-                            Fragment f = allFragments.get(i);
-                            if (f instanceof ChatView) {
-                                ((ChatView) f).binding.getUsersViewModel().users.add(new UserViewModel(new Player(String.valueOf(new Date()), newLog)));
-                            }
-                        }
-
-                        //  }
-                        // itsMe = false;
-                        //  } //TODO the date should come with the message
-
-//                        Snackbar snack =  Snackbar.make(findViewById(R.id.drawer_layout), Html.fromHtml(stringBuilder.toString()), Snackbar.LENGTH_LONG);
-//                        snack.setActionTextColor(Color.WHITE);
-//                        snack.show();
-                        break;
-                }
-            }
-        };
-
-        mLoggerCallback = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                switch (intent.getAction()) {
-
-                    case LoggingService.ACTION_LOG:
-                        String newLog = intent.getStringExtra(LoggingService.EXTRA_LOG_MESSAGE);
-
-                       // if(ISentThis())
-                      //  {usersViewModel.users.add(new SuperUserViewModel(new Player(String.valueOf(new Date()), newLog)));
-                      //      itsMe = true;
-                      //  } //TODO the date should come with the message
-                       //     else
-                      //  {
-                        List<Fragment> allFragments = getActivity().getSupportFragmentManager().getFragments();
-                        for (int i=0; i < allFragments.size(); i++)
-                        {
-                            Fragment f = allFragments.get(i);
-                            if(f instanceof ChatView)
-                            {
-                                ((ChatView)f).binding.getUsersViewModel().users.add(new UserViewModel(new Player(String.valueOf(new Date()), newLog)));
-                            }
-                        }
-
-                      //  }
-                       // itsMe = false;
-                      //  } //TODO the date should come with the message
-
-//                        Snackbar snack =  Snackbar.make(findViewById(R.id.drawer_layout), Html.fromHtml(stringBuilder.toString()), Snackbar.LENGTH_LONG);
-//                        snack.setActionTextColor(Color.WHITE);
-//                        snack.show();
-                        break;
-                }
-            }
-        };
 
         // Give the topmost view of your activity layout hierarchy. This will be used to measure soft keyboard height
         final EmojiconsPopup popup = new EmojiconsPopup(binding.getRoot(), getActivity());

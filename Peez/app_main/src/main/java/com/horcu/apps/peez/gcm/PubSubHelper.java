@@ -34,12 +34,12 @@ public class PubSubHelper {
 
     private final Context mContext;
     private final LoggingService.Logger mLogger;
-    private final SenderCollection mSenders;
+    //private final SenderCollection mSenders;
 
     public PubSubHelper(Context context) {
         mContext = context;
         mLogger = new LoggingService.Logger(mContext);
-        mSenders = SenderCollection.getInstance(mContext);
+      //  mSenders = SenderCollection.getInstance(mContext);
     }
 
     /**
@@ -60,13 +60,13 @@ public class PubSubHelper {
                             + "\ntopic: " + topic
                             + "\nextras: " + extras, "error");
                     // Save the token in the address book
-                    Sender entry = mSenders.getSender(senderId);
-                    if (entry == null) {
-                        mLogger.log(Log.ERROR, "Could not subscribe to topic, missing sender id", "error");
-                        return null;
-                    }
-                    entry.topics.put(topic, true);
-                    mSenders.updateSender(entry);
+                  //  Sender entry = mSenders.getSender(senderId);
+                  //  if (entry == null) {
+                   //     mLogger.log(Log.ERROR, "Could not subscribe to topic, missing sender id", "error");
+                   //     return null;
+                  //  }
+                   // entry.topics.put(topic, true);
+                 //   mSenders.updateSender(entry);
                 } catch (IOException | IllegalArgumentException e) {
                     mLogger.log(Log.INFO, "topic subscription failed."
                             + "\nerror: " + e.getMessage()
@@ -94,13 +94,13 @@ public class PubSubHelper {
                             + "\ngcmToken: " + gcmToken
                             + "\ntopic: " + topic, "error");
                     // Save the token in the address book
-                    Sender entry = mSenders.getSender(senderId);
-                    if (entry == null) {
-                        mLogger.log(Log.ERROR, "Could not save token, missing sender id", "error");
-                        return null;
-                    }
-                    entry.topics.put(topic, false);
-                    mSenders.updateSender(entry);
+                   /// Sender entry = mSenders.getSender(senderId);
+                  //  if (entry == null) {
+                  //      mLogger.log(Log.ERROR, "Could not save token, missing sender id", "error");
+                  //      return null;
+                  //  }
+                  //  entry.topics.put(topic, false);
+                 //   mSenders.updateSender(entry);
                 } catch (IOException | IllegalArgumentException e) {
                     mLogger.log(Log.INFO, "topic unsubscription failed."
                             + "\nerror: " + e.getMessage()

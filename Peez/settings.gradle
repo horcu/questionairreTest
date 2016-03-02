@@ -1,5 +1,6 @@
 include ':backend_gameboard', ':common', ':app_main', ':recyclerview-binding'
 //include':BubbleTextView'
 include ':backend'
+//include ':emoji'
+//include ':emoji-example'
 include ':emoji'
-include ':emoji-example'

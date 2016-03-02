@@ -75,8 +75,8 @@ public class MessageSender {
                     protected String doInBackground(Void... params) {
                         GcmServerSideSender sender = new GcmServerSideSender(apiKey, logger);
                         try {
-                          //  sender.sendHttpJsonDownstreamMessage("ejUsnCrzAI4:APA91bH0PeckRDDC7Z8WJTC2eUjP65Xiin2bh8yKMSyA6Cu2Wt62OzBu40WZK4acVDR7pFUVZt_xddHJOESA_UL8DQpisavJ9HRkEH8L5eySFiaTIFPe5H9qc619wIwiDSmR6g-TuRS4", messageBuilder.build()); //me
-                            sender.sendHttpJsonDownstreamMessage("eduHXkuRKCk:APA91bG4T6jVn8SMUTb_dCjZIiKxC30sBhGxvKf1OsGuCDXg0c0r2D-Z2ub7EQU1RPP_SlT0yFWUSShVxfs9KFnksakMbhix4qrdw-yeWeY9Az0pGptpjmOT4n3ZEWew61g6q91wH12U", messageBuilder.build()); //remy
+                            sender.sendHttpJsonDownstreamMessage("dwzAnKlTG3k:APA91bGYaATwRGqeYf6kYYMR5e6y_6hEiDsZY27L1ODOY4kFFGgedDDLiywqgEhEnBANyTwsHQy_twPRVgyZ2fzOCOlE3RLdBZ9Wga1XMAfk2UX6534HawIHeAhcK1envl4RXBQZ_cqv", messageBuilder.build()); //me
+                          //  sender.sendHttpJsonDownstreamMessage("fLU7DY-3zWQ:APA91bEbRau3a259kR8GZ6PcVjewe0-a-mBq4GNNqlq68ynaJqiC3uyXhjUzUOIODPx0F_EJLTyhhYEes0D8p2aZp_RfECty0K2XTPWlOvm4bOdp5YFjrm5vpPJ0CSMHF-yc5VumKikV", messageBuilder.build()); //remy
 
                         } catch (final IOException e) {
                             return e.getMessage();
