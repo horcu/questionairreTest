@@ -22,6 +22,10 @@ import com.horcu.apps.peez.misc.SenderCollection;
 import com.horcu.apps.peez.service.LoggingService;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 /**
@@ -60,6 +64,15 @@ public class MessageSender {
             messageBuilder.delayWhileIdle(false);
             messageBuilder.dryRun(dry);
 
+//            Date date = null;
+//            try {
+//                String now = new Date().toString();
+//                date = new SimpleDateFormat("yy-MM-dd HH:mm:ss").parse(now);
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+
+           // message = date.toString() + " " + message;
             messageBuilder.addData("message", message);
 
             // messageBuilder.addData("move", moveString); TODO move this to another method that handles sending move data
@@ -75,7 +88,7 @@ public class MessageSender {
                     protected String doInBackground(Void... params) {
                         GcmServerSideSender sender = new GcmServerSideSender(apiKey, logger);
                         try {
-                           // sender.sendHttpJsonDownstreamMessage("eDBwBS4KvHE:APA91bHUhsJc2Um201NSXfpX8tLYKKWjADfW3Pg0noHiQ0QSoLtSuE6UHtGm3csiU6cBEOBVwX1gzcL70j2jehIHEux3ZZnPqrQLYq1rd65Vs2by2IFdbpOm_nltdG-mVAW2ZNS8PqAi", messageBuilder.build()); //me
+                            //sender.sendHttpJsonDownstreamMessage("eDBwBS4KvHE:APA91bHUhsJc2Um201NSXfpX8tLYKKWjADfW3Pg0noHiQ0QSoLtSuE6UHtGm3csiU6cBEOBVwX1gzcL70j2jehIHEux3ZZnPqrQLYq1rd65Vs2by2IFdbpOm_nltdG-mVAW2ZNS8PqAi", messageBuilder.build()); //me
                             sender.sendHttpJsonDownstreamMessage("d-IelLPYTKw:APA91bHbVPEW8fVYM0YJ5-H8Qa3BZ9Mam7ESvGbcFL-GGCojuwkQqL7zMm1PKqxb2yHehE7FgDxlaJVjLFiNEgrru2wrCbAS0Llzuk99RR15QsDzyWyCSrMB7hp6iVoUjIldjSwM_0C-", messageBuilder.build()); //remy
 
                         } catch (final IOException e) {

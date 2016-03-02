@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
@@ -15,6 +16,7 @@ import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
 import com.horcu.apps.peez.R;
+import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.view.main_view;
 import com.squareup.picasso.Picasso;
 
@@ -27,6 +29,8 @@ public class GcmService extends GcmListenerService {
 
     private LoggingService.Logger logger;
     private PowerManager.WakeLock wl;
+    private SharedPreferences settings;
+
 
     public GcmService() {
         logger = new LoggingService.Logger(this);
@@ -41,7 +45,8 @@ public class GcmService extends GcmListenerService {
 
         String message = data.getString("message");
        // String collapsedKey = data.getString("collapsed_key");
-       // String senderId = data.getString("sender");
+        String senderId = data.getString("sender");
+
         String senderImgUrl = "https://storage.googleapis.com/ballrz/images/users/IMAG0311%5B1%5D.jpg";// data.getString("sender");
 
 
@@ -64,6 +69,12 @@ public class GcmService extends GcmListenerService {
         sendNotification(bitmap, message);
         logMessage(message, bitmap);
         Log.d("Received GCM Message: ", data.toString());
+    }
+
+    private boolean ISentThisMessage(String senderId) {
+
+       String sId = settings.getString(consts.REG_ID,"");
+        return senderId.equals(sId);
     }
 
     @Override

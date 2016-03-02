@@ -70,11 +70,19 @@ public class main_view extends AppCompatActivity
                     case LoggingService.ACTION_LOG:
                         String newLog = intent.getStringExtra(LoggingService.EXTRA_LOG_MESSAGE);
 
+                        if(newLog.contains("canonical_ids")) //This means the message was sent from this device TODO - check if this is the correct way
+                            return;
+
+//                        String dateTime = newLog.substring(0,17);
+//                        String message = newLog.substring(17,newLog.length());
+
                         List<Fragment> fragments = getSupportFragmentManager().getFragments();
                         for (Fragment fragment : fragments) {
                             if (fragment instanceof ChatView) {
-                                ((ChatView)fragment).binding.getUsersViewModel().users.add(new UserViewModel(new Player(String.valueOf(new Date()), newLog)));
+                                ((ChatView)fragment).binding.getUsersViewModel().users.add(new UserViewModel(new Player(new Date().toString(), newLog)));
                                 ((ChatView)fragment).binding.activityUsersRecycler.getAdapter().notifyDataSetChanged();
+                                int msgCount = ((ChatView)fragment).binding.activityUsersRecycler.getAdapter().getItemCount();
+                                ((ChatView)fragment).binding.activityUsersRecycler.smoothScrollToPosition(msgCount -1);
                             }
                         }
                         break;

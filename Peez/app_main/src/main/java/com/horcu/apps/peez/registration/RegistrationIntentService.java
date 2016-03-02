@@ -79,10 +79,13 @@ public class RegistrationIntentService extends IntentService {
             // [END get_token]
             Log.i(TAG, "GCM Registration Token: " + token);
 
-            // TODO: Implement this method to send any registration to your app's servers.
              addRegistrationRecord(token);
 
             if(token.equals("")) return;
+
+            //TODO should we refresh the tokens somewhere on the server
+            //TODO the registration record ideally should include the email address (or whatever unique identifyer that is settled on) of the user.
+
 
             String mPhoneNumber = "5409152215";// getPhoneNumber();
 
