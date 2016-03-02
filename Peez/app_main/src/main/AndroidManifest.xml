@@ -61,13 +61,14 @@
             </intent-filter>
         </service>
 
-        <!-- <service -->
-        <!-- android:name=".registration.MyGcmListenerService" -->
-        <!-- android:exported="false" > -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="com.google.android.c2dm.intent.RECEIVE" /> -->
-        <!-- </intent-filter> -->
-        <!-- </service> -->
+         <!--<service-->
+         <!--android:name=".registration.MyGcmListenerService"-->
+         <!--android:exported="false" >-->
+         <!--<intent-filter>-->
+         <!--<action android:name="com.google.android.c2dm.intent.RECEIVE" />-->
+         <!--</intent-filter>-->
+         <!--</service>-->
+
         <!-- [END gcm_listener] -->
         <!-- [START instanceId_listener] -->
         <service

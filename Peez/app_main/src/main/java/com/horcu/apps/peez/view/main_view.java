@@ -22,8 +22,11 @@ import android.view.View;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.gcm.PubSubHelper;
+import com.horcu.apps.peez.model.Player;
 import com.horcu.apps.peez.service.LoggingService;
+import com.horcu.apps.peez.viewmodel.UserViewModel;
 
+import java.util.Date;
 import java.util.List;
 
 public class main_view extends AppCompatActivity
@@ -39,6 +42,7 @@ public class main_view extends AppCompatActivity
     private SharedPreferences settings;
     private PubSubHelper pubsub ;
     private BroadcastReceiver mLoggerCallback;
+    private LoggingService.Logger mLogger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +57,30 @@ public class main_view extends AppCompatActivity
         mViewPager.setAdapter(mSectionsPagerAdapter);
         settings = getSharedPreferences("Peez", 0);
         pubsub= new PubSubHelper(this);
-        pubsub.subscribeTopic(consts.SENDER_ID,settings.getString(consts.REG_ID,""),gameTopic, new Bundle());
+        //pubsub.subscribeTopic(consts.SENDER_ID,settings.getString(consts.REG_ID,""),gameTopic, new Bundle());
+
+        mLogger = new LoggingService.Logger(this);
+
+        mLoggerCallback = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                switch (intent.getAction()) {
+                    case LoggingService.ACTION_CLEAR_LOGS:
+                        break;
+                    case LoggingService.ACTION_LOG:
+                        String newLog = intent.getStringExtra(LoggingService.EXTRA_LOG_MESSAGE);
+
+                        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+                        for (Fragment fragment : fragments) {
+                            if (fragment instanceof ChatView) {
+                                ((ChatView)fragment).binding.getUsersViewModel().users.add(new UserViewModel(new Player(String.valueOf(new Date()), newLog)));
+                                ((ChatView)fragment).binding.activityUsersRecycler.getAdapter().notifyDataSetChanged();
+                            }
+                        }
+                        break;
+                }
+            }
+        };
     }
 
     @Override
@@ -82,6 +109,27 @@ public class main_view extends AppCompatActivity
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+    @Override
+    protected void onDestroy() {
+        mLogger.unregisterCallback(mLoggerCallback);
+        super.onDestroy();
+    }
+
+        @Override
+    protected void onResume() {
+        super.onResume();
+            //TODO rebuild instancestate here
+         mLogger.registerCallback(mLoggerCallback);
+    }
+
+    @Override
+    protected void onPause() {
+        //TODO save the instance state
+        mLogger.unregisterCallback(mLoggerCallback);
+        super.onPause();
+    }
+
 
     @Override
     public void onFragmentInteraction(String newMessage) {
