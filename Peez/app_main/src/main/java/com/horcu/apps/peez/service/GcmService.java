@@ -39,14 +39,19 @@ public class GcmService extends GcmListenerService {
         wl = pm.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, "peez");
         wl.acquire();
 
+        String message = data.getString("message");
+       // String collapsedKey = data.getString("collapsed_key");
+       // String senderId = data.getString("sender");
+        String senderImgUrl = "https://storage.googleapis.com/ballrz/images/users/IMAG0311%5B1%5D.jpg";// data.getString("sender");
 
-        String message = data.toString();
+
         //TODO get the image from the message coming in instead of the below hardcoded test
         Bitmap bitmap = null;
         try {
             bitmap = Picasso.with(this)
-                    .load("https://storage.googleapis.com/ballrz/images/users/IMAG0311%5B1%5D.jpg")
+                    .load(senderImgUrl)
                     .get();
+
             Log.d("GCM message:", "image received");
         } catch (IOException e) {
             e.printStackTrace();
@@ -57,30 +62,30 @@ public class GcmService extends GcmListenerService {
             sendNotification(bitmap, message);
         }
         sendNotification(bitmap, message);
-        logMessage("Received GCM Message: " + data.toString());
+        logMessage(message, bitmap);
         Log.d("Received GCM Message: ", data.toString());
     }
 
     @Override
     public void onDeletedMessages() {
-        logMessage("Deleted messages on server");
+        logMessage("Deleted messages on server", null);
     }
 
     @Override
     public void onMessageSent(String msgId) {
-        logMessage("Upstream message sent. Id=" + msgId);
+        logMessage("Upstream message sent. Id=" + msgId, null);
     }
 
     @Override
     public void onSendError(String msgId, String error) {
-        logMessage("Upstream message send error. Id=" + msgId + ", error" + error);
+        logMessage("Upstream message send error. Id=" + msgId + ", error" + error, null);
     }
 
 
     // Put the message into a notification and post it.
     // This is just one simple example of what you might choose to do with
     // a GCM message.
-    private void logMessage(String msg) {
+    private void logMessage(String msg, Bitmap bitmap) {
 
         logger.log(Log.INFO, msg, "error");
     }

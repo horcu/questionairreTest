@@ -81,7 +81,6 @@ public class ChatView extends Fragment {
     private LoggingService.Logger mLogger;
     private SenderCollection mSenders;
 
-    private boolean itsMe;
     private Spinner users;
     private BroadcastReceiver mLoggerCallback;
 
@@ -124,7 +123,6 @@ public class ChatView extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         settings = getActivity().getSharedPreferences("Peez", 0);
-        itsMe = false;
 
         binding = FragmentChatViewBinding.inflate(inflater, container, false);
         usersViewModel = new UsersViewModel();
@@ -291,15 +289,7 @@ public class ChatView extends Fragment {
                 Date d = new Date();
                 long time = d.getTime();
 
-                if(itsMe) {
                     usersViewModel.users.add(new SuperUserViewModel(new Player(String.valueOf(time), getStringFromEditText(binding.usersViewLastname))));
-                    itsMe = false;
-                }
-                else
-                {
-                    usersViewModel.users.add(new UserViewModel(new Player(String.valueOf(time), getStringFromEditText(binding.usersViewLastname))));
-                    itsMe = true;
-                }
 
                 String senderId = consts.SENDER_ID;
                 if("" != senderId) {

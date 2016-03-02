@@ -30,6 +30,7 @@ public class consts {
    public static final String TEST_GAME_TOPIC = "testGame";
    public static final String TEST_MSG_ID = "1234567890";
    public static final String TEST_TINE_TO_LIVE = "200";
+   public static final String USER_IMG = "user_Image";
    //end entity constants
 
    //turn dev mode on and off
