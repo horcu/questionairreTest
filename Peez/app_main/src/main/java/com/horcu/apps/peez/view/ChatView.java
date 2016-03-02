@@ -25,6 +25,7 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
+import com.google.android.gms.gcm.GcmReceiver;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.BR;
 import com.horcu.apps.peez.binder.SuperUserBinder;
@@ -46,6 +47,7 @@ import net.droidlabs.mvvm.recyclerview.adapter.binder.CompositeItemBinder;
 import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinder;
 
 import java.util.Date;
+import java.util.List;
 
 import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconsPopup;
@@ -124,13 +126,45 @@ public class ChatView extends Fragment {
         settings = getActivity().getSharedPreferences("Peez", 0);
         itsMe = false;
 
-
         binding = FragmentChatViewBinding.inflate(inflater, container, false);
         usersViewModel = new UsersViewModel();
         usersViewModel.users.add(new SuperUserViewModel(new Player(String.valueOf(new Date()), "lets play :) :D")));
         binding.setUsersViewModel(usersViewModel);
         binding.setView(this);
         binding.getView();
+
+        GcmReceiver test = new GcmReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                switch (intent.getAction()) {
+                    case LoggingService.ACTION_LOG:
+                        String newLog = intent.getStringExtra(LoggingService.EXTRA_LOG_MESSAGE);
+
+                        // if(ISentThis())
+                        //  {usersViewModel.users.add(new SuperUserViewModel(new Player(String.valueOf(new Date()), newLog)));
+                        //      itsMe = true;
+                        //  } //TODO the date should come with the message
+                        //     else
+                        //  {
+                        List<Fragment> allFragments = getActivity().getSupportFragmentManager().getFragments();
+                        for (int i = 0; i < allFragments.size(); i++) {
+                            Fragment f = allFragments.get(i);
+                            if (f instanceof ChatView) {
+                                ((ChatView) f).binding.getUsersViewModel().users.add(new UserViewModel(new Player(String.valueOf(new Date()), newLog)));
+                            }
+                        }
+
+                        //  }
+                        // itsMe = false;
+                        //  } //TODO the date should come with the message
+
+//                        Snackbar snack =  Snackbar.make(findViewById(R.id.drawer_layout), Html.fromHtml(stringBuilder.toString()), Snackbar.LENGTH_LONG);
+//                        snack.setActionTextColor(Color.WHITE);
+//                        snack.show();
+                        break;
+                }
+            }
+        };
 
         mLoggerCallback = new BroadcastReceiver() {
             @Override
@@ -146,7 +180,16 @@ public class ChatView extends Fragment {
                       //  } //TODO the date should come with the message
                        //     else
                       //  {
-                            usersViewModel.users.add(new UserViewModel(new Player(String.valueOf(new Date()), newLog)));
+                        List<Fragment> allFragments = getActivity().getSupportFragmentManager().getFragments();
+                        for (int i=0; i < allFragments.size(); i++)
+                        {
+                            Fragment f = allFragments.get(i);
+                            if(f instanceof ChatView)
+                            {
+                                ((ChatView)f).binding.getUsersViewModel().users.add(new UserViewModel(new Player(String.valueOf(new Date()), newLog)));
+                            }
+                        }
+
                       //  }
                        // itsMe = false;
                       //  } //TODO the date should come with the message
@@ -327,7 +370,7 @@ public class ChatView extends Fragment {
                     itsMe = true;
                 }
 
-                String senderId = settings.getString(consts.SENDER_ID, "");
+                String senderId = consts.SENDER_ID;
                 if("" != senderId) {
                     MessageSender sender = new MessageSender(getActivity(), mLogger, mSenders);
                   if(!sender.sendMessage(consts.TEST_GAME_TOPIC,consts.TEST_MSG_ID,getStringFromEditText(binding.usersViewLastname),consts.TEST_TINE_TO_LIVE, false))

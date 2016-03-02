@@ -161,7 +161,7 @@ public class RegView extends AppCompatActivity {
     }
 
     private void navigateToApp() {
-        startActivity(new Intent(getApplicationContext(), ChatView.class));
+        startActivity(new Intent(getApplicationContext(), main_view.class));
     }
 
     void chooseAccount() {

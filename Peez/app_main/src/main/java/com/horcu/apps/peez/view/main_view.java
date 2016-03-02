@@ -54,9 +54,6 @@ public class main_view extends AppCompatActivity
         settings = getSharedPreferences("Peez", 0);
         pubsub= new PubSubHelper(this);
         pubsub.subscribeTopic(consts.SENDER_ID,settings.getString(consts.REG_ID,""),gameTopic, new Bundle());
-
-
-
     }
 
     @Override

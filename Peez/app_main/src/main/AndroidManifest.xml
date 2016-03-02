@@ -87,6 +87,11 @@
             android:name=".view.RegView"
             android:label="@string/title_users">
 
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".view.baseview"
@@ -99,11 +104,7 @@
             android:name=".view.main_view"
             android:label="@string/title_activity_main_view">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

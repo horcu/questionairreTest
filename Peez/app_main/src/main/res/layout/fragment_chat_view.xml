@@ -32,6 +32,7 @@
             app:clickHandler="@{view.clickHandler}"
             app:longClickHandler="@{view.longClickHandler}"
             android:layout_marginBottom="50dp"
+            app:stackFromEnd="true"
             />
 
         <LinearLayout
