@@ -1,0 +1,184 @@
+[
+    {
+        "outputFile": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji-example\\build\\intermediates\\res\\merged\\debug\\values\\values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 260,
+                    "endColumn": 57,
+                    "endOffset": 313
+                },
+                "from": {
+                    "file": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji-example\\src\\main\\res\\values\\dimens.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 89,
+                        "endColumn": 57,
+                        "endOffset": 142
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 318,
+                    "endColumn": 55,
+                    "endOffset": 369
+                },
+                "from": {
+                    "file": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji-example\\src\\main\\res\\values\\dimens.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 147,
+                        "endColumn": 55,
+                        "endOffset": 198
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 5,
+                    "startColumn": 4,
+                    "startOffset": 374,
+                    "endColumn": 47,
+                    "endOffset": 417
+                },
+                "from": {
+                    "file": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji-example\\build\\intermediates\\exploded-aar\\Peez\\emoji\\unspecified\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 260,
+                        "endColumn": 47,
+                        "endOffset": 303
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 6,
+                    "startColumn": 4,
+                    "startOffset": 422,
+                    "endColumn": 52,
+                    "endOffset": 470
+                },
+                "from": {
+                    "file": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji-example\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 108,
+                        "endColumn": 52,
+                        "endOffset": 156
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 7,
+                    "startColumn": 4,
+                    "startOffset": 475,
+                    "endColumn": 51,
+                    "endOffset": 522
+                },
+                "from": {
+                    "file": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji-example\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 56,
+                        "endColumn": 51,
+                        "endOffset": 103
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 8,
+                    "startColumn": 4,
+                    "startOffset": 527,
+                    "endColumn": 52,
+                    "endOffset": 575
+                },
+                "from": {
+                    "file": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji-example\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 161,
+                        "endColumn": 52,
+                        "endOffset": 209
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 9,
+                    "startColumn": 4,
+                    "startOffset": 580,
+                    "endLine": 15,
+                    "endColumn": 12,
+                    "endOffset": 866
+                },
+                "from": {
+                    "file": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji-example\\src\\main\\res\\values\\styles.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 186,
+                        "endLine": 12,
+                        "endColumn": 12,
+                        "endOffset": 472
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 16,
+                    "startColumn": 4,
+                    "startOffset": 871,
+                    "endLine": 18,
+                    "endColumn": 12,
+                    "endOffset": 1026
+                },
+                "from": {
+                    "file": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji-example\\src\\main\\res\\values\\styles.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 510,
+                        "endLine": 17,
+                        "endColumn": 12,
+                        "endOffset": 665
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 19,
+                    "startColumn": 4,
+                    "startOffset": 1031,
+                    "endLine": 28,
+                    "endColumn": 12,
+                    "endOffset": 1514
+                },
+                "from": {
+                    "file": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji-example\\build\\intermediates\\exploded-aar\\Peez\\emoji\\unspecified\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 354,
+                        "endLine": 14,
+                        "endColumn": 12,
+                        "endOffset": 837
+                    }
+                }
+            }
+        ]
+    }
+]

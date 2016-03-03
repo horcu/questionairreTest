@@ -1,0 +1,22 @@
+[
+    {
+        "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji-example\\build\\intermediates\\res\\merged\\debug\\layout\\emojicon_grid.xml",
+        "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji-example\\build\\intermediates\\exploded-aar\\Peez\\emoji\\unspecified\\res\\layout\\emojicon_grid.xml"
+    },
+    {
+        "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji-example\\build\\intermediates\\res\\merged\\debug\\layout\\emojicons.xml",
+        "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji-example\\build\\intermediates\\exploded-aar\\Peez\\emoji\\unspecified\\res\\layout\\emojicons.xml"
+    },
+    {
+        "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji-example\\build\\intermediates\\res\\merged\\debug\\layout\\activity_main.xml",
+        "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji-example\\src\\main\\res\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji-example\\build\\intermediates\\res\\merged\\debug\\layout\\emojicon_item.xml",
+        "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji-example\\build\\intermediates\\exploded-aar\\Peez\\emoji\\unspecified\\res\\layout\\emojicon_item.xml"
+    },
+    {
+        "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji-example\\build\\intermediates\\res\\merged\\debug\\layout\\listview_row_layout.xml",
+        "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji-example\\src\\main\\res\\layout\\listview_row_layout.xml"
+    }
+]

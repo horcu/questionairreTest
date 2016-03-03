@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji-example\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\smiley.png",
+        "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji-example\\src\\main\\res\\drawable-xxhdpi\\smiley.png"
+    },
+    {
+        "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji-example\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\ic_launcher.png",
+        "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji-example\\src\\main\\res\\drawable-xxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji-example\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\ic_action_keyboard.png",
+        "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji-example\\src\\main\\res\\drawable-xxhdpi\\ic_action_keyboard.png"
+    },
+    {
+        "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji-example\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\ic_action_send_now.png",
+        "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji-example\\src\\main\\res\\drawable-xxhdpi\\ic_action_send_now.png"
+    }
+]
