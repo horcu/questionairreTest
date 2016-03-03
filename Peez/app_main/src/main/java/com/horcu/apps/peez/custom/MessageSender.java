@@ -13,19 +13,24 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.userApi.model.CollectionResponseUser;
 import com.horcu.apps.peez.common.utilities.consts;
+import com.horcu.apps.peez.gcm.BaseMessage;
 import com.horcu.apps.peez.gcm.GcmServerSideSender;
 import com.horcu.apps.peez.gcm.Message;
 import com.horcu.apps.peez.misc.SenderCollection;
 import com.horcu.apps.peez.service.LoggingService;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -89,7 +94,7 @@ public class MessageSender {
                         GcmServerSideSender sender = new GcmServerSideSender(apiKey, logger);
                         try {
                             sender.sendHttpJsonDownstreamMessage("fMaseZ90QB8:APA91bHhs1D-hJ-BvPCSVVv6tUSLsEbM8ynCE5RyfkzzRooPgHvlPSoxJy__29ZnwQFFh3tut-OjWCPodGFVkFoKxgSsUPTOpdYYJ9WdOnl_1fso2tUJEok90vHRCHVKGKJ_LS0ZnCHz", messageBuilder.build()); //me
-                            //sender.sendHttpJsonDownstreamMessage("f1mpXKewWmM:APA91bFHQn0czrXUJTfzwtBIhnTmthVVKm9vvlUKJDLJC-jCt3gQlCFmZ1lG1eHxXskmkNTGM-3FSefFMja4otrea6dGY74BtcBXrHVSZfGejABlv0LDuB2ciIf_aXOpscq656DT6-YM", messageBuilder.build()); //remy
+                           // sender.sendHttpJsonDownstreamMessage("f1mpXKewWmM:APA91bFHQn0czrXUJTfzwtBIhnTmthVVKm9vvlUKJDLJC-jCt3gQlCFmZ1lG1eHxXskmkNTGM-3FSefFMja4otrea6dGY74BtcBXrHVSZfGejABlv0LDuB2ciIf_aXOpscq656DT6-YM", messageBuilder.build()); //remy
 
                         } catch (final IOException e) {
                             return e.getMessage();
@@ -115,4 +120,8 @@ public class MessageSender {
             }
 return true;
         }
+
+    public static BaseMessage BuildBaseMessageFromJsonMEssage(String to, String from,String message, String dateTime) {
+            return new BaseMessage(to, from,message,dateTime);
+    }
 }

@@ -24,12 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.Toast;
-
-import com.google.android.gms.gcm.GcmPubSub;
-import com.google.android.gms.gcm.GcmReceiver;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.BR;
 import com.horcu.apps.peez.binder.SuperUserBinder;
@@ -37,7 +32,8 @@ import com.horcu.apps.peez.binder.UserBinder;
 import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.custom.MessageSender;
 import com.horcu.apps.peez.databinding.FragmentChatViewBinding;
-import com.horcu.apps.peez.gcm.Message;
+import com.horcu.apps.peez.gcm.BaseMessage;
+
 import com.horcu.apps.peez.gcm.PubSubHelper;
 import com.horcu.apps.peez.misc.SenderCollection;
 import com.horcu.apps.peez.model.Player;
@@ -237,8 +233,6 @@ public class ChatView extends Fragment {
             }
         });
 
-
-
         binding.activityUsersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         return binding.getRoot(); //inflater.inflate(R.layout.fragment_chat_view, container, false);
     }
@@ -248,37 +242,53 @@ public class ChatView extends Fragment {
         realmConfig = new RealmConfiguration.Builder(ctx).build();
         // Realm.deleteRealm(realmConfig);
         realm = Realm.getInstance(realmConfig);
-        final ObservableArrayList<UserViewModel> vms = null;
+        final ObservableArrayList<UserViewModel> vms = new ObservableArrayList<>();
 
-        new AsyncTask<Void, Void, Void>() {
+        // Query and update the result asynchronously in another thread
+        realm.executeTransaction(new Realm.Transaction() {
             @Override
-            protected void onPostExecute(Void v) {
-
-                usersViewModel.users.addAll(vms);
-            }
-
-            @Override
-            protected Void doInBackground(Void... params) {
+            public void execute(Realm realm) {
                 try {
-                    RealmResults<Message> messages = realm.allObjects(Message.class); // where(Message.class).equalTo("sender", sender).findAll();
+                    RealmResults<BaseMessage> messages = realm.allObjects(BaseMessage.class); // where(Message.class).equalTo("sender", sender).findAll();
 
                     if(messages.size() < 1)
-                        return null;
+                        return;
 
-                    for (Message m : messages)
+                    for (BaseMessage m : messages)
                     {
-                        String message = m.getData().get("message");
+                        String message = m.getMessage();
                         Player player = new Player(String.valueOf(new Date()), message);
-                        SuperUserViewModel su = new SuperUserViewModel(player);
-                        vms.add(su);
+                        String from = m.getFrom();
+                        String regId = settings.getString(consts.REG_ID, "");
+
+                        if(from.equals(regId))
+                        {
+                          SuperUserViewModel su = new SuperUserViewModel(player);
+                          vms.add(su);
+                        }
+                        else
+                        {
+                          UserViewModel su = new UserViewModel(player);
+                          vms.add(su);
+                        }
                     }
 
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
-                return null;
             }
-        }.execute();
+        }, new Realm.Transaction.Callback() {
+            @Override
+            public void onSuccess() {
+                if(usersViewModel.users == null)
+                    usersViewModel.users = new ObservableArrayList<UserViewModel>();
+
+                if(vms != null)
+                {
+                   usersViewModel.users.addAll(vms);
+                }
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -337,13 +347,18 @@ public class ChatView extends Fragment {
             {
                 Date d = new Date();
                 long time = d.getTime();
+                String message = getStringFromEditText(binding.usersViewLastname);
 
-                    usersViewModel.users.add(new SuperUserViewModel(new Player(String.valueOf(time), getStringFromEditText(binding.usersViewLastname))));
+                BaseMessage baseMessage = MessageSender.BuildBaseMessageFromJsonMEssage("", consts.REG_ID, message, String.valueOf(time));
+                if(baseMessage.equals(""))
+                    return;
+
+                usersViewModel.users.add(new SuperUserViewModel(new Player(String.valueOf(time), getStringFromEditText(binding.usersViewLastname))));
 
                 String senderId = consts.SENDER_ID;
                 if("" != senderId) {
                     MessageSender sender = new MessageSender(getActivity(), mLogger, mSenders);
-                  if(!sender.sendMessage(consts.TEST_GAME_TOPIC,consts.TEST_MSG_ID,getStringFromEditText(binding.usersViewLastname),consts.TEST_TINE_TO_LIVE, false))
+                  if(!sender.sendMessage(consts.TEST_GAME_TOPIC,consts.TEST_MSG_ID,message,consts.TEST_TINE_TO_LIVE, false))
                   {
                     //message not sent something went wrong
                       Snackbar.make(v, ":/ bummer", Snackbar.LENGTH_LONG).show();
@@ -351,6 +366,11 @@ public class ChatView extends Fragment {
                 }
                 else
                 {
+                    //save to db
+                    realm.beginTransaction();
+                    realm.copyToRealm(baseMessage);
+                    realm.commitTransaction();
+
                    Snackbar.make(v, ":) sent..werd!", Snackbar.LENGTH_LONG).show();
                 }
                 ((EditText)binding.getRoot().findViewById(R.id.users_view_lastname)).setText("");

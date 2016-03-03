@@ -59,7 +59,7 @@ import io.realm.RealmObject;
  *    .build();
  * </pre></code>
  */
-public final class Message extends RealmObject implements Serializable {
+public final class Message implements Serializable {
 
     private final String collapseKey;
     private final Boolean delayWhileIdle;

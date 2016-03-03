@@ -19,10 +19,13 @@ import android.view.MenuItem;
 import android.view.View;
 
 
+import com.google.gson.Gson;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.common.utilities.consts;
+import com.horcu.apps.peez.custom.MessageSender;
 import com.horcu.apps.peez.databinding.FragmentChatViewBinding;
-import com.horcu.apps.peez.gcm.Message;
+import com.horcu.apps.peez.gcm.BaseMessage;
+
 import com.horcu.apps.peez.gcm.PubSubHelper;
 import com.horcu.apps.peez.model.Player;
 import com.horcu.apps.peez.service.LoggingService;
@@ -96,14 +99,17 @@ public class MainView extends AppCompatActivity
                                 frag = fragment;
                             }
                         }
-                        ((ChatView)frag).binding.getUsersViewModel().users.add(new UserViewModel(new Player(new Date().toString(), message)));
-                        ((ChatView)frag).binding.activityUsersRecycler.getAdapter().notifyDataSetChanged();
-                        int msgCount = ((ChatView)frag).binding.activityUsersRecycler.getAdapter().getItemCount();
-                        ((ChatView)frag).binding.activityUsersRecycler.smoothScrollToPosition(msgCount -1);
+                        ChatView ChatFrag = ((ChatView)frag);
+
+                        ChatFrag.binding.getUsersViewModel().users.add(new UserViewModel(new Player(new Date().toString(), message)));
+                        ChatFrag.binding.activityUsersRecycler.getAdapter().notifyDataSetChanged();
+                        int msgCount = ChatFrag.binding.activityUsersRecycler.getAdapter().getItemCount();
+                        ChatFrag.binding.activityUsersRecycler.smoothScrollToPosition(msgCount -1);
 
                         //save to db
+                        BaseMessage msg = MessageSender.BuildBaseMessageFromJsonMEssage("", "", message, dateTime);
                         realm.beginTransaction();
-                        realm.createObjectFromJson(Message.class, newMessage);
+                        realm.copyToRealm(msg);
                         realm.commitTransaction();
                         break;
                 }
@@ -111,6 +117,8 @@ public class MainView extends AppCompatActivity
         };
         mViewPager.setCurrentItem(1);
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
