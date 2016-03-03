@@ -4,7 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.databinding.ObservableArrayList;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -12,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +28,7 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
+import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GcmReceiver;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.BR;
@@ -33,6 +37,7 @@ import com.horcu.apps.peez.binder.UserBinder;
 import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.custom.MessageSender;
 import com.horcu.apps.peez.databinding.FragmentChatViewBinding;
+import com.horcu.apps.peez.gcm.Message;
 import com.horcu.apps.peez.gcm.PubSubHelper;
 import com.horcu.apps.peez.misc.SenderCollection;
 import com.horcu.apps.peez.model.Player;
@@ -46,12 +51,16 @@ import net.droidlabs.mvvm.recyclerview.adapter.LongClickHandler;
 import net.droidlabs.mvvm.recyclerview.adapter.binder.CompositeItemBinder;
 import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinder;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
 import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconsPopup;
 import github.ankushsachdeva.emojicon.emoji.Emojicon;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -81,8 +90,8 @@ public class ChatView extends Fragment {
     private LoggingService.Logger mLogger;
     private SenderCollection mSenders;
 
-    private Spinner users;
-    private BroadcastReceiver mLoggerCallback;
+    private Realm realm;
+    private RealmConfiguration realmConfig;
 
     public ChatView() {
         // Required empty public constructor
@@ -126,7 +135,9 @@ public class ChatView extends Fragment {
 
         binding = FragmentChatViewBinding.inflate(inflater, container, false);
         usersViewModel = new UsersViewModel();
-        usersViewModel.users.add(new SuperUserViewModel(new Player(String.valueOf(new Date()), "lets play :) :D")));
+
+        getMessagesFromDb("", getActivity());
+
         binding.setUsersViewModel(usersViewModel);
         binding.setView(this);
         binding.getView();
@@ -230,6 +241,44 @@ public class ChatView extends Fragment {
 
         binding.activityUsersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         return binding.getRoot(); //inflater.inflate(R.layout.fragment_chat_view, container, false);
+    }
+
+    private void getMessagesFromDb(final String sender, Context ctx) {
+
+        realmConfig = new RealmConfiguration.Builder(ctx).build();
+        // Realm.deleteRealm(realmConfig);
+        realm = Realm.getInstance(realmConfig);
+        final ObservableArrayList<UserViewModel> vms = null;
+
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected void onPostExecute(Void v) {
+
+                usersViewModel.users.addAll(vms);
+            }
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    RealmResults<Message> messages = realm.allObjects(Message.class); // where(Message.class).equalTo("sender", sender).findAll();
+
+                    if(messages.size() < 1)
+                        return null;
+
+                    for (Message m : messages)
+                    {
+                        String message = m.getData().get("message");
+                        Player player = new Player(String.valueOf(new Date()), message);
+                        SuperUserViewModel su = new SuperUserViewModel(player);
+                        vms.add(su);
+                    }
+
+                } catch (Exception e) {
+
+                }
+                return null;
+            }
+        }.execute();
     }
 
     // TODO: Rename method, update argument and hook method into UI event

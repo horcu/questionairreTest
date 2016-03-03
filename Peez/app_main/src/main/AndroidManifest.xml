@@ -61,13 +61,14 @@
             </intent-filter>
         </service>
 
-         <!--<service-->
-         <!--android:name=".registration.MyGcmListenerService"-->
-         <!--android:exported="false" >-->
-         <!--<intent-filter>-->
-         <!--<action android:name="com.google.android.c2dm.intent.RECEIVE" />-->
-         <!--</intent-filter>-->
-         <!--</service>-->
+        <!-- <service -->
+        <!-- android:name=".registration.MyGcmListenerService" -->
+        <!-- android:exported="false" > -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.google.android.c2dm.intent.RECEIVE" /> -->
+        <!-- </intent-filter> -->
+        <!-- </service> -->
+
 
         <!-- [END gcm_listener] -->
         <!-- [START instanceId_listener] -->
@@ -87,7 +88,6 @@
         <activity
             android:name=".view.RegView"
             android:label="@string/title_users">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -100,13 +100,10 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.ErrorView"
-            android:label="@string/title_activity_error_view"></activity>
+            android:label="@string/title_activity_error_view" />
         <activity
             android:name=".view.MainView"
-            android:label="@string/title_activity_main_view">
-
-
-        </activity>
+            android:label="@string/title_activity_main_view"></activity>
     </application>
 
 </manifest>

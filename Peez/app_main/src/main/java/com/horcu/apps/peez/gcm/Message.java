@@ -20,6 +20,8 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import io.realm.RealmObject;
+
 /**
  * GCM message copied from GCM HTTP helper library.
  * https://github.com/google/gcm/tree/master/gcm-server/src/com/google/android/gcm/server
@@ -57,7 +59,7 @@ import java.util.Map;
  *    .build();
  * </pre></code>
  */
-public final class Message implements Serializable {
+public final class Message extends RealmObject implements Serializable {
 
     private final String collapseKey;
     private final Boolean delayWhileIdle;

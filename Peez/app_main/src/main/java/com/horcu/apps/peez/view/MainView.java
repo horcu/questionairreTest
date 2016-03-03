@@ -21,6 +21,8 @@ import android.view.View;
 
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.common.utilities.consts;
+import com.horcu.apps.peez.databinding.FragmentChatViewBinding;
+import com.horcu.apps.peez.gcm.Message;
 import com.horcu.apps.peez.gcm.PubSubHelper;
 import com.horcu.apps.peez.model.Player;
 import com.horcu.apps.peez.service.LoggingService;
@@ -28,6 +30,9 @@ import com.horcu.apps.peez.viewmodel.UserViewModel;
 
 import java.util.Date;
 import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 public class MainView extends AppCompatActivity
         implements ChatView.OnFragmentInteractionListener,
@@ -43,11 +48,19 @@ public class MainView extends AppCompatActivity
     private PubSubHelper pubsub ;
     private BroadcastReceiver mLoggerCallback;
     private LoggingService.Logger mLogger;
+    private Realm realm;
+    private RealmConfiguration realmConfig;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_view);
+
+        realmConfig = new RealmConfiguration.Builder(this).build();
+       // Realm.deleteRealm(realmConfig);
+        realm = Realm.getInstance(realmConfig);
+
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -68,27 +81,35 @@ public class MainView extends AppCompatActivity
                     case LoggingService.ACTION_CLEAR_LOGS:
                         break;
                     case LoggingService.ACTION_LOG:
-                        String newLog = intent.getStringExtra(LoggingService.EXTRA_LOG_MESSAGE);
+                        String newMessage = intent.getStringExtra(LoggingService.EXTRA_LOG_MESSAGE);
 
-                        if(newLog.contains("canonical_ids")) //This means the message was sent from this device TODO - check if this is the correct way
+                        if(newMessage.contains("canonical_ids")) //This means the message was sent from this device TODO - check if this is the correct way
                             return;
 
-                        String dateTime = newLog.substring(0,17);
-                      String message = newLog.substring(17,newLog.length());
+                        String dateTime = newMessage.substring(0,17);
+                      String message = newMessage.substring(17,newMessage.length());
 
                         List<Fragment> fragments = getSupportFragmentManager().getFragments();
+                        Fragment frag = null;
                         for (Fragment fragment : fragments) {
                             if (fragment instanceof ChatView) {
-                                ((ChatView)fragment).binding.getUsersViewModel().users.add(new UserViewModel(new Player(new Date().toString(), message)));
-                                ((ChatView)fragment).binding.activityUsersRecycler.getAdapter().notifyDataSetChanged();
-                                int msgCount = ((ChatView)fragment).binding.activityUsersRecycler.getAdapter().getItemCount();
-                                ((ChatView)fragment).binding.activityUsersRecycler.smoothScrollToPosition(msgCount -1);
+                                frag = fragment;
                             }
                         }
+                        ((ChatView)frag).binding.getUsersViewModel().users.add(new UserViewModel(new Player(new Date().toString(), message)));
+                        ((ChatView)frag).binding.activityUsersRecycler.getAdapter().notifyDataSetChanged();
+                        int msgCount = ((ChatView)frag).binding.activityUsersRecycler.getAdapter().getItemCount();
+                        ((ChatView)frag).binding.activityUsersRecycler.smoothScrollToPosition(msgCount -1);
+
+                        //save to db
+                        realm.beginTransaction();
+                        realm.createObjectFromJson(Message.class, newMessage);
+                        realm.commitTransaction();
                         break;
                 }
             }
         };
+        mViewPager.setCurrentItem(1);
     }
 
     @Override
@@ -164,13 +185,14 @@ public class MainView extends AppCompatActivity
                     return GameView.newInstance();
                 case 2:
                     return ChatView.newInstance();
+                case 3:
+                    return SettingsView.newInstance();
                 default: return null;
             }
         }
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
             return 3;
         }
 
@@ -183,6 +205,8 @@ public class MainView extends AppCompatActivity
                     return "SECTION 2";
                 case 2:
                     return "SECTION 3";
+                case 3:
+                    return "SECTION 4";
             }
             return null;
         }
