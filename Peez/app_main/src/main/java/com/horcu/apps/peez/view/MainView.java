@@ -29,7 +29,7 @@ import com.horcu.apps.peez.viewmodel.UserViewModel;
 import java.util.Date;
 import java.util.List;
 
-public class main_view extends AppCompatActivity
+public class MainView extends AppCompatActivity
         implements ChatView.OnFragmentInteractionListener,
         FeedView.OnFragmentInteractionListener, GameView.OnFragmentInteractionListener{
 
@@ -73,13 +73,13 @@ public class main_view extends AppCompatActivity
                         if(newLog.contains("canonical_ids")) //This means the message was sent from this device TODO - check if this is the correct way
                             return;
 
-//                        String dateTime = newLog.substring(0,17);
-//                        String message = newLog.substring(17,newLog.length());
+                        String dateTime = newLog.substring(0,17);
+                      String message = newLog.substring(17,newLog.length());
 
                         List<Fragment> fragments = getSupportFragmentManager().getFragments();
                         for (Fragment fragment : fragments) {
                             if (fragment instanceof ChatView) {
-                                ((ChatView)fragment).binding.getUsersViewModel().users.add(new UserViewModel(new Player(new Date().toString(), newLog)));
+                                ((ChatView)fragment).binding.getUsersViewModel().users.add(new UserViewModel(new Player(new Date().toString(), message)));
                                 ((ChatView)fragment).binding.activityUsersRecycler.getAdapter().notifyDataSetChanged();
                                 int msgCount = ((ChatView)fragment).binding.activityUsersRecycler.getAdapter().getItemCount();
                                 ((ChatView)fragment).binding.activityUsersRecycler.smoothScrollToPosition(msgCount -1);

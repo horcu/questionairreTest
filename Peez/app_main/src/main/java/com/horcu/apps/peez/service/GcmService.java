@@ -17,7 +17,7 @@ import android.util.Log;
 import com.google.android.gms.gcm.GcmListenerService;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.common.utilities.consts;
-import com.horcu.apps.peez.view.main_view;
+import com.horcu.apps.peez.view.MainView;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -102,7 +102,7 @@ public class GcmService extends GcmListenerService {
     }
 
     private void sendNotification(Bitmap bitmap, String message) {
-        Intent intent = new Intent(this, main_view.class);
+        Intent intent = new Intent(this, MainView.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
