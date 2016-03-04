@@ -2,8 +2,6 @@ package com.horcu.apps.peez.misc;
 
 import android.databinding.BaseObservable;
 
-import com.horcu.apps.peez.common.models.User;
-
 /**
  * Created by Horatio on 2/16/2016.
  */
@@ -14,7 +12,7 @@ public class Friend extends BaseObservable {
     private String joinedOn;
     private String friendSince;
     private String telephone;
-    private String registrationId;
+    private String token;
 
 
    public Friend(com.horcu.apps.peez.backend.models.userApi.model.User user, String friendSince, String telephone){
@@ -22,7 +20,7 @@ public class Friend extends BaseObservable {
        this.username = user.getUserName();
        this.email = user.getEmail();
        this.joinedOn = user.getJoined();
-       this.registrationId = user.getRegistrationId();
+       this.token = user.getToken();
        this.friendSince = friendSince;
        this.telephone = telephone;
    }
@@ -67,11 +65,11 @@ public class Friend extends BaseObservable {
         this.telephone = telephone;
     }
 
-    public String getRegistrationId() {
-        return registrationId;
+    public String getToken() {
+        return token;
     }
 
-    public void setRegistrationId(String registrationId) {
-        this.registrationId = registrationId;
+    public void setToken(String token) {
+        this.token = token;
     }
 }

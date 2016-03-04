@@ -1,12 +1,9 @@
 package com.horcu.apps.peez.view;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.ObservableArrayList;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -14,13 +11,11 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -36,20 +31,18 @@ import com.horcu.apps.peez.gcm.BaseMessage;
 
 import com.horcu.apps.peez.gcm.PubSubHelper;
 import com.horcu.apps.peez.misc.SenderCollection;
-import com.horcu.apps.peez.model.Player;
+import com.horcu.apps.peez.model.MessageEntry;
 import com.horcu.apps.peez.service.LoggingService;
-import com.horcu.apps.peez.viewmodel.SuperUserViewModel;
-import com.horcu.apps.peez.viewmodel.UserViewModel;
-import com.horcu.apps.peez.viewmodel.UsersViewModel;
+import com.horcu.apps.peez.viewmodel.SuperMessageViewModel;
+import com.horcu.apps.peez.viewmodel.MessageViewModel;
+import com.horcu.apps.peez.viewmodel.MessagesViewModel;
 
 import net.droidlabs.mvvm.recyclerview.adapter.ClickHandler;
 import net.droidlabs.mvvm.recyclerview.adapter.LongClickHandler;
 import net.droidlabs.mvvm.recyclerview.adapter.binder.CompositeItemBinder;
 import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinder;
 
-import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 
 import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconsPopup;
@@ -77,7 +70,7 @@ public class ChatView extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-    private UsersViewModel usersViewModel;
+    private MessagesViewModel messagesViewModel;
     protected FragmentChatViewBinding binding;
 
     //messaging
@@ -130,13 +123,12 @@ public class ChatView extends Fragment {
         settings = getActivity().getSharedPreferences("Peez", 0);
 
         binding = FragmentChatViewBinding.inflate(inflater, container, false);
-        usersViewModel = new UsersViewModel();
+        messagesViewModel = new MessagesViewModel();
 
         getMessagesFromDb("", getActivity());
 
-        binding.setUsersViewModel(usersViewModel);
+        binding.setMsgViewModel(messagesViewModel);
         binding.setView(this);
-        binding.getView();
 
         // Give the topmost view of your activity layout hierarchy. This will be used to measure soft keyboard height
         final EmojiconsPopup popup = new EmojiconsPopup(binding.getRoot(), getActivity());
@@ -242,7 +234,7 @@ public class ChatView extends Fragment {
         realmConfig = new RealmConfiguration.Builder(ctx).build();
         // Realm.deleteRealm(realmConfig);
         realm = Realm.getInstance(realmConfig);
-        final ObservableArrayList<UserViewModel> vms = new ObservableArrayList<>();
+        final ObservableArrayList<MessageViewModel> vms = new ObservableArrayList<>();
 
         // Query and update the result asynchronously in another thread
         realm.executeTransaction(new Realm.Transaction() {
@@ -257,18 +249,18 @@ public class ChatView extends Fragment {
                     for (BaseMessage m : messages)
                     {
                         String message = m.getMessage();
-                        Player player = new Player(String.valueOf(new Date()), message);
+                        MessageEntry messageEntry = new MessageEntry(String.valueOf(new Date()), message);
                         String from = m.getFrom();
                         String regId = settings.getString(consts.REG_ID, "");
 
                         if(from.equals(regId))
                         {
-                          SuperUserViewModel su = new SuperUserViewModel(player);
+                          SuperMessageViewModel su = new SuperMessageViewModel(messageEntry);
                           vms.add(su);
                         }
                         else
                         {
-                          UserViewModel su = new UserViewModel(player);
+                          MessageViewModel su = new MessageViewModel(messageEntry);
                           vms.add(su);
                         }
                     }
@@ -280,13 +272,10 @@ public class ChatView extends Fragment {
         }, new Realm.Transaction.Callback() {
             @Override
             public void onSuccess() {
-                if(usersViewModel.users == null)
-                    usersViewModel.users = new ObservableArrayList<UserViewModel>();
+                if(messagesViewModel.messageViewModels == null)
+                    messagesViewModel.messageViewModels = new ObservableArrayList<>();
 
-                if(vms != null)
-                {
-                   usersViewModel.users.addAll(vms);
-                }
+                   messagesViewModel.messageViewModels.addAll(vms);
             }
         });
     }
@@ -337,7 +326,6 @@ public class ChatView extends Fragment {
         return editable == null ? null : editable.toString();
     }
 
-
     public View.OnClickListener onButtonClick()
     {
         return new View.OnClickListener()
@@ -353,7 +341,7 @@ public class ChatView extends Fragment {
                 if(baseMessage.equals(""))
                     return;
 
-                usersViewModel.users.add(new SuperUserViewModel(new Player(String.valueOf(time), getStringFromEditText(binding.usersViewLastname))));
+                messagesViewModel.messageViewModels.add(new SuperMessageViewModel(new MessageEntry(String.valueOf(time), getStringFromEditText(binding.usersViewLastname))));
 
                 String senderId = consts.SENDER_ID;
                 if("" != senderId) {
@@ -374,7 +362,7 @@ public class ChatView extends Fragment {
                    Snackbar.make(v, ":) sent..werd!", Snackbar.LENGTH_LONG).show();
                 }
                 ((EditText)binding.getRoot().findViewById(R.id.users_view_lastname)).setText("");
-                ((RecyclerView)binding.getRoot().findViewById(R.id.activity_users_recycler)).smoothScrollToPosition(usersViewModel.users.size() - 1);
+                ((RecyclerView)binding.getRoot().findViewById(R.id.activity_users_recycler)).smoothScrollToPosition(messagesViewModel.messageViewModels.size() - 1);
             }
         };
     }
@@ -391,37 +379,35 @@ public class ChatView extends Fragment {
 //        };
 //    }
 
-
-
-    public ClickHandler<UserViewModel> clickHandler()
+   public ClickHandler<MessageViewModel> clickHandler()
     {
-        return new ClickHandler<UserViewModel>()
+        return new ClickHandler<MessageViewModel>()
         {
             @Override
-            public void onClick(UserViewModel user)
+            public void onClick(MessageViewModel user)
             {
                 Toast.makeText(getActivity(), user.getFirstName() + " " + user.getLastName(), Toast.LENGTH_SHORT).show();
             }
         };
     }
 
-    public LongClickHandler<UserViewModel> longClickHandler()
+    public LongClickHandler<MessageViewModel> longClickHandler()
     {
-        return new LongClickHandler<UserViewModel>()
+        return new LongClickHandler<MessageViewModel>()
         {
             @Override
-            public void onLongClick(UserViewModel user)
+            public void onLongClick(MessageViewModel user)
             {
                 Toast.makeText(getActivity(), "LONG CLICK: " + user.getFirstName() + " " + user.getLastName(), Toast.LENGTH_SHORT).show();
             }
         };
     }
 
-    public ItemBinder<UserViewModel> itemViewBinder()
+    public ItemBinder<MessageViewModel> itemViewBinder()
     {
-        return new CompositeItemBinder<UserViewModel>(
-                new SuperUserBinder(BR.user, R.layout.item_super_user),
-                new UserBinder(BR.user, R.layout.item_user)
+        return new CompositeItemBinder<MessageViewModel>(
+                new SuperUserBinder(BR.msgVM, R.layout.item_my_message),
+                new UserBinder(BR.msgVM, R.layout.item_message)
         );
     }
 

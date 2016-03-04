@@ -3,33 +3,25 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
-import android.text.SpannableString;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 
-import com.google.gson.Gson;
 import com.horcu.apps.peez.R;
-import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.custom.MessageSender;
-import com.horcu.apps.peez.databinding.FragmentChatViewBinding;
 import com.horcu.apps.peez.gcm.BaseMessage;
 
 import com.horcu.apps.peez.gcm.PubSubHelper;
-import com.horcu.apps.peez.model.Player;
+import com.horcu.apps.peez.model.MessageEntry;
 import com.horcu.apps.peez.service.LoggingService;
-import com.horcu.apps.peez.viewmodel.UserViewModel;
+import com.horcu.apps.peez.viewmodel.MessageViewModel;
 
 import java.util.Date;
 import java.util.List;
@@ -60,9 +52,8 @@ public class MainView extends AppCompatActivity
         setContentView(R.layout.activity_main_view);
 
         realmConfig = new RealmConfiguration.Builder(this).build();
-       // Realm.deleteRealm(realmConfig);
+        Realm.deleteRealm(realmConfig);
         realm = Realm.getInstance(realmConfig);
-
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -101,7 +92,7 @@ public class MainView extends AppCompatActivity
                         }
                         ChatView ChatFrag = ((ChatView)frag);
 
-                        ChatFrag.binding.getUsersViewModel().users.add(new UserViewModel(new Player(new Date().toString(), message)));
+                        ChatFrag.binding.getMsgViewModel().messageViewModels.add(new MessageViewModel(new MessageEntry(new Date().toString(), message)));
                         ChatFrag.binding.activityUsersRecycler.getAdapter().notifyDataSetChanged();
                         int msgCount = ChatFrag.binding.activityUsersRecycler.getAdapter().getItemCount();
                         ChatFrag.binding.activityUsersRecycler.smoothScrollToPosition(msgCount -1);

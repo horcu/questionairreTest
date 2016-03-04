@@ -1,11 +1,11 @@
 package com.horcu.apps.peez.binder;
 
-import com.horcu.apps.peez.viewmodel.SuperUserViewModel;
-import com.horcu.apps.peez.viewmodel.UserViewModel;
+import com.horcu.apps.peez.viewmodel.SuperMessageViewModel;
+import com.horcu.apps.peez.viewmodel.MessageViewModel;
 
 import net.droidlabs.mvvm.recyclerview.adapter.binder.ConditionalDataBinder;
 
-public class SuperUserBinder extends ConditionalDataBinder<UserViewModel>
+public class SuperUserBinder extends ConditionalDataBinder<MessageViewModel>
 {
     public SuperUserBinder(int bindingVariable, int layoutId)
     {
@@ -13,8 +13,8 @@ public class SuperUserBinder extends ConditionalDataBinder<UserViewModel>
     }
 
     @Override
-    public boolean canHandle(UserViewModel model)
+    public boolean canHandle(MessageViewModel model)
     {
-        return model instanceof SuperUserViewModel;
+        return model instanceof SuperMessageViewModel;
     }
 }

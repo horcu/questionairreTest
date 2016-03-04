@@ -1,14 +1,49 @@
 package com.horcu.apps.peez.view;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.databinding.ObservableArrayList;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.horcu.apps.peez.R;
+import com.horcu.apps.peez.BR;
+import com.horcu.apps.peez.backend.models.userApi.UserApi;
+import com.horcu.apps.peez.backend.models.userApi.model.CollectionResponseUser;
+import com.horcu.apps.peez.backend.models.userApi.model.User;
+import com.horcu.apps.peez.binder.PlayerBinder;
+import com.horcu.apps.peez.binder.SuperPlayerBinder;
+import com.horcu.apps.peez.binder.SuperUserBinder;
+import com.horcu.apps.peez.binder.UserBinder;
+import com.horcu.apps.peez.custom.Api;
+import com.horcu.apps.peez.custom.PlayerView;
+import com.horcu.apps.peez.databinding.FragmentFeedBinding;
+import com.horcu.apps.peez.gcm.GcmServerSideSender;
+import com.horcu.apps.peez.gcm.Message;
+import com.horcu.apps.peez.model.Player;
+import com.horcu.apps.peez.viewmodel.MessageViewModel;
+import com.horcu.apps.peez.viewmodel.PlayerViewModel;
+import com.horcu.apps.peez.viewmodel.PlayersViewModel;
+
+import net.droidlabs.mvvm.recyclerview.adapter.ClickHandler;
+import net.droidlabs.mvvm.recyclerview.adapter.binder.CompositeItemBinder;
+import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinder;
+
+import java.io.IOException;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,11 +59,16 @@ public class FeedView extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+        FragmentFeedBinding binding;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private SharedPreferences settings;
+    private PlayersViewModel playersViewModel;
+    ObservableArrayList<PlayerViewModel> vms = null;
 
     public FeedView() {
         // Required empty public constructor
@@ -56,8 +96,63 @@ public class FeedView extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_feed, container, false);
+
+        binding = FragmentFeedBinding.inflate(inflater, container, false);
+        playersViewModel = new PlayersViewModel();
+
+        getFeedFromDb(getActivity());
+
+        getFeedFromServer(getActivity());
+
+        binding.setPlayersVM(playersViewModel);
+        binding.setView(this);
+        binding.playersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        return binding.getRoot();
+    }
+
+    private void getFeedFromServer(Context context) {
+            vms =  new ObservableArrayList<>();
+
+            new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+
+                UserApi api = Api.BuildUserApiService();
+                try {
+                    CollectionResponseUser list = api.list().execute();
+
+                    if(list == null || list.getItems().size() < 1)
+                        return null;
+
+                    for (User user : list.getItems()){
+                       Player p = new Player();
+                        p.setName(user.getUserName());
+                        p.setCanBeMessaged(true);
+                        p.setRank(String.valueOf(user.getRank()));
+                        p.setToken(user.getToken());
+                        p.setImageUrl(user.getImageUri());
+
+                        PlayerViewModel pvm = new PlayerViewModel(p);
+                        vms.add(pvm);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                return null;
+            }
+            @Override
+            protected void onPostExecute(Void aVoid) {
+
+                if(playersViewModel.playersVMs == null)
+                    playersViewModel.playersVMs = new ObservableArrayList<>();
+
+                playersViewModel.playersVMs.addAll(vms);
+                //binding.playersRecycler.getAdapter().notifyDataSetChanged();
+            }
+
+       }.execute();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -97,5 +192,63 @@ public class FeedView extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    private void getFeedFromDb(Context ctx) {
+
+        RealmConfiguration realmConfig = new RealmConfiguration.Builder(ctx).build();
+        // Realm.deleteRealm(realmConfig);
+        Realm realm = Realm.getInstance(realmConfig);
+        final ObservableArrayList<PlayerViewModel> vms = new ObservableArrayList<>();
+
+        // Query and update the result asynchronously in another thread
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                try {
+                    RealmResults<Player> players = realm.allObjects(Player.class); // where(Message.class).equalTo("sender", sender).findAll();
+
+                    if(players.size() < 1)
+                        return;
+
+                    for (Player player : players)
+                    {
+                            PlayerViewModel mod = new PlayerViewModel(player);
+                            vms.add(mod);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Realm.Transaction.Callback() {
+            @Override
+            public void onSuccess() {
+                if(playersViewModel.playersVMs == null)
+                    playersViewModel.playersVMs = new ObservableArrayList<>();
+
+                playersViewModel.playersVMs.addAll(vms);
+            }
+        });
+    }
+
+    public ItemBinder<PlayerViewModel> itemViewBinder()
+    {
+        return new CompositeItemBinder<>(
+                new SuperPlayerBinder(BR.playerVm, R.layout.item_winning_player),
+                new PlayerBinder(BR.playerVm, R.layout.item_player)
+        );
+    }
+
+    public ClickHandler<PlayerViewModel> playerClicked()
+    {
+        return new ClickHandler<PlayerViewModel>()
+        {
+            @Override
+            public void onClick(PlayerViewModel playerVm)
+            {
+                Toast.makeText(getActivity(), playerVm.getModel().getName(), Toast.LENGTH_SHORT).show();
+            }
+        };
     }
 }

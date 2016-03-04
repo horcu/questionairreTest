@@ -58,7 +58,7 @@ public class RegistrationEndpoint {
             return;
         }
         RegistrationRecord record = new RegistrationRecord();
-        record.setRegId(regId);
+        record.setToken(regId);
         ofy().save().entity(record).now();
 
         //create a user setting record for this device

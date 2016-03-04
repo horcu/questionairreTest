@@ -8,16 +8,14 @@ package com.horcu.apps.peez.common.models;
 public class User { //extends Player - extend the google gsm player object??
 
     public String email;
-   public String userName;
-   public String alias;
-   public double cash;
-   public String imageUri;
-
-   public String phone;
-   public String joined;
-   public Long rank;
-   public String registrationId;
-    // you can add more fields...
+    public String userName;
+    public String alias;
+    public double cash;
+    public String imageUri;
+    public String phone;
+    public String joined;
+    public Long rank;
+    public String token;
 
     public User() {
     }
@@ -37,8 +35,6 @@ public class User { //extends Player - extend the google gsm player object??
     public void setCash(double cash) {
         this.cash = cash;
     }
-
-
 
     public String getPhone() {
         return phone;
@@ -64,12 +60,12 @@ public class User { //extends Player - extend the google gsm player object??
         this.rank = rank;
     }
 
-    public String getRegistrationId() {
-        return registrationId;
+    public String getToken() {
+        return token;
     }
 
-    public void setRegistrationId(String registrationId) {
-        this.registrationId = registrationId;
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getEmail() {

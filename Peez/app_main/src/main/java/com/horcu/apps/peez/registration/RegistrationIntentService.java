@@ -69,39 +69,36 @@ public class RegistrationIntentService extends IntentService {
         userApi = Api.BuildUserApiService();
         userSettingsApi = Api.BuildUserSettingsApiService();
 
-            // [START register_for_gcm]
-            // Initially this call goes out to the network to retrieve the token, subsequent calls
-            // are local.
-            // [START get_token]
             InstanceID instanceID = InstanceID.getInstance(this);
-            String token = instanceID.getToken(consts.SENDER_ID,
-                    GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
-            // [END get_token]
-            Log.i(TAG, "GCM Registration Token: " + token);
+            String token = instanceID.getToken(consts.SENDER_ID, GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
 
-             addRegistrationRecord(token);
+            Log.i(TAG, "GCM Registration Token: " + token);
 
             if(token.equals("")) return;
 
             //TODO should we refresh the tokens somewhere on the server
             //TODO the registration record ideally should include the email address (or whatever unique identifyer that is settled on) of the user.
 
+            String mPhoneNumber = "";// getPhoneNumber();
 
-            String mPhoneNumber = "5409152215";// getPhoneNumber();
-
-            String username = credential.getSelectedAccountName() != null ? credential.getSelectedAccountName() : uName;
+            String email = credential.getSelectedAccountName() != null ? credential.getSelectedAccountName() : uName;
 
             //add or update the user
-            User user = addOrUpdateUserRecord(token, mPhoneNumber, username);
+            User user = addOrUpdateUserRecord(token, mPhoneNumber, email);
+
+            if(user == null)
+                return;
+            //now add the registration records
+            addRegistrationRecord(token);
 
             //add or update the userSettings
-            addDefaultUserSettingForNewUser(user);
+            //addDefaultUserSettingForNewUser(user);
 
             //save regId and account name
             SharedPreferences.Editor editor = settings.edit();
           //  editor.putString(consts.REG_KEY, regId);
             editor.putString(consts.REG_ID, token);
-            editor.putString(consts.PREF_ACCOUNT_NAME, user != null ? user.getUserName() : username);
+            editor.putString(consts.PREF_ACCOUNT_NAME, user != null ? user.getUserName() : email);
             editor.apply();
 
             // Subscribe to topic channels
@@ -133,18 +130,18 @@ public class RegistrationIntentService extends IntentService {
     }
 
     @Nullable
-    private User addOrUpdateUserRecord(String regId, String mPhoneNumber, String username) {
+    private User addOrUpdateUserRecord(String token, String mPhoneNumber, String username) {
         User user = null;
         try {
             user = userApi.get(username).execute();
 
             if (user == null) {
-                user = makeNewUser(regId, mPhoneNumber, username);
+                user = makeNewUser(token, mPhoneNumber, username);
             } else {
-                if (user.getRegistrationId().equals(regId))
+                if (user.getToken().equals(token))
                     return user;
 
-                user.setRegistrationId(regId);
+                user.setToken(token);
                 userApi.update(username, user);
             }
 
@@ -195,7 +192,7 @@ public class RegistrationIntentService extends IntentService {
         user.setJoined(new Date().toString()); // set this to today unless the user is already a member
         user.setRank(consts.STARTING_RANK);
         user.setPhone(mPhoneNumber);
-        user.setRegistrationId(token);
+        user.setToken(token);
         userApi.insert(user).execute();
         return user;
     }

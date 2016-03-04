@@ -50,8 +50,6 @@ dependencies {
     }
     //    compile 'com.github.michaldrabik:tapbarmenu:1.0.4'
 
-    
-
 //    compile project(path: ':emoji')
     compile project(path: ':emoji')
     compile 'com.android.support:appcompat-v7:23.2.0'
@@ -77,6 +75,7 @@ dependencies {
     compile 'com.github.zzz40500:android-shapeLoadingView:1.0.3.2'
     compile 'com.android.support:support-v13:23.2.0'
     compile 'io.realm:realm-android:0.87.5'
+    compile 'com.google.android.gms:play-services-ads:8.4.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

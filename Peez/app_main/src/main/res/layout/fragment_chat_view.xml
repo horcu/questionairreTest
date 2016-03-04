@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="usersViewModel"
-            type="com.horcu.apps.peez.viewmodel.UsersViewModel"/>
+            name="msgViewModel"
+            type="com.horcu.apps.peez.viewmodel.MessagesViewModel"/>
 
         <variable
             name="view"
@@ -27,7 +27,7 @@
             android:scrollbars="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:items="@{usersViewModel.users}"
+            app:items="@{msgViewModel.messageViewModels}"
             app:itemViewBinder="@{view.itemViewBinder}"
             app:clickHandler="@{view.clickHandler}"
             app:longClickHandler="@{view.longClickHandler}"

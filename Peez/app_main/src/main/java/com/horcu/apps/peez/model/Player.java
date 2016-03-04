@@ -1,33 +1,90 @@
 package com.horcu.apps.peez.model;
 
-public class Player extends com.horcu.apps.peez.common.models.User
+import io.realm.RealmObject;
+
+public class Player extends RealmObject
 {
-    private  String firstName;
-    private  String lastName;
+    private  String name;
+    private  String token;
+    private  String rank;
+    private  Boolean currentlyOnLine;
+    private  Boolean currentlyPlaying;
+    private  Boolean InGameWithUser;
+    private  Boolean CanBeMessaged;
+    private String imageUrl;
 
-    public Player(String firstName, String lastName)
+    public Player(){}
+    public Player(String name, String rank)
     {
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.name = name;
+        this.rank = rank;
     }
 
-    public String getFirstName()
+    public String getName()
     {
-        return firstName;
+        return name;
     }
 
-    public void setFirstName(String firstName)
+    public void setName(String name)
     {
-        this.firstName = firstName;
+        this.name = name;
     }
 
-    public String getLastName()
+    public String getRank()
     {
-        return lastName;
+        return rank;
     }
 
-    public void setLastName(String lastName)
+    public void setRank(String rank)
     {
-        this.lastName = lastName;
+        this.rank = rank;
+    }
+
+    public Boolean getCurrentlyOnLine() {
+        return currentlyOnLine;
+    }
+
+    public void setCurrentlyOnLine(Boolean currentlyOnLine) {
+        this.currentlyOnLine = currentlyOnLine;
+    }
+
+    public Boolean getCurrentlyPlaying() {
+        return currentlyPlaying;
+    }
+
+    public void setCurrentlyPlaying(Boolean currentlyPlaying) {
+        this.currentlyPlaying = currentlyPlaying;
+    }
+
+    public Boolean getInGameWithUser() {
+        return InGameWithUser;
+    }
+
+    public void setInGameWithUser(Boolean inGameWithUser) {
+        InGameWithUser = inGameWithUser;
+    }
+
+    public Boolean getCanBeMessaged() {
+        return CanBeMessaged;
+    }
+
+    public void setCanBeMessaged(Boolean canBeMessaged) {
+        CanBeMessaged = canBeMessaged;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 }

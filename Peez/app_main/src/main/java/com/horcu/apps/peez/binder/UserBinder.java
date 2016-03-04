@@ -1,10 +1,10 @@
 package com.horcu.apps.peez.binder;
 
-import com.horcu.apps.peez.viewmodel.UserViewModel;
+import com.horcu.apps.peez.viewmodel.MessageViewModel;
 
 import net.droidlabs.mvvm.recyclerview.adapter.binder.ConditionalDataBinder;
 
-public class UserBinder extends ConditionalDataBinder<UserViewModel>
+public class UserBinder extends ConditionalDataBinder<MessageViewModel>
 {
     public UserBinder(int bindingVariable, int layoutId)
     {
@@ -12,7 +12,7 @@ public class UserBinder extends ConditionalDataBinder<UserViewModel>
     }
 
     @Override
-    public boolean canHandle(UserViewModel model)
+    public boolean canHandle(MessageViewModel model)
     {
         return true;
     }

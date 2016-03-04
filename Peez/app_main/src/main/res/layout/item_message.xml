@@ -9,8 +9,8 @@
     <data>
 
         <variable
-            name="user"
-            type="com.horcu.apps.peez.viewmodel.UserViewModel"/>
+            name="msgVm"
+            type="com.horcu.apps.peez.viewmodel.MessageViewModel"/>
     </data>
 
 
@@ -50,7 +50,7 @@
                 android:textSize="8sp"
                 android:textColor="#fff"
                 android:visibility="invisible"
-                android:text="@{user.firstName}"
+                android:text="@{msgVm.model.datetime}"
                 tools:text="Hello"/>
 
         <TextView
@@ -63,7 +63,7 @@
             android:layout_margin="5dp"
             emojicon:emojiconAlignment="baseline"
             android:layout_width="wrap_content"
-            android:text="@{user.lastName}"
+            android:text="@{msgVm.model.message}"
             android:layout_height="wrap_content"/>
 
 

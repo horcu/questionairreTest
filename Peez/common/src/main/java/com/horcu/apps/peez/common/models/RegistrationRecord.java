@@ -8,18 +8,34 @@ public class RegistrationRecord {
 
 
     Long id;
-
-    private String regId;
-    // you can add more fields...
+    private String token;
+    private String userEmail;
+    private String regDate;
 
     public RegistrationRecord() {
     }
 
-    public String getRegId() {
-        return regId;
+    public String getToken() {
+        return token;
     }
 
-    public void setRegId(String regId) {
-        this.regId = regId;
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public String getRegDate() {
+        return regDate;
+    }
+
+    public void setRegDate(String regDate) {
+        this.regDate = regDate;
     }
 }
