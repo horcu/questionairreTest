@@ -5,8 +5,8 @@ import android.content.SharedPreferences;
 import android.databinding.ObservableArrayList;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.BoolRes;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,6 +32,7 @@ import com.horcu.apps.peez.gcm.BaseMessage;
 import com.horcu.apps.peez.gcm.PubSubHelper;
 import com.horcu.apps.peez.misc.SenderCollection;
 import com.horcu.apps.peez.model.MessageEntry;
+import com.horcu.apps.peez.model.Player;
 import com.horcu.apps.peez.service.LoggingService;
 import com.horcu.apps.peez.viewmodel.SuperMessageViewModel;
 import com.horcu.apps.peez.viewmodel.MessageViewModel;
@@ -62,12 +63,15 @@ import io.realm.RealmResults;
 public class ChatView extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String MESSAGE_RECIPIENT = "recip";
+    private static final String PLAYER_IMGURL = "img_url";
+    private static final String PLAYER_USERNAME = "p_user_name";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    public String message_recipient;
+    public String playerImageUri;
+    public String playerName;
+
 
     private OnFragmentInteractionListener mListener;
     private MessagesViewModel messagesViewModel;
@@ -87,11 +91,12 @@ public class ChatView extends Fragment {
     }
 
     // TODO: Rename and change types and number of parameters
-    public static ChatView newInstance() {
+    public static ChatView newInstance(String recipient, String imgUrl, String uName) {
         ChatView fragment = new ChatView();
         Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
+          args.putString(MESSAGE_RECIPIENT, recipient);
+          args.putString(PLAYER_IMGURL, imgUrl);
+          args.putString(PLAYER_USERNAME, uName);
         fragment.setArguments(args);
         return fragment;
     }
@@ -100,12 +105,11 @@ public class ChatView extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         pubsub = new PubSubHelper(getContext());
-        final Bundle bundle = new Bundle();
-
 
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            message_recipient = getArguments().getString(MESSAGE_RECIPIENT,"");
+            playerImageUri = getArguments().getString(PLAYER_IMGURL,"");
+            playerName = getArguments().getString(PLAYER_USERNAME,"");
         }
         mLogger = new LoggingService.Logger(getActivity());
         mSenders = SenderCollection.getInstance(getActivity());
@@ -117,10 +121,27 @@ public class ChatView extends Fragment {
 
 }
 
+    public Boolean upDateChatPlayer(String userName, String token, String imgUrl){
+        try {
+            message_recipient = token;
+            playerName = userName;
+            playerImageUri  = imgUrl;
+
+            getActivity().getActionBar().setTitle(playerName);
+        } catch (Exception ex){
+            ex.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         settings = getActivity().getSharedPreferences("Peez", 0);
+
+       // if(!playerName.equals(""))
+       //     getActivity().getActionBar().setTitle(playerName); //TODO add a custom actionbar so that you can add the player image there and pass in the url here
 
         binding = FragmentChatViewBinding.inflate(inflater, container, false);
         messagesViewModel = new MessagesViewModel();
@@ -304,6 +325,10 @@ public class ChatView extends Fragment {
         mListener = null;
     }
 
+    public void getExistingChatRecordsFromDb() {
+        //TODO - flesh out the details
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -346,10 +371,10 @@ public class ChatView extends Fragment {
                 String senderId = consts.SENDER_ID;
                 if("" != senderId) {
                     MessageSender sender = new MessageSender(getActivity(), mLogger, mSenders);
-                  if(!sender.sendMessage(consts.TEST_GAME_TOPIC,consts.TEST_MSG_ID,message,consts.TEST_TINE_TO_LIVE, false))
+                  if(!sender.sendMessage(message_recipient,consts.TEST_MSG_ID,message,consts.TEST_TINE_TO_LIVE, false))
                   {
                     //message not sent something went wrong
-                      Snackbar.make(v, ":/ bummer", Snackbar.LENGTH_LONG).show();
+                     Toast.makeText(getActivity(),"failed ;/", Toast.LENGTH_LONG).show();
                   }
                 }
                 else
@@ -359,10 +384,10 @@ public class ChatView extends Fragment {
                     realm.copyToRealm(baseMessage);
                     realm.commitTransaction();
 
-                   Snackbar.make(v, ":) sent..werd!", Snackbar.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"sent!", Toast.LENGTH_LONG).show();
                 }
-                ((EditText)binding.getRoot().findViewById(R.id.users_view_lastname)).setText("");
-                ((RecyclerView)binding.getRoot().findViewById(R.id.activity_users_recycler)).smoothScrollToPosition(messagesViewModel.messageViewModels.size() - 1);
+           ((EditText)binding.getRoot().findViewById(R.id.users_view_lastname)).setText("");
+           ((RecyclerView)binding.getRoot().findViewById(R.id.activity_users_recycler)).smoothScrollToPosition(messagesViewModel.messageViewModels.size() - 1);
             }
         };
     }

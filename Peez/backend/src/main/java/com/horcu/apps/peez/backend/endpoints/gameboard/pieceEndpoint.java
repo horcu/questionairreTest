@@ -7,7 +7,7 @@ import com.google.api.server.spi.response.CollectionResponse;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.QueryResultIterator;
 import com.googlecode.objectify.cmd.Query;
-import com.horcu.apps.peez.common.models.gameboard.Piece;
+import com.horcu.apps.peez.backend.models.Piece;
 import com.horcu.apps.peez.common.utilities.consts;
 
 import java.util.ArrayList;

@@ -10,7 +10,6 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app_main" />
             <option value="$PROJECT_DIR$/backend" />
-            <option value="$PROJECT_DIR$/backend_gameboard" />
             <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/emoji" />
             <option value="$PROJECT_DIR$/recyclerview-binding" />
@@ -21,7 +20,6 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app_main" />
             <option value="$PROJECT_DIR$/backend" />
-            <option value="$PROJECT_DIR$/backend_gameboard" />
             <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/emoji" />
             <option value="$PROJECT_DIR$/recyclerview-binding" />

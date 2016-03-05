@@ -25,13 +25,6 @@ import com.horcu.apps.peez.misc.SenderCollection;
 import com.horcu.apps.peez.service.LoggingService;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
 
 /**
  * Created by Horatio on 2/29/2016.
@@ -93,7 +86,7 @@ public class MessageSender {
                     protected String doInBackground(Void... params) {
                         GcmServerSideSender sender = new GcmServerSideSender(apiKey, logger);
                         try {
-                            sender.sendHttpJsonDownstreamMessage("fMaseZ90QB8:APA91bHhs1D-hJ-BvPCSVVv6tUSLsEbM8ynCE5RyfkzzRooPgHvlPSoxJy__29ZnwQFFh3tut-OjWCPodGFVkFoKxgSsUPTOpdYYJ9WdOnl_1fso2tUJEok90vHRCHVKGKJ_LS0ZnCHz", messageBuilder.build()); //me
+                            sender.sendHttpJsonDownstreamMessage(recipient, messageBuilder.build()); //me
                            // sender.sendHttpJsonDownstreamMessage("f1mpXKewWmM:APA91bFHQn0czrXUJTfzwtBIhnTmthVVKm9vvlUKJDLJC-jCt3gQlCFmZ1lG1eHxXskmkNTGM-3FSefFMja4otrea6dGY74BtcBXrHVSZfGejABlv0LDuB2ciIf_aXOpscq656DT6-YM", messageBuilder.build()); //remy
 
                         } catch (final IOException e) {

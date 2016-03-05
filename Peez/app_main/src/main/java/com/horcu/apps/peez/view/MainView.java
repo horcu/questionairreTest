@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -81,16 +82,9 @@ public class MainView extends AppCompatActivity
                             return;
 
                         String dateTime = newMessage.substring(0,17);
-                      String message = newMessage.substring(17,newMessage.length());
+                        String message = newMessage.substring(18,newMessage.length());
 
-                        List<Fragment> fragments = getSupportFragmentManager().getFragments();
-                        Fragment frag = null;
-                        for (Fragment fragment : fragments) {
-                            if (fragment instanceof ChatView) {
-                                frag = fragment;
-                            }
-                        }
-                        ChatView ChatFrag = ((ChatView)frag);
+                        ChatView ChatFrag = GetChatFragment();
 
                         ChatFrag.binding.getMsgViewModel().messageViewModels.add(new MessageViewModel(new MessageEntry(new Date().toString(), message)));
                         ChatFrag.binding.activityUsersRecycler.getAdapter().notifyDataSetChanged();
@@ -109,6 +103,17 @@ public class MainView extends AppCompatActivity
         mViewPager.setCurrentItem(1);
     }
 
+    @Nullable
+    private ChatView GetChatFragment() {
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        Fragment frag = null;
+        for (Fragment fragment : fragments) {
+            if (fragment instanceof ChatView) {
+                frag = fragment;
+            }
+        }
+        return ((ChatView)frag);
+    }
 
 
     @Override
@@ -164,6 +169,19 @@ public class MainView extends AppCompatActivity
 
     }
 
+
+    //From the feed fragment
+    @Override
+    public void onFragmentInteraction(String name, String imageUrl, String token) {
+
+        ChatView ChatFrag = GetChatFragment();
+        if (ChatFrag != null) {
+            ChatFrag.upDateChatPlayer(name,token,imageUrl);
+            ChatFrag.getExistingChatRecordsFromDb();
+            mViewPager.setCurrentItem(2);
+        }
+    }
+
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -183,7 +201,7 @@ public class MainView extends AppCompatActivity
                 case 1:
                     return GameView.newInstance();
                 case 2:
-                    return ChatView.newInstance();
+                    return ChatView.newInstance("","","");
                 case 3:
                     return SettingsView.newInstance();
                 default: return null;

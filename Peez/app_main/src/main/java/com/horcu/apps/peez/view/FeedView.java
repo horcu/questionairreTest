@@ -1,6 +1,7 @@
 package com.horcu.apps.peez.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.databinding.ObservableArrayList;
@@ -25,6 +26,7 @@ import com.horcu.apps.peez.binder.PlayerBinder;
 import com.horcu.apps.peez.binder.SuperPlayerBinder;
 import com.horcu.apps.peez.binder.SuperUserBinder;
 import com.horcu.apps.peez.binder.UserBinder;
+import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.custom.Api;
 import com.horcu.apps.peez.custom.PlayerView;
 import com.horcu.apps.peez.databinding.FragmentFeedBinding;
@@ -91,6 +93,7 @@ public class FeedView extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        settings = getActivity().getSharedPreferences("Peez",0);
     }
 
     @Override
@@ -125,7 +128,12 @@ public class FeedView extends Fragment {
                     if(list == null || list.getItems().size() < 1)
                         return null;
 
+                    String un = settings.getString(consts.PREF_ACCOUNT_NAME,"");
+
                     for (User user : list.getItems()){
+                        if(user.getEmail().equals(un))
+                        continue;
+
                        Player p = new Player();
                         p.setName(user.getUserName());
                         p.setCanBeMessaged(true);
@@ -153,13 +161,6 @@ public class FeedView extends Fragment {
             }
 
        }.execute();
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
@@ -191,7 +192,7 @@ public class FeedView extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(String name, String imageUrl, String token);
     }
 
     private void getFeedFromDb(Context ctx) {
@@ -247,7 +248,20 @@ public class FeedView extends Fragment {
             @Override
             public void onClick(PlayerViewModel playerVm)
             {
-                Toast.makeText(getActivity(), playerVm.getModel().getName(), Toast.LENGTH_SHORT).show();
+                String name = playerVm.getModel().getName();
+                String token = playerVm.getModel().getToken();
+                String imgUrl = playerVm.getModel().getImageUrl();
+
+              mListener.onFragmentInteraction(name, token,imgUrl);
+//                Intent intent = new Intent(getActivity(), ChatView.class);
+//                String token = playerVm.getModel().getToken();
+//                if(token.equals(""))
+//                {
+//                    Toast.makeText(getActivity(),"cannot go to chat page the token is blank", Toast.LENGTH_LONG).show();
+//                    return;
+//                }
+//                intent.putExtra("recip", token);
+//                startActivity(intent);
             }
         };
     }

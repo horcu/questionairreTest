@@ -9,7 +9,7 @@ import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.QueryResultIterator;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.cmd.Query;
-import com.horcu.apps.peez.common.models.User;
+import com.horcu.apps.peez.backend.models.User;
 import com.horcu.apps.peez.common.utilities.consts;
 
 import java.util.ArrayList;
@@ -67,7 +67,7 @@ public class UserEndpoint {
         logger.info("Getting User with ID: " + email);
         User user = ofy().load().type(User.class).id(email).now();
         if (user == null) {
-            return null;
+            throw new NotFoundException("Could not find User with ID: " + email);
         }
         return user;
     }

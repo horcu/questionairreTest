@@ -103,7 +103,9 @@
             android:label="@string/title_activity_error_view" />
         <activity
             android:name=".view.MainView"
-            android:label="@string/title_activity_main_view"></activity>
+            android:label="@string/title_activity_main_view">
+
+        </activity>
     </application>
 
 </manifest>

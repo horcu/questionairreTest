@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'maven'
 
 
-group = 'com.horcu.apps.peez.backend.models.schedule'
+group = 'com.horcu.apps.peez.backend_gameboard'
 archivesBaseName = 'gameApi'
 version = 'v1-1.21.0-SNAPSHOT'
 

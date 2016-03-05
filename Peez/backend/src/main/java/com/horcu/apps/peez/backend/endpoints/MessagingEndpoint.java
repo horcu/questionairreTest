@@ -13,7 +13,7 @@ import com.google.android.gcm.server.Sender;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiNamespace;
 
-import com.horcu.apps.peez.common.models.RegistrationRecord;
+import com.horcu.apps.peez.backend.models.RegistrationRecord;
 import com.horcu.apps.peez.common.utilities.consts;
 
 

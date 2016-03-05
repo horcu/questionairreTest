@@ -40,7 +40,6 @@ dependencies {
     // compile project(':app')
 
     compile project(path: ':backend', configuration: 'android-endpoints')
-    compile project(path: ':backend_gameboard', configuration: 'android-endpoints')
 
     compile project(':common')
     compile project(':recyclerview-binding')

@@ -9,8 +9,8 @@
     <data>
 
         <variable
-            name="msgVm"
-            type="com.horcu.apps.peez.viewmodel.MessageViewModel"/>
+            name="msgVM"
+            type="com.horcu.apps.peez.viewmodel.MessageViewModel" />
     </data>
 
 
@@ -36,12 +36,6 @@
         android:background="#FFeeefff">
 
 
-        <android.support.v4.widget.Space
-            android:layout_width="wrap_content"
-            android:layout_weight="2"
-            android:layout_height="match_parent" />
-
-
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -50,7 +44,7 @@
                 android:textSize="8sp"
                 android:textColor="#fff"
                 android:visibility="invisible"
-                android:text="@{msgVm.model.datetime}"
+            android:text="@{msgVM.model.datetime}"
                 tools:text="Hello"/>
 
         <TextView
@@ -63,10 +57,18 @@
             android:layout_margin="5dp"
             emojicon:emojiconAlignment="baseline"
             android:layout_width="wrap_content"
-            android:text="@{msgVm.model.message}"
+            android:text="@{msgVM.model.message}"
             android:layout_height="wrap_content"/>
 
 
     </android.support.v7.widget.CardView>
+
+
+        <android.support.v4.widget.Space
+            android:layout_width="wrap_content"
+            android:layout_weight="2"
+            android:layout_height="match_parent" />
+
+
     </LinearLayout>
 </layout>

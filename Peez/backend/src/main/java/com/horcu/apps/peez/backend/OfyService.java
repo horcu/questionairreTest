@@ -5,11 +5,13 @@ import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 
 
-import com.horcu.apps.peez.common.models.RegistrationRecord;
-import com.horcu.apps.peez.common.models.User;
-import com.horcu.apps.peez.common.models.gameboard.GameInvite;
-import com.horcu.apps.peez.common.models.gameboard.Piece;
-import com.horcu.apps.peez.common.models.gameboard.Tile;
+import com.horcu.apps.peez.backend.models.RegistrationRecord;
+import com.horcu.apps.peez.backend.models.User;
+import com.horcu.apps.peez.backend.models.Board;
+import com.horcu.apps.peez.backend.models.Game;
+import com.horcu.apps.peez.backend.models.GameInvite;
+import com.horcu.apps.peez.backend.models.Piece;
+import com.horcu.apps.peez.backend.models.Tile;
 
 
 /**
@@ -24,6 +26,9 @@ public class OfyService {
         ObjectifyService.register(Tile.class);
         ObjectifyService.register(Piece.class);
         ObjectifyService.register(GameInvite.class);
+        ObjectifyService.register(Board.class);
+        ObjectifyService.register(Tile.class);
+        ObjectifyService.register(Game.class);
     }
 
     public static Objectify ofy() {

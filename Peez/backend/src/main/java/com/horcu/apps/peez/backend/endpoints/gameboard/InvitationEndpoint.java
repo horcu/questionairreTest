@@ -3,7 +3,7 @@ package com.horcu.apps.peez.backend.endpoints.gameboard;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
-import com.horcu.apps.peez.common.models.gameboard.Invitation;
+import com.horcu.apps.peez.backend.models.Invitation;
 import com.horcu.apps.peez.common.utilities.consts;
 
 import java.util.logging.Logger;
