@@ -1,11 +1,16 @@
 package com.horcu.apps.peez.backend.models;
 
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+
 /**
  * The Objectify object model for device registrations we are persisting
  */
 
+@Entity
 public class RegistrationRecord {
 
+    @Id
     Long id;
     private String token;
     private String userEmail;

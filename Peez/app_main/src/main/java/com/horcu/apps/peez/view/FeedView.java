@@ -252,7 +252,7 @@ public class FeedView extends Fragment {
                 String token = playerVm.getModel().getToken();
                 String imgUrl = playerVm.getModel().getImageUrl();
 
-              mListener.onFragmentInteraction(name, token,imgUrl);
+              mListener.onFragmentInteraction(name, imgUrl,token);
 //                Intent intent = new Intent(getActivity(), ChatView.class);
 //                String token = playerVm.getModel().getToken();
 //                if(token.equals(""))

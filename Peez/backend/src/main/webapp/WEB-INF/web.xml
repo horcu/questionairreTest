@@ -13,17 +13,15 @@
         <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
         <init-param>
             <param-name>services</param-name>
-            <param-value>com.horcu.apps.peez.backend.endpoints.RegistrationEndpoint,
-                com.horcu.apps.peez.backend.endpoints.TileDefinitionEndpoint,
+            <param-value>
+                com.horcu.apps.peez.backend.endpoints.RegistrationEndpoint,
                 com.horcu.apps.peez.backend.endpoints.MessagingEndpoint,
-                com.horcu.apps.peez.backend.endpoints.league.TeamEndpoint,
                 com.horcu.apps.peez.backend.endpoints.UserSettingsEndpoint,
-                com.horcu.apps.peez.backend.endpoints.BetStructEndpoint,
                 com.horcu.apps.peez.backend.endpoints.gameboard.InvitationEndpoint,
-                com.horcu.apps.peez.backend.endpoints.gameboard.pieceEndpoint,
-                com.horcu.apps.peez.backend.endpoints.gameboard.tileEndpoint,
+                com.horcu.apps.peez.backend.endpoints.gameboard.PieceEndpoint,
+                com.horcu.apps.peez.backend.endpoints.gameboard.TileEndpoint,
                 com.horcu.apps.peez.backend.endpoints.GameEndpoint,
-                com.horcu.apps.peez.backend.endpoints.BoardEndpoint,
+                com.horcu.apps.peez.backend.endpoints.gameboard.BoardEndpoint,
                 com.horcu.apps.peez.backend.endpoints.UserEndpoint</param-value>
         </init-param>
     </servlet>

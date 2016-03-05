@@ -1,8 +1,12 @@
 package com.horcu.apps.peez.backend.models;
 
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
 
+@Entity
 public class Tile {
 
+    @Id
     private String id;
     private String name;
     private String spot;

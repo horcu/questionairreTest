@@ -1,14 +1,19 @@
 package com.horcu.apps.peez.backend.models;
 
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+
 import java.util.ArrayList;
 
 /**
- * Created by hacz on 2/11/2016.
+ * Created by Horatio on 2/11/2016.
  */
 
+@Entity
 public class Board {
     private String boardKey;
 
+    @Id
     private String gameKey;
     private ArrayList<Tile> tiles;
 

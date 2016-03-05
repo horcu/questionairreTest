@@ -9,7 +9,8 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 
 import com.horcu.apps.peez.R;
-import com.horcu.apps.peez.common.models.gameboard.Tile;
+import com.horcu.apps.peez.backend.models.gameboard.tileApi.model.Tile;
+
 
 public class PlayerView extends TileView {
 

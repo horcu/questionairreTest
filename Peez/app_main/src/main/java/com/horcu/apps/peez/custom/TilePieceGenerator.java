@@ -2,8 +2,9 @@ package com.horcu.apps.peez.custom;
 import android.content.Context;
 
 import com.horcu.apps.peez.R;
+
 import com.horcu.apps.peez.backend.models.gameboard.tileApi.TileApi;
-import com.horcu.apps.peez.common.models.gameboard.Tile;
+import com.horcu.apps.peez.backend.models.gameboard.tileApi.model.Tile;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -273,16 +273,18 @@ public class ChatView extends Fragment {
                         MessageEntry messageEntry = new MessageEntry(String.valueOf(new Date()), message);
                         String from = m.getFrom();
                         String regId = settings.getString(consts.REG_ID, "");
+                        SuperMessageViewModel su;
+                        MessageViewModel su2;
 
                         if(from.equals(regId))
                         {
-                          SuperMessageViewModel su = new SuperMessageViewModel(messageEntry);
+                         su = new SuperMessageViewModel(messageEntry);
                           vms.add(su);
                         }
                         else
                         {
-                          MessageViewModel su = new MessageViewModel(messageEntry);
-                          vms.add(su);
+                         su2 = new MessageViewModel(messageEntry);
+                          vms.add(su2);
                         }
                     }
 
@@ -366,25 +368,24 @@ public class ChatView extends Fragment {
                 if(baseMessage.equals(""))
                     return;
 
-                messagesViewModel.messageViewModels.add(new SuperMessageViewModel(new MessageEntry(String.valueOf(time), getStringFromEditText(binding.usersViewLastname))));
+                messagesViewModel.messageViewModels.add(new SuperMessageViewModel(new MessageEntry(String.valueOf(time), message)));
 
                 String senderId = consts.SENDER_ID;
                 if("" != senderId) {
                     MessageSender sender = new MessageSender(getActivity(), mLogger, mSenders);
                   if(!sender.sendMessage(message_recipient,consts.TEST_MSG_ID,message,consts.TEST_TINE_TO_LIVE, false))
                   {
-                    //message not sent something went wrong
-                     Toast.makeText(getActivity(),"failed ;/", Toast.LENGTH_LONG).show();
+                      //save to db
+                      realm.beginTransaction();
+                      realm.copyToRealm(baseMessage);
+                      realm.commitTransaction();
+
+                      Toast.makeText(getActivity(),"sent!", Toast.LENGTH_LONG).show();
                   }
                 }
                 else
                 {
-                    //save to db
-                    realm.beginTransaction();
-                    realm.copyToRealm(baseMessage);
-                    realm.commitTransaction();
-
-                    Toast.makeText(getActivity(),"sent!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"failed ;/", Toast.LENGTH_LONG).show();
                 }
            ((EditText)binding.getRoot().findViewById(R.id.users_view_lastname)).setText("");
            ((RecyclerView)binding.getRoot().findViewById(R.id.activity_users_recycler)).smoothScrollToPosition(messagesViewModel.messageViewModels.size() - 1);

@@ -1,21 +1,24 @@
 package com.horcu.apps.peez.backend.models;
 
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Load;
+
 import java.util.List;
 
 /**
  * Created by hacz on 10/10/2015.
  */
 
+@Entity
 public class UserSettings {
 
     public UserSettings(){}
 
-
+    @Id
+    private Long id;
     private String name;
-
-
     private String imgUrl;
-
     private List<String> friendsEmails;
     private String value;
 

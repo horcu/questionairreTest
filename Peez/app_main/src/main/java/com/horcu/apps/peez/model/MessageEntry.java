@@ -1,8 +1,9 @@
 package com.horcu.apps.peez.model;
 
+import com.horcu.apps.peez.backend.models.userApi.model.User;
 import com.horcu.apps.peez.common.utilities.consts;
 
-public class MessageEntry extends com.horcu.apps.peez.common.models.User
+public class MessageEntry
 {
     private  String datetime;
     private  String message;

@@ -1,20 +1,17 @@
 package com.horcu.apps.peez.backend.models;
 
-import javax.annotation.Generated;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
 
-@Generated("org.jsonschema2pojo")
+
+@Entity
 public class Piece {
 
-
+    @Id
     private String id;
-
-
     private String description;
-
     private String color;
-
     private String icon;
-
     private String alias;
 
     /**

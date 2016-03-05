@@ -36,9 +36,9 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
                 packagePath = ""
         )
 )
-public class tileEndpoint {
+public class TileEndpoint {
 
-    private static final Logger logger = Logger.getLogger(tileEndpoint.class.getName());
+    private static final Logger logger = Logger.getLogger(TileEndpoint.class.getName());
     private static final Integer DEFAULT_LIST_LIMIT = 36;
 
     /**

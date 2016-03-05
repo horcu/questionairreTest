@@ -35,9 +35,9 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
                 packagePath = ""
         )
 )
-public class pieceEndpoint {
+public class PieceEndpoint {
 
-    private static final Logger logger = Logger.getLogger(pieceEndpoint.class.getName());
+    private static final Logger logger = Logger.getLogger(PieceEndpoint.class.getName());
     private static final Integer DEFAULT_LIST_LIMIT = 5;
 
     /**

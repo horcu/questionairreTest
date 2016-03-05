@@ -130,7 +130,7 @@ public class RegistrationIntentService extends IntentService {
     }
 
     @Nullable
-    private User addOrUpdateUserRecord(String token, String mPhoneNumber, String username) {
+    private User addOrUpdateUserRecord(String token, String mPhoneNumber, String username) throws IOException {
         User user = null;
         try {
             user = userApi.get(username).execute();
@@ -146,6 +146,7 @@ public class RegistrationIntentService extends IntentService {
             }
 
         } catch (IOException e) {
+            user = makeNewUser(token, mPhoneNumber, username);
             e.printStackTrace();
             // no user found so new record needed
         }
