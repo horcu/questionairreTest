@@ -89,7 +89,7 @@ public class RegistrationIntentService extends IntentService {
             if(user == null)
                 return;
             //now add the registration records
-            addRegistrationRecord(token);
+            addRegistrationRecord(token, email);
 
             //add or update the userSettings
             //addDefaultUserSettingForNewUser(user);
@@ -153,9 +153,9 @@ public class RegistrationIntentService extends IntentService {
         return user;
     }
 
-    private void addRegistrationRecord(String token) {
+    private void addRegistrationRecord(String token, String email) {
         try {
-            Registration.Register record = registrationApi.register(token);
+            Registration.Register record = registrationApi.register(token, email);
             record.execute();
 
         } catch (IOException e) {
