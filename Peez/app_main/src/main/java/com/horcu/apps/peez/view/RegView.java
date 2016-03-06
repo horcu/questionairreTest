@@ -25,6 +25,7 @@ import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.custom.Api;
 
 import com.horcu.apps.peez.registration.RegistrationIntentService;
+import com.wang.avi.AVLoadingIndicatorView;
 
 public class RegView extends AppCompatActivity {
 
@@ -40,7 +41,7 @@ public class RegView extends AppCompatActivity {
     private UserSettingsApi userSettingsApi;
     private String regId;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
-    private com.mingle.widget.LoadingView loader;
+    private AVLoadingIndicatorView loader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,22 +51,18 @@ public class RegView extends AppCompatActivity {
             getSupportActionBar().setElevation(0);
         }
 
+        loader = (AVLoadingIndicatorView)findViewById(R.id.loadView_reg);
         user = new User();
         settings = getSharedPreferences("Peez", 0);
         userApi = Api.BuildUserApiService();
         userSettingsApi = Api.BuildUserSettingsApiService();
 
-        loader = ((com.mingle.widget.LoadingView) findViewById(R.id.loadView_reg));
-
-        loader.upThrow();
-        loader.setLoadingText("aLmost there...");
         settings = getSharedPreferences("Peez", 0);
 
         credential = GoogleAccountCredential.usingAudience(this, consts.GOOGLE_ACCOUNT_CREDENTIALS_AUDIENCE);
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                loader.setVisibility(View.GONE);
 
                 boolean sentToken = settings
                         .getBoolean(consts.SENT_TOKEN_TO_SERVER, false);

@@ -4,12 +4,14 @@ package com.horcu.apps.peez.custom;//package com.horcu.apps.peez.custom;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 
 import com.horcu.apps.peez.service.LoggingService;
+import com.horcu.apps.peez.view.MainView;
 import com.horcu.apps.peez.view.baseview;
 
 
@@ -20,15 +22,8 @@ import java.util.Date;
  */
 public class notifier {
 
-    public static void showNotification(Intent intent, Context context, Class<baseview> goWhere) {
+    public static void showNotification(String message, Context context, Class<MainView> goWhere, Uri soundUri, Bitmap bitmap) {
         try {
-            Bundle bundle = intent.getExtras();
-            // String message = bundle.getString("message");
-            String key = bundle.getString("collapse_key");
-
-            //get message from intent
-            String message = intent.getStringExtra(LoggingService.EXTRA_LOG_MESSAGE);
-
             //create the intent to send user to the main screen where the intent will be shown
             Intent go = new Intent(context, goWhere.getClass());
 
@@ -36,11 +31,10 @@ public class notifier {
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 1421, go, 0);
 
             //create and launch the notification
-            NewBetNotification.notify(context, pendingIntent, message, 1, new Date().getTime() + 86400000);
+            NewBetNotification.notify(context, pendingIntent, message, 1, new Date().getTime() + 86400000, bitmap);
 
             //sounds the ringtone alarm
-            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            Ringtone r = RingtoneManager.getRingtone(context, notification);
+            Ringtone r = RingtoneManager.getRingtone(context, soundUri);
             r.play();
 
         } catch (Exception e) {

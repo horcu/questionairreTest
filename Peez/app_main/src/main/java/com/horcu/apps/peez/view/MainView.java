@@ -10,14 +10,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
+import com.google.gson.Gson;
 import com.horcu.apps.peez.R;
+import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.custom.MessageSender;
-import com.horcu.apps.peez.gcm.BaseMessage;
+import com.horcu.apps.peez.gcm.InvitationMessage;
+import com.horcu.apps.peez.gcm.MoveMessage;
+import com.horcu.apps.peez.gcm.ReminderMessage;
+import com.horcu.apps.peez.gcm.SmsMessage;
 
 import com.horcu.apps.peez.gcm.PubSubHelper;
 import com.horcu.apps.peez.model.MessageEntry;
@@ -29,8 +33,9 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmObject;
 
-public class MainView extends AppCompatActivity
+public class MainView extends baseview
         implements ChatView.OnFragmentInteractionListener,
         FeedView.OnFragmentInteractionListener, GameView.OnFragmentInteractionListener{
 
@@ -46,11 +51,15 @@ public class MainView extends AppCompatActivity
     private LoggingService.Logger mLogger;
     private Realm realm;
     private RealmConfiguration realmConfig;
+    private String mytoken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_view);
+        settings = getSharedPreferences("Peez", 0);
+
+        mytoken = settings.getString(consts.REG_ID,"");
 
         realmConfig = new RealmConfiguration.Builder(this).build();
         Realm.deleteRealm(realmConfig);
@@ -63,7 +72,7 @@ public class MainView extends AppCompatActivity
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        settings = getSharedPreferences("Peez", 0);
+
         pubsub= new PubSubHelper(this);
         //pubsub.subscribeTopic(consts.SENDER_ID,settings.getString(consts.REG_ID,""),gameTopic, new Bundle());
 
@@ -76,32 +85,79 @@ public class MainView extends AppCompatActivity
                     case LoggingService.ACTION_CLEAR_LOGS:
                         break;
                     case LoggingService.ACTION_LOG:
-                        String newMessage = intent.getStringExtra(LoggingService.EXTRA_LOG_MESSAGE);
+                        String messObj = intent.getStringExtra(LoggingService.EXTRA_LOG_MESSAGE);
+                        Gson gson = new Gson();
 
-                        if(newMessage.contains("canonical_ids")) //This means the message was sent from this device TODO - check if this is the correct way
-                            return;
+                        String messageType = intent.getStringExtra(LoggingService.MESSAGE_TYPE);
 
-                        String dateTime = newMessage.substring(0,17);
-                        String message = newMessage.substring(18,newMessage.length());
-
-                        ChatView ChatFrag = GetChatFragment();
-
-                        ChatFrag.binding.getMsgViewModel().messageViewModels.add(new MessageViewModel(new MessageEntry(new Date().toString(), message)));
-                        ChatFrag.binding.activityUsersRecycler.getAdapter().notifyDataSetChanged();
-                        int msgCount = ChatFrag.binding.activityUsersRecycler.getAdapter().getItemCount();
-                        ChatFrag.binding.activityUsersRecycler.smoothScrollToPosition(msgCount -1);
-
-                        //save to db
-                        BaseMessage msg = MessageSender.BuildBaseMessageFromJsonMEssage("", "", message, dateTime);
-                        realm.beginTransaction();
-                        realm.copyToRealm(msg);
-                        realm.commitTransaction();
+                        switch (messageType)
+                        {
+                            case LoggingService.MESSAGE_TYPE_MSG :
+                            {
+                                SmsMessage newMessage = gson.fromJson(messObj, SmsMessage.class);
+                                HandleSMS(newMessage);}
+                                break;
+                            case LoggingService.MESSAGE_TYPE_MOVE :
+                            {
+                                MoveMessage newMessage = gson.fromJson(messObj, MoveMessage.class);
+                                HandleMove(newMessage);}
+                                break;
+                            case LoggingService.MESSAGE_TYPE_INVITATION :
+                            {
+                                InvitationMessage newMessage = gson.fromJson(messObj, InvitationMessage.class);
+                                HandleInvitation(newMessage);}
+                                break;
+                            case LoggingService.MESSAGE_TYPE_REMINDER:
+                            {
+                                ReminderMessage newMessage = gson.fromJson(messObj, ReminderMessage.class);
+                                HandleReminder(newMessage);}
+                        }
                         break;
                 }
             }
         };
         mViewPager.setCurrentItem(1);
     }
+
+    private Boolean saveToDb(RealmObject obj){
+        try {
+            realm.beginTransaction();
+            realm.copyToRealm(obj);
+            realm.commitTransaction();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+    private void HandleSMS(SmsMessage newMessage){
+        if(newMessage.getFrom().equals(mytoken))
+            return;
+
+        mViewPager.setCurrentItem(2);
+
+        String dateTime = newMessage.getDateTime();
+        String message = newMessage.getMessage();
+
+        ChatView ChatFrag = GetChatFragment();
+
+        ChatFrag.binding.getMsgViewModel().messageViewModels.add(new MessageViewModel(new MessageEntry(new Date().toString(), message)));
+        ChatFrag.binding.activityUsersRecycler.getAdapter().notifyDataSetChanged();
+        int msgCount = ChatFrag.binding.activityUsersRecycler.getAdapter().getItemCount();
+        ChatFrag.binding.activityUsersRecycler.smoothScrollToPosition(msgCount -1);
+
+        //save to db
+        SmsMessage msg = MessageSender.BuildMessage("", "", message, dateTime,"");
+        saveToDb(msg);
+
+        //refresh List from db
+        ChatFrag.refreshMessagesFromDb(ChatFrag.myToken,this);
+    }
+    private void HandleInvitation(InvitationMessage message){}
+    private void HandleMove(MoveMessage message){}
+    private void HandleReminder(ReminderMessage message){}
+
 
     @Nullable
     private ChatView GetChatFragment() {
@@ -177,7 +233,7 @@ public class MainView extends AppCompatActivity
         ChatView ChatFrag = GetChatFragment();
         if (ChatFrag != null) {
             ChatFrag.upDateChatPlayer(name,token,imageUrl);
-            ChatFrag.getExistingChatRecordsFromDb();
+            ChatFrag.refreshMessagesFromDb(ChatFrag.myToken,this);
             mViewPager.setCurrentItem(2);
         }
     }

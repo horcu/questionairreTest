@@ -35,6 +35,16 @@
             app:stackFromEnd="true"
             />
 
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/chat_loader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:indicator="BallPulse"
+            android:layout_centerInParent="true"
+            app:indicator_color="#898989"
+            />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:minHeight="50dp"

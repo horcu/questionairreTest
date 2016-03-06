@@ -49,10 +49,16 @@ public class LoggingService extends IntentService {
     public static final String ACTION_CLEAR_LOGS = BuildConfig.APPLICATION_ID + ".CLEAR_LOGS";
     public static final String EXTRA_LOG_PRIORITY = "log_priority";
     public static final String EXTRA_LOG_MESSAGE = "log_message";
+    public static final String MESSAGE_TYPE = "messageType";
 
     private static final String LOG_FILE = "peez-gcm.log";
     private static final String LOG_SEPARATOR = "\n\n";
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
+    public static final String MESSAGE_TYPE_MSG = "message_type_message'";
+    public static final String MESSAGE_TYPE_MOVE = "message_type_move";
+    public static final String MESSAGE_TYPE_INVITATION = "message_type_invitation";
+    public static final String MESSAGE_TYPE_REMINDER = "message_type_reminder";
+    public static final String MESSAGE_TYPE_FEED = "message_type_feed";
 
     public LoggingService() {
         super("LoggingService");

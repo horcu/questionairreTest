@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.databinding.ObservableArrayList;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.BoolRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +19,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.Toast;
+
+import com.google.android.gms.vision.barcode.Barcode;
+import com.google.gson.Gson;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.BR;
 import com.horcu.apps.peez.binder.SuperUserBinder;
@@ -27,12 +29,11 @@ import com.horcu.apps.peez.binder.UserBinder;
 import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.custom.MessageSender;
 import com.horcu.apps.peez.databinding.FragmentChatViewBinding;
-import com.horcu.apps.peez.gcm.BaseMessage;
+import com.horcu.apps.peez.gcm.SmsMessage;
 
 import com.horcu.apps.peez.gcm.PubSubHelper;
 import com.horcu.apps.peez.misc.SenderCollection;
 import com.horcu.apps.peez.model.MessageEntry;
-import com.horcu.apps.peez.model.Player;
 import com.horcu.apps.peez.service.LoggingService;
 import com.horcu.apps.peez.viewmodel.SuperMessageViewModel;
 import com.horcu.apps.peez.viewmodel.MessageViewModel;
@@ -71,6 +72,7 @@ public class ChatView extends Fragment {
     public String message_recipient;
     public String playerImageUri;
     public String playerName;
+    public String myToken;
 
 
     private OnFragmentInteractionListener mListener;
@@ -105,6 +107,7 @@ public class ChatView extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         pubsub = new PubSubHelper(getContext());
+        settings = getActivity().getSharedPreferences("Peez", 0);
 
         if (getArguments() != null) {
             message_recipient = getArguments().getString(MESSAGE_RECIPIENT,"");
@@ -113,6 +116,7 @@ public class ChatView extends Fragment {
         }
         mLogger = new LoggingService.Logger(getActivity());
         mSenders = SenderCollection.getInstance(getActivity());
+        myToken = settings.getString(consts.REG_ID,"");
     }
 
     @Override
@@ -126,27 +130,29 @@ public class ChatView extends Fragment {
             message_recipient = token;
             playerName = userName;
             playerImageUri  = imgUrl;
-
-            getActivity().getActionBar().setTitle(playerName);
+            return true;
+       //     getActivity().getActionBar().setTitle(playerName);
         } catch (Exception ex){
             ex.printStackTrace();
             return false;
         }
-        return true;
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        settings = getActivity().getSharedPreferences("Peez", 0);
+
 
        // if(!playerName.equals(""))
        //     getActivity().getActionBar().setTitle(playerName); //TODO add a custom actionbar so that you can add the player image there and pass in the url here
 
         binding = FragmentChatViewBinding.inflate(inflater, container, false);
+        binding.chatLoader.setVisibility(View.VISIBLE);
+
         messagesViewModel = new MessagesViewModel();
 
-        getMessagesFromDb("", getActivity());
+        refreshMessagesFromDb("", getActivity());
 
         binding.setMsgViewModel(messagesViewModel);
         binding.setView(this);
@@ -250,7 +256,8 @@ public class ChatView extends Fragment {
         return binding.getRoot(); //inflater.inflate(R.layout.fragment_chat_view, container, false);
     }
 
-    private void getMessagesFromDb(final String sender, Context ctx) {
+    public void refreshMessagesFromDb(final String sender, Context ctx) {
+        binding.chatLoader.setVisibility(View.VISIBLE);
 
         realmConfig = new RealmConfiguration.Builder(ctx).build();
         // Realm.deleteRealm(realmConfig);
@@ -262,21 +269,24 @@ public class ChatView extends Fragment {
             @Override
             public void execute(Realm realm) {
                 try {
-                    RealmResults<BaseMessage> messages = realm.allObjects(BaseMessage.class); // where(Message.class).equalTo("sender", sender).findAll();
+                    RealmResults<SmsMessage> messages = realm.where(SmsMessage.class)
+                            .equalTo("to", message_recipient)
+                            .or()
+                            .equalTo("from", myToken)
+                            .findAll(); // where(Message.class).equalTo("sender", sender).findAll();
 
                     if(messages.size() < 1)
                         return;
 
-                    for (BaseMessage m : messages)
+                    for (SmsMessage m : messages)
                     {
                         String message = m.getMessage();
                         MessageEntry messageEntry = new MessageEntry(String.valueOf(new Date()), message);
                         String from = m.getFrom();
-                        String regId = settings.getString(consts.REG_ID, "");
                         SuperMessageViewModel su;
                         MessageViewModel su2;
 
-                        if(from.equals(regId))
+                        if(from.equals(myToken))
                         {
                          su = new SuperMessageViewModel(messageEntry);
                           vms.add(su);
@@ -299,6 +309,7 @@ public class ChatView extends Fragment {
                     messagesViewModel.messageViewModels = new ObservableArrayList<>();
 
                    messagesViewModel.messageViewModels.addAll(vms);
+                binding.chatLoader.setVisibility(View.GONE);
             }
         });
     }
@@ -325,10 +336,6 @@ public class ChatView extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    public void getExistingChatRecordsFromDb() {
-        //TODO - flesh out the details
     }
 
     /**
@@ -364,23 +371,31 @@ public class ChatView extends Fragment {
                 long time = d.getTime();
                 String message = getStringFromEditText(binding.usersViewLastname);
 
-                BaseMessage baseMessage = MessageSender.BuildBaseMessageFromJsonMEssage("", consts.REG_ID, message, String.valueOf(time));
-                if(baseMessage.equals(""))
+                binding.chatLoader.setVisibility(View.VISIBLE);
+                String senderImage = "https://storage.googleapis.com/ballrz/images/users/IMAG0311%5B1%5D.jpg";//TODO get from server or local
+                SmsMessage sms = MessageSender.BuildMessage(message_recipient, myToken, message, String.valueOf(time), senderImage);
+
+                if(sms.getFrom().equals("") || sms.getTo().equals(""))
                     return;
 
                 messagesViewModel.messageViewModels.add(new SuperMessageViewModel(new MessageEntry(String.valueOf(time), message)));
 
                 String senderId = consts.SENDER_ID;
                 if("" != senderId) {
+
+                    String json = BuildJsonMessage(sms);
+
                     MessageSender sender = new MessageSender(getActivity(), mLogger, mSenders);
-                  if(!sender.sendMessage(message_recipient,consts.TEST_MSG_ID,message,consts.TEST_TINE_TO_LIVE, false))
+                  if(!sender.SendSMS(message_recipient,consts.TEST_MSG_ID,json,consts.TEST_TINE_TO_LIVE, false))
                   {
                       //save to db
                       realm.beginTransaction();
-                      realm.copyToRealm(baseMessage);
+                      sms.setFrom(myToken);
+                      realm.copyToRealm(sms);
                       realm.commitTransaction();
 
                       Toast.makeText(getActivity(),"sent!", Toast.LENGTH_LONG).show();
+                      binding.chatLoader.setVisibility(View.GONE);
                   }
                 }
                 else
@@ -391,6 +406,19 @@ public class ChatView extends Fragment {
            ((RecyclerView)binding.getRoot().findViewById(R.id.activity_users_recycler)).smoothScrollToPosition(messagesViewModel.messageViewModels.size() - 1);
             }
         };
+    }
+
+    private String BuildJsonMessage(SmsMessage message) {
+
+            return "{SmsMessage:{" +
+                    "from:" + message.getFrom()
+                    + "," + "to:" + message.getTo()
+                    + "," + "message:" + message.getMessage()
+                    + "," + "dateTime:" + message.getDateTime()
+                    + "," + "type:" + message.getType()
+                    + "," +  "senderUrl:" + message.getSenderUrl() +
+                    "}}";
+
     }
 
 //    public View.OnClickListener onEmojiButtonClick()

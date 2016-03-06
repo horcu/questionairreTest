@@ -10,6 +10,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 
 import com.horcu.apps.peez.R;
@@ -44,23 +45,23 @@ public class NewBetNotification {
      */
     public static void notify(final Context context,
                               PendingIntent pendingIntent,
-                              final String exampleString, final int number, final long expiration) {
+                              final String exampleString, final int number, final long expiration, Bitmap userImg) {
         final Resources res = context.getResources();
 
         // This image is used as the notification's large icon (thumbnail).
         // TODO: Remove this if your notification has no relevant thumbnail.
         final Bitmap picture = BitmapFactory.decodeResource(res, R.mipmap.ic_launcher);
 
-
         final String ticker = exampleString;
-        final String title = res.getString(
-                R.string.new_bet_notification_title_template, exampleString);
+        final String title = res.getString( R.string.new_bet_notification_title_template, exampleString);
 
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
 
                 // Set appropriate defaults for the notification light, sound,
                 // and vibration.
                 .setDefaults(Notification.DEFAULT_ALL)
+
+                .setLargeIcon(userImg)
 
                         // Set required fields, including the small icon, the
                         // notification title, and text.
@@ -123,7 +124,7 @@ public class NewBetNotification {
                                 0,
                                 Intent.createChooser(new Intent(Intent.ACTION_SEND)
                                         .setType("text/plain")
-                                        .putExtra(Intent.EXTRA_TEXT, "bet it park it or dump it"), "choices.."),
+                                        .putExtra(Intent.EXTRA_TEXT, "lets play"), "lets play"),
                                 PendingIntent.FLAG_UPDATE_CURRENT))
                 .addAction(
                         R.drawable.ic_stat_action_done,

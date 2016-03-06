@@ -513,5 +513,16 @@
 
     </RelativeLayout>
 
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/game_loader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:indicator="BallPulse"
+        android:layout_centerInParent="true"
+        app:indicator_color="#898989"
+
+        />
+
 </RelativeLayout>
 </layout>

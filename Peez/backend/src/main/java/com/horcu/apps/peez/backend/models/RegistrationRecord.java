@@ -1,5 +1,6 @@
 package com.horcu.apps.peez.backend.models;
 
+import com.google.api.server.spi.config.Named;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
@@ -12,9 +13,10 @@ public class RegistrationRecord {
 
     @Id
     Long id;
-    private String token;
-    private String userEmail;
-    private String regDate;
+    public String token;
+
+    public String userEmail;
+    public String regDate;
 
     public RegistrationRecord() {
     }

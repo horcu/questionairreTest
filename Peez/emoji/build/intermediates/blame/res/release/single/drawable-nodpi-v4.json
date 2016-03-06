@@ -2296,12 +2296,12 @@
         "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-nodpi\\emoji_1f4e6.png"
     },
     {
-        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-nodpi-v4\\emoji_1f469.png",
-        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-nodpi\\emoji_1f469.png"
-    },
-    {
         "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-nodpi-v4\\emoji_1f35a.png",
         "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-nodpi\\emoji_1f35a.png"
+    },
+    {
+        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-nodpi-v4\\emoji_1f469.png",
+        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-nodpi\\emoji_1f469.png"
     },
     {
         "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-nodpi-v4\\emoji_1f4b8.png",

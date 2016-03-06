@@ -10,7 +10,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ActionProvider;
 import android.support.v7.widget.LinearLayoutManager;
+import android.transition.Visibility;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -103,6 +105,7 @@ public class FeedView extends Fragment {
         binding = FragmentFeedBinding.inflate(inflater, container, false);
         playersViewModel = new PlayersViewModel();
 
+        binding.feedLoader.setVisibility(View.GONE);
         getFeedFromDb(getActivity());
 
         getFeedFromServer(getActivity());
@@ -110,10 +113,13 @@ public class FeedView extends Fragment {
         binding.setPlayersVM(playersViewModel);
         binding.setView(this);
         binding.playersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+
         return binding.getRoot();
     }
 
     private void getFeedFromServer(Context context) {
+
+
             vms =  new ObservableArrayList<>();
 
             new AsyncTask<Void, Void, Void>() {
@@ -157,7 +163,7 @@ public class FeedView extends Fragment {
                     playersViewModel.playersVMs = new ObservableArrayList<>();
 
                 playersViewModel.playersVMs.addAll(vms);
-                //binding.playersRecycler.getAdapter().notifyDataSetChanged();
+                binding.feedLoader.setVisibility(View.GONE);
             }
 
        }.execute();
