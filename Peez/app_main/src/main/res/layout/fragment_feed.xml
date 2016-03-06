@@ -20,22 +20,12 @@
     tools:context=".view.FeedView">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/feeds_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-thin"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="5dp"
-        android:textSize="14sp"
-        android:text="loading feeds....."/>
-
     <RelativeLayout
         android:id="@+id/feeds_main"
-        android:layout_below="@+id/feeds_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="56dp">
 
 
         <android.support.v7.widget.RecyclerView
@@ -54,7 +44,7 @@
         android:layout_height="wrap_content"
         android:visibility="visible"
         app:indicator="BallPulse"
-            android:layout_centerInParent="true"
+        android:layout_centerInParent="true"
         app:indicator_color="#898989"
         />
 

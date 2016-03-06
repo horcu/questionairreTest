@@ -524,5 +524,42 @@
 
         />
 
+    <com.michaldrabik.tapbarmenulib.TapBarMenu
+        android:id="@+id/tapBarMenu"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom"
+        app:tbm_backgroundColor="@color/white"
+        android:layout_marginBottom="24dp"
+        app:tbm_menuAnchor="bottom"
+        >
+
+        <ImageView
+            android:id="@+id/item1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:src="@drawable/ic_content_add"
+            />
+
+        <Space
+            android:layout_width="56dp"
+            android:layout_height="match_parent"
+            />
+
+        <ImageView
+            android:id="@+id/item2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:src="@drawable/ic_communication_message"
+            />
+
+    </com.michaldrabik.tapbarmenulib.TapBarMenu>
+
 </RelativeLayout>
 </layout>

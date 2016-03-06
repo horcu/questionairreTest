@@ -114,6 +114,7 @@ public class FeedView extends Fragment {
         binding.setView(this);
         binding.playersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
+
         return binding.getRoot();
     }
 
@@ -259,15 +260,6 @@ public class FeedView extends Fragment {
                 String imgUrl = playerVm.getModel().getImageUrl();
 
               mListener.onFragmentInteraction(name, imgUrl,token);
-//                Intent intent = new Intent(getActivity(), ChatView.class);
-//                String token = playerVm.getModel().getToken();
-//                if(token.equals(""))
-//                {
-//                    Toast.makeText(getActivity(),"cannot go to chat page the token is blank", Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-//                intent.putExtra("recip", token);
-//                startActivity(intent);
             }
         };
     }

@@ -43,13 +43,12 @@ dependencies {
 
     compile project(':common')
     compile project(':recyclerview-binding')
-//    compile project(':BubbleTextView')
+    compile project(':app_menu_bar')
     compile('com.google.android.gms:play-services:8.4.0') {
         exclude group: 'com.android.support', module: 'support-v4'
     }
     //    compile 'com.github.michaldrabik:tapbarmenu:1.0.4'
 
-//    compile project(path: ':emoji')
     compile project(path: ':emoji')
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.android.support:design:23.2.0'
