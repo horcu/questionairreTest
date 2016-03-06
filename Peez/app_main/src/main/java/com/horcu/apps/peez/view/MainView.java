@@ -88,7 +88,7 @@ public class MainView extends baseview
                         String messObj = intent.getStringExtra(LoggingService.EXTRA_LOG_MESSAGE);
                         Gson gson = new Gson();
 
-                        String messageType = intent.getStringExtra(LoggingService.MESSAGE_TYPE);
+                        String messageType = intent.getStringExtra(LoggingService.MESSAGE_TYPE)  != null ? intent.getStringExtra(LoggingService.MESSAGE_TYPE) : LoggingService.MESSAGE_TYPE_MSG;
 
                         switch (messageType)
                         {
