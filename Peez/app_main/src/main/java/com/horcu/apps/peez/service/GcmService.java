@@ -15,6 +15,7 @@ import com.google.android.gms.gcm.GcmListenerService;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.custom.notifier;
@@ -51,53 +52,34 @@ public class GcmService extends GcmListenerService {
         String message = data.getString("message");
 
         Gson gson = new Gson();
-        Object type = null;
-        JSONObject msgObject = gson.fromJson(message, JSONObject.class);
+        JSONObject jsonObject = null;
         try {
-             type = msgObject.get("type");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+            jsonObject = new JSONObject(message);
 
-        if(type == null)
-            return;
-
+        String type = jsonObject.getString("type");
         if(type.equals(LoggingService.MESSAGE_TYPE_MSG))
         {
-            SmsMessage sms = gson.fromJson(message,SmsMessage.class);
-
+            SmsMessage sms = new SmsMessage(jsonObject.getString("to"), jsonObject.getString("from"),jsonObject.getString("message"), jsonObject.getString("dateTime"), jsonObject.getString("senderUrl"));
             Bitmap bitmap = null;
-            try {
+
                 bitmap = Picasso.with(this)
                         .load(sms.getSenderUrl())
                         .get();
 
                 Log.d("GCM message:", "image received");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
             if(bitmap == null)
             {
                 bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher);
             }
-            sendNotification(bitmap, sms);
-            logMessage(sms.getMessage(), bitmap);
+            sendNotification(bitmap, message, LoggingService.MESSAGE_TYPE_MSG);
+            logMessage(message, bitmap);
             Log.d("Received GCM Message: ", data.toString());
         }
-
-        //TODO implement these messages as well
-//        else if(basemessage instanceof InvitationMessage)
-//        {
-//
-//        }
-//        else if(basemessage instanceof MoveMessage)
-//        {
-//
-//        }
-//        else if(basemessage instanceof ReminderMessage)
-//        {
-//
-//        } //TTODTODO implement these methods as well
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private boolean ISentThisMessage(String senderId) {
@@ -129,12 +111,12 @@ public class GcmService extends GcmListenerService {
         logger.log(Log.INFO, msg, "error");
     }
 
-    private void sendNotification(Bitmap bitmap, SmsMessage message) {
+    private void sendNotification(Bitmap bitmap, String message, String type) {
         Intent intent = new Intent(this, MainView.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra(LoggingService.MESSAGE_TYPE, message.getType());
+        intent.putExtra(LoggingService.MESSAGE_TYPE, type);
         Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
-        notifier.showNotification(message.getMessage(), getApplicationContext(),MainView.class, soundUri, bitmap);
+        notifier.showNotification(message, getApplicationContext(),MainView.class, soundUri, bitmap);
     }
 }

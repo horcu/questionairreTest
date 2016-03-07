@@ -20,8 +20,8 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
-import com.google.android.gms.vision.barcode.Barcode;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.BR;
 import com.horcu.apps.peez.binder.SuperUserBinder;
@@ -365,60 +365,61 @@ public class ChatView extends Fragment {
         return new View.OnClickListener()
         {
             @Override
-            public void onClick(View v)
-            {
-                Date d = new Date();
-                long time = d.getTime();
-                String message = getStringFromEditText(binding.usersViewLastname);
+            public void onClick(View v) {
+                try {
+                    Date d = new Date();
+                    long time = d.getTime();
+                    String message = getStringFromEditText(binding.usersViewLastname);
 
-                binding.chatLoader.setVisibility(View.VISIBLE);
-                String senderImage = "https://storage.googleapis.com/ballrz/images/users/IMAG0311%5B1%5D.jpg";//TODO get from server or local
-                SmsMessage sms = MessageSender.BuildMessage(message_recipient, myToken, message, String.valueOf(time), senderImage);
+                    binding.chatLoader.setVisibility(View.VISIBLE);
+                    String senderImage = "https://storage.googleapis.com/ballrz/images/users/IMAG0311%5B1%5D.jpg";//TODO get from server or local
+                    SmsMessage sms = MessageSender.BuildMessage(message_recipient, myToken, message, String.valueOf(time), senderImage);
 
-                if(sms.getFrom().equals("") || sms.getTo().equals(""))
-                    return;
+                    if (sms.getFrom().equals("") || sms.getTo().equals(""))
+                        return;
 
-                messagesViewModel.messageViewModels.add(new SuperMessageViewModel(new MessageEntry(String.valueOf(time), message)));
+                    messagesViewModel.messageViewModels.add(new SuperMessageViewModel(new MessageEntry(String.valueOf(time), message)));
 
-                String senderId = consts.SENDER_ID;
-                if("" != senderId) {
+                    String senderId = consts.SENDER_ID;
+                    if ("" != senderId) {
 
-                    String json = BuildJsonMessage(sms);
+                        String json = ConvertToJson(sms);
+                        // String json = new Gson().toJson(sms);
 
-                    MessageSender sender = new MessageSender(getActivity(), mLogger, mSenders);
-                  if(!sender.SendSMS(message_recipient,consts.TEST_MSG_ID,json,consts.TEST_TINE_TO_LIVE, false))
-                  {
-                      //save to db
-                      realm.beginTransaction();
-                      sms.setFrom(myToken);
-                      realm.copyToRealm(sms);
-                      realm.commitTransaction();
+                        MessageSender sender = new MessageSender(getActivity(), mLogger, mSenders);
+                        if (sender.SendSMS(message_recipient, consts.TEST_MSG_ID, json, consts.TEST_TINE_TO_LIVE, false)) {
+                            //save to db
+                            realm.beginTransaction();
+                            sms.setFrom(myToken);
+                            realm.copyToRealm(sms);
+                            realm.commitTransaction();
 
-                      Toast.makeText(getActivity(),"sent!", Toast.LENGTH_LONG).show();
-                      binding.chatLoader.setVisibility(View.GONE);
-                  }
+                            Toast.makeText(getActivity(), "sent!", Toast.LENGTH_LONG).show();
+                            binding.chatLoader.setVisibility(View.GONE);
+                        } else {
+                            Toast.makeText(getActivity(), "failed ;/", Toast.LENGTH_LONG).show();
+                        }
+                        ((EditText) binding.getRoot().findViewById(R.id.users_view_lastname)).setText("");
+                        ((RecyclerView) binding.getRoot().findViewById(R.id.activity_users_recycler)).smoothScrollToPosition(messagesViewModel.messageViewModels.size() - 1);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                else
-                {
-                    Toast.makeText(getActivity(),"failed ;/", Toast.LENGTH_LONG).show();
-                }
-           ((EditText)binding.getRoot().findViewById(R.id.users_view_lastname)).setText("");
-           ((RecyclerView)binding.getRoot().findViewById(R.id.activity_users_recycler)).smoothScrollToPosition(messagesViewModel.messageViewModels.size() - 1);
             }
         };
     }
 
-    private String BuildJsonMessage(SmsMessage message) {
+    private String ConvertToJson(SmsMessage message) {
 
-            return "{SmsMessage:{" +
-                    "from:" + message.getFrom()
-                    + "," + "to:" + message.getTo()
-                    + "," + "message:" + message.getMessage()
-                    + "," + "dateTime:" + message.getDateTime()
-                    + "," + "type:" + message.getType()
-                    + "," +  "senderUrl:" + message.getSenderUrl() +
-                    "}}";
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("to", message.getTo());
+        jsonObject.addProperty("from", message.getFrom());
+        jsonObject.addProperty("message", message.getMessage());
+        jsonObject.addProperty("type", message.getType());
+        jsonObject.addProperty("dateTime", message.getDateTime());
+        jsonObject.addProperty("senderUrl", message.getSenderUrl());
 
+        return jsonObject.toString();
     }
 
 //    public View.OnClickListener onEmojiButtonClick()

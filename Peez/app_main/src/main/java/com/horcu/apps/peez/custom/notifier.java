@@ -10,6 +10,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.google.gson.Gson;
 import com.horcu.apps.peez.service.LoggingService;
 import com.horcu.apps.peez.view.MainView;
 import com.horcu.apps.peez.view.baseview;
@@ -30,12 +31,9 @@ public class notifier {
             //create the pending intent that wraps the "go to" intent
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 1421, go, 0);
 
+
             //create and launch the notification
             NewBetNotification.notify(context, pendingIntent, message, 1, new Date().getTime() + 86400000, bitmap);
-
-            //sounds the ringtone alarm
-            Ringtone r = RingtoneManager.getRingtone(context, soundUri);
-            r.play();
 
         } catch (Exception e) {
             e.printStackTrace();

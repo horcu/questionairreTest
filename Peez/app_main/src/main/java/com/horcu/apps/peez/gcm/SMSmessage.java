@@ -1,5 +1,7 @@
 package com.horcu.apps.peez.gcm;
 
+import com.horcu.apps.peez.service.LoggingService;
+
 import io.realm.RealmObject;
 
 /**
@@ -20,6 +22,7 @@ public class SmsMessage extends RealmObject {
         this.message = message;
         this.dateTime = dateTime;
         this.senderUrl = senderUrl;
+        this.type = LoggingService.MESSAGE_TYPE_MSG;
     }
 
     public SmsMessage() {

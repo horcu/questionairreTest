@@ -94,28 +94,27 @@ public class TapBarMenu extends LinearLayout {
   }
 
   private void setupAttributes(AttributeSet attrs) {
-    TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.TapBarMenu, 0, 0);
+    TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.tbm_TapBarMenu, 0, 0);
 
-    if (typedArray.hasValue(R.styleable.TapBarMenu_tbm_iconOpened)) {
-      iconOpenedDrawable = typedArray.getDrawable(R.styleable.TapBarMenu_tbm_iconOpened);
+    if (typedArray.hasValue(R.styleable.tbm_TapBarMenu_tbm_iconOpened)) {
+      iconOpenedDrawable = typedArray.getDrawable(R.styleable.tbm_TapBarMenu_tbm_iconOpened);
     } else {
       iconOpenedDrawable = ResourcesCompat.getDrawable(getContext(), R.drawable.icon_animated);
     }
 
-    if (typedArray.hasValue(R.styleable.TapBarMenu_tbm_iconClosed)) {
-      iconClosedDrawable = typedArray.getDrawable(R.styleable.TapBarMenu_tbm_iconClosed);
+    if (typedArray.hasValue(R.styleable.tbm_TapBarMenu_tbm_iconClosed)) {
+      iconClosedDrawable = typedArray.getDrawable(R.styleable.tbm_TapBarMenu_tbm_iconClosed);
     } else {
-      iconClosedDrawable = ResourcesCompat.getDrawable(getContext(), R.drawable.icon_close_animated);
+      iconClosedDrawable = ResourcesCompat.getDrawable(getContext(), R.drawable.tbm_icon_close_animated);
     }
 
-    backgroundColor = typedArray.getColor(R.styleable.TapBarMenu_tbm_backgroundColor, ContextCompat.getColor(getContext(), R.color.red));
-    buttonSize =
-        typedArray.getDimensionPixelSize(R.styleable.TapBarMenu_tbm_buttonSize, getResources().getDimensionPixelSize(R.dimen.defaultButtonSize));
-    buttonMarginRight = typedArray.getDimensionPixelSize(R.styleable.TapBarMenu_tbm_buttonMarginRight, 0);
-    buttonMarginLeft = typedArray.getDimensionPixelSize(R.styleable.TapBarMenu_tbm_buttonMarginLeft, 0);
-    buttonPosition = typedArray.getInt(R.styleable.TapBarMenu_tbm_buttonPosition, BUTTON_POSITION_CENTER);
-    menuAnchor = typedArray.getInt(R.styleable.TapBarMenu_tbm_menuAnchor, MENU_ANCHOR_BOTTOM);
-    showMenuItems = typedArray.getBoolean(R.styleable.TapBarMenu_tbm_showItems, false);
+    backgroundColor = typedArray.getColor(R.styleable.tbm_TapBarMenu_tbm_backgroundColor, ContextCompat.getColor(getContext(), android.R.color.white));
+    buttonSize = typedArray.getDimensionPixelSize(R.styleable.tbm_TapBarMenu_tbm_buttonSize, getResources().getDimensionPixelSize(R.dimen.defaultButtonSize));
+    buttonMarginRight = typedArray.getDimensionPixelSize(R.styleable.tbm_TapBarMenu_tbm_buttonMarginRight, 0);
+    buttonMarginLeft = typedArray.getDimensionPixelSize(R.styleable.tbm_TapBarMenu_tbm_buttonMarginLeft, 0);
+    buttonPosition = typedArray.getInt(R.styleable.tbm_TapBarMenu_tbm_buttonPosition, BUTTON_POSITION_CENTER);
+    menuAnchor = typedArray.getInt(R.styleable.tbm_TapBarMenu_tbm_menuAnchor, MENU_ANCHOR_BOTTOM);
+    showMenuItems = typedArray.getBoolean(R.styleable.tbm_TapBarMenu_tbm_showItems, false);
     typedArray.recycle();
   }
 

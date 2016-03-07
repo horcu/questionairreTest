@@ -4,7 +4,7 @@
     >
 
   <target
-      android:animation="@animator/stripe1_close"
+      android:animation="@animator/tbm_stripe1_close"
       android:name="stripe1"
       />
 

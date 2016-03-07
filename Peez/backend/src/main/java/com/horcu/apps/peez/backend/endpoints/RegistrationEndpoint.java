@@ -55,18 +55,20 @@ public class RegistrationEndpoint {
      */
     @ApiMethod(name = "register")
     public void registerDevice(@Named("regId") String regId, @Named("userEmail") String userEmail) {
-        if (findRecord(regId) != null) {
-            log.info("Device " + regId + " already registered, skipping register");
+        RegistrationRecord existing = findRecord("userEmail", userEmail) ;
+        if (existing != null) {
+            log.info("Device " + regId + " already registered, updating record");
+           // existing.setToken(regId);
+           // ofy().save().entity(existing).now();
             return;
         }
-        RegistrationRecord record = new RegistrationRecord();
-        record.setUserEmail(userEmail);
-        record.setRegDate(new Date().toString());
-        record.setToken(regId);
-        ofy().save().entity(record).now();
-
-        //create a user setting record for this device
-
+        else {
+            RegistrationRecord record = new RegistrationRecord();
+            record.setUserEmail(userEmail);
+            record.setRegDate(new Date().toString());
+            record.setToken(regId);
+            ofy().save().entity(record).now();
+        }
     }
 
     /**
@@ -76,7 +78,7 @@ public class RegistrationEndpoint {
      */
     @ApiMethod(name = "unregister")
     public void unregisterDevice(@Named("regId") String regId) {
-        RegistrationRecord record = findRecord(regId);
+        RegistrationRecord record = findRecord("regId",regId);
         if (record == null) {
             log.info("Device " + regId + " not registered, skipping unregister");
             return;
@@ -96,8 +98,8 @@ public class RegistrationEndpoint {
         return CollectionResponse.<RegistrationRecord>builder().setItems(records).build();
     }
 
-    private RegistrationRecord findRecord(String regId) {
-        return ofy().load().type(RegistrationRecord.class).filter("regId", regId).first().now();
+    private RegistrationRecord findRecord(String filterKey, String filterparam) {
+        return ofy().load().type(RegistrationRecord.class).filter(filterKey, filterparam).first().now();
     }
 
 }

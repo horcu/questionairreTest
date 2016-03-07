@@ -24,14 +24,13 @@
         android:id="@+id/feeds_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="56dp">
+        android:layout_marginTop="10dp">
 
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/players_recycler"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:items="@{playersVM.playersVMs}"
             app:clickHandler="@{view.playerClicked}"
             app:itemViewBinder="@{view.itemViewBinder}">
@@ -49,6 +48,46 @@
         />
 
     </RelativeLayout>
+
+        <com.michaldrabik.tapbarmenulib.TapBarMenu
+            android:id="@+id/tapBarMenu"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_gravity="bottom"
+            app:tbm_backgroundColor="@color/white"
+            app:tbm_menuAnchor="bottom"
+            android:layout_alignParentBottom="true"
+            app:tbm_iconOpened="@drawable/ic_content_add"
+            app:tbm_iconClosed="@drawable/ic_content_clear"
+            app:tbm_buttonSize="45dp"
+            >
+
+            <ImageView
+                android:id="@+id/item1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:src="@drawable/ic_edit"
+                />
+
+            <Space
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                />
+
+            <ImageView
+                android:id="@+id/item2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:src="@drawable/ic_book"
+                />
+
+        </com.michaldrabik.tapbarmenulib.TapBarMenu>
 
 </RelativeLayout>
     </layout>

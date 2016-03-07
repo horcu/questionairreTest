@@ -8,6 +8,13 @@
     android:fitsSystemWindows="true"
     tools:context=".view.RegView">
 
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="almost there..."
+    android:layout_centerInParent="true"
+    android:layout_above="@+id/loadView_reg"
+    android:textColor="@color/colorPrimary"/>
 
     <com.wang.avi.AVLoadingIndicatorView
         android:id="@+id/loadView_reg"
@@ -15,6 +22,7 @@
         android:layout_height="wrap_content"
         android:visibility="visible"
         app:indicator="BallPulse"
+        android:layout_centerInParent="true"
         app:indicator_color="#898989"
         />
 

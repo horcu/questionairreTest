@@ -132,8 +132,7 @@ public class FeedView extends Fragment {
                 try {
                     CollectionResponseUser list = api.list().execute();
 
-                    if(list == null || list.getItems().size() < 1)
-                        return null;
+                    if (list != null && list.size() <= 3) return null;
 
                     String un = settings.getString(consts.PREF_ACCOUNT_NAME,"");
 

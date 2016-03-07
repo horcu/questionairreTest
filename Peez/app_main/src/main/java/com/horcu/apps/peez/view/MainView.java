@@ -14,7 +14,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
+import com.google.api.client.json.Json;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSyntaxException;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.custom.MessageSender;
@@ -27,6 +32,9 @@ import com.horcu.apps.peez.gcm.PubSubHelper;
 import com.horcu.apps.peez.model.MessageEntry;
 import com.horcu.apps.peez.service.LoggingService;
 import com.horcu.apps.peez.viewmodel.MessageViewModel;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Date;
 import java.util.List;
@@ -62,7 +70,7 @@ public class MainView extends baseview
         mytoken = settings.getString(consts.REG_ID,"");
 
         realmConfig = new RealmConfiguration.Builder(this).build();
-        Realm.deleteRealm(realmConfig);
+        //Realm.deleteRealm(realmConfig);
         realm = Realm.getInstance(realmConfig);
 
         // Create the adapter that will return a fragment for each of the three
@@ -85,38 +93,57 @@ public class MainView extends baseview
                     case LoggingService.ACTION_CLEAR_LOGS:
                         break;
                     case LoggingService.ACTION_LOG:
-                        String messObj = intent.getStringExtra(LoggingService.EXTRA_LOG_MESSAGE);
+                        String messageObject = intent.getStringExtra(LoggingService.EXTRA_LOG_MESSAGE);
                         Gson gson = new Gson();
 
                         String messageType = intent.getStringExtra(LoggingService.MESSAGE_TYPE)  != null ? intent.getStringExtra(LoggingService.MESSAGE_TYPE) : LoggingService.MESSAGE_TYPE_MSG;
+
+                        if(messageObject.contains("multicast_id")) //return its the last message you sent out
+                        {
+                            return;}
 
                         switch (messageType)
                         {
                             case LoggingService.MESSAGE_TYPE_MSG :
                             {
-                                SmsMessage newMessage = gson.fromJson(messObj, SmsMessage.class);
-                                HandleSMS(newMessage);}
+                                try {
+                                    JSONObject jsonO = new JSONObject(messageObject);
+                                    SmsMessage sms = new SmsMessage(jsonO.getString("from"),jsonO.getString("to"),jsonO.getString("message"),jsonO.getString("dateTime"),jsonO.getString("senderUrl"));
+                                    mViewPager.setCurrentItem(2);
+                                    HandleSMS(sms);
+                                } catch (JsonSyntaxException e) {
+                                    e.printStackTrace();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                                 break;
                             case LoggingService.MESSAGE_TYPE_MOVE :
                             {
-                                MoveMessage newMessage = gson.fromJson(messObj, MoveMessage.class);
-                                HandleMove(newMessage);}
+                                MoveMessage newMessage = gson.fromJson(messageObject, MoveMessage.class);
+                                mViewPager.setCurrentItem(1);
+                                HandleMove(newMessage);
+                            }
                                 break;
                             case LoggingService.MESSAGE_TYPE_INVITATION :
                             {
-                                InvitationMessage newMessage = gson.fromJson(messObj, InvitationMessage.class);
-                                HandleInvitation(newMessage);}
+                                InvitationMessage newMessage = gson.fromJson(messageObject, InvitationMessage.class);
+                                mViewPager.setCurrentItem(1);
+                                HandleInvitation(newMessage);
+                            }
                                 break;
                             case LoggingService.MESSAGE_TYPE_REMINDER:
                             {
-                                ReminderMessage newMessage = gson.fromJson(messObj, ReminderMessage.class);
-                                HandleReminder(newMessage);}
+                                ReminderMessage newMessage = gson.fromJson(messageObject, ReminderMessage.class);
+                                mViewPager.setCurrentItem(0);
+                                HandleReminder(newMessage);
+                            }
                         }
                         break;
                 }
             }
         };
-        mViewPager.setCurrentItem(1);
+
     }
 
     private Boolean saveToDb(RealmObject obj){
@@ -148,7 +175,7 @@ public class MainView extends baseview
         ChatFrag.binding.activityUsersRecycler.smoothScrollToPosition(msgCount -1);
 
         //save to db
-        SmsMessage msg = MessageSender.BuildMessage("", "", message, dateTime,"");
+        SmsMessage msg = MessageSender.BuildMessage(newMessage.getTo(), newMessage.getFrom(), message, dateTime,newMessage.getSenderUrl());
         saveToDb(msg);
 
         //refresh List from db

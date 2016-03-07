@@ -21,6 +21,14 @@
         android:padding="5dp"
         >
 
+        <com.horcu.apps.peez.custom.UserImageView
+            android:id="@+id/user_img"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_margin="10dp"
+            android:src="@{playerVm.model.imageUrl}"/>
+
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,6 +38,7 @@
             android:textColor="#333333"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
+            android:layout_gravity="center_vertical"
             android:layout_marginRight="10dp"
             android:text="@{playerVm.model.name}"
             tools:text="Hello"/>
@@ -39,13 +48,14 @@
             android:layout_weight="1"
             android:fontFamily="sans-serif-condensed"
             android:textSize="12sp"
-            android:textColor="@android:color/holo_green_dark"
+            android:textColor="#dddddd"
             android:layout_margin="5dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             emojicon:emojiconAlignment="baseline"
             android:layout_width="wrap_content"
-            android:text="WINNER!!!!!!"
+            android:text="Send a message  |  Invite to a game  |  Go to game"
+            android:layout_gravity="center_vertical"
             android:layout_height="wrap_content"/>
 
     </LinearLayout>

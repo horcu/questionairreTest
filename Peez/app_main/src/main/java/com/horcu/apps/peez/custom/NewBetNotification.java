@@ -13,7 +13,12 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 
+import com.google.gson.Gson;
 import com.horcu.apps.peez.R;
+import com.horcu.apps.peez.gcm.SmsMessage;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Helper class for showing and canceling new bet
@@ -45,15 +50,23 @@ public class NewBetNotification {
      */
     public static void notify(final Context context,
                               PendingIntent pendingIntent,
-                              final String exampleString, final int number, final long expiration, Bitmap userImg) {
+                              final String message, final int number, final long expiration, Bitmap userImg) {
         final Resources res = context.getResources();
 
-        // This image is used as the notification's large icon (thumbnail).
-        // TODO: Remove this if your notification has no relevant thumbnail.
-        final Bitmap picture = BitmapFactory.decodeResource(res, R.mipmap.ic_launcher);
+        final String title = res.getString( R.string.new_bet_notification_title_template);
+        String messageText = null;
+        String dateTime = null;
+        String senderUrl = null;
+        try {
+            JSONObject obj = new JSONObject(message);
+            messageText = obj.getString("message");
+            dateTime = obj.getString("dateTime");
+            senderUrl = obj.getString("senderUrl");
 
-        final String ticker = exampleString;
-        final String title = res.getString( R.string.new_bet_notification_title_template, exampleString);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
 
@@ -67,7 +80,7 @@ public class NewBetNotification {
                         // notification title, and text.
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title)
-                .setContentText(exampleString)
+                .setContentText(messageText)
 
                         // All fields below this line are optional.
 
@@ -80,7 +93,7 @@ public class NewBetNotification {
                         //            .setLargeIcon(picture)
 
                         // Set ticker text (preview) information for this notification.
-                .setTicker(ticker)
+                .setTicker(dateTime)
 
                         // Show a number. This is useful when stacking notifications of
                         // a single type.
@@ -107,9 +120,9 @@ public class NewBetNotification {
                         // Show expanded text content on devices running Android 4.1 or
                         // later.
                 .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText(exampleString)
+                        .bigText(messageText)
                         .setBigContentTitle(title)
-                        .setSummaryText("Are you in?"))
+                        .setSummaryText(messageText))
 
                         // Example additional actions for this notification. These will
                         // only show on devices running Android 4.1 or later, so you
@@ -129,7 +142,7 @@ public class NewBetNotification {
                 .addAction(
                         R.drawable.ic_stat_action_done,
                         res.getString(R.string.action_accept),
-                        null)
+                       null)
 
                         // Automatically dismiss the notification when it is touched.
                 .setAutoCancel(true);

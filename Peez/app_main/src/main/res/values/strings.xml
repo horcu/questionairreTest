@@ -371,7 +371,7 @@
     <string name="title_activity_test_bet">TestBetActivity</string>
     <string name="test">$15</string>
 
-    <string name="new_bet_notification_title_template">New bet: %1$s</string>
+    <string name="new_bet_notification_title_template">peez</string>
 
     <!-- TODO: remove this placeholder text -->
     <string name="new_bet_notification_placeholder_text_template">You said %1$s and lorem ipsum

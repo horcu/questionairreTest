@@ -82,12 +82,13 @@ public class MessageSender {
                                     "send message failed: " + result,
                                     Toast.LENGTH_LONG).show();
                         }
+
                     }
                 }.execute();
 
             } else {
                 Toast.makeText(context,
-                        "send message failed. Log out and log back in",
+                        "send message failed.",
                         Toast.LENGTH_LONG).show();
                 return false;
             }
@@ -95,6 +96,6 @@ return true;
         }
 
     public static SmsMessage BuildMessage(String to, String from, String message, String dateTime,String senderImgUrl) {
-        return new SmsMessage(to, from,message,dateTime,senderImgUrl);
+        return new SmsMessage(from, to,message,dateTime,senderImgUrl);
     }
 }
