@@ -23,7 +23,7 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 import com.wnafee.vector.compat.ResourcesCompat;
-
+import com.michaldrabik.tapbarmenulib.R;
 /**
  * TapBar Menu Layout.
  *
