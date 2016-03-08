@@ -95,15 +95,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.baseview"
+            android:name=".view.BaseView"
             android:label="@string/title_activity_baseview"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme_brick" />
         <activity
             android:name=".view.ErrorView"
-            android:label="@string/title_activity_error_view" />
+            android:label="@string/title_activity_error_view"
+            android:theme="@style/AppTheme_brick"/>
         <activity
             android:name=".view.MainView"
-            android:label="@string/title_activity_main_view">
+            android:label="@string/title_activity_main_view"
+            android:theme="@style/AppTheme_rem">
 
         </activity>
     </application>

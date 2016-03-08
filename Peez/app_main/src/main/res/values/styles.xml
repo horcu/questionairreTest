@@ -13,6 +13,42 @@
         <item name="android:text">@color/bpLight_gray</item>
     </style>
 
+    <style name="AppTheme_bub" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#FF4A5F5D</item>
+        <item name="colorPrimaryDark">#FF4A5F5D</item>
+        <item name="colorAccent">#FF4A5F5D</item>
+        <item name="android:textColor">#111111</item>
+        <item name="android:backgroundStacked">#FF4A5F5D</item>
+        <item name="android:colorBackground">@color/white</item>
+        <item name="android:navigationBarColor">#FF4A5F5D</item>
+        <item name="android:text">@color/bpLight_gray</item>
+    </style>
+
+    <style name="AppTheme_rem" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#FF354E98</item>
+        <item name="colorPrimaryDark">#FF354E98</item>
+        <item name="colorAccent">#FF354E98</item>
+        <item name="android:textColor">#111111</item>
+        <item name="android:backgroundStacked">#FF354E98</item>
+        <item name="android:colorBackground">@color/white</item>
+        <item name="android:navigationBarColor">#FF354E98</item>
+        <item name="android:text">@color/bpLight_gray</item>
+    </style>
+
+    <style name="AppTheme_brick" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#FF994E4E</item>
+        <item name="colorPrimaryDark">#FF994E4E</item>
+        <item name="colorAccent">#FF994E4E</item>
+        <item name="android:textColor">#111111</item>
+        <item name="android:backgroundStacked">#FF994E4E</item>
+        <item name="android:colorBackground">@color/white</item>
+        <item name="android:navigationBarColor">#FF994E4E</item>
+        <item name="android:text">@color/bpLight_gray</item>
+    </style>
+
     <style name="Theme.AppCompat.Light">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@color/white</item>

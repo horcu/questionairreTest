@@ -33,7 +33,7 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmObject;
 
-public class MainView extends baseview
+public class MainView extends BaseView
         implements ChatView.OnFragmentInteractionListener,
         FeedView.OnFragmentInteractionListener, GameView.OnFragmentInteractionListener{
 
@@ -169,7 +169,9 @@ public class MainView extends baseview
         saveToDb(msg);
 
         //refresh List from db and update ui
-        ChatFrag.refreshMessagesFromDb(mytoken,this);
+        if (ChatFrag != null) {
+            ChatFrag.refreshMessagesFromDb(mytoken,this);
+        }
     }
     private void HandleInvitation(InvitationMessage message){}
     private void HandleMove(MoveMessage message){}

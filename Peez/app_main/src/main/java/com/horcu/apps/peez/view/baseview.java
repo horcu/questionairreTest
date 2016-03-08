@@ -9,6 +9,6 @@ import android.view.View;
 
 import com.horcu.apps.peez.R;
 
-public class baseview extends AppCompatActivity {
+public class BaseView extends AppCompatActivity {
 
 }

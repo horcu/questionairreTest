@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.gcm.GcmListenerService;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -61,7 +62,13 @@ public class GcmService extends GcmListenerService {
         if(type.equals(LoggingService.MESSAGE_TYPE_MSG))
         {
             SmsMessage sms = new SmsMessage(jsonObject.getString("to"), jsonObject.getString("from"),jsonObject.getString("message"), jsonObject.getString("dateTime"), jsonObject.getString("senderUrl"));
+            String senderUrl = jsonObject.getString("senderUrl");
+            if(senderUrl.equals("") || senderUrl == null) {
+                Toast.makeText(getApplicationContext(), "a message for peez was received but ignore but the sender was unknown", Toast.LENGTH_LONG).show();
+            return;
+            }
 
+            sms.setSenderUrl(senderUrl);
             Bitmap bitmap = null;
 
                 bitmap = Picasso.with(this)

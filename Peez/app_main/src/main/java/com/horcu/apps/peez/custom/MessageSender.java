@@ -79,10 +79,13 @@ public class MessageSender {
                     protected void onPostExecute(String result) {
                         if (result != null) {
                             Toast.makeText(context,
-                                    "send message failed: " + result,
-                                    Toast.LENGTH_LONG).show();
+                                    "failed: " + result,
+                                    Toast.LENGTH_SHORT).show();
                         }
-
+                        else
+                            Toast.makeText(context,
+                                    "sent",
+                                    Toast.LENGTH_SHORT).show();
                     }
                 }.execute();
 

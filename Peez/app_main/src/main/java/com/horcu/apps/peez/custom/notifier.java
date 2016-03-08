@@ -5,15 +5,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Bundle;
 
-import com.google.gson.Gson;
-import com.horcu.apps.peez.service.LoggingService;
 import com.horcu.apps.peez.view.MainView;
-import com.horcu.apps.peez.view.baseview;
 
 
 import java.util.Date;
