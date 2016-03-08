@@ -27,6 +27,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.UUID;
 
 /**
  * Service used for receiving GCM messages. When a message is received this service will log it.
@@ -60,6 +61,7 @@ public class GcmService extends GcmListenerService {
         if(type.equals(LoggingService.MESSAGE_TYPE_MSG))
         {
             SmsMessage sms = new SmsMessage(jsonObject.getString("to"), jsonObject.getString("from"),jsonObject.getString("message"), jsonObject.getString("dateTime"), jsonObject.getString("senderUrl"));
+
             Bitmap bitmap = null;
 
                 bitmap = Picasso.with(this)

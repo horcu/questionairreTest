@@ -13,30 +13,20 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 
-
-import com.google.api.client.json.Json;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSyntaxException;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.common.utilities.consts;
-import com.horcu.apps.peez.custom.MessageSender;
 import com.horcu.apps.peez.gcm.InvitationMessage;
 import com.horcu.apps.peez.gcm.MoveMessage;
+import com.horcu.apps.peez.gcm.PubSubHelper;
 import com.horcu.apps.peez.gcm.ReminderMessage;
 import com.horcu.apps.peez.gcm.SmsMessage;
-
-import com.horcu.apps.peez.gcm.PubSubHelper;
-import com.horcu.apps.peez.model.MessageEntry;
 import com.horcu.apps.peez.service.LoggingService;
-import com.horcu.apps.peez.viewmodel.MessageViewModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
@@ -70,7 +60,10 @@ public class MainView extends baseview
         mytoken = settings.getString(consts.REG_ID,"");
 
         realmConfig = new RealmConfiguration.Builder(this).build();
-        //Realm.deleteRealm(realmConfig);
+
+        if(consts.DEV_MODE)
+        Realm.deleteRealm(realmConfig);
+
         realm = Realm.getInstance(realmConfig);
 
         // Create the adapter that will return a fragment for each of the three
@@ -80,7 +73,7 @@ public class MainView extends baseview
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
+        mViewPager.setCurrentItem(1);
         pubsub= new PubSubHelper(this);
         //pubsub.subscribeTopic(consts.SENDER_ID,settings.getString(consts.REG_ID,""),gameTopic, new Bundle());
 
@@ -94,11 +87,14 @@ public class MainView extends baseview
                         break;
                     case LoggingService.ACTION_LOG:
                         String messageObject = intent.getStringExtra(LoggingService.EXTRA_LOG_MESSAGE);
+                       String timeSent = messageObject.substring(1,18).trim();
+                        String messageJson = messageObject.substring(18, messageObject.length());
+
                         Gson gson = new Gson();
 
                         String messageType = intent.getStringExtra(LoggingService.MESSAGE_TYPE)  != null ? intent.getStringExtra(LoggingService.MESSAGE_TYPE) : LoggingService.MESSAGE_TYPE_MSG;
 
-                        if(messageObject.contains("multicast_id")) //return its the last message you sent out
+                        if(messageJson.contains("multicast_id")) //return its the last message you sent out
                         {
                             return;}
 
@@ -107,39 +103,42 @@ public class MainView extends baseview
                             case LoggingService.MESSAGE_TYPE_MSG :
                             {
                                 try {
-                                    JSONObject jsonO = new JSONObject(messageObject);
+                                    JSONObject jsonO = new JSONObject(messageJson);
                                     SmsMessage sms = new SmsMessage(jsonO.getString("from"),jsonO.getString("to"),jsonO.getString("message"),jsonO.getString("dateTime"),jsonO.getString("senderUrl"));
-                                    mViewPager.setCurrentItem(2);
+
                                     HandleSMS(sms);
                                 } catch (JsonSyntaxException e) {
                                     e.printStackTrace();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-                            }
                                 break;
+                            }
+
                             case LoggingService.MESSAGE_TYPE_MOVE :
                             {
                                 MoveMessage newMessage = gson.fromJson(messageObject, MoveMessage.class);
                                 mViewPager.setCurrentItem(1);
                                 HandleMove(newMessage);
-                            }
                                 break;
+                            }
+
                             case LoggingService.MESSAGE_TYPE_INVITATION :
                             {
                                 InvitationMessage newMessage = gson.fromJson(messageObject, InvitationMessage.class);
                                 mViewPager.setCurrentItem(1);
                                 HandleInvitation(newMessage);
-                            }
                                 break;
+                            }
+
                             case LoggingService.MESSAGE_TYPE_REMINDER:
                             {
                                 ReminderMessage newMessage = gson.fromJson(messageObject, ReminderMessage.class);
                                 mViewPager.setCurrentItem(0);
                                 HandleReminder(newMessage);
+                                break;
                             }
                         }
-                        break;
                 }
             }
         };
@@ -158,28 +157,19 @@ public class MainView extends baseview
         }
         return true;
     }
-    private void HandleSMS(SmsMessage newMessage){
-        if(newMessage.getFrom().equals(mytoken))
+    private void HandleSMS(SmsMessage msg){
+        if(msg.getFrom().equals(mytoken))
             return;
 
-        mViewPager.setCurrentItem(2);
-
-        String dateTime = newMessage.getDateTime();
-        String message = newMessage.getMessage();
+        String dateTime = msg.getDateTime();
+        String message = msg.getMessage();
 
         ChatView ChatFrag = GetChatFragment();
-
-        ChatFrag.binding.getMsgViewModel().messageViewModels.add(new MessageViewModel(new MessageEntry(new Date().toString(), message)));
-        ChatFrag.binding.activityUsersRecycler.getAdapter().notifyDataSetChanged();
-        int msgCount = ChatFrag.binding.activityUsersRecycler.getAdapter().getItemCount();
-        ChatFrag.binding.activityUsersRecycler.smoothScrollToPosition(msgCount -1);
-
         //save to db
-        SmsMessage msg = MessageSender.BuildMessage(newMessage.getTo(), newMessage.getFrom(), message, dateTime,newMessage.getSenderUrl());
         saveToDb(msg);
 
-        //refresh List from db
-        ChatFrag.refreshMessagesFromDb(ChatFrag.myToken,this);
+        //refresh List from db and update ui
+        ChatFrag.refreshMessagesFromDb(mytoken,this);
     }
     private void HandleInvitation(InvitationMessage message){}
     private void HandleMove(MoveMessage message){}

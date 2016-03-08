@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -44,7 +45,11 @@ import net.droidlabs.mvvm.recyclerview.adapter.LongClickHandler;
 import net.droidlabs.mvvm.recyclerview.adapter.binder.CompositeItemBinder;
 import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinder;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Date;
+import java.util.UUID;
 
 import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconsPopup;
@@ -136,13 +141,11 @@ public class ChatView extends Fragment {
             ex.printStackTrace();
             return false;
         }
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
 
        // if(!playerName.equals(""))
        //     getActivity().getActionBar().setTitle(playerName); //TODO add a custom actionbar so that you can add the player image there and pass in the url here
@@ -152,7 +155,6 @@ public class ChatView extends Fragment {
 
         messagesViewModel = new MessagesViewModel();
 
-        refreshMessagesFromDb("", getActivity());
 
         binding.setMsgViewModel(messagesViewModel);
         binding.setView(this);
@@ -253,6 +255,9 @@ public class ChatView extends Fragment {
         });
 
         binding.activityUsersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        refreshMessagesFromDb(myToken, getActivity());
+
         return binding.getRoot(); //inflater.inflate(R.layout.fragment_chat_view, container, false);
     }
 
@@ -269,10 +274,15 @@ public class ChatView extends Fragment {
             @Override
             public void execute(Realm realm) {
                 try {
+                    String theirToken = !message_recipient.equals("") ? message_recipient : "123w";
                     RealmResults<SmsMessage> messages = realm.where(SmsMessage.class)
-                            .equalTo("to", message_recipient)
+                            .equalTo("to", myToken)
                             .or()
                             .equalTo("from", myToken)
+                            .or()
+                            .equalTo("from", theirToken)
+                            .or()
+                            .equalTo("to", theirToken)
                             .findAll(); // where(Message.class).equalTo("sender", sender).findAll();
 
                     if(messages.size() < 1)
@@ -280,8 +290,11 @@ public class ChatView extends Fragment {
 
                     for (SmsMessage m : messages)
                     {
+                        if(MessageAlreadyAdded(m))
+                            return;
+
                         String message = m.getMessage();
-                        MessageEntry messageEntry = new MessageEntry(String.valueOf(new Date()), message);
+                        MessageEntry messageEntry = new MessageEntry(String.valueOf(new Date()), message, m.getMessageId(), m.getSenderUrl());
                         String from = m.getFrom();
                         SuperMessageViewModel su;
                         MessageViewModel su2;
@@ -308,10 +321,36 @@ public class ChatView extends Fragment {
                 if(messagesViewModel.messageViewModels == null)
                     messagesViewModel.messageViewModels = new ObservableArrayList<>();
 
-                   messagesViewModel.messageViewModels.addAll(vms);
+                messagesViewModel.messageViewModels.addAll(vms);
+                RecyclerView.Adapter adapter = binding.activityUsersRecycler.getAdapter();
+
+                if(adapter == null)
+                    return;
+
+                int msgCount = adapter.getItemCount();
+
+                if(msgCount > 0)
+                {
+                    binding.activityUsersRecycler.smoothScrollToPosition(msgCount -1);
+                    binding.activityUsersRecycler.getAdapter().notifyDataSetChanged(); //TODO do both of these essentially do the same thing
+                }
                 binding.chatLoader.setVisibility(View.GONE);
             }
         });
+    }
+
+    public Boolean MessageAlreadyAdded(SmsMessage message){
+        String messId = "";
+
+        for(int i=0; i < messagesViewModel.messageViewModels.size(); i ++)
+        {
+            MessageViewModel mvm = messagesViewModel.messageViewModels.get(i);
+           MessageEntry me = mvm.getModel();
+            String mId = message.getMessageId();
+            if(me.getId().equals(mId))
+                return true;
+        }
+        return false;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -372,13 +411,16 @@ public class ChatView extends Fragment {
                     String message = getStringFromEditText(binding.usersViewLastname);
 
                     binding.chatLoader.setVisibility(View.VISIBLE);
-                    String senderImage = "https://storage.googleapis.com/ballrz/images/users/IMAG0311%5B1%5D.jpg";//TODO get from server or local
-                    SmsMessage sms = MessageSender.BuildMessage(message_recipient, myToken, message, String.valueOf(time), senderImage);
+                    SmsMessage sms = MessageSender.BuildMessage(message_recipient, myToken, message, String.valueOf(time), playerImageUri);
+                    UUID uuid = UUID.randomUUID();
+
+                    String guid = uuid.toString();
+                    sms.setMessageId(guid);
 
                     if (sms.getFrom().equals("") || sms.getTo().equals(""))
                         return;
 
-                    messagesViewModel.messageViewModels.add(new SuperMessageViewModel(new MessageEntry(String.valueOf(time), message)));
+                    messagesViewModel.messageViewModels.add(new SuperMessageViewModel(new MessageEntry(String.valueOf(time), message, guid, playerImageUri)));
 
                     String senderId = consts.SENDER_ID;
                     if ("" != senderId) {

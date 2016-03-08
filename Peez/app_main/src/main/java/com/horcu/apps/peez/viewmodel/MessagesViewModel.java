@@ -17,15 +17,15 @@ public class MessagesViewModel extends BaseObservable
         this.messageViewModels = new ObservableArrayList<>();
     }
 
-    public void addUser(String name, String surname, boolean superUser)
-    {
-        if(superUser)
-        this.messageViewModels.add(new SuperMessageViewModel(new MessageEntry(name, surname)));
-        else
-        this.messageViewModels.add(new MessageViewModel(new MessageEntry(name, surname)));
-    }
-
-    public void clearEditText() {
-
-    }
+//    public void addUser(String name, String surname, boolean superUser)
+//    {
+//        if(superUser)
+//        this.messageViewModels.add(new SuperMessageViewModel(new MessageEntry(name, surname)));
+//        else
+//        this.messageViewModels.add(new MessageViewModel(new MessageEntry(name, surname)));
+//    }
+//
+//    public void clearEditText() {
+//
+//    }
 }

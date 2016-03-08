@@ -9,6 +9,7 @@ import io.realm.RealmObject;
  */
 public class SmsMessage extends RealmObject {
 
+    private String messageId;
     private String from;
     private String to;
     private String message;
@@ -77,4 +78,11 @@ public class SmsMessage extends RealmObject {
     }
 
 
+    public String getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(String messageId) {
+        this.messageId = messageId;
+    }
 }

@@ -31,23 +31,23 @@
             app:cardElevation="0dp"
             app:cardCornerRadius="12dp"
             android:layout_gravity="left"
-            app:contentPadding="2dp"
+            app:contentPadding="4dp"
             app:contentPaddingBottom="5dp"
             app:cardBackgroundColor="#ffebebeb"
             android:background="#efefef">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:fontFamily="sans-serif-thin"
-                android:textSize="8sp"
-                android:textColor="#111111"
-                android:layout_gravity="right"
-                android:id="@+id/item_user_name"
-                android:text="@{msgVM.model.datetime}"
-                android:visibility="invisible"
-                tools:text="Hello"/>
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="0"-->
+                <!--android:fontFamily="sans-serif-thin"-->
+                <!--android:textSize="8sp"-->
+                <!--android:textColor="#111111"-->
+                <!--android:layout_gravity="right"-->
+                <!--android:id="@+id/item_user_name"-->
+                <!--android:text="@{msgVM.model.datetime}"-->
+                <!--android:visibility="invisible"-->
+                <!--tools:text="Hello"/>-->
 
             <TextView
                 android:layout_width="wrap_content"

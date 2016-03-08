@@ -1,23 +1,16 @@
 package com.horcu.apps.peez.view;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
 import android.databinding.ObservableArrayList;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ActionProvider;
 import android.support.v7.widget.LinearLayoutManager;
-import android.transition.Visibility;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.ImageView;
 
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.BR;
@@ -26,18 +19,13 @@ import com.horcu.apps.peez.backend.models.userApi.model.CollectionResponseUser;
 import com.horcu.apps.peez.backend.models.userApi.model.User;
 import com.horcu.apps.peez.binder.PlayerBinder;
 import com.horcu.apps.peez.binder.SuperPlayerBinder;
-import com.horcu.apps.peez.binder.SuperUserBinder;
-import com.horcu.apps.peez.binder.UserBinder;
 import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.custom.Api;
-import com.horcu.apps.peez.custom.PlayerView;
 import com.horcu.apps.peez.databinding.FragmentFeedBinding;
-import com.horcu.apps.peez.gcm.GcmServerSideSender;
-import com.horcu.apps.peez.gcm.Message;
 import com.horcu.apps.peez.model.Player;
-import com.horcu.apps.peez.viewmodel.MessageViewModel;
 import com.horcu.apps.peez.viewmodel.PlayerViewModel;
 import com.horcu.apps.peez.viewmodel.PlayersViewModel;
+import com.squareup.picasso.Picasso;
 
 import net.droidlabs.mvvm.recyclerview.adapter.ClickHandler;
 import net.droidlabs.mvvm.recyclerview.adapter.binder.CompositeItemBinder;
@@ -108,17 +96,20 @@ public class FeedView extends Fragment {
         binding.feedLoader.setVisibility(View.GONE);
         getFeedFromDb(getActivity());
 
-        getFeedFromServer(getActivity());
+
+        GetPlayersFromServer(getActivity());
 
         binding.setPlayersVM(playersViewModel);
         binding.setView(this);
         binding.playersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        ImageView userIng = (ImageView) binding.getRoot().findViewById(R.id.user_img);
+
 
         return binding.getRoot();
     }
 
-    private void getFeedFromServer(Context context) {
+    private void GetPlayersFromServer(Context context) {
 
 
             vms =  new ObservableArrayList<>();
@@ -262,4 +253,6 @@ public class FeedView extends Fragment {
             }
         };
     }
+
+
 }

@@ -1,8 +1,13 @@
 package com.horcu.apps.peez.viewmodel;
 
 import android.databinding.BaseObservable;
+import android.databinding.BindingAdapter;
+import android.widget.ImageView;
 
+import com.horcu.apps.peez.R;
+import com.horcu.apps.peez.custom.CircleTransform;
 import com.horcu.apps.peez.model.Player;
+import com.squareup.picasso.Picasso;
 
 
 public class PlayerViewModel extends BaseObservable
@@ -22,4 +27,13 @@ public class PlayerViewModel extends BaseObservable
         return model;
     }
 
+    @BindingAdapter({"bind:imageUrl"})
+    public static void loadImage(com.horcu.apps.peez.custom.UserImageView view, String imageUrl) {
+
+        Picasso.with(view.getContext())
+                .load(imageUrl)
+                .placeholder(R.drawable.ic_player)
+                .transform(new CircleTransform())
+                .into(view);
+    }
 }
