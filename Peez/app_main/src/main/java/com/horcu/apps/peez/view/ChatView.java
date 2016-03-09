@@ -155,7 +155,6 @@ public class ChatView extends Fragment {
 
         messagesViewModel = new MessagesViewModel();
 
-
         binding.setMsgViewModel(messagesViewModel);
         binding.setView(this);
 
@@ -277,12 +276,11 @@ public class ChatView extends Fragment {
                     String theirToken = !message_recipient.equals("") ? message_recipient : "123w";
                     RealmResults<SmsMessage> messages = realm.where(SmsMessage.class)
                             .equalTo("to", myToken)
-                            .or()
-                            .equalTo("from", myToken)
-                            .or()
                             .equalTo("from", theirToken)
                             .or()
-                            .equalTo("to", theirToken)
+                            .equalTo("from", theirToken)
+                            .equalTo("from", myToken)
+
                             .findAll(); // where(Message.class).equalTo("sender", sender).findAll();
 
                     if(messages.size() < 1)
@@ -291,7 +289,7 @@ public class ChatView extends Fragment {
                     for (SmsMessage m : messages)
                     {
                         if(MessageAlreadyAdded(m))
-                            return;
+                            continue;
 
                         String message = m.getMessage();
                         MessageEntry messageEntry = new MessageEntry(String.valueOf(new Date()), message, m.getMessageId(), m.getSenderUrl());
@@ -332,7 +330,6 @@ public class ChatView extends Fragment {
                 if(msgCount > 0)
                 {
                     binding.activityUsersRecycler.smoothScrollToPosition(msgCount -1);
-                    binding.activityUsersRecycler.getAdapter().notifyDataSetChanged(); //TODO do both of these essentially do the same thing
                 }
                 binding.chatLoader.setVisibility(View.GONE);
             }
@@ -340,13 +337,15 @@ public class ChatView extends Fragment {
     }
 
     public Boolean MessageAlreadyAdded(SmsMessage message){
-        String messId = "";
-
         for(int i=0; i < messagesViewModel.messageViewModels.size(); i ++)
         {
             MessageViewModel mvm = messagesViewModel.messageViewModels.get(i);
            MessageEntry me = mvm.getModel();
             String mId = message.getMessageId();
+            String meId = me.getId();
+            if(meId == null || mId == null || meId.equals("") || mId.equals(""))
+                continue;
+
             if(me.getId().equals(mId))
                 return true;
         }

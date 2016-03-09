@@ -10,6 +10,23 @@ import io.realm.RealmObject;
 public class MoveMessage extends RealmObject {
 
     private String type;
+    private String moveTo;
+    private String moveFrom;
+    private String message;
+    private String senderToken;
+    private String receiverToken;
+    private String dateTime;
+
+    public MoveMessage(){}
+
+    public MoveMessage(String moveFrom,String moveTo,String message, String dateTime){
+        this.moveFrom = moveFrom;
+        this.moveTo = moveTo;
+        this.message = message;
+        this.dateTime = dateTime;
+
+        type = LoggingService.MESSAGE_TYPE_MOVE;
+    }
 
     public String getType() {
         return type;
@@ -19,8 +36,51 @@ public class MoveMessage extends RealmObject {
         this.type = type;
     }
 
-    public MoveMessage(){
+    public String getMoveTo() {
+        return moveTo;
+    }
 
-       type = LoggingService.MESSAGE_TYPE_MOVE;
-   }
+    public void setMoveTo(String moveTo) {
+        this.moveTo = moveTo;
+    }
+
+    public String getMoveFrom() {
+        return moveFrom;
+    }
+
+    public void setMoveFrom(String moveFrom) {
+        this.moveFrom = moveFrom;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getSenderToken() {
+        return senderToken;
+    }
+
+    public void setSenderToken(String senderToken) {
+        this.senderToken = senderToken;
+    }
+
+    public String getReceiverToken() {
+        return receiverToken;
+    }
+
+    public void setReceiverToken(String receiverToken) {
+        this.receiverToken = receiverToken;
+    }
+
+    public String getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
+    }
 }

@@ -7,8 +7,18 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.google.gson.JsonObject;
 import com.horcu.apps.peez.R;
+import com.horcu.apps.peez.common.utilities.consts;
+import com.horcu.apps.peez.custom.AutoFitGridLayout;
+import com.horcu.apps.peez.custom.MessageSender;
+import com.horcu.apps.peez.gcm.MoveMessage;
+import com.horcu.apps.peez.misc.SenderCollection;
+import com.horcu.apps.peez.service.LoggingService;
+
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,9 +39,27 @@ public class GameView extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private LoggingService.Logger mLogger;
+    private SenderCollection mSenders;
+    private String message_recipient;
+    private String currentSpot;
+    private String playerImageUri;
 
     public GameView() {
         // Required empty public constructor
+    }
+
+    public Boolean UpdateGamePlayer(String userName, String token, String imgUrl){
+        try {
+            message_recipient = token;
+            message_recipient = userName;
+            playerImageUri  = imgUrl;
+            return true;
+            //     getActivity().getActionBar().setTitle(playerName);
+        } catch (Exception ex){
+            ex.printStackTrace();
+            return false;
+        }
     }
 
 
@@ -52,13 +80,55 @@ public class GameView extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        mLogger = new LoggingService.Logger(getContext());
+        mSenders = SenderCollection.getInstance(getActivity());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.fragment_game_view, container, false);
+        AutoFitGridLayout grid = (AutoFitGridLayout)root.findViewById(R.id.gameboard_grid);
 
-        return inflater.inflate(R.layout.fragment_game_view, container, false);
+        for(int i = 0; i < grid.getChildCount(); i++)
+        {
+            final int finalI = i;
+            grid.getChildAt(i).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Date d = new Date();
+                    long time = d.getTime();
+                    MoveMessage moveMessage = MessageSender.BuildMoveMessage(currentSpot, String.valueOf(finalI), "move made!", String.valueOf(time));
+                    String json = ConvertToJson(moveMessage);
+                    MessageSender sender = new MessageSender(getActivity(), mLogger, mSenders);
+                    if (sender.SendSMS(message_recipient, consts.TEST_MSG_ID, json, consts.TEST_TINE_TO_LIVE, false)) {
+                        //save to db
+//                        realm.beginTransaction();
+//                        sms.setFrom(myToken);
+//                        realm.copyToRealm(sms);
+//                        realm.commitTransaction();
+
+                        Toast.makeText(getActivity(), "sent!", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getActivity(), "failed ;/", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
+
+        return root;
+    }
+
+    private String ConvertToJson(MoveMessage moveMessage) {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("moveTo", moveMessage.getMoveTo());
+        jsonObject.addProperty("moveFrom", moveMessage.getMoveFrom());
+        jsonObject.addProperty("message", moveMessage.getMessage());
+        jsonObject.addProperty("type", moveMessage.getType());
+        jsonObject.addProperty("dateTime", moveMessage.getDateTime());
+        jsonObject.addProperty("sendertoken", moveMessage.getSenderToken());
+
+        return jsonObject.toString();
     }
 
     // TODO: Rename method, update argument and hook method into UI event

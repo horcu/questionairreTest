@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.horcu.apps.peez.common.utilities.consts;
+import com.horcu.apps.peez.gcm.MoveMessage;
 import com.horcu.apps.peez.gcm.SmsMessage;
 import com.horcu.apps.peez.gcm.GcmServerSideSender;
 import com.horcu.apps.peez.gcm.Message;
@@ -100,5 +101,9 @@ return true;
 
     public static SmsMessage BuildMessage(String to, String from, String message, String dateTime,String senderImgUrl) {
         return new SmsMessage(from, to,message,dateTime,senderImgUrl);
+    }
+
+    public static MoveMessage BuildMoveMessage(String moveFrom, String moveTo, String message, String dateTime) {
+        return new MoveMessage(moveFrom,moveTo,message,dateTime);
     }
 }

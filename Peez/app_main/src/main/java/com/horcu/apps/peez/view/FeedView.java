@@ -103,8 +103,7 @@ public class FeedView extends Fragment {
         binding.setView(this);
         binding.playersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        ImageView userIng = (ImageView) binding.getRoot().findViewById(R.id.user_img);
-
+       // Picasso.with(getContext()).load(R.drawable.joe).into(userIng);
 
         return binding.getRoot();
     }

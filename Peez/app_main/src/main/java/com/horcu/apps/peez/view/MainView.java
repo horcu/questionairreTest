@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -107,9 +108,7 @@ public class MainView extends BaseView
                                     SmsMessage sms = new SmsMessage(jsonO.getString("from"),jsonO.getString("to"),jsonO.getString("message"),jsonO.getString("dateTime"),jsonO.getString("senderUrl"));
 
                                     HandleSMS(sms);
-                                } catch (JsonSyntaxException e) {
-                                    e.printStackTrace();
-                                } catch (JSONException e) {
+                                } catch (JsonSyntaxException | JSONException e) {
                                     e.printStackTrace();
                                 }
                                 break;
@@ -117,9 +116,14 @@ public class MainView extends BaseView
 
                             case LoggingService.MESSAGE_TYPE_MOVE :
                             {
-                                MoveMessage newMessage = gson.fromJson(messageObject, MoveMessage.class);
-                                mViewPager.setCurrentItem(1);
-                                HandleMove(newMessage);
+                                try {
+                                    JSONObject jsonO = new JSONObject(messageJson);
+                                    MoveMessage moveMessage = new MoveMessage(jsonO.getString("moveFrom"),jsonO.getString("moveTo"),jsonO.getString("message"),jsonO.getString("dateTime"));
+
+                                    HandleMove(moveMessage);
+                                } catch (JsonSyntaxException | JSONException e) {
+                                    e.printStackTrace();
+                                }
                                 break;
                             }
 
@@ -174,7 +178,11 @@ public class MainView extends BaseView
         }
     }
     private void HandleInvitation(InvitationMessage message){}
-    private void HandleMove(MoveMessage message){}
+
+    private void HandleMove(MoveMessage move){
+        Toast.makeText(this,"player " + move.getSenderToken() + "moved from " + move.getMoveFrom() + " to " + move.getMoveTo(),Toast.LENGTH_LONG).show();
+    }
+
     private void HandleReminder(ReminderMessage message){}
 
 
@@ -252,9 +260,26 @@ public class MainView extends BaseView
         ChatView ChatFrag = GetChatFragment();
         if (ChatFrag != null) {
             ChatFrag.upDateChatPlayer(name,token,imageUrl);
-            ChatFrag.refreshMessagesFromDb(ChatFrag.myToken,this);
-            mViewPager.setCurrentItem(2);
+            ChatFrag.refreshMessagesFromDb(token,this);
+            //mViewPager.setCurrentItem(2);
         }
+
+        GameView GameFrag = GetGameFragment();
+        if (GameFrag != null) {
+            GameFrag.UpdateGamePlayer(name,token,imageUrl);
+        }
+        Toast.makeText(this, name + " is now the selected recipient", Toast.LENGTH_LONG).show();
+    }
+
+    private GameView GetGameFragment() {
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        Fragment frag = null;
+        for (Fragment fragment : fragments) {
+            if (fragment instanceof GameView) {
+                frag = fragment;
+            }
+        }
+        return ((GameView) frag);
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {

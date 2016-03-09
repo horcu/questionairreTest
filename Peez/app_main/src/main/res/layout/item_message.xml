@@ -36,9 +36,9 @@
         android:padding="5dp"
         app:elevation="0dp"
         app:cardElevation="0dp"
-        app:cardCornerRadius="12dp"
+        app:cardCornerRadius="8dp"
         app:contentPadding="4dp"
-        app:cardBackgroundColor="#ffBDA0CB"
+        app:cardBackgroundColor="#ff999999"
         android:background="#FFeeefff">
 
         <!--<TextView-->
@@ -55,9 +55,9 @@
         <TextView
             android:id="@+id/item_user_surname"
             android:layout_weight="1"
-            android:fontFamily="sans-serif-thin"
+            android:fontFamily="sans-serif-condensed"
             android:textSize="16sp"
-            android:textColor="#fff"
+            android:textColor="@color/white"
             android:layout_gravity="left"
             android:layout_margin="5dp"
             emojicon:emojiconAlignment="baseline"
