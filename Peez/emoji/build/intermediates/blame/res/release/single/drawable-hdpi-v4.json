@@ -24,24 +24,24 @@
         "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_composer_tab_pressed.9.png"
     },
     {
-        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_composer_tab.9.png",
-        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_composer_tab.9.png"
-    },
-    {
         "merged": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_attach_location_pressed.png",
         "source": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_attach_location_pressed.png"
+    },
+    {
+        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_composer_tab.9.png",
+        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_composer_tab.9.png"
     },
     {
         "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_composer_divider_vertical.9.png",
         "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_composer_divider_vertical.9.png"
     },
     {
-        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_emoji_category_people.png",
-        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_emoji_category_people.png"
-    },
-    {
         "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_composer_divider_vertical.9.png",
         "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_composer_divider_vertical.9.png"
+    },
+    {
+        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_emoji_category_people.png",
+        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_emoji_category_people.png"
     },
     {
         "merged": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_emoji_backspace_front_pressed.png",
@@ -52,12 +52,12 @@
         "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_attach_location_normal.png"
     },
     {
-        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_emoji_objects_light_activated.png",
-        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\ic_emoji_objects_light_activated.png"
-    },
-    {
         "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_emoji_places_light_normal.png",
         "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\ic_emoji_places_light_normal.png"
+    },
+    {
+        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_emoji_objects_light_activated.png",
+        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\ic_emoji_objects_light_activated.png"
     },
     {
         "merged": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_emoji_places_light_activated.png",
@@ -72,12 +72,12 @@
         "source": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\ic_emoji_symbols_light_activated.png"
     },
     {
-        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_emoji_more_back_normal.png",
-        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_emoji_more_back_normal.png"
-    },
-    {
         "merged": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_emoji_nature_light_activated.png",
         "source": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\ic_emoji_nature_light_activated.png"
+    },
+    {
+        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_emoji_more_back_normal.png",
+        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_emoji_more_back_normal.png"
     },
     {
         "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_emoji_people_light_activated.png",
@@ -104,12 +104,12 @@
         "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_composer_popup_active_normal.png"
     },
     {
-        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_composer_top_divider.9.png",
-        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_composer_top_divider.9.png"
-    },
-    {
         "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_launcher.png",
         "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_composer_top_divider.9.png",
+        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_composer_top_divider.9.png"
     },
     {
         "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_emoji_recent_light_activated.png",
@@ -172,12 +172,12 @@
         "source": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_attachments_arrow.png"
     },
     {
-        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_emoji_places_light_activated.png",
-        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\ic_emoji_places_light_activated.png"
-    },
-    {
         "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_emoji_places_light_activated.png",
         "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\ic_emoji_places_light_activated.png"
+    },
+    {
+        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_emoji_places_light_activated.png",
+        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\ic_emoji_places_light_activated.png"
     },
     {
         "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_emoji_objects_light_normal.png",
@@ -188,16 +188,16 @@
         "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\ic_emoji_nature_light_normal.png"
     },
     {
-        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_emoji_category_cars.png",
-        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_emoji_category_cars.png"
+        "merged": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_composer_tab_dark.9.png",
+        "source": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_composer_tab_dark.9.png"
     },
     {
         "merged": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_composer_tab_pressed.9.png",
         "source": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_composer_tab_pressed.9.png"
     },
     {
-        "merged": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_composer_tab_dark.9.png",
-        "source": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_composer_tab_dark.9.png"
+        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_emoji_category_cars.png",
+        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_emoji_category_cars.png"
     },
     {
         "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_emoji_recent_light_normal.png",
@@ -224,12 +224,12 @@
         "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_composer_popup_pressed.png"
     },
     {
-        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_attach_location_pressed.png",
-        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_attach_location_pressed.png"
-    },
-    {
         "merged": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_emoji_people_light_normal.png",
         "source": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\ic_emoji_people_light_normal.png"
+    },
+    {
+        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_attach_location_pressed.png",
+        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_attach_location_pressed.png"
     },
     {
         "merged": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\sym_keyboard_delete_holo_dark.png",
@@ -252,12 +252,12 @@
         "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_composer_popup_pressed.png"
     },
     {
-        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_emoji_backspace_front_normal.png",
-        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_emoji_backspace_front_normal.png"
-    },
-    {
         "merged": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_emoji_symbols_light_normal.png",
         "source": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\ic_emoji_symbols_light_normal.png"
+    },
+    {
+        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_emoji_backspace_front_normal.png",
+        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_emoji_backspace_front_normal.png"
     },
     {
         "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_emoji_backspace_back_normal.png",
@@ -276,28 +276,28 @@
         "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\ic_emoji_symbols_light_normal.png"
     },
     {
-        "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_composer_tab_pressed.9.png",
-        "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_composer_tab_pressed.9.png"
-    },
-    {
         "merged": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\keyboard_background_holo.9.png",
         "source": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\keyboard_background_holo.9.png"
     },
     {
-        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_emoji_objects_light_normal.png",
-        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\ic_emoji_objects_light_normal.png"
+        "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_composer_tab_pressed.9.png",
+        "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_composer_tab_pressed.9.png"
     },
     {
         "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_attach_camera_pressed.png",
         "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_attach_camera_pressed.png"
     },
     {
-        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_attach_photo_pressed.png",
-        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_attach_photo_pressed.png"
+        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_emoji_objects_light_normal.png",
+        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\ic_emoji_objects_light_normal.png"
     },
     {
         "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_emoji_backspace_front_normal.png",
         "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_emoji_backspace_front_normal.png"
+    },
+    {
+        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_attach_photo_pressed.png",
+        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_attach_photo_pressed.png"
     },
     {
         "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_attach_location_normal.png",
@@ -312,12 +312,12 @@
         "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_emoji_category_nature.png"
     },
     {
-        "merged": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_attachments_arrow_reversed.png",
-        "source": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_attachments_arrow_reversed.png"
-    },
-    {
         "merged": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_attach_location_normal.png",
         "source": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_attach_location_normal.png"
+    },
+    {
+        "merged": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_attachments_arrow_reversed.png",
+        "source": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_attachments_arrow_reversed.png"
     },
     {
         "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_emoji_backspace_front_pressed.png",
@@ -400,12 +400,12 @@
         "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_emoji_more_front_normal.png"
     },
     {
-        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_emoji_more_front_normal.png",
-        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_emoji_more_front_normal.png"
-    },
-    {
         "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_composer_popup_active_normal.png",
         "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_composer_popup_active_normal.png"
+    },
+    {
+        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_emoji_more_front_normal.png",
+        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_emoji_more_front_normal.png"
     },
     {
         "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_attach_camera_normal.png",
@@ -428,12 +428,12 @@
         "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_composer_tab_active.9.png"
     },
     {
-        "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\sym_keyboard_delete_holo_dark.png",
-        "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\sym_keyboard_delete_holo_dark.png"
-    },
-    {
         "merged": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_composer_top_divider.9.png",
         "source": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_composer_top_divider.9.png"
+    },
+    {
+        "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\sym_keyboard_delete_holo_dark.png",
+        "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\sym_keyboard_delete_holo_dark.png"
     },
     {
         "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_attach_photo_pressed.png",
@@ -464,6 +464,10 @@
         "source": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_composer_divider_vertical.9.png"
     },
     {
+        "merged": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_emoji_category_nature.png",
+        "source": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_emoji_category_nature.png"
+    },
+    {
         "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_emoji_more_front_pressed.png",
         "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_emoji_more_front_pressed.png"
     },
@@ -474,10 +478,6 @@
     {
         "merged": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_emoji_recent_light_normal.png",
         "source": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\ic_emoji_recent_light_normal.png"
-    },
-    {
-        "merged": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_emoji_category_nature.png",
-        "source": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_emoji_category_nature.png"
     },
     {
         "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\sym_keyboard_delete_holo_dark.png",
@@ -516,27 +516,27 @@
         "source": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_composer_tab.9.png"
     },
     {
-        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_attach_camera_pressed.png",
-        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_attach_camera_pressed.png"
-    },
-    {
         "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_composer_top_divider.9.png",
         "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_composer_top_divider.9.png"
+    },
+    {
+        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_attach_camera_pressed.png",
+        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_attach_camera_pressed.png"
     },
     {
         "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_emoji_nature_light_normal.png",
         "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\ic_emoji_nature_light_normal.png"
     },
     {
-        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_launcher.png",
-        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\ic_launcher.png"
+        "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_emoji_more_front_pressed.png",
+        "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_emoji_more_front_pressed.png"
     },
     {
         "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\keyboard_background_holo.9.png",
         "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\keyboard_background_holo.9.png"
     },
     {
-        "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_emoji_more_front_pressed.png",
-        "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_emoji_more_front_pressed.png"
+        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_launcher.png",
+        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\ic_launcher.png"
     }
 ]

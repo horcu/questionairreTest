@@ -16,14 +16,18 @@ public class MoveMessage extends RealmObject {
     private String senderToken;
     private String receiverToken;
     private String dateTime;
+    private String senderUrl;
 
     public MoveMessage(){}
 
-    public MoveMessage(String moveFrom,String moveTo,String message, String dateTime){
+    public MoveMessage(String moveFrom,String moveTo,String message, String dateTime, String senderToken, String receiverToken, String senderUrl){
         this.moveFrom = moveFrom;
         this.moveTo = moveTo;
         this.message = message;
         this.dateTime = dateTime;
+        this.senderToken = senderToken;
+        this.receiverToken = receiverToken;
+        this.senderUrl = senderUrl;
 
         type = LoggingService.MESSAGE_TYPE_MOVE;
     }
@@ -82,5 +86,13 @@ public class MoveMessage extends RealmObject {
 
     public void setDateTime(String dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public String getSenderUrl() {
+        return senderUrl;
+    }
+
+    public void setSenderUrl(String senderUrl) {
+        this.senderUrl = senderUrl;
     }
 }

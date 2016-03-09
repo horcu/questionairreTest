@@ -20,7 +20,7 @@
         android:orientation="horizontal"
         android:padding="5dp"
         app:cardElevation="2dp"
-        app:cardBackgroundColor="#ffdddddd"
+        app:cardBackgroundColor="#ffefefef"
         app:contentPadding="5dp"
         app:cardCornerRadius="1dp" >
 

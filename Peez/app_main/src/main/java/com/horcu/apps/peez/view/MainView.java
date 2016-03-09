@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.common.utilities.consts;
+import com.horcu.apps.peez.custom.MessageSender;
 import com.horcu.apps.peez.gcm.InvitationMessage;
 import com.horcu.apps.peez.gcm.MoveMessage;
 import com.horcu.apps.peez.gcm.PubSubHelper;
@@ -60,9 +61,13 @@ public class MainView extends BaseView
 
         mytoken = settings.getString(consts.REG_ID,"");
 
-        realmConfig = new RealmConfiguration.Builder(this).build();
+        realmConfig = new RealmConfiguration.Builder(this)
+               // .name("default1")
+               // .schemaVersion(3)
+               // .migration(new Migration()) //TODO fill out the migration options and uncomment.. thisi s the proper way to migrate dbs and/or specify diff versions
+                .build();
 
-        if(consts.DEV_MODE)
+       // if(consts.DEV_MODE)
         Realm.deleteRealm(realmConfig);
 
         realm = Realm.getInstance(realmConfig);
@@ -93,8 +98,16 @@ public class MainView extends BaseView
 
                         Gson gson = new Gson();
 
-                        String messageType = intent.getStringExtra(LoggingService.MESSAGE_TYPE)  != null ? intent.getStringExtra(LoggingService.MESSAGE_TYPE) : LoggingService.MESSAGE_TYPE_MSG;
+                        String messageType = intent.getStringExtra(LoggingService.MESSAGE_TYPE);
+                        JSONObject json = null;
 
+                        if(messageType == null)
+                            try {
+                                 json = new JSONObject(messageJson);
+                                messageType = json.getString("type");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         if(messageJson.contains("multicast_id")) //return its the last message you sent out
                         {
                             return;}
@@ -104,8 +117,7 @@ public class MainView extends BaseView
                             case LoggingService.MESSAGE_TYPE_MSG :
                             {
                                 try {
-                                    JSONObject jsonO = new JSONObject(messageJson);
-                                    SmsMessage sms = new SmsMessage(jsonO.getString("from"),jsonO.getString("to"),jsonO.getString("message"),jsonO.getString("dateTime"),jsonO.getString("senderUrl"));
+                                    SmsMessage sms = new SmsMessage(json.getString("from"),json.getString("to"),json.getString("message"),json.getString("dateTime"),json.getString("senderUrl"));
 
                                     HandleSMS(sms);
                                 } catch (JsonSyntaxException | JSONException e) {
@@ -117,8 +129,8 @@ public class MainView extends BaseView
                             case LoggingService.MESSAGE_TYPE_MOVE :
                             {
                                 try {
-                                    JSONObject jsonO = new JSONObject(messageJson);
-                                    MoveMessage moveMessage = new MoveMessage(jsonO.getString("moveFrom"),jsonO.getString("moveTo"),jsonO.getString("message"),jsonO.getString("dateTime"));
+
+                                    MoveMessage moveMessage = MessageSender.BuildMoveMessage(json.getString("moveFrom"),json.getString("moveTo"),json.getString("message"),json.getString("dateTime"),mytoken,json.getString("receiverToken"),json.getString("senderUrl"));// new MoveMessage(json.getString("moveFrom"),json.getString("moveTo"),json.getString("message"),json.getString("dateTime"),mytoken,json.getString("receiverToken"),json.getString("senderUrl"));
 
                                     HandleMove(moveMessage);
                                 } catch (JsonSyntaxException | JSONException e) {
@@ -177,11 +189,15 @@ public class MainView extends BaseView
             ChatFrag.refreshMessagesFromDb(mytoken,this);
         }
     }
-    private void HandleInvitation(InvitationMessage message){}
 
     private void HandleMove(MoveMessage move){
-        Toast.makeText(this,"player " + move.getSenderToken() + "moved from " + move.getMoveFrom() + " to " + move.getMoveTo(),Toast.LENGTH_LONG).show();
+
+        GameView gameFrag = GetGameFragment();
+        gameFrag.ShowMoveOnBoard(move);
     }
+
+    private void HandleInvitation(InvitationMessage message){}
+
 
     private void HandleReminder(ReminderMessage message){}
 
@@ -268,7 +284,7 @@ public class MainView extends BaseView
         if (GameFrag != null) {
             GameFrag.UpdateGamePlayer(name,token,imageUrl);
         }
-        Toast.makeText(this, name + " is now the selected recipient", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, name + " selected", Toast.LENGTH_LONG).show();
     }
 
     private GameView GetGameFragment() {

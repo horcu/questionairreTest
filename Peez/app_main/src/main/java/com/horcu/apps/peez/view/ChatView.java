@@ -276,11 +276,12 @@ public class ChatView extends Fragment {
                     String theirToken = !message_recipient.equals("") ? message_recipient : "123w";
                     RealmResults<SmsMessage> messages = realm.where(SmsMessage.class)
                             .equalTo("to", myToken)
-                            .equalTo("from", theirToken)
+                            .or()
+                            .equalTo("from", myToken)
                             .or()
                             .equalTo("from", theirToken)
-                            .equalTo("from", myToken)
-
+                            .or()
+                            .equalTo("to", theirToken)
                             .findAll(); // where(Message.class).equalTo("sender", sender).findAll();
 
                     if(messages.size() < 1)
@@ -288,8 +289,8 @@ public class ChatView extends Fragment {
 
                     for (SmsMessage m : messages)
                     {
-                        if(MessageAlreadyAdded(m))
-                            continue;
+                     ///   if(MessageAlreadyAdded(m))
+                    //        continue;
 
                         String message = m.getMessage();
                         MessageEntry messageEntry = new MessageEntry(String.valueOf(new Date()), message, m.getMessageId(), m.getSenderUrl());
@@ -316,8 +317,8 @@ public class ChatView extends Fragment {
         }, new Realm.Transaction.Callback() {
             @Override
             public void onSuccess() {
-                if(messagesViewModel.messageViewModels == null)
-                    messagesViewModel.messageViewModels = new ObservableArrayList<>();
+                //if(messagesViewModel.messageViewModels == null)
+                messagesViewModel.messageViewModels = new ObservableArrayList<>();
 
                 messagesViewModel.messageViewModels.addAll(vms);
                 RecyclerView.Adapter adapter = binding.activityUsersRecycler.getAdapter();

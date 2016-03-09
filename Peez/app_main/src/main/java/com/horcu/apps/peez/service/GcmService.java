@@ -19,6 +19,7 @@ import com.google.gson.JsonObject;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.custom.notifier;
+import com.horcu.apps.peez.gcm.MoveMessage;
 import com.horcu.apps.peez.gcm.SmsMessage;
 import com.horcu.apps.peez.view.MainView;
 import com.squareup.picasso.Picasso;
@@ -51,50 +52,40 @@ public class GcmService extends GcmListenerService {
         wl.acquire();
 
         String message = data.getString("message");
-        JSONObject jsonObject;
+        JSONObject  jsonObject = null;
+
+        Bitmap bitmap = null;
+        String type = "";
         try {
-            jsonObject = new JSONObject(message);
+             jsonObject = new JSONObject(message);
+             type = jsonObject.getString("type");
+             bitmap = getBitmap(jsonObject.getString("senderUrl"));
+            Log.d("GCM sms message:", "image received");
 
-        String type = jsonObject.getString("type");
-        if(type.equals(LoggingService.MESSAGE_TYPE_MSG))
-        {
-            SmsMessage sms = new SmsMessage(jsonObject.getString("to"), jsonObject.getString("from"),jsonObject.getString("message"), jsonObject.getString("dateTime"), jsonObject.getString("senderUrl"));
-            sms.setSenderUrl(jsonObject.getString("senderUrl"));
-            Bitmap bitmap = getBitmap(sms);
-            Log.d("GCM message:", "image received");
-
-            notifyUserAndLogMessage(message, bitmap);
-            Log.d("Received GCM Message: ", data.toString());
-        }
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-            //send the notification anyway
-            notifyUserAndLogMessage(message, BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher));
-            Log.d("Received GCM Message: ", data.toString());
+            Log.d("bitmap decoding error: ", data.toString());
         }
+
+        notifyUserAndLogMessage(message, bitmap, type);
+        Log.d("GCM sms Message: ", data.toString());
     }
 
-    private void notifyUserAndLogMessage(String message, Bitmap bitmap) {
-        sendNotification(bitmap, message, LoggingService.MESSAGE_TYPE_MSG);
+    private void notifyUserAndLogMessage(String message, Bitmap bitmap, String messageType) {
+        sendNotification(bitmap, message,messageType);
         logMessage(message, bitmap);
 
     }
 
-    private Bitmap getBitmap(SmsMessage sms) throws IOException {
+    private Bitmap getBitmap(String url) throws IOException {
         Bitmap bitmap = null;
 
-//        bitmap = Picasso.with(this)
-      //          .load(sms.getSenderUrl())
-    //            .get();
-        return bitmap;
-    }
-
-    private boolean ISentThisMessage(String senderId) {
-
-       String sId = settings.getString(consts.REG_ID,"");
-        return senderId.equals(sId);
+        bitmap = Picasso.with(this)
+                .load(url)
+                .get();
+        return BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
     }
 
     @Override

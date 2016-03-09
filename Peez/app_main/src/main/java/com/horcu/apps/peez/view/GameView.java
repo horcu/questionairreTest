@@ -1,6 +1,9 @@
 package com.horcu.apps.peez.view;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.google.gson.JsonObject;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.common.utilities.consts;
@@ -18,6 +23,7 @@ import com.horcu.apps.peez.gcm.MoveMessage;
 import com.horcu.apps.peez.misc.SenderCollection;
 import com.horcu.apps.peez.service.LoggingService;
 
+import java.sql.CallableStatement;
 import java.util.Date;
 
 /**
@@ -42,8 +48,13 @@ public class GameView extends Fragment {
     private LoggingService.Logger mLogger;
     private SenderCollection mSenders;
     private String message_recipient;
+    private String myToken;
+    private String playerUsername;
     private String currentSpot;
     private String playerImageUri;
+    private SharedPreferences settings;
+
+    AutoFitGridLayout grid = null;
 
     public GameView() {
         // Required empty public constructor
@@ -52,7 +63,7 @@ public class GameView extends Fragment {
     public Boolean UpdateGamePlayer(String userName, String token, String imgUrl){
         try {
             message_recipient = token;
-            message_recipient = userName;
+            playerUsername = userName;
             playerImageUri  = imgUrl;
             return true;
             //     getActivity().getActionBar().setTitle(playerName);
@@ -61,7 +72,6 @@ public class GameView extends Fragment {
             return false;
         }
     }
-
 
     // TODO: Rename and change types and number of parameters
     public static GameView newInstance() {
@@ -88,31 +98,40 @@ public class GameView extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_game_view, container, false);
-        AutoFitGridLayout grid = (AutoFitGridLayout)root.findViewById(R.id.gameboard_grid);
+         grid = (AutoFitGridLayout)root.findViewById(R.id.gameboard_grid);
+
+        settings =getActivity().getSharedPreferences("Peez", 0);
+
+        myToken = settings.getString(consts.REG_ID,"");
 
         for(int i = 0; i < grid.getChildCount(); i++)
         {
             final int finalI = i;
+            if(currentSpot == null) currentSpot = "0";
             grid.getChildAt(i).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Date d = new Date();
                     long time = d.getTime();
-                    MoveMessage moveMessage = MessageSender.BuildMoveMessage(currentSpot, String.valueOf(finalI), "move made!", String.valueOf(time));
+
+                    MoveMessage moveMessage = MessageSender.BuildMoveMessage(currentSpot, String.valueOf(finalI), "move made!", String.valueOf(time),myToken ,message_recipient,playerImageUri);
+
                     String json = ConvertToJson(moveMessage);
                     MessageSender sender = new MessageSender(getActivity(), mLogger, mSenders);
-                    if (sender.SendSMS(message_recipient, consts.TEST_MSG_ID, json, consts.TEST_TINE_TO_LIVE, false)) {
-                        //save to db
-//                        realm.beginTransaction();
-//                        sms.setFrom(myToken);
-//                        realm.copyToRealm(sms);
-//                        realm.commitTransaction();
 
+                    if(message_recipient == null || myToken == null){
+                        Toast.makeText(getActivity(), "no recipient chosen", Toast.LENGTH_LONG).show();
+                    }
+                    else if(message_recipient.equals("")){
+                        Toast.makeText(getActivity(), "no recipient chosen", Toast.LENGTH_LONG).show();
+                    }
+                    else if (sender.SendMove(message_recipient, consts.TEST_MSG_ID, json, consts.TEST_TINE_TO_LIVE, false)) {
                         Toast.makeText(getActivity(), "sent!", Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(getActivity(), "failed ;/", Toast.LENGTH_LONG).show();
                     }
                 }
+
             });
         }
 
@@ -126,7 +145,9 @@ public class GameView extends Fragment {
         jsonObject.addProperty("message", moveMessage.getMessage());
         jsonObject.addProperty("type", moveMessage.getType());
         jsonObject.addProperty("dateTime", moveMessage.getDateTime());
-        jsonObject.addProperty("sendertoken", moveMessage.getSenderToken());
+        jsonObject.addProperty("senderToken", moveMessage.getSenderToken());
+        jsonObject.addProperty("receiverToken", moveMessage.getReceiverToken());
+        jsonObject.addProperty("senderUrl", moveMessage.getSenderUrl());
 
         return jsonObject.toString();
     }
@@ -153,6 +174,17 @@ public class GameView extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public void ShowMoveOnBoard(MoveMessage move) {
+
+        int position = Integer.parseInt(move.getMoveTo());
+        View v = grid.getChildAt(position);
+        v.setBackground(new ColorDrawable(Color.parseColor("#efefef")));
+
+        YoYo.with(Techniques.Pulse).duration(2500).playOn(v);
+        Toast.makeText(getActivity(),"player " + move.getSenderToken() + "moved from " + move.getMoveFrom() + " to " + move.getMoveTo(),Toast.LENGTH_LONG).show();
+
     }
 
     /**

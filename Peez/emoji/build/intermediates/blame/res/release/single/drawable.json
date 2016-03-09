@@ -64,36 +64,36 @@
         "source": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\src\\main\\res\\drawable\\orca_emoji_tab_background.xml"
     },
     {
-        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable\\orca_composer_popup_button_active.xml",
-        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable\\orca_composer_popup_button_active.xml"
-    },
-    {
         "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable\\ic_emoji_people_light.xml",
         "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable\\ic_emoji_people_light.xml"
     },
     {
-        "merged": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable\\orca_composer_popup_button_active.xml",
-        "source": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\src\\main\\res\\drawable\\orca_composer_popup_button_active.xml"
+        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable\\orca_composer_popup_button_active.xml",
+        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable\\orca_composer_popup_button_active.xml"
     },
     {
         "merged": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable\\ic_emoji_places_light.xml",
         "source": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\src\\main\\res\\drawable\\ic_emoji_places_light.xml"
     },
     {
-        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable\\orca_emoji_more_front_button.xml",
-        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable\\orca_emoji_more_front_button.xml"
+        "merged": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable\\orca_composer_popup_button_active.xml",
+        "source": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\src\\main\\res\\drawable\\orca_composer_popup_button_active.xml"
     },
     {
         "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable\\ic_emoji_nature_light.xml",
         "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable\\ic_emoji_nature_light.xml"
     },
     {
-        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable\\orca_emoji_tab_dark_background.xml",
-        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable\\orca_emoji_tab_dark_background.xml"
+        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable\\orca_emoji_more_front_button.xml",
+        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable\\orca_emoji_more_front_button.xml"
     },
     {
         "merged": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable\\orca_composer_popup_button.xml",
         "source": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\src\\main\\res\\drawable\\orca_composer_popup_button.xml"
+    },
+    {
+        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable\\orca_emoji_tab_dark_background.xml",
+        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable\\orca_emoji_tab_dark_background.xml"
     },
     {
         "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable\\orca_composer_popup_button_active.xml",
@@ -108,12 +108,12 @@
         "source": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\src\\main\\res\\drawable\\ic_emoji_recent_light.xml"
     },
     {
-        "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable\\ic_emoji_objects_light.xml",
-        "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable\\ic_emoji_objects_light.xml"
-    },
-    {
         "merged": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable\\orca_composer_attach_photo_button.xml",
         "source": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\src\\main\\res\\drawable\\orca_composer_attach_photo_button.xml"
+    },
+    {
+        "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable\\ic_emoji_objects_light.xml",
+        "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable\\ic_emoji_objects_light.xml"
     },
     {
         "merged": "C:\\Users\\hacz\\StudioProjects\\HorcuApps\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable\\ic_emoji_symbols_light.xml",
@@ -172,11 +172,11 @@
         "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable\\orca_composer_attach_photo_button.xml"
     },
     {
-        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable\\orca_composer_attach_camera_button.xml",
-        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable\\orca_composer_attach_camera_button.xml"
-    },
-    {
         "merged": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable\\ic_emoji_places_light.xml",
         "source": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable\\ic_emoji_places_light.xml"
+    },
+    {
+        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable\\orca_composer_attach_camera_button.xml",
+        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable\\orca_composer_attach_camera_button.xml"
     }
 ]
