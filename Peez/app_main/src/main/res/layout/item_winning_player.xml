@@ -17,8 +17,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="5dp"
-        app:cardElevation="2dp"
-        app:cardBackgroundColor="#efefef"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="#ededed"
         app:contentPadding="5dp"
         app:cardCornerRadius="1dp" >
 
@@ -55,7 +55,7 @@
             android:layout_marginBottom="5dp"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="10dp"
-            android:text="@{playerVm.model.name}"
+            android:text="Member"
             tools:text="Hello"/>
 
         <TextView
@@ -69,10 +69,16 @@
             android:layout_marginBottom="5dp"
             emojicon:emojiconAlignment="baseline"
             android:layout_width="wrap_content"
-            android:text="Send a message  |  Invite to a game  |  Go to game"
+            android:text="@{playerVm.model.name}"
             android:layout_gravity="center_vertical"
             android:layout_height="wrap_content"/>
 
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:alpha=".5"
+                android:src="@drawable/ic_navigation_check"/>
     </LinearLayout>
     </LinearLayout>
 

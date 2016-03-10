@@ -33,6 +33,7 @@ public class consts {
    public static final String USER_IMG = "user_Image";
    public static final String STATUS_NOT_SENT = "not_sent";
    public static final String STATUS_SENT = "sent";
+   public static final String FAV_COLOR = "favorite_color";
    //end entity constants
 
    //turn dev mode on and off

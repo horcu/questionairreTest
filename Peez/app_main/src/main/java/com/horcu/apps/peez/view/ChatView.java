@@ -317,7 +317,7 @@ public class ChatView extends Fragment {
         }, new Realm.Transaction.Callback() {
             @Override
             public void onSuccess() {
-                //if(messagesViewModel.messageViewModels == null)
+                if(messagesViewModel.messageViewModels == null)
                 messagesViewModel.messageViewModels = new ObservableArrayList<>();
 
                 messagesViewModel.messageViewModels.addAll(vms);

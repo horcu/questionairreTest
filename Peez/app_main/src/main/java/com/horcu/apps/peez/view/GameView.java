@@ -24,7 +24,6 @@ import com.horcu.apps.peez.gcm.MoveMessage;
 import com.horcu.apps.peez.misc.SenderCollection;
 import com.horcu.apps.peez.service.LoggingService;
 import com.lighters.cubegridlibrary.callback.ICubeGridAnimCallback;
-import com.lighters.cubegridlibrary.view.CubeGridImageView;
 
 import java.util.Date;
 
@@ -103,7 +102,6 @@ public class GameView extends Fragment {
          grid = (AutoFitGridLayout)root.findViewById(R.id.gameboard_grid);
 
         settings =getActivity().getSharedPreferences("Peez", 0);
-
         myToken = settings.getString(consts.REG_ID,"");
 
         for(int i = 0; i < grid.getChildCount(); i++)
@@ -115,8 +113,9 @@ public class GameView extends Fragment {
                 public void onClick(View v) {
                     Date d = new Date();
                     long time = d.getTime();
+                    int color = settings.getInt(consts.FAV_COLOR, Color.parseColor("#111111"));
 
-                    MoveMessage moveMessage = MessageSender.BuildMoveMessage(currentSpot, String.valueOf(finalI), "move made!", String.valueOf(time),myToken ,message_recipient,playerImageUri);
+                    MoveMessage moveMessage = MessageSender.BuildMoveMessage(currentSpot, String.valueOf(finalI), "move made!", String.valueOf(time),myToken ,message_recipient,playerImageUri, color);
 
                     String json = ConvertToJson(moveMessage);
                     MessageSender sender = new MessageSender(getActivity(), mLogger, mSenders);
@@ -127,7 +126,7 @@ public class GameView extends Fragment {
                     else if(message_recipient.equals("")){
                         Toast.makeText(getActivity(), "no recipient chosen", Toast.LENGTH_LONG).show();
                     }
-                    else if (sender.SendMove(message_recipient, consts.TEST_MSG_ID, json, consts.TEST_TINE_TO_LIVE, false)) {
+                    else if (sender.SendMove(message_recipient, consts.TEST_MSG_ID, json, consts.TEST_TINE_TO_LIVE, false, color)) {
                         Toast.makeText(getActivity(), "sent!", Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(getActivity(), "failed ;/", Toast.LENGTH_LONG).show();
@@ -179,34 +178,9 @@ public class GameView extends Fragment {
     }
 
     public void ShowMoveOnBoard(MoveMessage move) {
-
         int position = Integer.parseInt(move.getMoveTo());
         View v = grid.getChildAt(position);
-
-        final CubeGridImageView cube = (CubeGridImageView)((ViewGroup)v).getChildAt(0);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                cube.setVisibility(View.VISIBLE);
-                cube.start(mCubeGridAnimCallback);
-                StopCube(cube);
-            }
-        }, 100);
-
-        v.setBackground(new ColorDrawable(Color.parseColor("#efefef")));
-
-        YoYo.with(Techniques.FadeIn).duration(500).playOn(v);
-       // Toast.makeText(getActivity(),"player " + move.getSenderToken() + "moved from " + move.getMoveFrom() + " to " + move.getMoveTo(),Toast.LENGTH_LONG).show();
-
-    }
-
-    private void StopCube(final CubeGridImageView cube) {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                cube.stop();
-            }
-        }, 2000);
+        v.setBackground(new ColorDrawable(getResources().getColor(R.color.light_grey)));
     }
 
     private ICubeGridAnimCallback mCubeGridAnimCallback = new ICubeGridAnimCallback() {
@@ -220,7 +194,6 @@ public class GameView extends Fragment {
        //     Toast.makeText(getActivity(), "ok now its your move!", Toast.LENGTH_LONG).show();
         }
     };
-
 
     /**
      * This interface must be implemented by activities that contain this

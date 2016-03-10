@@ -74,7 +74,7 @@ public class MessageSender {
             return true;
         }
 
-    public Boolean SendMove(final String recipient, final String msgId, String message, final String ttlStr, Boolean dry) {
+    public Boolean SendMove(final String recipient, final String msgId, String message, final String ttlStr, Boolean dry, int color) {
 
         final Message.Builder messageBuilder = new Message.Builder();
         if (!msgId.equals("")) {
@@ -89,12 +89,8 @@ public class MessageSender {
         }
         messageBuilder.delayWhileIdle(false);
         messageBuilder.dryRun(dry);
-
+        messageBuilder.color(color);
         messageBuilder.addData("message", message);
-
-        // messageBuilder.addData("move", moveString); TODO move this to another method that handles sending move data
-        // messageBuilder.addData("invite", invitation); TODO move this to another method that handles sending invite data
-        // messageBuilder.addData("board", boardLayoutString); TODO move this to another method that handles sending boardLayout data
 
         final String apiKey = consts.API_KEY;
         final String registrationId = settings.getString(consts.REG_ID, "");
@@ -144,7 +140,7 @@ public class MessageSender {
         return new SmsMessage(from, to,message,dateTime,senderImgUrl);
     }
 
-    public static MoveMessage BuildMoveMessage(String moveFrom, String moveTo, String message, String dateTime, String senderToken, String receiverToken, String senderUrl) {
-        return new MoveMessage(moveFrom,moveTo,message,dateTime, senderToken,receiverToken, senderUrl);
+    public static MoveMessage BuildMoveMessage(String moveFrom, String moveTo, String message, String dateTime, String senderToken, String receiverToken, String senderUrl, int color) {
+        return new MoveMessage(moveFrom,moveTo,message,dateTime, senderToken,receiverToken, senderUrl, color);
     }
 }

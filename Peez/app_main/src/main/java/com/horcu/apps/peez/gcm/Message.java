@@ -80,6 +80,7 @@ public final class Message implements Serializable {
         private Integer timeToLive;
         private Boolean dryRun;
         private String restrictedPackageName;
+        private int color;
 
         public Builder() {
             this.data = new LinkedHashMap<>();
@@ -194,6 +195,18 @@ public final class Message implements Serializable {
             return new Message(this);
         }
 
+        public Builder color(int value) {
+            color = value;
+            return this;
+        }
+
+        public int getColor() {
+            return color;
+        }
+
+        public void setColor(int color) {
+            this.color = color;
+        }
     }
 
     private Message(Builder builder) {

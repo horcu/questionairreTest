@@ -130,7 +130,7 @@ public class MainView extends BaseView
                             {
                                 try {
 
-                                    MoveMessage moveMessage = MessageSender.BuildMoveMessage(json.getString("moveFrom"),json.getString("moveTo"),json.getString("message"),json.getString("dateTime"),mytoken,json.getString("receiverToken"),json.getString("senderUrl"));// new MoveMessage(json.getString("moveFrom"),json.getString("moveTo"),json.getString("message"),json.getString("dateTime"),mytoken,json.getString("receiverToken"),json.getString("senderUrl"));
+                                    MoveMessage moveMessage = MessageSender.BuildMoveMessage(json.getString("moveFrom"),json.getString("moveTo"),json.getString("message"),json.getString("dateTime"),mytoken,json.getString("receiverToken"),json.getString("senderUrl"),json.getInt("color"));// new MoveMessage(json.getString("moveFrom"),json.getString("moveTo"),json.getString("message"),json.getString("dateTime"),mytoken,json.getString("receiverToken"),json.getString("senderUrl"));
 
                                     HandleMove(moveMessage);
                                 } catch (JsonSyntaxException | JSONException e) {
