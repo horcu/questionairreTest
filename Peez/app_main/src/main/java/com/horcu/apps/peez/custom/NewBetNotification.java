@@ -8,14 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
-import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 
-import com.google.gson.Gson;
 import com.horcu.apps.peez.R;
-import com.horcu.apps.peez.gcm.SmsMessage;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,7 +46,7 @@ public class NewBetNotification {
      */
     public static void notify(final Context context,
                               PendingIntent pendingIntent,
-                              final String message, final int number, final long expiration, Bitmap userImg) {
+                              final String message, final int number, final long expiration, Bitmap userImg, Intent goWhere) {
         final Resources res = context.getResources();
 
         final String title = res.getString( R.string.new_bet_notification_title_template);
@@ -130,24 +126,25 @@ public class NewBetNotification {
                         // content intent provides access to the same actions in
                         // another way.
                 .addAction(
-                        R.drawable.ic_stat_content_clear,
-                        res.getString(R.string.action_decline),
-                        PendingIntent.getActivity(
-                                context,
-                                0,
-                                Intent.createChooser(new Intent(Intent.ACTION_SEND)
-                                        .setType("text/plain")
-                                        .putExtra(Intent.EXTRA_TEXT, "lets play"), "lets play"),
-                                PendingIntent.FLAG_UPDATE_CURRENT))
-                .addAction(
                         R.drawable.ic_stat_action_done,
-                        res.getString(R.string.action_accept),
-                       null)
+                        res.getString(R.string.go__to_mainview),
+                        NavigateToMainPage(context, goWhere))
+//                .addAction(
+//                        R.drawable.ic_stat_action_done,
+//                        res.getString(R.string.action_accept),
+//                       null)
 
                         // Automatically dismiss the notification when it is touched.
                 .setAutoCancel(true);
 
         notify(context, builder.build());
+    }
+
+    private static PendingIntent NavigateToMainPage(Context ctx, Intent go) {
+
+        go.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        return PendingIntent.getActivity(ctx, 0, go, 0);
     }
 
     @TargetApi(Build.VERSION_CODES.ECLAIR)

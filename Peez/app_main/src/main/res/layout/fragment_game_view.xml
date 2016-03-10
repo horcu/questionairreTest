@@ -145,13 +145,24 @@
                     app:contentPadding="3dp"
                     android:gravity="center">
 
-                    <com.horcu.apps.peez.custom.UserImageView
-                        android:id="@+id/user_img"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@color/red"
-                        android:background="@android:color/transparent"
-                        android:layout_gravity="center" />
+                    <!--<com.horcu.apps.peez.custom.UserImageView-->
+                        <!--android:id="@+id/user_img"-->
+                        <!--android:layout_width="30dp"-->
+                        <!--android:layout_height="30dp"-->
+                        <!--android:src="@color/red"-->
+                        <!--android:background="@android:color/transparent"-->
+                        <!--android:layout_gravity="center" />-->
+
+                    <com.lighters.cubegridlibrary.view.CubeGridImageView
+                        android:id="@+id/iv_cube_grid"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:padding="12dp"
+                        android:src="@drawable/ic_mt"
+                        android:visibility="invisible"
+                        app:fillColor="#f00"
+                        app:loopCount="10"
+                        app:roundCornerSize="6dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"

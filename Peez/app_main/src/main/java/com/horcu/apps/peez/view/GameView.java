@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +23,9 @@ import com.horcu.apps.peez.custom.MessageSender;
 import com.horcu.apps.peez.gcm.MoveMessage;
 import com.horcu.apps.peez.misc.SenderCollection;
 import com.horcu.apps.peez.service.LoggingService;
+import com.lighters.cubegridlibrary.callback.ICubeGridAnimCallback;
+import com.lighters.cubegridlibrary.view.CubeGridImageView;
 
-import java.sql.CallableStatement;
 import java.util.Date;
 
 /**
@@ -131,7 +133,6 @@ public class GameView extends Fragment {
                         Toast.makeText(getActivity(), "failed ;/", Toast.LENGTH_LONG).show();
                     }
                 }
-
             });
         }
 
@@ -170,6 +171,7 @@ public class GameView extends Fragment {
         }
     }
 
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -180,12 +182,45 @@ public class GameView extends Fragment {
 
         int position = Integer.parseInt(move.getMoveTo());
         View v = grid.getChildAt(position);
+
+        final CubeGridImageView cube = (CubeGridImageView)((ViewGroup)v).getChildAt(0);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                cube.setVisibility(View.VISIBLE);
+                cube.start(mCubeGridAnimCallback);
+                StopCube(cube);
+            }
+        }, 100);
+
         v.setBackground(new ColorDrawable(Color.parseColor("#efefef")));
 
-        YoYo.with(Techniques.Pulse).duration(2500).playOn(v);
-        Toast.makeText(getActivity(),"player " + move.getSenderToken() + "moved from " + move.getMoveFrom() + " to " + move.getMoveTo(),Toast.LENGTH_LONG).show();
+        YoYo.with(Techniques.FadeIn).duration(500).playOn(v);
+       // Toast.makeText(getActivity(),"player " + move.getSenderToken() + "moved from " + move.getMoveFrom() + " to " + move.getMoveTo(),Toast.LENGTH_LONG).show();
 
     }
+
+    private void StopCube(final CubeGridImageView cube) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                cube.stop();
+            }
+        }, 2000);
+    }
+
+    private ICubeGridAnimCallback mCubeGridAnimCallback = new ICubeGridAnimCallback() {
+        @Override
+        public void onAnimStart() {
+            Toast.makeText(getActivity(), "your move!", Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        public void onAnimEnd() {
+       //     Toast.makeText(getActivity(), "ok now its your move!", Toast.LENGTH_LONG).show();
+        }
+    };
+
 
     /**
      * This interface must be implemented by activities that contain this

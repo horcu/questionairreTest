@@ -82,9 +82,9 @@ public class GcmService extends GcmListenerService {
     private Bitmap getBitmap(String url) throws IOException {
         Bitmap bitmap = null;
 
-        bitmap = Picasso.with(this)
-                .load(url)
-                .get();
+//        bitmap = Picasso.with(this)
+//                .load(url)
+//                .get();
         return BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
     }
 

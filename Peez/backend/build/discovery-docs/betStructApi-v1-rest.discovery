@@ -1,0 +1,228 @@
+{
+ "kind": "discovery#restDescription",
+ "etag": "\"u_zXkMELIlX4ktyNbM2XKD4vK8E/Fy6xSiYwsMz5yqj2o9TNbxKTfLQ\"",
+ "discoveryVersion": "v1",
+ "id": "betStructApi:v1",
+ "name": "betStructApi",
+ "version": "v1",
+ "description": "This is an API",
+ "ownerDomain": "misc.models.backend.peez.apps.horcu.com",
+ "ownerName": "misc.models.backend.peez.apps.horcu.com",
+ "icons": {
+  "x16": "http://www.google.com/images/icons/product/search-16.gif",
+  "x32": "http://www.google.com/images/icons/product/search-32.gif"
+ },
+ "protocol": "rest",
+ "baseUrl": "https://ballrz-7d916.appspot.com/_ah/api/betStructApi/v1/",
+ "basePath": "/_ah/api/betStructApi/v1/",
+ "rootUrl": "https://ballrz-7d916.appspot.com/_ah/api/",
+ "servicePath": "betStructApi/v1/",
+ "batchPath": "batch",
+ "parameters": {
+  "alt": {
+   "type": "string",
+   "description": "Data format for the response.",
+   "default": "json",
+   "enum": [
+    "json"
+   ],
+   "enumDescriptions": [
+    "Responses with Content-Type of application/json"
+   ],
+   "location": "query"
+  },
+  "fields": {
+   "type": "string",
+   "description": "Selector specifying which fields to include in a partial response.",
+   "location": "query"
+  },
+  "key": {
+   "type": "string",
+   "description": "API key. Your API key identifies your project and provides you with API access, quota, and reports. Required unless you provide an OAuth 2.0 token.",
+   "location": "query"
+  },
+  "oauth_token": {
+   "type": "string",
+   "description": "OAuth 2.0 token for the current user.",
+   "location": "query"
+  },
+  "prettyPrint": {
+   "type": "boolean",
+   "description": "Returns response with indentations and line breaks.",
+   "default": "true",
+   "location": "query"
+  },
+  "quotaUser": {
+   "type": "string",
+   "description": "Available to use for quota purposes for server-side applications. Can be any arbitrary string assigned to a user, but should not exceed 40 characters. Overrides userIp if both are provided.",
+   "location": "query"
+  },
+  "userIp": {
+   "type": "string",
+   "description": "IP address of the site where the request originates. Use this if you want to enforce per-user limits.",
+   "location": "query"
+  }
+ },
+ "auth": {
+  "oauth2": {
+   "scopes": {
+    "https://www.googleapis.com/auth/userinfo.email": {
+     "description": "View your email address"
+    }
+   }
+  }
+ },
+ "schemas": {
+  "BetStruct": {
+   "id": "BetStruct",
+   "type": "object",
+   "properties": {
+    "structure": {
+     "type": "string"
+    }
+   }
+  },
+  "CollectionResponse_BetStruct": {
+   "id": "CollectionResponse_BetStruct",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "BetStruct"
+     }
+    },
+    "nextPageToken": {
+     "type": "string"
+    }
+   }
+  }
+ },
+ "methods": {
+  "get": {
+   "id": "betStructApi.get",
+   "path": "betStruct/{Id}",
+   "httpMethod": "GET",
+   "parameters": {
+    "Id": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "Id"
+   ],
+   "response": {
+    "$ref": "BetStruct"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "insert": {
+   "id": "betStructApi.insert",
+   "path": "betStruct",
+   "httpMethod": "POST",
+   "request": {
+    "$ref": "BetStruct",
+    "parameterName": "resource"
+   },
+   "response": {
+    "$ref": "BetStruct"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "list": {
+   "id": "betStructApi.list",
+   "path": "betStruct",
+   "httpMethod": "GET",
+   "parameters": {
+    "cursor": {
+     "type": "string",
+     "location": "query"
+    },
+    "limit": {
+     "type": "integer",
+     "format": "int32",
+     "location": "query"
+    }
+   },
+   "response": {
+    "$ref": "CollectionResponse_BetStruct"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "patch": {
+   "id": "betStructApi.patch",
+   "path": "betStruct/{Id}",
+   "httpMethod": "PATCH",
+   "parameters": {
+    "Id": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "Id"
+   ],
+   "request": {
+    "$ref": "BetStruct"
+   },
+   "response": {
+    "$ref": "BetStruct"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "remove": {
+   "id": "betStructApi.remove",
+   "path": "betStruct/{Id}",
+   "httpMethod": "DELETE",
+   "parameters": {
+    "Id": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "Id"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "update": {
+   "id": "betStructApi.update",
+   "path": "betStruct/{Id}",
+   "httpMethod": "PUT",
+   "parameters": {
+    "Id": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "Id"
+   ],
+   "request": {
+    "$ref": "BetStruct",
+    "parameterName": "resource"
+   },
+   "response": {
+    "$ref": "BetStruct"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  }
+ }
+}

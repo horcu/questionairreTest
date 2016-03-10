@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 
+import com.horcu.apps.peez.service.LoggingService;
 import com.horcu.apps.peez.view.MainView;
 
 
@@ -27,7 +28,7 @@ public class notifier {
 
 
             //create and launch the notification
-            NewBetNotification.notify(context, pendingIntent, message, 1, new Date().getTime() + 86400000, bitmap);
+            NewBetNotification.notify(context, pendingIntent, message, 1, new Date().getTime() + 86400000, bitmap, go);
 
         } catch (Exception e) {
             e.printStackTrace();
