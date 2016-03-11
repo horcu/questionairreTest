@@ -2,6 +2,7 @@ package com.horcu.apps.peez.view;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -178,9 +179,15 @@ public class GameView extends Fragment {
     }
 
     public void ShowMoveOnBoard(MoveMessage move) {
-        int position = Integer.parseInt(move.getMoveTo());
-        View v = grid.getChildAt(position);
-        v.setBackground(new ColorDrawable(getResources().getColor(R.color.light_grey)));
+        try {
+            int position = Integer.parseInt(move.getMoveTo());
+            View v = grid.getChildAt(position);
+            v.setBackground(new ColorDrawable(getResources().getColor(R.color.light_grey)));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        } catch (Resources.NotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private ICubeGridAnimCallback mCubeGridAnimCallback = new ICubeGridAnimCallback() {

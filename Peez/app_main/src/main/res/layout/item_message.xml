@@ -38,7 +38,7 @@
         app:cardElevation="0dp"
         app:cardCornerRadius="8dp"
         app:contentPadding="4dp"
-        app:cardBackgroundColor="#ff999999"
+        app:cardBackgroundColor="#f9f9f9"
         android:background="#FFeeefff">
 
         <!--<TextView-->
@@ -57,7 +57,7 @@
             android:layout_weight="1"
             android:fontFamily="sans-serif-condensed"
             android:textSize="16sp"
-            android:textColor="@color/white"
+            android:textColor="@color/colorPrimaryDark"
             android:layout_gravity="left"
             android:layout_margin="5dp"
             emojicon:emojiconAlignment="baseline"

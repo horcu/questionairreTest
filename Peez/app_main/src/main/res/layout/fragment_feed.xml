@@ -17,6 +17,7 @@
     <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+        android:background="#efefef"
     tools:context=".view.FeedView">
 
     <!-- TODO: Update blank fragment layout -->
@@ -59,7 +60,7 @@
             android:layout_alignParentBottom="true"
             app:tbm_iconOpened="@drawable/ic_content_add"
             app:tbm_iconClosed="@drawable/ic_content_clear"
-            app:tbm_buttonSize="45dp"
+            app:tbm_buttonSize="56dp"
             >
 
             <ImageView

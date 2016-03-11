@@ -6,24 +6,69 @@
     android:background="@drawable/bg"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".view.RegView">
+    tools:context=".view.IntroView">
 
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="almost there..."
-    android:layout_centerInParent="true"
-    android:layout_above="@+id/loadView_reg"
-    android:textColor="@color/colorPrimary"/>
 
-    <com.wang.avi.AVLoadingIndicatorView
-        android:id="@+id/loadView_reg"
-        android:layout_width="wrap_content"
+    <LinearLayout
+      android:id="@+id/loader_layout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_centerInParent="true"
+      android:visibility="visible"
+      android:orientation="vertical">
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="almost there..."
+          android:layout_gravity="center_horizontal"
+          android:gravity="center_horizontal"
+          android:textColor="@color/black"/>
+
+      <com.wang.avi.AVLoadingIndicatorView
+          android:id="@+id/loadView_reg"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:visibility="visible"
+          app:indicator="BallPulse"
+          android:layout_gravity="center_horizontal"
+          app:indicator_color="#898989"
+          />
+
+
+  </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/color_picker_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible"
-        app:indicator="BallPulse"
         android:layout_centerInParent="true"
-        app:indicator_color="#898989"
-        />
+        android:orientation="vertical">
+
+        <uz.shift.colorpicker.LineColorPicker
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/picker"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            app:orientation="horizontal"
+            app:paddingEnd="16dp"
+            app:paddingStart="16dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:textStyle="normal"
+            android:textSize="18sp"
+            android:textColor="#333333"
+            android:layout_marginTop="15dp"
+
+            android:layout_gravity="center_horizontal"
+            android:text="Choose your favorite color"/>
+
+
+    </LinearLayout>
+
 
 </RelativeLayout>

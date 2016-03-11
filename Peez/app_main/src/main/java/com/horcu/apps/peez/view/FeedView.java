@@ -25,6 +25,7 @@ import com.horcu.apps.peez.databinding.FragmentFeedBinding;
 import com.horcu.apps.peez.model.Player;
 import com.horcu.apps.peez.viewmodel.PlayerViewModel;
 import com.horcu.apps.peez.viewmodel.PlayersViewModel;
+import com.michaldrabik.tapbarmenulib.TapBarMenu;
 import com.squareup.picasso.Picasso;
 
 import net.droidlabs.mvvm.recyclerview.adapter.ClickHandler;
@@ -103,6 +104,12 @@ public class FeedView extends Fragment {
         binding.setView(this);
         binding.playersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        binding.tapBarMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((TapBarMenu)v).toggle();
+            }
+        });
        // Picasso.with(getContext()).load(R.drawable.joe).into(userIng);
 
         return binding.getRoot();

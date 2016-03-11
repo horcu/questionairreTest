@@ -22,7 +22,7 @@
         <item name="android:backgroundStacked">#FF4A5F5D</item>
         <item name="android:colorBackground">@color/white</item>
         <item name="android:navigationBarColor">#FF4A5F5D</item>
-        <item name="android:text">@color/bpLight_gray</item>
+        <item name="android:text">#111111</item>
     </style>
 
     <style name="AppTheme_rem" parent="Theme.AppCompat.Light">
@@ -51,7 +51,7 @@
 
     <style name="Theme.AppCompat.Light">
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowBackground">@color/main</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <!--<item name="android:windowIsTranslucent">true</item>-->
         <!--<item name="android:windowContentOverlay">@null</item>-->

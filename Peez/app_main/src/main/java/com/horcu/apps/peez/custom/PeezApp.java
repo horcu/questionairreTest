@@ -29,25 +29,7 @@ public class PeezApp extends Application {
         //Install CustomActivityOnCrash
         CustomActivityOnCrash.install(this);
 
-        settings = getSharedPreferences("Peez",0);
-
-        ArrayList<Integer> colors = GetColors();
-        int color = colors.get(new Random(0).nextInt(colors.size() - 1));
-
-        settings.edit().putInt(consts.FAV_COLOR, color).apply();
-        //Now initialize your error handlers as normal
-        //i.e., ACRA.init(this);
-        //or Crashlytics.start(this);
     }
 
-    private  ArrayList<Integer> GetColors() {
-        ArrayList<Integer> colorArrayList = new ArrayList<>();
-        colorArrayList.add(getResources().getColor(R.color.red));
-        colorArrayList.add(getResources().getColor(R.color.black));
-        colorArrayList.add(getResources().getColor(android.R.color.holo_blue_dark));
-        colorArrayList.add(getResources().getColor(R.color.colorAccent));
-        colorArrayList.add(getResources().getColor(android.R.color.holo_orange_dark));
-        colorArrayList.add(getResources().getColor(android.R.color.holo_green_dark));
-        return colorArrayList;
-    }
+
 }

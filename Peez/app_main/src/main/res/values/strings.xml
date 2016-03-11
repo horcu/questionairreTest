@@ -510,6 +510,8 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="go__to_mainview">yes</string>
+    <string name="registration_slide">Registering device...</string>
+    <string name="reg_description">Device Registration</string>
 
 
 </resources>
