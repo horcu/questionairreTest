@@ -5,9 +5,9 @@ import android.content.SharedPreferences;
 import android.databinding.ObservableArrayList;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Telephony;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -21,18 +21,20 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.google.gson.JsonObject;
+import com.horcu.apps.peez.Dtos.SmsDto;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.BR;
-import com.horcu.apps.peez.binder.SuperUserBinder;
-import com.horcu.apps.peez.binder.UserBinder;
+import com.horcu.apps.peez.binder.SuperMessageBinder;
+import com.horcu.apps.peez.binder.MessageBinder;
 import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.custom.MessageSender;
 import com.horcu.apps.peez.databinding.FragmentChatViewBinding;
-import com.horcu.apps.peez.gcm.SmsMessage;
 
-import com.horcu.apps.peez.gcm.PubSubHelper;
+import com.horcu.apps.peez.gcm.core.PubSubHelper;
+import com.horcu.apps.peez.gcm.message.Message;
 import com.horcu.apps.peez.misc.SenderCollection;
 import com.horcu.apps.peez.model.MessageEntry;
 import com.horcu.apps.peez.service.LoggingService;
@@ -44,9 +46,6 @@ import net.droidlabs.mvvm.recyclerview.adapter.ClickHandler;
 import net.droidlabs.mvvm.recyclerview.adapter.LongClickHandler;
 import net.droidlabs.mvvm.recyclerview.adapter.binder.CompositeItemBinder;
 import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinder;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Date;
 import java.util.UUID;
@@ -78,7 +77,10 @@ public class ChatView extends Fragment {
     public String playerImageUri;
     public String playerName;
     public String myToken;
+    public String gameId;
 
+    private String myEmail;
+    private String theirEmail;
 
     private OnFragmentInteractionListener mListener;
     private MessagesViewModel messagesViewModel;
@@ -130,12 +132,14 @@ public class ChatView extends Fragment {
 
 }
 
-    public Boolean upDateChatPlayer(String userName, String token, String imgUrl){
+    public Boolean upDateChatPlayer(String gameId, String userName, String token, String imgUrl){
         try {
             message_recipient = token;
             playerName = userName;
             playerImageUri  = imgUrl;
+            this.gameId = gameId;
             return true;
+
        //     getActivity().getActionBar().setTitle(playerName);
         } catch (Exception ex){
             ex.printStackTrace();
@@ -255,16 +259,17 @@ public class ChatView extends Fragment {
 
         binding.activityUsersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        refreshMessagesFromDb(myToken, getActivity());
+       // refreshMessagesFromDb(gameId, getActivity());
 
         return binding.getRoot(); //inflater.inflate(R.layout.fragment_chat_view, container, false);
     }
 
-    public void refreshMessagesFromDb(final String sender, Context ctx) {
+    public void refreshMessagesFromDb(final String gameId, Context ctx) {
         binding.chatLoader.setVisibility(View.VISIBLE);
 
         realmConfig = new RealmConfiguration.Builder(ctx).build();
-        // Realm.deleteRealm(realmConfig);
+       // realm.close();
+        //Realm.deleteRealm(realmConfig);
         realm = Realm.getInstance(realmConfig);
         final ObservableArrayList<MessageViewModel> vms = new ObservableArrayList<>();
 
@@ -273,27 +278,28 @@ public class ChatView extends Fragment {
             @Override
             public void execute(Realm realm) {
                 try {
-                    String theirToken = !message_recipient.equals("") ? message_recipient : "123w";
-                    RealmResults<SmsMessage> messages = realm.where(SmsMessage.class)
-                            .equalTo("to", myToken)
+                    RealmResults<Message> messages = realm.where(Message.class)
+                            .equalTo("gameId", gameId)
+                            .equalTo("to", myEmail)
                             .or()
-                            .equalTo("from", myToken)
+                            .equalTo("from", myEmail)
                             .or()
-                            .equalTo("from", theirToken)
+                            .equalTo("from", theirEmail)
                             .or()
-                            .equalTo("to", theirToken)
+                            .equalTo("to", theirEmail)
+
                             .findAll(); // where(Message.class).equalTo("sender", sender).findAll();
 
                     if(messages.size() < 1)
                         return;
 
-                    for (SmsMessage m : messages)
+                    for (Message m : messages)
                     {
-                     ///   if(MessageAlreadyAdded(m))
-                    //        continue;
+                        if(MessageAlreadyAdded(m.getMessageId()))
+                            continue;
 
-                        String message = m.getMessage();
-                        MessageEntry messageEntry = new MessageEntry(String.valueOf(new Date()), message, m.getMessageId(), m.getSenderUrl());
+                        String message = m.getData().get("message");
+                        MessageEntry messageEntry = new MessageEntry(String.valueOf(new Date()), message, m.getMessageId(), m.getSenderImageUrl());
                         String from = m.getFrom();
                         SuperMessageViewModel su;
                         MessageViewModel su2;
@@ -331,23 +337,23 @@ public class ChatView extends Fragment {
                 if(msgCount > 0)
                 {
                     binding.activityUsersRecycler.smoothScrollToPosition(msgCount -1);
+                    YoYo.with(Techniques.BounceIn).duration(1000).playOn(binding.activityUsersRecycler.getChildAt(msgCount -1));
                 }
                 binding.chatLoader.setVisibility(View.GONE);
             }
         });
     }
 
-    public Boolean MessageAlreadyAdded(SmsMessage message){
+    public Boolean MessageAlreadyAdded(String messageId){
         for(int i=0; i < messagesViewModel.messageViewModels.size(); i ++)
         {
             MessageViewModel mvm = messagesViewModel.messageViewModels.get(i);
            MessageEntry me = mvm.getModel();
-            String mId = message.getMessageId();
             String meId = me.getId();
-            if(meId == null || mId == null || meId.equals("") || mId.equals(""))
+            if(meId == null || messageId == null || meId.equals("") || messageId.equals(""))
                 continue;
 
-            if(me.getId().equals(mId))
+            if(me.getId().equals(messageId))
                 return true;
         }
         return false;
@@ -410,29 +416,19 @@ public class ChatView extends Fragment {
                     long time = d.getTime();
                     String message = getStringFromEditText(binding.usersViewLastname);
 
+                    //build up the message oject to send to opponent
                     binding.chatLoader.setVisibility(View.VISIBLE);
-                    SmsMessage sms = MessageSender.BuildMessage(message_recipient, myToken, message, String.valueOf(time), playerImageUri);
-                    UUID uuid = UUID.randomUUID();
+                    SmsDto dto = new SmsDto(message_recipient, myToken, message, String.valueOf(time), playerImageUri);
+                    Message sms = MessageSender.BuildSmsMessage(dto);
+                    String guid = UUID.randomUUID().toString();
 
-                    String guid = uuid.toString();
-                    sms.setMessageId(guid);
-
-                    if (sms.getFrom().equals("") || sms.getTo().equals(""))
-                        return;
-
+                    //Create an entry for showing the text
                     messagesViewModel.messageViewModels.add(new SuperMessageViewModel(new MessageEntry(String.valueOf(time), message, guid, playerImageUri)));
 
-                    String senderId = consts.SENDER_ID;
-                    if ("" != senderId) {
-
-                        String json = ConvertToJson(sms);
-                        // String json = new Gson().toJson(sms);
-
                         MessageSender sender = new MessageSender(getActivity(), mLogger, mSenders);
-                        if (sender.SendSMS(message_recipient, consts.TEST_MSG_ID, json, consts.TEST_TINE_TO_LIVE, false)) {
+                        if (sender.SendSMS(sms)) {
                             //save to db
                             realm.beginTransaction();
-                            sms.setFrom(myToken);
                             realm.copyToRealm(sms);
                             realm.commitTransaction();
 
@@ -443,23 +439,23 @@ public class ChatView extends Fragment {
                         }
                         ((EditText) binding.getRoot().findViewById(R.id.users_view_lastname)).setText("");
                         ((RecyclerView) binding.getRoot().findViewById(R.id.activity_users_recycler)).smoothScrollToPosition(messagesViewModel.messageViewModels.size() - 1);
-                    }
-                } catch (Exception e) {
+
+                    } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         };
     }
 
-    private String ConvertToJson(SmsMessage message) {
+    private String ConvertToJsonSms(String to, String from, String message, String dateTime, String senderUrl) {
 
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("to", message.getTo());
-        jsonObject.addProperty("from", message.getFrom());
-        jsonObject.addProperty("message", message.getMessage());
-        jsonObject.addProperty("type", message.getType());
-        jsonObject.addProperty("dateTime", message.getDateTime());
-        jsonObject.addProperty("senderUrl", message.getSenderUrl());
+        jsonObject.addProperty("to", to);
+        jsonObject.addProperty("from", from);
+        jsonObject.addProperty("message", message);
+        jsonObject.addProperty("type", LoggingService.MESSAGE_TYPE_MSG);
+        jsonObject.addProperty("dateTime", dateTime);
+        jsonObject.addProperty("senderUrl", senderUrl);
 
         return jsonObject.toString();
     }
@@ -503,8 +499,8 @@ public class ChatView extends Fragment {
     public ItemBinder<MessageViewModel> itemViewBinder()
     {
         return new CompositeItemBinder<MessageViewModel>(
-                new SuperUserBinder(BR.msgVM, R.layout.item_my_message),
-                new UserBinder(BR.msgVM, R.layout.item_message)
+                new SuperMessageBinder(BR.msgVM, R.layout.item_my_message),
+                new MessageBinder(BR.msgVM, R.layout.item_message)
         );
     }
 

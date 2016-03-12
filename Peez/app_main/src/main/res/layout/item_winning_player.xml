@@ -34,7 +34,7 @@
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:layout_margin="10dp"
-            app:imageUrl="@{playerVm.model.imageUrl}"/>
+            app:imageUrl="@{playerVm.model.imageUri}"/>
 
 
 
@@ -69,7 +69,7 @@
             android:layout_marginBottom="5dp"
             emojicon:emojiconAlignment="baseline"
             android:layout_width="wrap_content"
-            android:text="@{playerVm.model.name}"
+            android:text="@{playerVm.model.userName}"
             android:layout_gravity="center_vertical"
             android:layout_height="wrap_content"/>
 

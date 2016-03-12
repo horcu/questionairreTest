@@ -32,7 +32,7 @@ public class TilePieceGenerator {
     //static map for positioning views correctly in the grid
     private static Map<Integer, String> PosAndNeighboursList = new HashMap<>(36);
 
-    TileApi tileApi = Api.BuildTileApiService();
+    TileApi tileApi = ApiServicesBuilber.BuildTileApiService();
     private Context context;
 
     public void setTilePieceMap(Map<String, Integer> tilePieceMap) {

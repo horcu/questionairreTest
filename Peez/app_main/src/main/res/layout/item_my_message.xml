@@ -33,8 +33,8 @@
             android:layout_gravity="start"
             app:contentPadding="4dp"
             app:contentPaddingBottom="5dp"
-            app:cardBackgroundColor="#ffebebeb"
-            android:background="#efefef">
+            app:cardBackgroundColor="#DDDDDD"
+           >
 
             <!--<TextView-->
                 <!--android:layout_width="wrap_content"-->
@@ -55,7 +55,7 @@
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-condensed"
                 android:textSize="16sp"
-                android:textColor="#222222"
+                android:textColor="#FF333333"
                 android:layout_gravity="end"
                 android:layout_margin="5dp"
                 android:id="@+id/item_user_surname"

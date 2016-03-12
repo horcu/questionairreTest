@@ -10,30 +10,23 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.BR;
-import com.horcu.apps.peez.backend.models.userApi.UserApi;
-import com.horcu.apps.peez.backend.models.userApi.model.CollectionResponseUser;
-import com.horcu.apps.peez.backend.models.userApi.model.User;
+import com.horcu.apps.peez.backend.models.playerApi.PlayerApi;
+import com.horcu.apps.peez.backend.models.playerApi.model.CollectionResponsePlayer;
+import com.horcu.apps.peez.backend.models.playerApi.model.Player;
 import com.horcu.apps.peez.binder.PlayerBinder;
 import com.horcu.apps.peez.binder.SuperPlayerBinder;
 import com.horcu.apps.peez.common.utilities.consts;
-import com.horcu.apps.peez.custom.Api;
+import com.horcu.apps.peez.custom.ApiServicesBuilber;
 import com.horcu.apps.peez.databinding.FragmentFeedBinding;
-import com.horcu.apps.peez.model.Player;
 import com.horcu.apps.peez.viewmodel.PlayerViewModel;
 import com.horcu.apps.peez.viewmodel.PlayersViewModel;
 import com.michaldrabik.tapbarmenulib.TapBarMenu;
-import com.squareup.picasso.Picasso;
-
 import net.droidlabs.mvvm.recyclerview.adapter.ClickHandler;
 import net.droidlabs.mvvm.recyclerview.adapter.binder.CompositeItemBinder;
 import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinder;
-
 import java.io.IOException;
-
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
@@ -62,6 +55,9 @@ public class FeedView extends Fragment {
     private SharedPreferences settings;
     private PlayersViewModel playersViewModel;
     ObservableArrayList<PlayerViewModel> vms = null;
+
+    //TODO - remove below ... for testing only
+    private boolean gameinProgressWithPlayerTest;
 
     public FeedView() {
         // Required empty public constructor
@@ -95,8 +91,8 @@ public class FeedView extends Fragment {
         playersViewModel = new PlayersViewModel();
 
         binding.feedLoader.setVisibility(View.GONE);
-        getFeedFromDb(getActivity());
 
+        gameinProgressWithPlayerTest = false;
 
         GetPlayersFromServer(getActivity());
 
@@ -125,25 +121,24 @@ public class FeedView extends Fragment {
             @Override
             protected Void doInBackground(Void... params) {
 
-                UserApi api = Api.BuildUserApiService();
+                PlayerApi api = ApiServicesBuilber.BuildPlayerApiService();
                 try {
-                    CollectionResponseUser list = api.list().execute();
+                    CollectionResponsePlayer list = api.list().execute();
 
                     if (list != null && list.size() <= 3) return null;
 
                     String un = settings.getString(consts.PREF_ACCOUNT_NAME,"");
 
-                    for (User user : list.getItems()){
-                        if(user.getEmail().equals(un))
+                    for (Player player : list.getItems()){
+                        if(player.getEmail().equals(un))
                         continue;
 
                        Player p = new Player();
-                        p.setName(user.getUserName());
+                        p.setUserName(player.getUserName());
                         p.setCanBeMessaged(true);
-                        p.setRank(String.valueOf(user.getRank()));
-                        p.setToken(user.getToken());
-                        p.setImageUrl(user.getImageUri());
-
+                        p.setRank(player.getRank());
+                        p.setToken(player.getToken());
+                        p.setImageUri(player.getImageUri());
                         PlayerViewModel pvm = new PlayerViewModel(p);
                         vms.add(pvm);
                     }
@@ -195,45 +190,9 @@ public class FeedView extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(String name, String imageUrl, String token);
-    }
+        void onInitiateNewGame(String name, String imageUrl, String token);
 
-    private void getFeedFromDb(Context ctx) {
-
-        RealmConfiguration realmConfig = new RealmConfiguration.Builder(ctx).build();
-        // Realm.deleteRealm(realmConfig);
-        Realm realm = Realm.getInstance(realmConfig);
-        final ObservableArrayList<PlayerViewModel> vms = new ObservableArrayList<>();
-
-        // Query and update the result asynchronously in another thread
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                try {
-                    RealmResults<Player> players = realm.allObjects(Player.class); // where(Message.class).equalTo("sender", sender).findAll();
-
-                    if(players.size() < 1)
-                        return;
-
-                    for (Player player : players)
-                    {
-                            PlayerViewModel mod = new PlayerViewModel(player);
-                            vms.add(mod);
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Realm.Transaction.Callback() {
-            @Override
-            public void onSuccess() {
-                if(playersViewModel.playersVMs == null)
-                    playersViewModel.playersVMs = new ObservableArrayList<>();
-
-                playersViewModel.playersVMs.addAll(vms);
-            }
-        });
+        void onNavigateToGame(String gamekey, String opponentName, String opponentImgUrl, String opponentToken);
     }
 
     public ItemBinder<PlayerViewModel> itemViewBinder()
@@ -251,13 +210,30 @@ public class FeedView extends Fragment {
             @Override
             public void onClick(PlayerViewModel playerVm)
             {
-                String name = playerVm.getModel().getName();
-                String token = playerVm.getModel().getToken();
-                String imgUrl = playerVm.getModel().getImageUrl();
+                String opponentName = playerVm.getModel().getUserName();
+                String opponentToken = playerVm.getModel().getToken();
+                String opponentImgUrl = playerVm.getModel().getImageUri();
 
-              mListener.onFragmentInteraction(name, imgUrl,token);
+                if(GameAlreadyInprogressWithPlayer()) {
+                    String gameId = GetCurrentGameWithPlayer();
+                    mListener.onNavigateToGame(gameId, opponentName, opponentImgUrl, opponentToken);
+                }
+                else
+                {
+                   mListener.onInitiateNewGame(opponentName, opponentImgUrl, opponentToken);
+                    gameinProgressWithPlayerTest = true;
+                }
             }
         };
+    }
+
+    private String GetCurrentGameWithPlayer() {
+        return "1234567890";
+
+    }
+
+    private boolean GameAlreadyInprogressWithPlayer() {
+        return gameinProgressWithPlayerTest;
     }
 
 

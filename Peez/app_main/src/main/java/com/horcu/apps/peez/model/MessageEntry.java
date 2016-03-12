@@ -1,6 +1,5 @@
 package com.horcu.apps.peez.model;
 
-import com.horcu.apps.peez.backend.models.userApi.model.User;
 import com.horcu.apps.peez.common.utilities.consts;
 
 public class MessageEntry

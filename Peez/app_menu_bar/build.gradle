@@ -6,7 +6,7 @@ android {
   resourcePrefix 'tbm_'
 
   defaultConfig {
-    minSdkVersion 21
+    minSdkVersion 19
     targetSdkVersion 23
     versionCode 5
     versionName "1.0.4"

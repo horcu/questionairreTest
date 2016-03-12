@@ -11,7 +11,7 @@ import com.google.appengine.repackaged.com.google.gson.Gson;
 import com.google.appengine.repackaged.com.google.gson.reflect.TypeToken;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.cmd.Query;
-import com.horcu.apps.peez.backend.endpoints.TileDefinitionEndpoint;
+import com.horcu.apps.peez.backend.endpoints.misc.TileDefinitionEndpoint;
 import com.horcu.apps.peez.backend.models.Board;
 import com.horcu.apps.peez.backend.models.Tile;
 import com.horcu.apps.peez.backend.models.TileDefinition;

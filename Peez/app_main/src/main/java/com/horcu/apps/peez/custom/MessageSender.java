@@ -3,19 +3,21 @@ package com.horcu.apps.peez.custom;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.horcu.apps.peez.Dtos.InviteDto;
+import com.horcu.apps.peez.Dtos.MMDto;
+import com.horcu.apps.peez.Dtos.SmsDto;
+import com.horcu.apps.peez.backend.models.playerApi.model.Player;
 import com.horcu.apps.peez.common.utilities.consts;
-import com.horcu.apps.peez.gcm.MoveMessage;
-import com.horcu.apps.peez.gcm.SmsMessage;
-import com.horcu.apps.peez.gcm.GcmServerSideSender;
-import com.horcu.apps.peez.gcm.Message;
+import com.horcu.apps.peez.gcm.core.GcmServerSideSender;
+import com.horcu.apps.peez.gcm.message.Message;
 import com.horcu.apps.peez.misc.SenderCollection;
 import com.horcu.apps.peez.service.LoggingService;
 
 import java.io.IOException;
+import java.util.UUID;
 
 /**
  * Created by Horatio on 2/29/2016.
@@ -37,66 +39,12 @@ public class MessageSender {
          settings= ctx.getSharedPreferences("Peez", 0);
     }
 
-    public Boolean SendSMS(final String recipient, final String msgId, String message, final String ttlStr, Boolean dry) {
 
-            final Message.Builder messageBuilder = new Message.Builder();
-            if (!msgId.equals("")) {
-                messageBuilder.collapseKey(msgId.trim());
-            }
-            try {
-                int ttl = Integer.parseInt(ttlStr);
-                messageBuilder.timeToLive(ttl);
-            } catch (NumberFormatException e) {
-                // ttl not set properly, ignoring
-                Log.d(LOG_TAG, "Failed to parse TTL, ignoring: " + ttlStr);
-            }
-            messageBuilder.delayWhileIdle(false);
-            messageBuilder.dryRun(dry);
-
-            messageBuilder.addData("message", message);
-
-            // messageBuilder.addData("move", moveString); TODO move this to another method that handles sending move data
-            // messageBuilder.addData("invite", invitation); TODO move this to another method that handles sending invite data
-            // messageBuilder.addData("board", boardLayoutString); TODO move this to another method that handles sending boardLayout data
-
-            final String apiKey = consts.API_KEY;
-            final String registrationId = settings.getString(consts.REG_ID, "");
-
-            if (!registrationId.equals("") && !recipient.equals("") && !apiKey.equals("")) {
-                SendMessageAsync(recipient, messageBuilder, apiKey);
-
-            } else {
-                Toast.makeText(context,
-                        "send message failed.",
-                        Toast.LENGTH_LONG).show();
-                return false;
-            }
-            return true;
-        }
-
-    public Boolean SendMove(final String recipient, final String msgId, String message, final String ttlStr, Boolean dry, int color) {
-
-        final Message.Builder messageBuilder = new Message.Builder();
-        if (!msgId.equals("")) {
-            messageBuilder.collapseKey(msgId.trim());
-        }
-        try {
-            int ttl = Integer.parseInt(ttlStr);
-            messageBuilder.timeToLive(ttl);
-        } catch (NumberFormatException e) {
-            // ttl not set properly, ignoring
-            Log.d(LOG_TAG, "Failed to parse TTL, ignoring: " + ttlStr);
-        }
-        messageBuilder.delayWhileIdle(false);
-        messageBuilder.dryRun(dry);
-        messageBuilder.color(color);
-        messageBuilder.addData("message", message);
-
-        final String apiKey = consts.API_KEY;
+    public Boolean SendInvite(Message message){
         final String registrationId = settings.getString(consts.REG_ID, "");
 
-        if (!registrationId.equals("") && !recipient.equals("") && !apiKey.equals("")) {
-            SendMessageAsync(recipient, messageBuilder, apiKey);
+        if (!registrationId.equals("") && !message.getTo().equals("")) {
+            SendMessageAsync(consts.API_KEY,message);
 
         } else {
             Toast.makeText(context,
@@ -107,13 +55,48 @@ public class MessageSender {
         return true;
     }
 
-    private void SendMessageAsync(final String recipient, final Message.Builder messageBuilder, final String apiKey) {
+    public Boolean SendSMS(Message message) {
+            final String registrationId = settings.getString(consts.REG_ID, "");
+
+            if (!registrationId.equals("") && !message.getTo().equals("")) {
+                SendMessageAsync(consts.API_KEY,message);
+
+            } else {
+                Toast.makeText(context,
+                        "send message failed.",
+                        Toast.LENGTH_LONG).show();
+                return false;
+            }
+            return true;
+        }
+
+    public Boolean SendMove(Message message) {
+        try {
+            SendMessageAsync(consts.API_KEY, message);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public Boolean SendInvitation(final Message message) {
+        try {
+            SendMessageAsync(consts.API_KEY, message);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    private void SendMessageAsync(final String apiKey, final Message message) {
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
                 GcmServerSideSender sender = new GcmServerSideSender(apiKey, logger);
                 try {
-                    sender.sendHttpJsonDownstreamMessage(recipient, messageBuilder.build());
+                    sender.sendHttpJsonDownstreamMessage(message);
 
                 } catch (final IOException e) {
                     return e.getMessage();
@@ -136,11 +119,44 @@ public class MessageSender {
         }.execute();
     }
 
-    public static SmsMessage BuildMessage(String to, String from, String message, String dateTime,String senderImgUrl) {
-        return new SmsMessage(from, to,message,dateTime,senderImgUrl);
+    public static Message BuildSmsMessage(SmsDto dto) {
+       return new Message.Builder()
+                        .addData("message", dto.getMessage())
+                        .type(LoggingService.EXTRA_LOG_MESSAGE)
+                        .delayWhileIdle(false)
+                        .timeToLive(10)
+                        .collapseKey(dto.getFrom())
+                        .to(dto.getTo())
+                        .from(dto.getFrom())
+                        .SenderImageUrl(dto.getSenderUrl())
+                        .dryRun(false).build();
     }
 
-    public static MoveMessage BuildMoveMessage(String moveFrom, String moveTo, String message, String dateTime, String senderToken, String receiverToken, String senderUrl, int color) {
-        return new MoveMessage(moveFrom,moveTo,message,dateTime, senderToken,receiverToken, senderUrl, color);
+    public static Message BuildMoveMessage(MMDto MMDto) {
+        return new Message.Builder()
+                .addData("message", MMDto.getMessage())
+                .type(LoggingService.MESSAGE_TYPE_MOVE)
+                .from(MMDto.getMoveFrom())
+                .to(MMDto.getMoveTo())
+                .timeToLive(10)
+                .SenderImageUrl(MMDto.getSenderUrl())
+                .collapseKey(UUID.randomUUID().toString()).build();
     }
+
+    public static Message BuildInvitationMessage(InviteDto dto) {
+        return new Message.Builder()
+                .addData("message", dto.getMessage())
+                .type(LoggingService.MESSAGE_TYPE_INVITATION)
+                .timeToLive(10)
+                .dryRun(false)
+                .color(dto.getColor())
+                .to(dto.getReceiverToken())
+                .from(dto.getSenderToken())
+                .SenderImageUrl(dto.getSenderUrl())
+                .collapseKey(UUID.randomUUID().toString()).build();
+    }
+
+
+
+
 }

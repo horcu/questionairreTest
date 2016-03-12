@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
@@ -22,14 +21,13 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
-import com.heinrichreimersoftware.materialintro.slide.FragmentSlide;
 import com.heinrichreimersoftware.materialintro.slide.SimpleSlide;
 import com.horcu.apps.peez.R;
-import com.horcu.apps.peez.backend.models.userApi.UserApi;
-import com.horcu.apps.peez.backend.models.userApi.model.User;
+import com.horcu.apps.peez.backend.models.playerApi.PlayerApi;
+import com.horcu.apps.peez.backend.models.playerApi.model.Player;
 import com.horcu.apps.peez.backend.models.userSettingsApi.UserSettingsApi;
 import com.horcu.apps.peez.common.utilities.consts;
-import com.horcu.apps.peez.custom.Api;
+import com.horcu.apps.peez.custom.ApiServicesBuilber;
 
 import com.horcu.apps.peez.registration.RegistrationIntentService;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -42,11 +40,11 @@ public class IntroView extends IntroActivity {
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static final String TAG = "IntroView";
     private SharedPreferences settings;
-    User user;
+    Player user;
     private GoogleAccountCredential credential;
     private String accountName;
     static final int REQUEST_ACCOUNT_PICKER = 2;
-    private UserApi userApi = null;
+    private PlayerApi playerApi = null;
     String mPhoneNumber;
     private UserSettingsApi userSettingsApi;
     private String regId;
@@ -152,9 +150,9 @@ public class IntroView extends IntroActivity {
         int color = colorPicker.getColor();
 
         loader = (AVLoadingIndicatorView)findViewById(R.id.loadView_reg);
-        user = new User();
-        userApi = Api.BuildUserApiService();
-        userSettingsApi = Api.BuildUserSettingsApiService();
+        user = new Player();
+        playerApi = ApiServicesBuilber.BuildPlayerApiService();
+        userSettingsApi = ApiServicesBuilber.BuildUserSettingsApiService();
 
         settings = getSharedPreferences("Peez", 0);
 

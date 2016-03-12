@@ -24,7 +24,7 @@
 //import com.horcu.apps.peez.backend.models.userApi.UserApi;
 //import com.horcu.apps.peez.backend.models.userApi.model.CollectionResponseUser;
 //import com.horcu.apps.peez.backend.models.userApi.model.User;
-//import com.horcu.apps.peez.custom.Api;
+//import com.horcu.apps.peez.custom.ApiServicesBuilber;
 ////import com.github.badoualy.morphytoolbar.MorphyToolbar;
 //
 //import java.io.IOException;
@@ -198,7 +198,7 @@
 //                @Override
 //                protected Void doInBackground(Void... params) {
 //                    try {
-//                          UserApi users = Api.BuildUserApiService();
+//                          UserApi users = ApiServicesBuilber.BuildUserApiService();
 //                          list = users.list().execute();
 //
 //                          for (int i = 0; i < list.getItems().size(); i++ ) {

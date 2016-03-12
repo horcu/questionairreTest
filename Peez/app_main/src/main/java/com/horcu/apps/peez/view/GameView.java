@@ -7,26 +7,26 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.google.gson.JsonObject;
 import com.horcu.apps.peez.R;
+import com.horcu.apps.peez.backend.models.playerApi.model.Player;
 import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.custom.AutoFitGridLayout;
+import com.horcu.apps.peez.Dtos.MMDto;
 import com.horcu.apps.peez.custom.MessageSender;
-import com.horcu.apps.peez.gcm.MoveMessage;
+import com.horcu.apps.peez.gcm.message.Message;
 import com.horcu.apps.peez.misc.SenderCollection;
 import com.horcu.apps.peez.service.LoggingService;
 import com.lighters.cubegridlibrary.callback.ICubeGridAnimCallback;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,24 +49,28 @@ public class GameView extends Fragment {
     private OnFragmentInteractionListener mListener;
     private LoggingService.Logger mLogger;
     private SenderCollection mSenders;
-    private String message_recipient;
     private String myToken;
-    private String playerUsername;
     private String currentSpot;
-    private String playerImageUri;
     private SharedPreferences settings;
+    private Player opponent;
+    private String gameKey;
 
     AutoFitGridLayout grid = null;
+    private String playerTurn;
 
     public GameView() {
         // Required empty public constructor
     }
 
-    public Boolean UpdateGamePlayer(String userName, String token, String imgUrl){
+    public Boolean UpdateGameInfo(String gameKey, String playerName, String token, String playerImageUrl){
         try {
-            message_recipient = token;
-            playerUsername = userName;
-            playerImageUri  = imgUrl;
+            opponent.setCanBeMessaged(true);
+            opponent.setCurrentlyOnLine(true);
+            opponent.setCurrentlyPlaying(true);
+            opponent.setImageUri(playerImageUrl);
+            opponent.setUserName(playerName);
+            opponent.setToken(token);
+            this.gameKey = gameKey;
             return true;
             //     getActivity().getActionBar().setTitle(playerName);
         } catch (Exception ex){
@@ -94,6 +98,7 @@ public class GameView extends Fragment {
         }
         mLogger = new LoggingService.Logger(getContext());
         mSenders = SenderCollection.getInstance(getActivity());
+        opponent = new Player();
     }
 
     @Override
@@ -105,29 +110,45 @@ public class GameView extends Fragment {
         settings =getActivity().getSharedPreferences("Peez", 0);
         myToken = settings.getString(consts.REG_ID,"");
 
+
         for(int i = 0; i < grid.getChildCount(); i++)
         {
             final int finalI = i;
-            if(currentSpot == null) currentSpot = "0";
+
+            if(currentSpot == null)
+                setCurrentSpot("0");
+
             grid.getChildAt(i).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    if(!MyTurn())
+                    {
+                        Toast.makeText(getContext(),"Not your turn",Toast.LENGTH_SHORT).show();
+                    return;
+                    }
+
                     Date d = new Date();
                     long time = d.getTime();
                     int color = settings.getInt(consts.FAV_COLOR, Color.parseColor("#111111"));
 
-                    MoveMessage moveMessage = MessageSender.BuildMoveMessage(currentSpot, String.valueOf(finalI), "move made!", String.valueOf(time),myToken ,message_recipient,playerImageUri, color);
+                    String collapseKey = String.valueOf(UUID.randomUUID());
 
-                    String json = ConvertToJson(moveMessage);
+                    MMDto dto = new MMDto(currentSpot, String.valueOf(finalI), "move made!", String.valueOf(time), myToken, opponent.getToken(), opponent.getImageUri(), color, collapseKey);
+
+                    Message moveMessage = MessageSender.BuildMoveMessage(dto);
+
                     MessageSender sender = new MessageSender(getActivity(), mLogger, mSenders);
 
-                    if(message_recipient == null || myToken == null){
+                    if(opponent.getToken() == null || myToken == null){
                         Toast.makeText(getActivity(), "no recipient chosen", Toast.LENGTH_LONG).show();
                     }
-                    else if(message_recipient.equals("")){
+                    else if(opponent.getToken().equals("")){
                         Toast.makeText(getActivity(), "no recipient chosen", Toast.LENGTH_LONG).show();
                     }
-                    else if (sender.SendMove(message_recipient, consts.TEST_MSG_ID, json, consts.TEST_TINE_TO_LIVE, false, color)) {
+                    else if (sender.SendMove(moveMessage)) {
+                        ShowMoveOnBoard(moveMessage);
+                        setCurrentSpot(moveMessage.getTo());
                         Toast.makeText(getActivity(), "sent!", Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(getActivity(), "failed ;/", Toast.LENGTH_LONG).show();
@@ -139,19 +160,34 @@ public class GameView extends Fragment {
         return root;
     }
 
-    private String ConvertToJson(MoveMessage moveMessage) {
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("moveTo", moveMessage.getMoveTo());
-        jsonObject.addProperty("moveFrom", moveMessage.getMoveFrom());
-        jsonObject.addProperty("message", moveMessage.getMessage());
-        jsonObject.addProperty("type", moveMessage.getType());
-        jsonObject.addProperty("dateTime", moveMessage.getDateTime());
-        jsonObject.addProperty("senderToken", moveMessage.getSenderToken());
-        jsonObject.addProperty("receiverToken", moveMessage.getReceiverToken());
-        jsonObject.addProperty("senderUrl", moveMessage.getSenderUrl());
-
-        return jsonObject.toString();
+    private boolean MyTurn() {
+        return playerTurn !=null &&  playerTurn.equals(myToken);
     }
+
+    public void setCurrentSpot(String moveTo) {
+        currentSpot = moveTo;
+    }
+
+    public String getCurrentSpot() {
+       return currentSpot;
+    }
+
+    public void setCurrentPlayer(Player player) {
+        opponent = player;
+    }
+
+    public Player getCurrentPLayer() {
+        return opponent;
+    }
+
+    public void setPlayerTurn(String playerToken) {
+        playerTurn = playerToken;
+    }
+
+    private String getPlayerTurn() {
+        return playerTurn;
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -178,11 +214,16 @@ public class GameView extends Fragment {
         mListener = null;
     }
 
-    public void ShowMoveOnBoard(MoveMessage move) {
+    public void ShowMoveOnBoard(Message message) {
         try {
-            int position = Integer.parseInt(move.getMoveTo());
+            int position = Integer.parseInt(message.getTo());
             View v = grid.getChildAt(position);
-            v.setBackground(new ColorDrawable(getResources().getColor(R.color.light_grey)));
+            v.setBackground(new ColorDrawable(message.getColor()));
+            View from = grid.getChildAt(Integer.parseInt(message.getFrom()));
+
+            from.setBackground(new ColorDrawable(message.getColor()));
+            from.setAlpha(.7f);
+            from.setBackgroundResource(R.drawable.ic_mt);
         } catch (NumberFormatException e) {
             e.printStackTrace();
         } catch (Resources.NotFoundException e) {

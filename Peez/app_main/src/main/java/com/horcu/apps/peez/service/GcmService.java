@@ -12,23 +12,14 @@ import android.os.PowerManager;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
-import com.google.android.gms.vision.barcode.Barcode;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.horcu.apps.peez.R;
-import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.custom.notifier;
-import com.horcu.apps.peez.gcm.MoveMessage;
-import com.horcu.apps.peez.gcm.SmsMessage;
 import com.horcu.apps.peez.view.MainView;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.UUID;
 
 /**
  * Service used for receiving GCM messages. When a message is received this service will log it.

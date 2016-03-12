@@ -1,7 +1,7 @@
 package com.horcu.apps.peez.viewmodel;
 
 
-import com.horcu.apps.peez.model.Player;
+import com.horcu.apps.peez.backend.models.playerApi.model.Player;
 
 public class WinnerViewModel extends PlayerViewModel
 {

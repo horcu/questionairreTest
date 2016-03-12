@@ -25,19 +25,17 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-
 import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-
-import com.horcu.apps.peez.backend.models.userApi.UserApi;
-import com.horcu.apps.peez.backend.models.userApi.model.User;
+import com.horcu.apps.peez.backend.models.playerApi.PlayerApi;
+import com.horcu.apps.peez.backend.models.playerApi.model.Player;
 import com.horcu.apps.peez.backend.models.userSettingsApi.UserSettingsApi;
 import com.horcu.apps.peez.backend.models.userSettingsApi.model.UserSettings;
 import com.horcu.apps.peez.backend.registration.Registration;
 import com.horcu.apps.peez.common.utilities.consts;
-import com.horcu.apps.peez.custom.Api;
+import com.horcu.apps.peez.custom.ApiServicesBuilber;
 
 import java.io.IOException;
 import java.util.Date;
@@ -46,7 +44,7 @@ public class RegistrationIntentService extends IntentService {
 
     private static final String TAG = "RegIntentService";
     private static final String[] TOPICS = {"global", consts.TEST_GAME_TOPIC};
-    private UserApi userApi;
+    private PlayerApi playerApi;
     private Registration registrationApi = null;
     private SharedPreferences settings;
     private GoogleAccountCredential credential;
@@ -65,9 +63,9 @@ public class RegistrationIntentService extends IntentService {
         String uName = intent.getExtras().getString("userName", null);
         credential = GoogleAccountCredential.usingAudience(this, consts.GOOGLE_ACCOUNT_CREDENTIALS_AUDIENCE);
         credential.setSelectedAccountName(uName);
-        registrationApi = Api.BuildRegistrationApiService();
-        userApi = Api.BuildUserApiService();
-        userSettingsApi = Api.BuildUserSettingsApiService();
+        registrationApi = ApiServicesBuilber.BuildRegistrationApiService();
+        playerApi = ApiServicesBuilber.BuildPlayerApiService();
+        userSettingsApi = ApiServicesBuilber.BuildUserSettingsApiService();
 
             InstanceID instanceID = InstanceID.getInstance(this);
             String token = instanceID.getToken(consts.SENDER_ID, GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
@@ -84,9 +82,9 @@ public class RegistrationIntentService extends IntentService {
             String email = credential.getSelectedAccountName() != null ? credential.getSelectedAccountName() : uName;
 
             //add or update the user
-            User user = addOrUpdateUserRecord(token, mPhoneNumber, email);
+            Player player = addOrUpdateUserRecord(token, mPhoneNumber, email);
 
-            if(user == null)
+            if(player == null)
                 return;
             //now add the registration records
             addRegistrationRecord(token, email);
@@ -98,7 +96,7 @@ public class RegistrationIntentService extends IntentService {
             SharedPreferences.Editor editor = settings.edit();
           //  editor.putString(consts.REG_KEY, regId);
             editor.putString(consts.REG_ID, token);
-            editor.putString(consts.PREF_ACCOUNT_NAME, user != null ? user.getUserName() : email);
+            editor.putString(consts.PREF_ACCOUNT_NAME, player != null ? player.getUserName() : email);
             editor.apply();
 
             // Subscribe to topic channels
@@ -130,10 +128,10 @@ public class RegistrationIntentService extends IntentService {
     }
 
     @Nullable
-    private User addOrUpdateUserRecord(String token, String mPhoneNumber, String username) throws IOException {
-        User user = null;
+    private Player addOrUpdateUserRecord(String token, String mPhoneNumber, String username) throws IOException {
+        Player user = null;
         try {
-            user = userApi.get(username).execute();
+            user = playerApi.get(username).execute();
 
             if (user == null) {
                 user = makeNewUser(token, mPhoneNumber, username);
@@ -142,7 +140,7 @@ public class RegistrationIntentService extends IntentService {
                     return user;
 
                 user.setToken(token);
-                userApi.update(username, user);
+                playerApi.update(username, user);
             }
 
         } catch (IOException e) {
@@ -164,7 +162,7 @@ public class RegistrationIntentService extends IntentService {
         }
     }
 
-    private void addDefaultUserSettingForNewUser(User user) throws IOException {
+    private void addDefaultUserSettingForNewUser(Player user) throws IOException {
         //add default user settings to new user
         UserSettings uSettings = new UserSettings();
         uSettings.setName(user.getEmail());
@@ -183,9 +181,9 @@ public class RegistrationIntentService extends IntentService {
     }
 
     @NonNull
-    private User makeNewUser(String token, String mPhoneNumber, String username) throws IOException {
-        User user;
-        user = new User();
+    private Player makeNewUser(String token, String mPhoneNumber, String username) throws IOException {
+        Player user;
+        user = new Player();
         user.setAlias("");                       // set the email address as the alias then ask the user to change it later in a noninvasive way
         user.setCash(consts.STARTING_CASH);
         user.setUserName(username); // get this automatically after logging in;
@@ -194,7 +192,7 @@ public class RegistrationIntentService extends IntentService {
         user.setRank(consts.STARTING_RANK);
         user.setPhone(mPhoneNumber);
         user.setToken(token);
-        userApi.insert(user).execute();
+        playerApi.insert(user).execute();
         return user;
     }
 

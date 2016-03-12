@@ -3,7 +3,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,24 +18,32 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.horcu.apps.peez.Dtos.InviteDto;
+import com.horcu.apps.peez.Dtos.SmsDto;
 import com.horcu.apps.peez.R;
+
+import com.horcu.apps.peez.backend.models.playerApi.model.Player;
 import com.horcu.apps.peez.common.utilities.consts;
+import com.horcu.apps.peez.Dtos.MMDto;
 import com.horcu.apps.peez.custom.MessageSender;
-import com.horcu.apps.peez.gcm.InvitationMessage;
-import com.horcu.apps.peez.gcm.MoveMessage;
-import com.horcu.apps.peez.gcm.PubSubHelper;
-import com.horcu.apps.peez.gcm.ReminderMessage;
-import com.horcu.apps.peez.gcm.SmsMessage;
+import com.horcu.apps.peez.gcm.core.PubSubHelper;
+import com.horcu.apps.peez.gcm.message.Message;
+import com.horcu.apps.peez.misc.SenderCollection;
+import com.horcu.apps.peez.model.GameEntry;
 import com.horcu.apps.peez.service.LoggingService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmObject;
+import io.realm.RealmResults;
 
 public class MainView extends BaseView
         implements ChatView.OnFragmentInteractionListener,
@@ -49,28 +59,34 @@ public class MainView extends BaseView
     private PubSubHelper pubsub ;
     private BroadcastReceiver mLoggerCallback;
     private LoggingService.Logger mLogger;
+    private SenderCollection mSenders;
     private Realm realm;
     private RealmConfiguration realmConfig;
     private String mytoken;
+    private ArrayList<GameEntry> gamesInProgress = null;
+    public Player opponent;
+    public String gameKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_view);
         settings = getSharedPreferences("Peez", 0);
-
+        opponent = new Player();
         mytoken = settings.getString(consts.REG_ID,"");
 
         realmConfig = new RealmConfiguration.Builder(this)
-               // .name("default1")
-               // .schemaVersion(3)
-               // .migration(new Migration()) //TODO fill out the migration options and uncomment.. thisi s the proper way to migrate dbs and/or specify diff versions
+                .name("default1")
+                .schemaVersion(1)
+                //.migration(new Migration()) //TODO fill out the migration options and uncomment.. thisi s the proper way to migrate dbs and/or specify diff versions
                 .build();
 
        // if(consts.DEV_MODE)
         Realm.deleteRealm(realmConfig);
 
         realm = Realm.getInstance(realmConfig);
+
+        GetInProgressGamesFromDbAsync();
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -84,6 +100,7 @@ public class MainView extends BaseView
         //pubsub.subscribeTopic(consts.SENDER_ID,settings.getString(consts.REG_ID,""),gameTopic, new Bundle());
 
         mLogger = new LoggingService.Logger(this);
+        mSenders  = SenderCollection.getInstance(getApplicationContext());
 
         mLoggerCallback = new BroadcastReceiver() {
             @Override
@@ -117,8 +134,12 @@ public class MainView extends BaseView
                             case LoggingService.MESSAGE_TYPE_MSG :
                             {
                                 try {
-                                    SmsMessage sms = new SmsMessage(json.getString("from"),json.getString("to"),json.getString("message"),json.getString("dateTime"),json.getString("senderUrl"));
-
+                                    SmsDto dto = new SmsDto(json.getString("from"),
+                                            json.getString("to"),
+                                            json.getString("message"),
+                                            json.getString("dateTime"),
+                                            json.getString("senderUrl"));
+                                   Message sms = MessageSender.BuildSmsMessage(dto);
                                     HandleSMS(sms);
                                 } catch (JsonSyntaxException | JSONException e) {
                                     e.printStackTrace();
@@ -129,8 +150,18 @@ public class MainView extends BaseView
                             case LoggingService.MESSAGE_TYPE_MOVE :
                             {
                                 try {
+                                    MMDto dto = new MMDto(
+                                            json.getString("moveFrom"),
+                                            json.getString("moveTo"),
+                                            json.getString("message"),
+                                            json.getString("dateTime"),
+                                            mytoken,
+                                            json.getString("receiverToken"),
+                                            json.getString("senderUrl"),
+                                            json.getInt("color"),
+                                            json.getString("collapseKey"));
 
-                                    MoveMessage moveMessage = MessageSender.BuildMoveMessage(json.getString("moveFrom"),json.getString("moveTo"),json.getString("message"),json.getString("dateTime"),mytoken,json.getString("receiverToken"),json.getString("senderUrl"),json.getInt("color"));// new MoveMessage(json.getString("moveFrom"),json.getString("moveTo"),json.getString("message"),json.getString("dateTime"),mytoken,json.getString("receiverToken"),json.getString("senderUrl"));
+                                    Message moveMessage = MessageSender.BuildMoveMessage(dto);
 
                                     HandleMove(moveMessage);
                                 } catch (JsonSyntaxException | JSONException e) {
@@ -141,25 +172,67 @@ public class MainView extends BaseView
 
                             case LoggingService.MESSAGE_TYPE_INVITATION :
                             {
-                                InvitationMessage newMessage = gson.fromJson(messageObject, InvitationMessage.class);
-                                mViewPager.setCurrentItem(1);
-                                HandleInvitation(newMessage);
+                                try {
+                                    InviteDto dto = new InviteDto(
+                                            json.getString("message"),
+                                            json.getString("dateTime"),
+                                            mytoken,
+                                            json.getString("receiverToken"),
+                                            json.getString("senderUrl"),
+                                            json.getInt("color"),
+                                            json.getString("collapseKey"));
+
+                                    Message inviteMessage = MessageSender.BuildInvitationMessage(dto);
+
+                                    mViewPager.setCurrentItem(1);
+                                    HandleInvitation(inviteMessage);
+                                } catch (JsonSyntaxException | JSONException e) {
+                                    e.printStackTrace();
+                                }
                                 break;
                             }
 
                             case LoggingService.MESSAGE_TYPE_REMINDER:
                             {
-                                ReminderMessage newMessage = gson.fromJson(messageObject, ReminderMessage.class);
                                 mViewPager.setCurrentItem(0);
-                                HandleReminder(newMessage);
+                               // HandleReminder(newMessage);
                                 break;
                             }
                         }
                 }
             }
         };
-
     }
+
+    private void GetInProgressGamesFromDbAsync() {
+
+        new AsyncTask<Void, Void, String>() {
+
+            @Override
+            protected String doInBackground(Void... params) {
+                try {
+                    RealmResults<GameEntry> games = realm.where(GameEntry.class).equalTo("inProgress", true).findAll();
+                    gamesInProgress.addAll(games);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return e.getMessage();
+                }
+                return "";
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                if (result.equals("")) {
+                    //we're good
+                } else {
+                    Toast.makeText(getApplicationContext(), "cannot retrieve games from DB", Toast.LENGTH_SHORT).show();
+                    //error getting
+                }
+
+            }
+        }.execute();
+    }
+
 
     private Boolean saveToDb(RealmObject obj){
         try {
@@ -173,33 +246,29 @@ public class MainView extends BaseView
         }
         return true;
     }
-    private void HandleSMS(SmsMessage msg){
+    private void HandleSMS(Message msg){
         if(msg.getFrom().equals(mytoken))
             return;
 
-        String dateTime = msg.getDateTime();
-        String message = msg.getMessage();
-
         ChatView ChatFrag = GetChatFragment();
-        //save to db
         saveToDb(msg);
 
-        //refresh List from db and update ui
-        if (ChatFrag != null) {
+       if (ChatFrag != null) {
             ChatFrag.refreshMessagesFromDb(mytoken,this);
         }
     }
 
-    private void HandleMove(MoveMessage move){
+    private void HandleMove(Message move){
 
         GameView gameFrag = GetGameFragment();
         gameFrag.ShowMoveOnBoard(move);
+        gameFrag.setPlayerTurn(move.getTo());
     }
 
-    private void HandleInvitation(InvitationMessage message){}
+    private void HandleInvitation(Message message){}
 
 
-    private void HandleReminder(ReminderMessage message){}
+    private void HandleReminder(Message message){}
 
 
     @Nullable
@@ -271,20 +340,106 @@ public class MainView extends BaseView
 
     //From the feed fragment
     @Override
-    public void onFragmentInteraction(String name, String imageUrl, String token) {
+    public void onInitiateNewGame(String opponentName, String opponentImgUrl, String token) {
+        GameEntry newGame = new GameEntry();
+        newGame.setDatetime(new Date().toString());
+        newGame.setInprogress(false);
+        String gameId = UUID.randomUUID().toString();
+        newGame.setGameId(gameId);
+
+        CheckifGameIdUniqueAsync(token, mytoken);
+
+
+
+        if(gamesInProgress == null)
+            gamesInProgress = new ArrayList<>();
+
+        gamesInProgress.add(newGame);
+
+        sendGameInviteToOpponent(token, newGame, opponentImgUrl);
+
+        saveToDb(newGame);
+        Toast.makeText(this, opponentName + " selected", Toast.LENGTH_LONG).show();
+        NavigateToGameBoard();
+    }
+
+    private void NavigateToGameBoard() {
+        mViewPager.getAdapter().notifyDataSetChanged();
+        mViewPager.setCurrentItem(1);
+    }
+
+    private void sendGameInviteToOpponent(String token, GameEntry newGame, String opponentImgUrl) {
+        //TODO for now we will just send a move but you need to send an invite.. get it accepted.. (with the opponents move coming with the return).. then start sending moves
+        MessageSender sender = new MessageSender(getApplicationContext(), mLogger,mSenders);
+        InviteDto dto = new InviteDto("wanna play ?", new Date().toString(), mytoken, token,opponentImgUrl, settings.getInt(consts.FAV_COLOR, Color.parseColor("#333333")),UUID.randomUUID().toString());
+        Message message = MessageSender.BuildInvitationMessage(dto);
+        message.setGameId(newGame.getGameId());
+
+        if(sender.SendInvitation(message))
+        Toast.makeText(getApplicationContext(),  "invitation sent", Toast.LENGTH_SHORT).show();
+        else
+        Toast.makeText(getApplicationContext(),  "invitation NOT sent", Toast.LENGTH_SHORT).show();
+    }
+
+    private String BuildInvitationMessage(GameEntry newGame) {
+        return "wanna play?";
+    }
+
+    private Boolean CheckifGameIdUniqueAsync(String token, String mytoken) {
+        return true; //TODO do this for real in an async method.. no return obv if async
+    }
+
+    @Override
+    public void onNavigateToGame(String gameId, String opponentName, String opponentImgUrl, String opponentToken) {
+
+        if(IsAtLeastOneGameInProgress()) {
+            setGameKey(gameId);
+            UpdateOpponent(opponentName,opponentImgUrl,opponentToken);
 
         ChatView ChatFrag = GetChatFragment();
         if (ChatFrag != null) {
-            ChatFrag.upDateChatPlayer(name,token,imageUrl);
-            ChatFrag.refreshMessagesFromDb(token,this);
-            //mViewPager.setCurrentItem(2);
+            ChatFrag.upDateChatPlayer(gameId, opponentName,opponentToken,opponentImgUrl);
+            ChatFrag.refreshMessagesFromDb(gameId, this);
+            mViewPager.setCurrentItem(1);
         }
 
         GameView GameFrag = GetGameFragment();
         if (GameFrag != null) {
-            GameFrag.UpdateGamePlayer(name,token,imageUrl);
+            GameFrag.UpdateGameInfo(gameId, opponentName, opponentToken, opponentImgUrl);
         }
-        Toast.makeText(this, name + " selected", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void UpdateOpponent(String opponentName, String opponentImgUrl, String opponentToken) {
+        opponent.setImageUri(opponentImgUrl);
+        opponent.setToken(opponentToken);
+        opponent.setUserName(opponentName);
+    }
+
+    private String getInProgressGameId() {
+        return null;
+    }
+
+    private void setOpponent(Player player)
+    {
+        opponent = player;
+    }
+    private Player getOpponent()
+    {
+        return opponent;
+    }
+
+    private void setGameKey(String gameKey)
+    {
+        this.gameKey = gameKey;
+    }
+    private String getGameKey()
+    {
+        return this.gameKey;
+    }
+
+    private boolean IsAtLeastOneGameInProgress() {
+        return gamesInProgress != null && gamesInProgress.size() > 0;
     }
 
     private GameView GetGameFragment() {
@@ -326,7 +481,10 @@ public class MainView extends BaseView
 
         @Override
         public int getCount() {
+            if(IsAtLeastOneGameInProgress())
             return 3;
+            else
+            return 1;
         }
 
         @Override

@@ -7,7 +7,7 @@ android {
   buildToolsVersion "23.0.2"
   defaultConfig {
     applicationId "com.michaldrabik.tapbarmenu"
-    minSdkVersion 21
+    minSdkVersion 19
     targetSdkVersion 23
     versionCode 5
     versionName "1.0.4"

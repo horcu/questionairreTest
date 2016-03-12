@@ -2,11 +2,10 @@ package com.horcu.apps.peez.viewmodel;
 
 import android.databinding.BaseObservable;
 import android.databinding.BindingAdapter;
-import android.widget.ImageView;
 
 import com.horcu.apps.peez.R;
+import com.horcu.apps.peez.backend.models.playerApi.model.Player;
 import com.horcu.apps.peez.custom.CircleTransform;
-import com.horcu.apps.peez.model.Player;
 import com.squareup.picasso.Picasso;
 
 
