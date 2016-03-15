@@ -1,4 +1,4 @@
-package com.horcu.apps.peez.view;
+package com.horcu.apps.peez.view.fragments;
 
 import android.content.Context;
 import android.net.Uri;

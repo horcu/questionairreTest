@@ -2,19 +2,27 @@ package com.horcu.apps.peez.model;
 
 import com.horcu.apps.peez.common.utilities.consts;
 
-public class MessageEntry
+import io.realm.RealmObject;
+
+public class MessageEntry extends RealmObject
 {
     private  String id;
     private  String datetime;
     private  String message;
     private  String status;
     private String imgUrl;
+    private String from;
+    private String to;
 
-    public MessageEntry(String datetime, String message, String messageId, String imgUrl)
+    public MessageEntry(){}
+
+    public MessageEntry(String datetime, String message, String messageId, String imgUrl, String from, String to)
     {
         this.datetime = datetime;
         this.message = message;
         this.imgUrl = imgUrl;
+        this.from = from;
+        this.to = to;
         this.status = consts.STATUS_NOT_SENT;
         this.id = messageId;
     }
@@ -61,5 +69,21 @@ public class MessageEntry
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public String getTo() {
+        return to;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
     }
 }

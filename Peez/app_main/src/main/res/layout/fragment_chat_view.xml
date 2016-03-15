@@ -11,7 +11,7 @@
 
         <variable
             name="view"
-            type="com.horcu.apps.peez.view.ChatView"/>
+            type="com.horcu.apps.peez.view.fragments.ChatView"/>
     </data>
 
     <RelativeLayout

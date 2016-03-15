@@ -1,4 +1,4 @@
-package com.horcu.apps.peez.view;
+package com.horcu.apps.peez.view.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -27,9 +27,6 @@ import net.droidlabs.mvvm.recyclerview.adapter.ClickHandler;
 import net.droidlabs.mvvm.recyclerview.adapter.binder.CompositeItemBinder;
 import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinder;
 import java.io.IOException;
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
-import io.realm.RealmResults;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -1,4 +1,4 @@
-package com.horcu.apps.peez.view;
+package com.horcu.apps.peez.view.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -16,12 +16,10 @@ import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.google.gson.JsonObject;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.playerApi.model.Player;
 import com.horcu.apps.peez.common.utilities.consts;
@@ -32,9 +30,6 @@ import com.horcu.apps.peez.gcm.message.Message;
 import com.horcu.apps.peez.misc.SenderCollection;
 import com.horcu.apps.peez.service.LoggingService;
 import com.lighters.cubegridlibrary.callback.ICubeGridAnimCallback;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Date;
 import java.util.UUID;

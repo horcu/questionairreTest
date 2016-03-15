@@ -28,7 +28,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import com.google.android.gms.gcm.GcmListenerService;
 import com.horcu.apps.peez.R;
-import com.horcu.apps.peez.view.MainView;
+import com.horcu.apps.peez.view.activities.MainView;
 
 public class MyGcmListenerService extends GcmListenerService {
 

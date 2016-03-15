@@ -7,8 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 
-import com.horcu.apps.peez.service.LoggingService;
-import com.horcu.apps.peez.view.MainView;
+import com.horcu.apps.peez.view.activities.MainView;
 
 
 import java.util.Date;

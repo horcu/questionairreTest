@@ -1,4 +1,4 @@
-package com.horcu.apps.peez.view;
+package com.horcu.apps.peez.view.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;

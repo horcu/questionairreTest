@@ -11,14 +11,14 @@
 
         <variable
             name="view"
-            type="com.horcu.apps.peez.view.FeedView"/>
+            type="com.horcu.apps.peez.view.fragments.FeedView"/>
     </data>
 
     <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
         android:background="#efefef"
-    tools:context=".view.FeedView">
+    tools:context=".view.fragments.FeedView">
 
     <!-- TODO: Update blank fragment layout -->
     <RelativeLayout
@@ -55,11 +55,9 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_gravity="bottom"
-            app:tbm_backgroundColor="@color/white"
+            app:tbm_backgroundColor="#d3d3d3"
             app:tbm_menuAnchor="bottom"
             android:layout_alignParentBottom="true"
-            app:tbm_iconOpened="@drawable/ic_content_add"
-            app:tbm_iconClosed="@drawable/ic_content_clear"
             app:tbm_buttonSize="56dp"
             >
 
@@ -70,14 +68,8 @@
                 android:layout_weight="1"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:src="@drawable/ic_edit"
+                android:src="@drawable/ic_location"
                 />
-
-            <Space
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                />
-
             <ImageView
                 android:id="@+id/item2"
                 android:layout_width="0dp"
@@ -85,7 +77,31 @@
                 android:layout_weight="1"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:src="@drawable/ic_book"
+                android:src="@drawable/ic_person"
+                />
+
+            <Space
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                />
+            <ImageView
+                android:id="@+id/item3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:src="@drawable/ic_thumb_up"
+                />
+
+            <ImageView
+                android:id="@+id/item4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:src="@drawable/ic_thumb_down"
                 />
 
         </com.michaldrabik.tapbarmenulib.TapBarMenu>

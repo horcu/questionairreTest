@@ -11,13 +11,13 @@
 
         <!--<variable-->
             <!--name="view"-->
-            <!--type="com.horcu.apps.peez.view.GameView"/>-->
+            <!--type="com.horcu.apps.peez.view.fragments.GameView"/>-->
     </data>
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#efefef"
-    tools:context="com.horcu.apps.peez.view.GameView">
+    tools:context=".view.fragments.GameView">
 
 
 

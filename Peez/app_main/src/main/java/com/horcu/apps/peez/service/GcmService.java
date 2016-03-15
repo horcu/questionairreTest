@@ -12,10 +12,9 @@ import android.os.PowerManager;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
-import com.google.android.gms.identity.intents.AddressConstants;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.custom.notifier;
-import com.horcu.apps.peez.view.MainView;
+import com.horcu.apps.peez.view.activities.MainView;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -1,4 +1,4 @@
-package com.horcu.apps.peez.view;
+package com.horcu.apps.peez.view.activities;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -30,6 +30,10 @@ import com.horcu.apps.peez.gcm.message.Message;
 import com.horcu.apps.peez.misc.SenderCollection;
 import com.horcu.apps.peez.model.GameEntry;
 import com.horcu.apps.peez.service.LoggingService;
+import com.horcu.apps.peez.view.fragments.SettingsView;
+import com.horcu.apps.peez.view.fragments.ChatView;
+import com.horcu.apps.peez.view.fragments.FeedView;
+import com.horcu.apps.peez.view.fragments.GameView;
 
 import org.json.JSONException;
 import org.json.JSONObject;

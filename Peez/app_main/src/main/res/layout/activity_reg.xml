@@ -6,7 +6,7 @@
     android:background="@drawable/bg"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".view.IntroView">
+    tools:context=".view.activities.IntroView">
 
 
     <LinearLayout
@@ -55,25 +55,6 @@
             <!--app:paddingStart="16dp"-->
             <!--/>-->
 
-        <com.ribell.colorpickerview.ColorPickerView
-            android:id="@+id/gridview"
-            android:layout_margin="6dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:columnWidth="90dp"
-            android:numColumns="auto_fit"
-            android:verticalSpacing="10dp"
-            android:horizontalSpacing="5dp"
-            android:stretchMode="spacingWidth"
-            android:gravity="center"
-            android:background="@drawable/bg"
-            android:entries="@array/colorChoices"
-            android:layout_gravity="center"
-            app:circleSize="40dp"
-            android:clickable="true"
-            app:borderColor="@android:color/transparent"
-            app:borderColorSelected="@color/white"
-            />
 
         <TextView
             android:layout_width="wrap_content"

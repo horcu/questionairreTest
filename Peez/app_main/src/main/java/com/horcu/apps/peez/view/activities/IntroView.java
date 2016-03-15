@@ -1,4 +1,4 @@
-package com.horcu.apps.peez.view;//package com.horcu.apps.peez.ui.activities;
+package com.horcu.apps.peez.view.activities;//package com.horcu.apps.peez.ui.activities;
 
 import android.accounts.AccountManager;
 import android.content.BroadcastReceiver;
@@ -6,20 +6,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.View;
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
-import com.heinrichreimersoftware.materialintro.slide.SimpleSlide;
+import com.heinrichreimersoftware.materialintro.slide.FragmentSlide;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.playerApi.PlayerApi;
 import com.horcu.apps.peez.backend.models.playerApi.model.Player;
@@ -27,9 +24,9 @@ import com.horcu.apps.peez.backend.models.userSettingsApi.UserSettingsApi;
 import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.custom.ApiServicesBuilber;
 import com.horcu.apps.peez.registration.RegistrationIntentService;
-import com.ribell.colorpickerview.interfaces.ColorPickerViewListener;
 import com.wang.avi.AVLoadingIndicatorView;
-public class IntroView extends IntroActivity implements ColorPickerViewListener {
+
+public class IntroView extends IntroActivity {
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static final String TAG = "IntroView";
@@ -54,6 +51,7 @@ public class IntroView extends IntroActivity implements ColorPickerViewListener 
             getSupportActionBar().setElevation(0);
         }
 
+
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -63,7 +61,7 @@ public class IntroView extends IntroActivity implements ColorPickerViewListener 
                     navigateToApp();
                     settings.edit().putBoolean(consts.DEVICE_REGISTERED, true).apply();
                 } else {
-                    Snackbar.make(loader, "token not sent", Snackbar.LENGTH_LONG).show();
+                  //  Snackbar.make(loader, "token not sent", Snackbar.LENGTH_LONG).show();
                     String msg = "token was not successfully sent to the server. kill app and retry. \r OK only for dev mode. CANNOT HAPPEN IN PROD";
                     settings.edit().putBoolean(consts.DEVICE_REGISTERED, false).apply();
                     navigateToErrorPage(msg);
@@ -74,22 +72,35 @@ public class IntroView extends IntroActivity implements ColorPickerViewListener 
         /**
          * Standard slide (like Google's intros)
          */
-        addSlide(new SimpleSlide.Builder()
-                .title(R.string.registration_slide)
-                .description(R.string.reg_description)
-             //   .image(R.drawable.reg_image)
-                .background(R.color.accent_material_dark)
-                .backgroundDark(R.color.accent_material_dark)
-                .build());
+
+//        Boolean favColorSaved = settings.getInt(consts.FAV_COLOR, 0) != 0 ;
+//        if(!favColorSaved) {
+//            addSlide(new FragmentSlide.Builder()
+//                    .background(R.color.primary)
+//                    .backgroundDark(R.color.primary)
+//                    .fragment(R.layout.fragment_colorpicker_view, R.style.AppTheme_bub)
+//                    .build());
+//        }
+//        else
+//        {
+         CompleteRegistrationAndLogIn();
+       // }
 
         /**
          * Custom fragment slide for color picker
          */
-//        addSlide(new FragmentSlide.Builder()
-//                .background(R.color.primary)
-//                .backgroundDark(R.color.primary)
-//                .fragment(R.layout.fragment_color_view, R.style.AppTheme_bub)
-//                .build());
+//TODO this needs to be in its own fragment
+//        if(!deviceRegistered()) {
+//
+//            addSlide(new SimpleSlide.Builder()
+//                    .title(R.string.registration_slide)
+//                    .description(R.string.reg_description)
+//                    .image(R.drawable.ic_location)
+//                    .background(R.color.accent_material_dark)
+//                    .backgroundDark(R.color.accent_material_dark)
+//                    .build());
+//
+//        }
 
         /* Enable/disable skip button */
         setSkipEnabled(true);
@@ -110,6 +121,10 @@ public class IntroView extends IntroActivity implements ColorPickerViewListener 
             }
         });
        }
+
+    private boolean deviceRegistered() {
+        return settings.getBoolean(consts.DEVICE_REGISTERED, false);
+    }
 
     private void CompleteRegistrationAndLogIn() {
         // get selected color
@@ -229,18 +244,5 @@ public class IntroView extends IntroActivity implements ColorPickerViewListener 
             return false;
         }
         return true;
-    }
-
-    @Override
-    public void onColorPickerClick(int color) {
-        settings.edit().putInt(consts.FAV_COLOR, color).apply();
-
-        View pickerView =  findViewById(R.id.color_picker_layout);
-        pickerView.setVisibility(View.GONE);
-        YoYo.with(Techniques.FadeOut).duration(1000).playOn(pickerView);
-
-        findViewById(R.id.loader_layout).setVisibility(View.VISIBLE);
-
-        CompleteRegistrationAndLogIn();
     }
 }
