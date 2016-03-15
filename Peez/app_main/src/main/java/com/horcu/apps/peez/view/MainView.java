@@ -16,7 +16,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.horcu.apps.peez.Dtos.InviteDto;
 import com.horcu.apps.peez.Dtos.SmsDto;
@@ -75,16 +74,16 @@ public class MainView extends BaseView
         opponent = new Player();
         mytoken = settings.getString(consts.REG_ID,"");
 
-        realmConfig = new RealmConfiguration.Builder(this)
-                .name("default1")
-                .schemaVersion(1)
+       // realmConfig = new RealmConfiguration.Builder(this)
+             //   .name("default1")
+            //    .schemaVersion(1)
                 //.migration(new Migration()) //TODO fill out the migration options and uncomment.. thisi s the proper way to migrate dbs and/or specify diff versions
-                .build();
+           //     .build();
 
        // if(consts.DEV_MODE)
-        Realm.deleteRealm(realmConfig);
+//        Realm.deleteRealm(realmConfig);
 
-        realm = Realm.getInstance(realmConfig);
+ //       realm = Realm.getInstance(realmConfig);
 
         GetInProgressGamesFromDbAsync();
 
@@ -113,9 +112,11 @@ public class MainView extends BaseView
                        String timeSent = messageObject.substring(1,18).trim();
                         String messageJson = messageObject.substring(18, messageObject.length());
 
-                        Gson gson = new Gson();
-
                         String messageType = intent.getStringExtra(LoggingService.MESSAGE_TYPE);
+
+                        if(messageJson.contains("multicast_id")) //return its the last message you sent out
+                            return;
+
                         JSONObject json = null;
 
                         if(messageType == null)
@@ -125,9 +126,7 @@ public class MainView extends BaseView
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                        if(messageJson.contains("multicast_id")) //return its the last message you sent out
-                        {
-                            return;}
+
 
                         switch (messageType)
                         {
@@ -139,7 +138,9 @@ public class MainView extends BaseView
                                             json.getString("message"),
                                             json.getString("dateTime"),
                                             json.getString("senderUrl"));
-                                   Message sms = MessageSender.BuildSmsMessage(dto);
+
+                                    String jsonStr = MessageSender.JsonifySmsDto(dto);
+                                    Message sms = MessageSender.BuildSmsMessage(dto, jsonStr);
                                     HandleSMS(sms);
                                 } catch (JsonSyntaxException | JSONException e) {
                                     e.printStackTrace();
@@ -161,7 +162,8 @@ public class MainView extends BaseView
                                             json.getInt("color"),
                                             json.getString("collapseKey"));
 
-                                    Message moveMessage = MessageSender.BuildMoveMessage(dto);
+                                    String jsonStr = MessageSender.JsonifyMoveDto(dto);
+                                    Message moveMessage = MessageSender.BuildMoveMessage(dto, jsonStr);
 
                                     HandleMove(moveMessage);
                                 } catch (JsonSyntaxException | JSONException e) {
@@ -182,7 +184,8 @@ public class MainView extends BaseView
                                             json.getInt("color"),
                                             json.getString("collapseKey"));
 
-                                    Message inviteMessage = MessageSender.BuildInvitationMessage(dto);
+                                    String jsonStr = MessageSender.JsonifyInviteDto(dto);
+                                    Message inviteMessage = MessageSender.BuildInvitationMessage(dto, jsonStr);
 
                                     mViewPager.setCurrentItem(1);
                                     HandleInvitation(inviteMessage);
@@ -225,8 +228,6 @@ public class MainView extends BaseView
                 if (result.equals("")) {
                     //we're good
                 } else {
-                    Toast.makeText(getApplicationContext(), "cannot retrieve games from DB", Toast.LENGTH_SHORT).show();
-                    //error getting
                 }
 
             }
@@ -251,11 +252,11 @@ public class MainView extends BaseView
             return;
 
         ChatView ChatFrag = GetChatFragment();
-        saveToDb(msg);
+        //saveToDb(msg);
 
-       if (ChatFrag != null) {
-            ChatFrag.refreshMessagesFromDb(mytoken,this);
-        }
+     //  if (ChatFrag != null) {
+     //       ChatFrag.refreshMessagesFromDb(mytoken,this);
+    //    }
     }
 
     private void HandleMove(Message move){
@@ -349,8 +350,6 @@ public class MainView extends BaseView
 
         CheckifGameIdUniqueAsync(token, mytoken);
 
-
-
         if(gamesInProgress == null)
             gamesInProgress = new ArrayList<>();
 
@@ -358,9 +357,11 @@ public class MainView extends BaseView
 
         sendGameInviteToOpponent(token, newGame, opponentImgUrl);
 
-        saveToDb(newGame);
-        Toast.makeText(this, opponentName + " selected", Toast.LENGTH_LONG).show();
+        //saveToDb(newGame);
+       // Toast.makeText(this, opponentName + " selected", Toast.LENGTH_LONG).show();
         NavigateToGameBoard();
+        GameView gFrag = GetGameFragment();
+        //gFrag.ShowMoveOnBoard();
     }
 
     private void NavigateToGameBoard() {
@@ -372,8 +373,10 @@ public class MainView extends BaseView
         //TODO for now we will just send a move but you need to send an invite.. get it accepted.. (with the opponents move coming with the return).. then start sending moves
         MessageSender sender = new MessageSender(getApplicationContext(), mLogger,mSenders);
         InviteDto dto = new InviteDto("wanna play ?", new Date().toString(), mytoken, token,opponentImgUrl, settings.getInt(consts.FAV_COLOR, Color.parseColor("#333333")),UUID.randomUUID().toString());
-        Message message = MessageSender.BuildInvitationMessage(dto);
+        String jsonString = MessageSender.JsonifyInviteDto(dto);
+        Message message = MessageSender.BuildInvitationMessage(dto, jsonString);
         message.setGameId(newGame.getGameId());
+        message.setType(LoggingService.MESSAGE_TYPE_INVITATION);
 
         if(sender.SendInvitation(message))
         Toast.makeText(getApplicationContext(),  "invitation sent", Toast.LENGTH_SHORT).show();
@@ -399,7 +402,7 @@ public class MainView extends BaseView
         ChatView ChatFrag = GetChatFragment();
         if (ChatFrag != null) {
             ChatFrag.upDateChatPlayer(gameId, opponentName,opponentToken,opponentImgUrl);
-            ChatFrag.refreshMessagesFromDb(gameId, this);
+        //    ChatFrag.refreshMessagesFromDb(gameId, this);
             mViewPager.setCurrentItem(1);
         }
 

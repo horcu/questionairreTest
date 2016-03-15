@@ -60,15 +60,13 @@ import io.realm.annotations.Ignore;
  *    .build();
  * </pre></code>
  */
-public  class Message extends RealmObject implements Serializable {
+public  class Message implements Serializable {
 
     private  String messageId;
     private  String collapseKey;
     private  Boolean delayWhileIdle;
     private  Integer timeToLive;
-    @Ignore
     private  Map<String, String> data;
-    @Ignore
     private  Map<String, String> notificationParams;
     private  Boolean dryRun;
     private  String restrictedPackageName;

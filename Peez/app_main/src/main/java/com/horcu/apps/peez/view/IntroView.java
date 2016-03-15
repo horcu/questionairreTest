@@ -13,13 +13,11 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
-
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 import com.heinrichreimersoftware.materialintro.slide.SimpleSlide;
 import com.horcu.apps.peez.R;
@@ -28,14 +26,10 @@ import com.horcu.apps.peez.backend.models.playerApi.model.Player;
 import com.horcu.apps.peez.backend.models.userSettingsApi.UserSettingsApi;
 import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.custom.ApiServicesBuilber;
-
 import com.horcu.apps.peez.registration.RegistrationIntentService;
+import com.ribell.colorpickerview.interfaces.ColorPickerViewListener;
 import com.wang.avi.AVLoadingIndicatorView;
-
-import uz.shift.colorpicker.LineColorPicker;
-import uz.shift.colorpicker.OnColorChangedListener;
-
-public class IntroView extends IntroActivity {
+public class IntroView extends IntroActivity implements ColorPickerViewListener {
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static final String TAG = "IntroView";
@@ -50,7 +44,7 @@ public class IntroView extends IntroActivity {
     private String regId;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     private AVLoadingIndicatorView loader;
-    private LineColorPicker colorPicker;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +58,7 @@ public class IntroView extends IntroActivity {
             @Override
             public void onReceive(Context context, Intent intent) {
 
-                boolean sentToken = settings
-                        .getBoolean(consts.SENT_TOKEN_TO_SERVER, false);
+                boolean sentToken = settings.getBoolean(consts.SENT_TOKEN_TO_SERVER, false);
                 if (sentToken) {
                     navigateToApp();
                     settings.edit().putBoolean(consts.DEVICE_REGISTERED, true).apply();
@@ -116,39 +109,10 @@ public class IntroView extends IntroActivity {
             public void onPageScrollStateChanged(int state) {
             }
         });
-
-        settings = getSharedPreferences("Peez", 0);
-
-        // Inflate the layout for this fragment
-        colorPicker = (LineColorPicker)findViewById(R.id.picker);
-
-        // set color palette
-        colorPicker.setColors(GetColors());
-
-        // set selected color [optional]
-        //colorPicker.setSelectedColor(Color.RED);
-
-        // set on change listener
-        colorPicker.setOnColorChangedListener(new OnColorChangedListener() {
-            @Override
-            public void onColorChanged(int c) {
-                settings.edit().putInt(consts.FAV_COLOR, c).apply();
-
-                View pickerView =  findViewById(R.id.color_picker_layout);
-                pickerView.setVisibility(View.GONE);
-                YoYo.with(Techniques.FadeOut).duration(1000).playOn(pickerView);
-
-                findViewById(R.id.loader_layout).setVisibility(View.VISIBLE);
-
-                CompleteRegistrationAndLogIn();
-            }
-        });
-    }
+       }
 
     private void CompleteRegistrationAndLogIn() {
         // get selected color
-        int color = colorPicker.getColor();
-
         loader = (AVLoadingIndicatorView)findViewById(R.id.loadView_reg);
         user = new Player();
         playerApi = ApiServicesBuilber.BuildPlayerApiService();
@@ -182,20 +146,6 @@ public class IntroView extends IntroActivity {
             }
         }
     }
-
-    private int[] GetColors() { //TODO get these from an array of colors from config or better yet cloud storage
-        return new int[]{ //TODO use better colors
-                Color.parseColor("#77a0b4"),
-                Color.parseColor("#ffff00"),
-                Color.parseColor("#7c684D"),
-                Color.parseColor("#561235"),
-                Color.parseColor("#7c684D"),
-                Color.parseColor("#f2c554"),
-                Color.parseColor("#ae63b0"),
-                Color.parseColor("#e07a24")
-        };
-    }
-
 
     private void navigateToErrorPage(String msg) {
         startActivity(new Intent(this, ErrorView.class).putExtra("error", msg));
@@ -279,5 +229,18 @@ public class IntroView extends IntroActivity {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void onColorPickerClick(int color) {
+        settings.edit().putInt(consts.FAV_COLOR, color).apply();
+
+        View pickerView =  findViewById(R.id.color_picker_layout);
+        pickerView.setVisibility(View.GONE);
+        YoYo.with(Techniques.FadeOut).duration(1000).playOn(pickerView);
+
+        findViewById(R.id.loader_layout).setVisibility(View.VISIBLE);
+
+        CompleteRegistrationAndLogIn();
     }
 }

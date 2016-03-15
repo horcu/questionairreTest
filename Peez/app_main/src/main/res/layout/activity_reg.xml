@@ -45,14 +45,34 @@
         android:layout_centerInParent="true"
         android:orientation="vertical">
 
-        <uz.shift.colorpicker.LineColorPicker
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/picker"
+        <!--<uz.shift.colorpicker.LineColorPicker-->
+            <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+            <!--android:id="@+id/picker"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="150dp"-->
+            <!--app:orientation="horizontal"-->
+            <!--app:paddingEnd="16dp"-->
+            <!--app:paddingStart="16dp"-->
+            <!--/>-->
+
+        <com.ribell.colorpickerview.ColorPickerView
+            android:id="@+id/gridview"
+            android:layout_margin="6dp"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            app:orientation="horizontal"
-            app:paddingEnd="16dp"
-            app:paddingStart="16dp"
+            android:layout_height="match_parent"
+            android:columnWidth="90dp"
+            android:numColumns="auto_fit"
+            android:verticalSpacing="10dp"
+            android:horizontalSpacing="5dp"
+            android:stretchMode="spacingWidth"
+            android:gravity="center"
+            android:background="@drawable/bg"
+            android:entries="@array/colorChoices"
+            android:layout_gravity="center"
+            app:circleSize="40dp"
+            android:clickable="true"
+            app:borderColor="@android:color/transparent"
+            app:borderColorSelected="@color/white"
             />
 
         <TextView

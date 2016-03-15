@@ -44,12 +44,12 @@
         "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\ic_emoji_symbols_light_activated.png"
     },
     {
-        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_emoji_recent_light_normal.png",
-        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\ic_emoji_recent_light_normal.png"
-    },
-    {
         "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_emoji_symbols_light_normal.png",
         "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\ic_emoji_symbols_light_normal.png"
+    },
+    {
+        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_emoji_recent_light_normal.png",
+        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\ic_emoji_recent_light_normal.png"
     },
     {
         "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_emoji_places_light_activated.png",
@@ -104,12 +104,12 @@
         "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_composer_popup_pressed.png"
     },
     {
-        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_emoji_places_light_normal.png",
-        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\ic_emoji_places_light_normal.png"
-    },
-    {
         "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_emoji_backspace_front_normal.png",
         "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\orca_emoji_backspace_front_normal.png"
+    },
+    {
+        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_emoji_places_light_normal.png",
+        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-hdpi\\ic_emoji_places_light_normal.png"
     },
     {
         "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\orca_emoji_backspace_back_normal.png",

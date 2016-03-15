@@ -7,12 +7,20 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
+import android.text.SpannableStringBuilder;
+import android.text.style.ImageSpan;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.google.gson.JsonObject;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.playerApi.model.Player;
@@ -25,8 +33,13 @@ import com.horcu.apps.peez.misc.SenderCollection;
 import com.horcu.apps.peez.service.LoggingService;
 import com.lighters.cubegridlibrary.callback.ICubeGridAnimCallback;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Date;
 import java.util.UUID;
+
+import at.markushi.ui.CircleButton;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -118,7 +131,21 @@ public class GameView extends Fragment {
             if(currentSpot == null)
                 setCurrentSpot("0");
 
-            grid.getChildAt(i).setOnClickListener(new View.OnClickListener() {
+            CardView child = (CardView) grid.getChildAt(i);
+            child.setShadowPadding(1,1,1,1);
+            child.setAlpha(.8f);
+            child.setCardElevation(0);
+            child.setUseCompatPadding(true);
+            child.setOnDragListener(new View.OnDragListener() {
+                @Override
+                public boolean onDrag(View v, DragEvent event) {
+                    Toast.makeText(getContext(),"moving",Toast.LENGTH_SHORT).show();
+                    v.setBackground(new ColorDrawable(Color.LTGRAY));
+                    return true;
+                }
+            });
+
+            child.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
@@ -134,9 +161,11 @@ public class GameView extends Fragment {
 
                     String collapseKey = String.valueOf(UUID.randomUUID());
 
-                    MMDto dto = new MMDto(currentSpot, String.valueOf(finalI), "move made!", String.valueOf(time), myToken, opponent.getToken(), opponent.getImageUri(), color, collapseKey);
 
-                    Message moveMessage = MessageSender.BuildMoveMessage(dto);
+                    MMDto dto = new MMDto(currentSpot, String.valueOf(finalI), "move made!", String.valueOf(time), myToken, opponent.getToken(), opponent.getImageUri(), color, collapseKey);
+                    String message = MessageSender.JsonifyMoveDto(dto);
+
+                    Message moveMessage = MessageSender.BuildMoveMessage(dto, message);
 
                     MessageSender sender = new MessageSender(getActivity(), mLogger, mSenders);
 
@@ -159,6 +188,8 @@ public class GameView extends Fragment {
 
         return root;
     }
+
+
 
     private boolean MyTurn() {
         return playerTurn !=null &&  playerTurn.equals(myToken);
@@ -224,11 +255,41 @@ public class GameView extends Fragment {
             from.setBackground(new ColorDrawable(message.getColor()));
             from.setAlpha(.7f);
             from.setBackgroundResource(R.drawable.ic_mt);
+            ShowPlayerDotAnimation();
+            ShowSnack(grid, message);
+
         } catch (NumberFormatException e) {
             e.printStackTrace();
         } catch (Resources.NotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private void ShowSnack(View parent, Message message) {
+        SpannableStringBuilder builder = new SpannableStringBuilder();
+        builder.setSpan(new ImageSpan(getActivity(), R.drawable.ic_launcher), builder.length() - 1, builder.length(), 0); //TODO user image here instead of default iconm
+        builder.append("from ").append(message.getFrom());
+        builder.append(" ");
+        builder.append("to ").append(message.getTo());
+        Snackbar.make(parent, builder, Snackbar.LENGTH_INDEFINITE).show();
+
+    }
+
+    private void ShowPlayerDotAnimation() {
+        int favColor = settings.getInt(consts.FAV_COLOR, 000000);
+        CircleButton cb = new CircleButton(getContext());
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        params.width = 40;
+        params.height = 40;
+        cb.setBackground(new ColorDrawable(favColor));
+        cb.setColor(favColor);
+        cb.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                YoYo.with(Techniques.Pulse).duration(3000).playOn(v);
+                return true;
+            }
+        });
     }
 
     private ICubeGridAnimCallback mCubeGridAnimCallback = new ICubeGridAnimCallback() {

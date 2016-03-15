@@ -264,85 +264,85 @@ public class ChatView extends Fragment {
         return binding.getRoot(); //inflater.inflate(R.layout.fragment_chat_view, container, false);
     }
 
-    public void refreshMessagesFromDb(final String gameId, Context ctx) {
-        binding.chatLoader.setVisibility(View.VISIBLE);
-
-        realmConfig = new RealmConfiguration.Builder(ctx).build();
-       // realm.close();
-        //Realm.deleteRealm(realmConfig);
-        realm = Realm.getInstance(realmConfig);
-        final ObservableArrayList<MessageViewModel> vms = new ObservableArrayList<>();
-
-        // Query and update the result asynchronously in another thread
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                try {
-                    RealmResults<Message> messages = realm.where(Message.class)
-                            .equalTo("gameId", gameId)
-                            .equalTo("to", myEmail)
-                            .or()
-                            .equalTo("from", myEmail)
-                            .or()
-                            .equalTo("from", theirEmail)
-                            .or()
-                            .equalTo("to", theirEmail)
-
-                            .findAll(); // where(Message.class).equalTo("sender", sender).findAll();
-
-                    if(messages.size() < 1)
-                        return;
-
-                    for (Message m : messages)
-                    {
-                        if(MessageAlreadyAdded(m.getMessageId()))
-                            continue;
-
-                        String message = m.getData().get("message");
-                        MessageEntry messageEntry = new MessageEntry(String.valueOf(new Date()), message, m.getMessageId(), m.getSenderImageUrl());
-                        String from = m.getFrom();
-                        SuperMessageViewModel su;
-                        MessageViewModel su2;
-
-                        if(from.equals(myToken))
-                        {
-                         su = new SuperMessageViewModel(messageEntry);
-                          vms.add(su);
-                        }
-                        else
-                        {
-                         su2 = new MessageViewModel(messageEntry);
-                          vms.add(su2);
-                        }
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Realm.Transaction.Callback() {
-            @Override
-            public void onSuccess() {
-                if(messagesViewModel.messageViewModels == null)
-                messagesViewModel.messageViewModels = new ObservableArrayList<>();
-
-                messagesViewModel.messageViewModels.addAll(vms);
-                RecyclerView.Adapter adapter = binding.activityUsersRecycler.getAdapter();
-
-                if(adapter == null)
-                    return;
-
-                int msgCount = adapter.getItemCount();
-
-                if(msgCount > 0)
-                {
-                    binding.activityUsersRecycler.smoothScrollToPosition(msgCount -1);
-                    YoYo.with(Techniques.BounceIn).duration(1000).playOn(binding.activityUsersRecycler.getChildAt(msgCount -1));
-                }
-                binding.chatLoader.setVisibility(View.GONE);
-            }
-        });
-    }
+//    public void refreshMessagesFromDb(final String gameId, Context ctx) {
+//        binding.chatLoader.setVisibility(View.VISIBLE);
+//
+//        realmConfig = new RealmConfiguration.Builder(ctx).build();
+//       // realm.close();
+//        //Realm.deleteRealm(realmConfig);
+//        realm = Realm.getInstance(realmConfig);
+//        final ObservableArrayList<MessageViewModel> vms = new ObservableArrayList<>();
+//
+//        // Query and update the result asynchronously in another thread
+//        realm.executeTransaction(new Realm.Transaction() {
+//            @Override
+//            public void execute(Realm realm) {
+//                try {
+//                    RealmResults<Message> messages = realm.where(Message.class)
+//                            .equalTo("gameId", gameId)
+//                            .equalTo("to", myEmail)
+//                            .or()
+//                            .equalTo("from", myEmail)
+//                            .or()
+//                            .equalTo("from", theirEmail)
+//                            .or()
+//                            .equalTo("to", theirEmail)
+//
+//                            .findAll(); // where(Message.class).equalTo("sender", sender).findAll();
+//
+//                    if(messages.size() < 1)
+//                        return;
+//
+//                    for (Message m : messages)
+//                    {
+//                        if(MessageAlreadyAdded(m.getMessageId()))
+//                            continue;
+//
+//                        String message = m.getData().get("message");
+//                        MessageEntry messageEntry = new MessageEntry(String.valueOf(new Date()), message, m.getMessageId(), m.getSenderImageUrl());
+//                        String from = m.getFrom();
+//                        SuperMessageViewModel su;
+//                        MessageViewModel su2;
+//
+//                        if(from.equals(myToken))
+//                        {
+//                         su = new SuperMessageViewModel(messageEntry);
+//                          vms.add(su);
+//                        }
+//                        else
+//                        {
+//                         su2 = new MessageViewModel(messageEntry);
+//                          vms.add(su2);
+//                        }
+//                    }
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }, new Realm.Transaction.Callback() {
+//            @Override
+//            public void onSuccess() {
+//                if(messagesViewModel.messageViewModels == null)
+//                messagesViewModel.messageViewModels = new ObservableArrayList<>();
+//
+//                messagesViewModel.messageViewModels.addAll(vms);
+//                RecyclerView.Adapter adapter = binding.activityUsersRecycler.getAdapter();
+//
+//                if(adapter == null)
+//                    return;
+//
+//                int msgCount = adapter.getItemCount();
+//
+//                if(msgCount > 0)
+//                {
+//                    binding.activityUsersRecycler.smoothScrollToPosition(msgCount -1);
+//                    YoYo.with(Techniques.BounceIn).duration(1000).playOn(binding.activityUsersRecycler.getChildAt(msgCount -1));
+//                }
+//                binding.chatLoader.setVisibility(View.GONE);
+//            }
+//        });
+//    }
 
     public Boolean MessageAlreadyAdded(String messageId){
         for(int i=0; i < messagesViewModel.messageViewModels.size(); i ++)
@@ -419,21 +419,23 @@ public class ChatView extends Fragment {
                     //build up the message oject to send to opponent
                     binding.chatLoader.setVisibility(View.VISIBLE);
                     SmsDto dto = new SmsDto(message_recipient, myToken, message, String.valueOf(time), playerImageUri);
-                    Message sms = MessageSender.BuildSmsMessage(dto);
+                    String json = MessageSender.JsonifySmsDto(dto);
+                    Message sms = MessageSender.BuildSmsMessage(dto, json);
                     String guid = UUID.randomUUID().toString();
 
-                    //Create an entry for showing the text
-                    messagesViewModel.messageViewModels.add(new SuperMessageViewModel(new MessageEntry(String.valueOf(time), message, guid, playerImageUri)));
 
                         MessageSender sender = new MessageSender(getActivity(), mLogger, mSenders);
                         if (sender.SendSMS(sms)) {
                             //save to db
-                            realm.beginTransaction();
-                            realm.copyToRealm(sms);
-                            realm.commitTransaction();
+                          //  realm.beginTransaction();
+                           // realm.copyToRealm(sms);
+                          //  realm.commitTransaction();
 
                             Toast.makeText(getActivity(), "sent!", Toast.LENGTH_LONG).show();
                             binding.chatLoader.setVisibility(View.GONE);
+                            //Create an entry for showing the text
+                            messagesViewModel.messageViewModels.add(new SuperMessageViewModel(new MessageEntry(String.valueOf(time), message, guid, playerImageUri)));
+
                         } else {
                             Toast.makeText(getActivity(), "failed ;/", Toast.LENGTH_LONG).show();
                         }

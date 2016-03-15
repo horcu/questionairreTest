@@ -1540,12 +1540,12 @@
         "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-nodpi\\emoji_1f37c.png"
     },
     {
-        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-nodpi-v4\\emoji_1f237.png",
-        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-nodpi\\emoji_1f237.png"
-    },
-    {
         "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-nodpi-v4\\emoji_1f236.png",
         "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-nodpi\\emoji_1f236.png"
+    },
+    {
+        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-nodpi-v4\\emoji_1f237.png",
+        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-nodpi\\emoji_1f237.png"
     },
     {
         "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-nodpi-v4\\emoji_1f50b.png",
@@ -3220,12 +3220,12 @@
         "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-nodpi\\emoji_1f41b.png"
     },
     {
-        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-nodpi-v4\\emoji_1f620.png",
-        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-nodpi\\emoji_1f620.png"
-    },
-    {
         "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-nodpi-v4\\emoji_1f627.png",
         "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-nodpi\\emoji_1f627.png"
+    },
+    {
+        "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-nodpi-v4\\emoji_1f620.png",
+        "source": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\drawable-nodpi\\emoji_1f620.png"
     },
     {
         "merged": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\release\\drawable-nodpi-v4\\emoji_1f649.png",

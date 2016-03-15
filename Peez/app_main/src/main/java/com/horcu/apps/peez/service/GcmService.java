@@ -12,6 +12,7 @@ import android.os.PowerManager;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
+import com.google.android.gms.identity.intents.AddressConstants;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.custom.notifier;
 import com.horcu.apps.peez.view.MainView;
@@ -37,7 +38,7 @@ public class GcmService extends GcmListenerService {
 
     @Override
     public void onMessageReceived(String from, Bundle data) {
-
+        try {
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         wl = pm.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, "peez"); //TODO find the way to get this done pre v18 or upgrade to min being v21
         wl.acquire();
@@ -45,13 +46,20 @@ public class GcmService extends GcmListenerService {
         String message = data.getString("message");
         JSONObject  jsonObject = null;
 
-        Bitmap bitmap = null;
-        String type = "";
-        try {
-             jsonObject = new JSONObject(message);
-             type = jsonObject.getString("type");
-             bitmap = getBitmap(jsonObject.getString("senderUrl"));
+        Bitmap bitmap;
+        String type;
+
+            try {
+                jsonObject = new JSONObject(message);
+            } catch (JSONException e) {
+                e.printStackTrace();//  this is prob an invitation
+                return;
+            }
+            type = jsonObject.getString("type");
+            bitmap =  getBitmap(jsonObject.getString("senderUrl"));
             Log.d("GCM sms message:", "image received");
+            notifyUserAndLogMessage(message, bitmap, type);
+            Log.d("GCM sms Message: ", data.toString());
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -60,8 +68,6 @@ public class GcmService extends GcmListenerService {
             Log.d("bitmap decoding error: ", data.toString());
         }
 
-        notifyUserAndLogMessage(message, bitmap, type);
-        Log.d("GCM sms Message: ", data.toString());
     }
 
     private void notifyUserAndLogMessage(String message, Bitmap bitmap, String messageType) {

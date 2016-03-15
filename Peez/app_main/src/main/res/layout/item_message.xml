@@ -38,7 +38,7 @@
         app:cardElevation="0dp"
         app:cardCornerRadius="8dp"
         app:contentPadding="4dp"
-        app:cardBackgroundColor="#f9f9f9"
+        app:cardBackgroundColor="#fff"
         android:background="#FFeeefff">
 
         <!--<TextView-->
