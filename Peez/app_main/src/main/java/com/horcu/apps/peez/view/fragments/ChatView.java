@@ -40,6 +40,7 @@ import com.horcu.apps.peez.viewmodel.SuperMessageViewModel;
 import com.horcu.apps.peez.viewmodel.MessageViewModel;
 import com.horcu.apps.peez.viewmodel.MessagesViewModel;
 
+
 import net.droidlabs.mvvm.recyclerview.adapter.ClickHandler;
 import net.droidlabs.mvvm.recyclerview.adapter.LongClickHandler;
 import net.droidlabs.mvvm.recyclerview.adapter.binder.CompositeItemBinder;
@@ -153,7 +154,6 @@ public class ChatView extends Fragment {
        //     getActivity().getActionBar().setTitle(playerName); //TODO add a custom actionbar so that you can add the player image there and pass in the url here
 
         binding = FragmentChatViewBinding.inflate(inflater, container, false);
-        binding.chatLoader.setVisibility(View.VISIBLE);
 
         messagesViewModel = new MessagesViewModel();
 
@@ -263,7 +263,6 @@ public class ChatView extends Fragment {
     }
 
     public void refreshMessagesFromDb(final String gameId, Context ctx) {
-        binding.chatLoader.setVisibility(View.VISIBLE);
 
         realmConfig = new RealmConfiguration.Builder(ctx).build();
        // realm.close();
@@ -337,7 +336,6 @@ public class ChatView extends Fragment {
                     binding.activityUsersRecycler.smoothScrollToPosition(msgCount -1);
                     YoYo.with(Techniques.BounceIn).duration(1000).playOn(binding.activityUsersRecycler.getChildAt(msgCount -1));
                 }
-                binding.chatLoader.setVisibility(View.GONE);
             }
         });
     }
@@ -415,8 +413,7 @@ public class ChatView extends Fragment {
                     String message = getStringFromEditText(binding.usersViewLastname);
 
                     //build up the message oject to send to opponent
-                    binding.chatLoader.setVisibility(View.VISIBLE);
-                    SmsDto dto = new SmsDto(message_recipient, myToken, message, String.valueOf(time), playerImageUri);
+                    SmsDto dto = new SmsDto(myToken,message_recipient, message, String.valueOf(time), playerImageUri);
                     String json = MessageSender.JsonifySmsDto(dto);
                     Message sms = MessageSender.BuildSmsMessage(dto, json);
                     String guid = UUID.randomUUID().toString();
@@ -432,7 +429,7 @@ public class ChatView extends Fragment {
                                 realm.commitTransaction();
 
                                 Toast.makeText(getActivity(), "added to db!", Toast.LENGTH_SHORT).show();
-                                binding.chatLoader.setVisibility(View.GONE);
+
                                 //Create an entry for showing the text
                                 messagesViewModel.messageViewModels.add(new SuperMessageViewModel(me));
                             } catch (Exception e) {

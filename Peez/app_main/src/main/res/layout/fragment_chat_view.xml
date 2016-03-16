@@ -35,15 +35,6 @@
             app:stackFromEnd="true"
             />
 
-        <com.wang.avi.AVLoadingIndicatorView
-            android:id="@+id/chat_loader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            app:indicator="BallPulse"
-            android:layout_centerInParent="true"
-            app:indicator_color="#898989"
-            />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -71,7 +62,7 @@
                     android:layout_weight="0"
                     android:id="@+id/users_view_firstname"
                     android:text="12:56"/>
-                />
+
 
                 <ImageView
                     android:id="@+id/get_emojis"
@@ -102,6 +93,7 @@
                     android:textSize="15sp"
                     android:textColor="@color/bpDark_gray"
                     android:clickable="true"
+                    emojicon:targetApi="KITKAT"
                     android:background="@android:color/transparent"
                     app:onClickListener="@{view.onButtonClick}"/>
 

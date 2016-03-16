@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
@@ -17,6 +19,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 import com.heinrichreimersoftware.materialintro.slide.FragmentSlide;
+import com.heinrichreimersoftware.materialintro.slide.SimpleSlide;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.playerApi.PlayerApi;
 import com.horcu.apps.peez.backend.models.playerApi.model.Player;
@@ -24,14 +27,16 @@ import com.horcu.apps.peez.backend.models.userSettingsApi.UserSettingsApi;
 import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.custom.ApiServicesBuilber;
 import com.horcu.apps.peez.registration.RegistrationIntentService;
-import com.wang.avi.AVLoadingIndicatorView;
+import com.horcu.apps.peez.view.fragments.ColorPickerFragment;
+import com.horcu.apps.peez.view.fragments.ColorPickerFragment.OnColorChosenListener;
 
-public class IntroView extends IntroActivity {
+
+public class IntroView extends IntroActivity implements OnColorChosenListener {
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static final String TAG = "IntroView";
     private SharedPreferences settings;
-    Player user;
+    Player user = null;
     private GoogleAccountCredential credential;
     private String accountName;
     static final int REQUEST_ACCOUNT_PICKER = 2;
@@ -40,17 +45,52 @@ public class IntroView extends IntroActivity {
     private UserSettingsApi userSettingsApi;
     private String regId;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
-    private AVLoadingIndicatorView loader;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reg);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setElevation(0);
+        int currentApiVersion = android.os.Build.VERSION.SDK_INT;
+        if (currentApiVersion <= Build.VERSION_CODES.KITKAT){
+            // Do something for versions below lollipop
+           setContentView(R.layout.activity_reg);
+            CompleteRegistrationAndLogIn();
+                  }
+         else {
+            isFullscreen();
+            // else do the lollipop doo babeee!
+            super.onCreate(savedInstanceState);
+            //  setContentView(R.layout.activity_reg);
+
+
+         /* Enable/disable skip button */
+               setSkipEnabled(false);
+
+        /* Enable/disable finish button */
+               setFinishEnabled(false);
+
+//        /* Add your own page change listeners */
+//        addOnPageChangeListener(new ViewPager.OnPageChangeListener(){
+//            @Override
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//            }
+//            @Override
+//            public void onPageSelected(int position) {
+//            }
+//            @Override
+//            public void onPageScrollStateChanged(int state) {
+//            }
+//        });
+
+                addSlide(new FragmentSlide.Builder()
+                        .background(R.color.white)
+                        .backgroundDark(R.color.white)
+                        .fragment(new ColorPickerFragment())
+                        .build());
         }
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
 
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -61,82 +101,38 @@ public class IntroView extends IntroActivity {
                     navigateToApp();
                     settings.edit().putBoolean(consts.DEVICE_REGISTERED, true).apply();
                 } else {
-                  //  Snackbar.make(loader, "token not sent", Snackbar.LENGTH_LONG).show();
+                    //  Snackbar.make(loader, "token not sent", Snackbar.LENGTH_LONG).show();
                     String msg = "token was not successfully sent to the server. kill app and retry. \r OK only for dev mode. CANNOT HAPPEN IN PROD";
                     settings.edit().putBoolean(consts.DEVICE_REGISTERED, false).apply();
                     navigateToErrorPage(msg);
                 }
             }
         };
-
-        /**
-         * Standard slide (like Google's intros)
-         */
-
-//        Boolean favColorSaved = settings.getInt(consts.FAV_COLOR, 0) != 0 ;
-//        if(!favColorSaved) {
-//            addSlide(new FragmentSlide.Builder()
-//                    .background(R.color.primary)
-//                    .backgroundDark(R.color.primary)
-//                    .fragment(R.layout.fragment_colorpicker_view, R.style.AppTheme_bub)
-//                    .build());
-//        }
-//        else
-//        {
-         CompleteRegistrationAndLogIn();
-       // }
-
-        /**
-         * Custom fragment slide for color picker
-         */
-//TODO this needs to be in its own fragment
-//        if(!deviceRegistered()) {
-//
-//            addSlide(new SimpleSlide.Builder()
-//                    .title(R.string.registration_slide)
-//                    .description(R.string.reg_description)
-//                    .image(R.drawable.ic_location)
-//                    .background(R.color.accent_material_dark)
-//                    .backgroundDark(R.color.accent_material_dark)
-//                    .build());
-//
-//        }
-
-        /* Enable/disable skip button */
-        setSkipEnabled(true);
-
-        /* Enable/disable finish button */
-        setFinishEnabled(true);
-
-        /* Add your own page change listeners */
-        addOnPageChangeListener(new ViewPager.OnPageChangeListener(){
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-            @Override
-            public void onPageSelected(int position) {
-            }
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
        }
 
+    @NonNull
+    private int GetFavoriteColor() {
+        if(settings == null)
+            settings = getSharedPreferences("Peez", 0);
+
+       return settings.getInt(consts.FAV_COLOR, 0);
+    }
+
     private boolean deviceRegistered() {
+        if(settings == null)
+            settings = getSharedPreferences("Peez", 0);
+
         return settings.getBoolean(consts.DEVICE_REGISTERED, false);
     }
 
     private void CompleteRegistrationAndLogIn() {
-        // get selected color
-        loader = (AVLoadingIndicatorView)findViewById(R.id.loadView_reg);
-        user = new Player();
+
         playerApi = ApiServicesBuilber.BuildPlayerApiService();
         userSettingsApi = ApiServicesBuilber.BuildUserSettingsApiService();
 
         settings = getSharedPreferences("Peez", 0);
 
-        credential = GoogleAccountCredential.usingAudience(this, consts.GOOGLE_ACCOUNT_CREDENTIALS_AUDIENCE);
-
+            credential = GoogleAccountCredential.usingAudience(this, consts.GOOGLE_ACCOUNT_CREDENTIALS_AUDIENCE);
 
         String name = settings.getString(consts.PREF_ACCOUNT_NAME, null);
 
@@ -144,13 +140,10 @@ public class IntroView extends IntroActivity {
             chooseAccount();
         } else {
 
-            //check if device is registered
-            boolean isRegistered = settings.getBoolean(consts.DEVICE_REGISTERED, false);
-
             //register the app if the device is compatible with play services
             if (checkPlayServices()) {
 
-                if (isRegistered) {
+                if (deviceRegistered()) {
                     navigateToApp();
                 } else {
                     // Start IntentService to register this application with GCM.
@@ -244,5 +237,10 @@ public class IntroView extends IntroActivity {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void OnColorChosen(int color) {
+        CompleteRegistrationAndLogIn();
     }
 }

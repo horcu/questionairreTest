@@ -242,6 +242,9 @@ public class MainView extends BaseView
 
     private Boolean saveToDb(RealmObject obj){
         try {
+
+            realmConfig = new RealmConfiguration.Builder(this).build();
+            realm = Realm.getInstance(realmConfig);
             realm.beginTransaction();
             realm.copyToRealm(obj);
             realm.commitTransaction();
@@ -268,7 +271,6 @@ public class MainView extends BaseView
 
         GameView gameFrag = GetGameFragment();
         gameFrag.ShowMoveOnBoard(move);
-        gameFrag.setPlayerTurn(move.getTo());
         gameFrag.setPlayerTurn(move.getTo());
     }
 

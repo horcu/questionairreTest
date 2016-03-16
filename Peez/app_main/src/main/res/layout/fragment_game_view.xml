@@ -16,7 +16,7 @@
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#efefef"
+    android:background="@color/white"
     tools:context=".view.fragments.GameView">
 
     <RelativeLayout
@@ -34,7 +34,8 @@
                 app:columnCount="6"
                 app:paddingEnd="0dp"
                 app:paddingStart="0dp"
-                android:background="#ffffff"
+                app:theme="@style/AppTheme_bub"
+                android:background="@color/white"
                 app:horizontalSpace="1dp"
                 app:verticalSpace="1dp">
 
@@ -49,7 +50,7 @@
                     android:textColor="@color/grey_500"
                     android:gravity="center"
                     app:cardElevation="2dp"
-                    android:background="@android:color/white">
+                    app:cardBackgroundColor="@color/white">
 
                     </android.support.v7.widget.CardView>
 
@@ -59,6 +60,7 @@
                     app:cardElevation="2dp"
                     android:background="#efefef"
                     app:contentPadding="3dp"
+                    app:cardBackgroundColor="@color/white"
                     android:gravity="center">
 
                     <!--<com.horcu.apps.peez.custom.UserImageView-->
@@ -101,7 +103,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
@@ -110,6 +112,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
+                    app:cardBackgroundColor="@color/white"
                     android:scaleType="centerInside"/>
 
                 <android.support.v7.widget.CardView
@@ -119,7 +122,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -127,7 +130,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
@@ -135,7 +138,8 @@
                     android:text="5a"
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
-                    android:gravity="center"/>
+                    android:gravity="center"
+                    app:cardBackgroundColor="@color/white" />
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -143,6 +147,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
+                    app:cardBackgroundColor="@color/white"
                     />
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
@@ -152,6 +157,7 @@
                     android:background="#efefef"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
+                    app:cardBackgroundColor="@color/white"
                     >
 
                     <TextView
@@ -173,7 +179,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -181,7 +187,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -189,7 +195,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
 
 
 
@@ -200,7 +206,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
@@ -209,7 +215,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-
+                    app:cardBackgroundColor="@color/white"
                     />
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
@@ -218,6 +224,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
+                    app:cardBackgroundColor="@color/white"
                     />
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
@@ -226,7 +233,8 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+
+                    app:cardBackgroundColor="@color/white"/>
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -234,7 +242,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -242,7 +250,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
 
 
                 <android.support.v7.widget.CardView
@@ -253,7 +261,7 @@
                     android:textColor="@color/grey_500"
                     android:gravity="center"
 
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -262,6 +270,7 @@
                     android:background="#dedede"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
+                    app:cardBackgroundColor="@color/white"
                     />
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
@@ -270,7 +279,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -286,7 +295,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -294,7 +303,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
 
 
                 <android.support.v7.widget.CardView
@@ -304,7 +313,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -312,7 +321,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -320,6 +329,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
+                    app:cardBackgroundColor="@color/white"
                     />
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
@@ -329,6 +339,7 @@
                     android:textColor="@color/grey_500"
                     android:gravity="center"
                     android:backgroundTint="#fff"
+                    app:cardBackgroundColor="@color/white"
 
                     android:background="@drawable/tpiece"/>
                 <android.support.v7.widget.CardView
@@ -346,7 +357,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
@@ -355,7 +366,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -372,7 +383,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -397,7 +408,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
@@ -406,7 +417,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
@@ -414,7 +425,8 @@
                     app:cardElevation="2dp"
                     android:background="#efefef"
                     app:contentPadding="3dp"
-                    android:gravity="center">
+                    android:gravity="center"
+                    app:cardBackgroundColor="@color/white">
 
                     <!--<com.horcu.apps.peez.custom.UserImageView-->
                     <!--android:id="@+id/user_img"-->
@@ -457,7 +469,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
@@ -475,7 +487,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -483,7 +495,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
@@ -529,7 +541,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white">
+                    app:cardBackgroundColor="@color/white">
 
 
 
@@ -542,7 +554,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -550,7 +562,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
 
 
 
@@ -561,7 +573,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
@@ -587,7 +599,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -595,7 +607,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -603,7 +615,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
 
 
                 <android.support.v7.widget.CardView
@@ -613,7 +625,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -629,7 +641,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -645,7 +657,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -653,7 +665,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
 
 
                 <android.support.v7.widget.CardView
@@ -663,7 +675,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -671,7 +683,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -705,7 +717,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
@@ -714,7 +726,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -731,7 +743,7 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -756,22 +768,11 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    android:background="@android:color/white"/>
+                    app:cardBackgroundColor="@color/white"/>
 
             </com.horcu.apps.peez.custom.AutoFitGridLayout>
 
     </RelativeLayout>
-
-    <com.wang.avi.AVLoadingIndicatorView
-        android:id="@+id/game_loader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        app:indicator="BallPulse"
-        android:layout_centerInParent="true"
-        app:indicator_color="#898989"
-
-        />
 
   </RelativeLayout>
 </layout>

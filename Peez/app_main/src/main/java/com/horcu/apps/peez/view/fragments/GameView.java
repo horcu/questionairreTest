@@ -173,7 +173,8 @@ public class GameView extends Fragment {
     }
 
     private boolean MyTurn() {
-        return playerTurn != null &&  playerTurn.equals(myToken);
+       // return playerTurn != null &&  playerTurn.equals(myToken);
+        return false;
     }
 
     public void setCurrentSpot(String moveTo) {

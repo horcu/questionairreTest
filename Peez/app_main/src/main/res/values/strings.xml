@@ -512,6 +512,7 @@
     <string name="go__to_mainview">yes</string>
     <string name="registration_slide">Registering device...</string>
     <string name="reg_description">Device Registration</string>
+    <string name="choose_color">Choose a color..</string>
 
 
 </resources>

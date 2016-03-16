@@ -42,5 +42,21 @@
     <color name="bubbleView_dark_press_background">#E6000000</color>
 
 
+    <color name="col1">@android:color/holo_purple</color>
+    <color name="col2">@color/red</color>
+    <color name="col3">@android:color/holo_blue_dark</color>
+    <color name="col4">@android:color/holo_green_dark</color>
+    <color name="col5">@color/yellow</color>
+    <color name="col6">@android:color/holo_orange_dark</color>
+    <color name="col7">@android:color/black</color>
+    <color name="col8">@android:color/black</color>
+    <color name="col9">@android:color/darker_gray</color>
+    <color name="col10">@color/grey_500</color>
+    <color name="col11">@android:color/holo_purple</color>
+    <color name="col12">@color/red</color>
+    <color name="col13">@android:color/holo_blue_dark</color>
+    <color name="col14">@android:color/holo_green_dark</color>
+    <color name="col15">@color/yellow</color>
+
 
 </resources>
