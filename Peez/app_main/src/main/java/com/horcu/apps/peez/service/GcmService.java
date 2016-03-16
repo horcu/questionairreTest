@@ -55,16 +55,27 @@ public class GcmService extends GcmListenerService {
                 return;
             }
             type = jsonObject.getString("type");
-            bitmap =  getBitmap(jsonObject.getString("senderUrl"));
-            Log.d("GCM sms message:", "image received");
+
+            String imgUrl;
+            try {
+                imgUrl = jsonObject.getString("senderUrl");
+                bitmap =  getBitmap(imgUrl);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Log.d("gcm", "gcm message received but there was an error parsing the json: " + e.getMessage());
+                bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher);
+            }
+
             notifyUserAndLogMessage(message, bitmap, type);
-            Log.d("GCM sms Message: ", data.toString());
+            Log.d("sms Message received: ", data.toString());
 
         } catch (JSONException e) {
             e.printStackTrace();
+            return;
         } catch (IOException e) {
             e.printStackTrace();
             Log.d("bitmap decoding error: ", data.toString());
+            return;
         }
 
     }

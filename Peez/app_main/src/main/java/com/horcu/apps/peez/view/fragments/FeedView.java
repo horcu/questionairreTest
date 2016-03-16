@@ -187,9 +187,11 @@ public class FeedView extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onInitiateNewGame(String name, String imageUrl, String token);
+        void onInitiateNewGame(PlayerViewModel playerViewModel);
 
-        void onNavigateToGame(String gamekey, String opponentName, String opponentImgUrl, String opponentToken);
+        void onNavigateToGame(String gamekey, PlayerViewModel playerViewModel );
+
+        void onSetPlayerTurn(PlayerViewModel playerVm);
     }
 
     public ItemBinder<PlayerViewModel> itemViewBinder()
@@ -207,18 +209,16 @@ public class FeedView extends Fragment {
             @Override
             public void onClick(PlayerViewModel playerVm)
             {
-                String opponentName = playerVm.getModel().getUserName();
-                String opponentToken = playerVm.getModel().getToken();
-                String opponentImgUrl = playerVm.getModel().getImageUri();
 
-                if(GameAlreadyInprogressWithPlayer()) {
-                    String gameId = GetCurrentGameWithPlayer();
-                    mListener.onNavigateToGame(gameId, opponentName, opponentImgUrl, opponentToken);
-                }
+               if(GameAlreadyInprogressWithPlayer()) {
+                    String gameId = GetCurrentGameWithPlayer();// TODO this value should not be hardcoded in the called method
+                    mListener.onNavigateToGame(gameId, playerVm);
+             }
                 else
                 {
-                   mListener.onInitiateNewGame(opponentName, opponentImgUrl, opponentToken);
+                   mListener.onInitiateNewGame(playerVm);
                     gameinProgressWithPlayerTest = true;
+                    mListener.onSetPlayerTurn(playerVm);
                 }
             }
         };

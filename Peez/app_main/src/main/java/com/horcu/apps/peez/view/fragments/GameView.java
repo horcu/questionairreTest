@@ -118,7 +118,6 @@ public class GameView extends Fragment {
         settings =getActivity().getSharedPreferences("Peez", 0);
         myToken = settings.getString(consts.REG_ID,"");
 
-
         for(int i = 0; i < grid.getChildCount(); i++)
         {
             final int finalI = i;
@@ -127,18 +126,7 @@ public class GameView extends Fragment {
                 setCurrentSpot("0");
 
             CardView child = (CardView) grid.getChildAt(i);
-            child.setShadowPadding(1,1,1,1);
-            child.setAlpha(.8f);
             child.setCardElevation(0);
-            child.setUseCompatPadding(true);
-            child.setOnDragListener(new View.OnDragListener() {
-                @Override
-                public boolean onDrag(View v, DragEvent event) {
-                    Toast.makeText(getContext(),"moving",Toast.LENGTH_SHORT).show();
-                    v.setBackground(new ColorDrawable(Color.LTGRAY));
-                    return true;
-                }
-            });
 
             child.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -184,10 +172,8 @@ public class GameView extends Fragment {
         return root;
     }
 
-
-
     private boolean MyTurn() {
-        return playerTurn !=null &&  playerTurn.equals(myToken);
+        return playerTurn != null &&  playerTurn.equals(myToken);
     }
 
     public void setCurrentSpot(String moveTo) {
@@ -250,7 +236,22 @@ public class GameView extends Fragment {
             from.setBackground(new ColorDrawable(message.getColor()));
             from.setAlpha(.7f);
             from.setBackgroundResource(R.drawable.ic_mt);
-            ShowPlayerDotAnimation();
+
+            //create the new player dot
+            CircleButton cb = AddButtonToCard(v);
+
+            //move the player from the old spot
+            if(currentSpot != "0")
+            MovePlayerFromOldLocation(from);
+
+            //move player to new spot
+            MovePlayerToNewLocation(v);
+
+            //set up click and drag listeners
+            SetPlayerDotListeners(cb,v,from);
+
+            //animate the player in the tile
+            ShowPlayerDotAnimation(cb);
             ShowSnack(grid, message);
 
         } catch (NumberFormatException e) {
@@ -258,6 +259,75 @@ public class GameView extends Fragment {
         } catch (Resources.NotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private void SetPlayerDotListeners(CircleButton cb, View to, View from) {
+
+        cb.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                YoYo.with(Techniques.Pulse).duration(3000).playOn(v);
+                return true;
+            }
+        });
+
+        cb.setOnDragListener(new View.OnDragListener() {
+
+            @Override
+            public boolean onDrag(View v, DragEvent event) {
+                Toast.makeText(getContext(), "Attempting player dot dragged", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+
+        to.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        from.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        //TODO remove old listeners and update new listeners
+    }
+
+    private void MovePlayerToNewLocation(View v) {
+        View playerDot = ((CardView)v).getChildAt(0);// TODO this is assuming that the first child will always be the player dot... this is not ideal. Maybe add the cards and circle dots using naming conventions so they can be found by id.. eg card_03 > cb_03 etc..
+        YoYo.with(Techniques.FadeIn).duration(1000).playOn(playerDot);
+        YoYo.with(Techniques.Pulse).duration(1000).playOn(playerDot);
+
+
+    }
+
+    private void MovePlayerFromOldLocation(View from) {
+        View playerDot = ((CardView)from).getChildAt(0);// TODO this is assuming that the first child will always be the player dot... this is not ideal. Maybe add the cards and circle dots using naming conventions so they can be found by id.. eg card_03 > cb_03 etc..
+        YoYo.with(Techniques.FadeOut).duration(1000).playOn(playerDot);
+    }
+
+    private CircleButton AddButtonToCard(View v) {
+
+        CircleButton cb = new CircleButton(getContext());
+        cb.setOnDragListener(new View.OnDragListener() {
+            @Override
+            public boolean onDrag(View v, DragEvent event) {
+                Toast.makeText(getContext(),"moving",Toast.LENGTH_SHORT).show();
+                v.setBackground(new ColorDrawable(Color.LTGRAY));
+                return true;
+            }
+        });
+
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.height = 40;
+        params.width = 40;
+        cb.setLayoutParams(params);
+
+        ((CardView)v).addView(cb);
+        return cb;
     }
 
     private void ShowSnack(View parent, Message message) {
@@ -270,21 +340,14 @@ public class GameView extends Fragment {
 
     }
 
-    private void ShowPlayerDotAnimation() {
+    private void ShowPlayerDotAnimation(CircleButton cb) {
         int favColor = settings.getInt(consts.FAV_COLOR, 000000);
-        CircleButton cb = new CircleButton(getContext());
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         params.width = 40;
         params.height = 40;
         cb.setBackground(new ColorDrawable(favColor));
         cb.setColor(favColor);
-        cb.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                YoYo.with(Techniques.Pulse).duration(3000).playOn(v);
-                return true;
-            }
-        });
+
     }
 
     private ICubeGridAnimCallback mCubeGridAnimCallback = new ICubeGridAnimCallback() {

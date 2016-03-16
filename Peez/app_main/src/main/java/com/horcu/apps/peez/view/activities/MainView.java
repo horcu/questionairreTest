@@ -34,6 +34,7 @@ import com.horcu.apps.peez.view.fragments.SettingsView;
 import com.horcu.apps.peez.view.fragments.ChatView;
 import com.horcu.apps.peez.view.fragments.FeedView;
 import com.horcu.apps.peez.view.fragments.GameView;
+import com.horcu.apps.peez.viewmodel.PlayerViewModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -169,7 +170,7 @@ public class MainView extends BaseView
                                     String jsonStr = MessageSender.JsonifyMoveDto(dto);
                                     Message moveMessage = MessageSender.BuildMoveMessage(dto, jsonStr);
 
-                                    HandleMove(moveMessage);
+                                    HandlePlayerMove(moveMessage);
                                 } catch (JsonSyntaxException | JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -263,10 +264,11 @@ public class MainView extends BaseView
     //    }
     }
 
-    private void HandleMove(Message move){
+    private void HandlePlayerMove(Message move){
 
         GameView gameFrag = GetGameFragment();
         gameFrag.ShowMoveOnBoard(move);
+        gameFrag.setPlayerTurn(move.getTo());
         gameFrag.setPlayerTurn(move.getTo());
     }
 
@@ -345,27 +347,27 @@ public class MainView extends BaseView
 
     //From the feed fragment
     @Override
-    public void onInitiateNewGame(String opponentName, String opponentImgUrl, String token) {
+    public void onInitiateNewGame(PlayerViewModel pvm) {
         GameEntry newGame = new GameEntry();
         newGame.setDatetime(new Date().toString());
         newGame.setInprogress(false);
         String gameId = UUID.randomUUID().toString();
         newGame.setGameId(gameId);
 
-        CheckifGameIdUniqueAsync(token, mytoken);
+        CheckifGameIdUniqueAsync(pvm.getModel().getToken(), mytoken);
 
         if(gamesInProgress == null)
             gamesInProgress = new ArrayList<>();
 
         gamesInProgress.add(newGame);
 
-        sendGameInviteToOpponent(token, newGame, opponentImgUrl);
+        sendGameInviteToOpponent(pvm.getModel().getToken(), newGame, pvm.getModel().getImageUri());
 
-        //saveToDb(newGame);
-       // Toast.makeText(this, opponentName + " selected", Toast.LENGTH_LONG).show();
+        saveToDb(newGame);
+        Toast.makeText(this, "saved invite to db", Toast.LENGTH_SHORT).show();
         NavigateToGameBoard();
-        GameView gFrag = GetGameFragment();
-        //gFrag.ShowMoveOnBoard();
+       // GameView gFrag = GetGameFragment(); TODO this will be a good call when you get everything to work with the invite then we can tack on the first move and update the local app to show the first move
+      //  gFrag.ShowMoveOnBoard();
     }
 
     private void NavigateToGameBoard() {
@@ -387,34 +389,37 @@ public class MainView extends BaseView
         else
         Toast.makeText(getApplicationContext(),  "invitation NOT sent", Toast.LENGTH_SHORT).show();
     }
-
-    private String BuildInvitationMessage(GameEntry newGame) {
-        return "wanna play?";
-    }
-
     private Boolean CheckifGameIdUniqueAsync(String token, String mytoken) {
         return true; //TODO do this for real in an async method.. no return obv if async
     }
 
     @Override
-    public void onNavigateToGame(String gameId, String opponentName, String opponentImgUrl, String opponentToken) {
+    public void onNavigateToGame(String gameId, PlayerViewModel pvm) {
+        Player player = pvm.getModel();
 
         if(IsAtLeastOneGameInProgress()) {
             setGameKey(gameId);
-            UpdateOpponent(opponentName,opponentImgUrl,opponentToken);
+            UpdateOpponent(player.getUserName(),player.getImageUri(),player.getToken());
 
         ChatView ChatFrag = GetChatFragment();
         if (ChatFrag != null) {
-            ChatFrag.upDateChatPlayer(gameId, opponentName,opponentToken,opponentImgUrl);
+            ChatFrag.upDateChatPlayer(gameId, player.getUserName(),player.getToken(),player.getImageUri());
         //    ChatFrag.refreshMessagesFromDb(gameId, this);
             mViewPager.setCurrentItem(1);
         }
 
         GameView GameFrag = GetGameFragment();
         if (GameFrag != null) {
-            GameFrag.UpdateGameInfo(gameId, opponentName, opponentToken, opponentImgUrl);
+            GameFrag.UpdateGameInfo(gameId, player.getUserName(),player.getToken(),player.getImageUri());
         }
         }
+    }
+
+    @Override
+    public void onSetPlayerTurn(PlayerViewModel playerVm) {
+
+        GameView gameFrag = GetGameFragment();
+        gameFrag.setPlayerTurn(playerVm.getModel().getToken());
     }
 
     private void UpdateOpponent(String opponentName, String opponentImgUrl, String opponentToken) {
