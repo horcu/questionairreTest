@@ -28,7 +28,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import github.ankushsachdeva.emojicon.R;
 
 /**
  * @author Ankush Sachdeva (sankush@yahoo.co.in)

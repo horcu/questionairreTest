@@ -10,6 +10,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.cjj.MaterialRefreshLayout;
+import com.cjj.MaterialRefreshListener;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.BR;
 import com.horcu.apps.peez.backend.models.playerApi.PlayerApi;
@@ -87,8 +90,6 @@ public class FeedView extends Fragment {
         binding = FragmentFeedBinding.inflate(inflater, container, false);
         playersViewModel = new PlayersViewModel();
 
-        binding.feedLoader.setVisibility(View.GONE);
-
         gameinProgressWithPlayerTest = false;
 
         GetPlayersFromServer(getActivity());
@@ -105,11 +106,36 @@ public class FeedView extends Fragment {
         });
        // Picasso.with(getContext()).load(R.drawable.joe).into(userIng);
 
+        binding.refresh.setMaterialRefreshListener(new MaterialRefreshListener() {
+               @Override
+               public void onRefresh(final MaterialRefreshLayout materialRefreshLayout) {
+                 ClearItems();
+                 GetPlayersFromServer(getContext());
+               }
+
+//               @Override
+//               public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
+//
+//                   binding.refresh.finishRefreshLoadMore();
+//               }
+           });
+
+     //   binding.refresh.setLoadMore(true);
+
+        // refresh complete
+
+
+        // load more refresh complete
+
+
         return binding.getRoot();
     }
 
-    private void GetPlayersFromServer(Context context) {
+    private void ClearItems() {
+        playersViewModel.playersVMs.clear();
+    }
 
+    private void GetPlayersFromServer(Context context) {
 
             vms =  new ObservableArrayList<>();
 
@@ -152,7 +178,9 @@ public class FeedView extends Fragment {
                     playersViewModel.playersVMs = new ObservableArrayList<>();
 
                 playersViewModel.playersVMs.addAll(vms);
-                binding.feedLoader.setVisibility(View.GONE);
+
+                if(binding.refresh != null)
+                binding.refresh.finishRefresh();
             }
 
        }.execute();
@@ -189,7 +217,7 @@ public class FeedView extends Fragment {
         // TODO: Update argument type and name
         void onInitiateNewGame(PlayerViewModel playerViewModel);
 
-        void onNavigateToGame(String gamekey, PlayerViewModel playerViewModel );
+        void onSwitchCurrentGame(String gamekey, PlayerViewModel playerViewModel );
 
         void onSetPlayerTurn(PlayerViewModel playerVm);
     }
@@ -212,11 +240,12 @@ public class FeedView extends Fragment {
 
                if(GameAlreadyInprogressWithPlayer()) {
                     String gameId = GetCurrentGameWithPlayer();// TODO this value should not be hardcoded in the called method
-                    mListener.onNavigateToGame(gameId, playerVm);
+                    mListener.onSwitchCurrentGame(gameId, playerVm);
              }
                 else
                 {
                    mListener.onInitiateNewGame(playerVm);
+                    mListener.onSwitchCurrentGame("", playerVm);
                     gameinProgressWithPlayerTest = true;
                     mListener.onSetPlayerTurn(playerVm);
                 }

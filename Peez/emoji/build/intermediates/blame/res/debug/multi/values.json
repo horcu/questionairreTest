@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\debug\\values\\values.xml",
+        "outputFile": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\build\\intermediates\\res\\merged\\debug\\values\\values.xml",
         "map": [
             {
                 "to": {
@@ -11,13 +11,13 @@
                     "endOffset": 303
                 },
                 "from": {
-                    "file": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\values\\attrs.xml",
+                    "file": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\src\\main\\res\\values\\attrs.xml",
                     "position": {
                         "startLine": 25,
                         "startColumn": 4,
-                        "startOffset": 936,
+                        "startOffset": 911,
                         "endColumn": 47,
-                        "endOffset": 979
+                        "endOffset": 954
                     }
                 }
             },
@@ -30,13 +30,13 @@
                     "endOffset": 349
                 },
                 "from": {
-                    "file": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 1,
                         "startColumn": 4,
-                        "startOffset": 17,
+                        "startOffset": 16,
                         "endColumn": 45,
-                        "endOffset": 58
+                        "endOffset": 57
                     }
                 }
             },
@@ -50,14 +50,14 @@
                     "endOffset": 837
                 },
                 "from": {
-                    "file": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\emoji\\src\\main\\res\\values\\attrs.xml",
+                    "file": "C:\\MyData\\StudioProjects\\Peez\\Peez\\emoji\\src\\main\\res\\values\\attrs.xml",
                     "position": {
                         "startLine": 27,
                         "startColumn": 4,
-                        "startOffset": 987,
+                        "startOffset": 960,
                         "endLine": 36,
                         "endColumn": 12,
-                        "endOffset": 1479
+                        "endOffset": 1443
                     }
                 }
             }

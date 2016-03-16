@@ -2,88 +2,104 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:emojicon="http://schemas.android.com/tools"
-    android:layout_marginBottom="5dp"
-    android:layout_marginTop="5dp">
+    xmlns:emojicon="http://schemas.android.com/tools" >
 
     <data>
-
         <variable
             name="playerVm"
             type="com.horcu.apps.peez.viewmodel.PlayerViewModel"/>
     </data>
 
-
-    <android.support.v7.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="5dp"
-        app:cardElevation="2dp"
-        app:cardBackgroundColor="#ffefefef"
-        app:contentPadding="5dp"
-        app:cardCornerRadius="1dp" >
+        android:orientation="vertical" >
 
-        <LinearLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="5dp"
-            >
+            android:padding="3dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="#fff"
+            app:contentPadding="4dp"
+            app:cardCornerRadius="2dp">
 
-        <com.horcu.apps.peez.custom.UserImageView
-            android:id="@+id/user_img"
-            android:layout_width="38dp"
-            android:layout_height="38dp"
-            android:layout_margin="10dp"
-            app:imageUrl="@{playerVm.model.imageUri}"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="3dp">
-
-        <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/item_user_name"
-                android:fontFamily="sans-serif-thin"
-                android:textSize="18sp"
-                android:textColor="#333333"
-                android:layout_gravity="center_vertical"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginRight="10dp"
-                android:text="@{playerVm.model.userName}"
-                tools:text="Hello"/>
+                android:orientation="horizontal"
+                android:padding="2dp" >
 
-        <TextView
-            android:id="@+id/item_user_surname"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-thin"
-            android:textSize="16sp"
-            android:textColor="@color/colorPrimaryDark"
-            android:layout_margin="5dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            emojicon:emojiconAlignment="baseline"
-            android:layout_width="wrap_content"
-            android:text="@{playerVm.model.token}"
-            android:layout_height="wrap_content"/>
+                <com.horcu.apps.peez.custom.UserImageView
+                    android:id="@+id/user_img"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="10dp"
+                    app:imageUrl="@{playerVm.model.imageUri}"/>
 
-            <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:alpha=".5"
-                android:src="@drawable/ic_navigation_check"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="0dp"
+                    android:orientation="horizontal">
 
-        </LinearLayout>
+                    <TextView
+                        android:id="@+id/item_user_surname"
+                        android:layout_weight="1"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textSize="16sp"
+                        android:textColor="#ff222222"
+                        android:layout_margin="2dp"
+                        emojicon:emojiconAlignment="baseline"
+                        android:layout_width="wrap_content"
+                        android:text="@{playerVm.model.userName}"
+                        android:layout_gravity="center_vertical"
+                        android:layout_height="wrap_content"/>
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/item_user_name"
+                        android:fontFamily="sans-serif-thin"
+                        android:textSize="15sp"
+                        android:textColor="#333333"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="2dp"
+                        android:text="@{playerVm.model.email}"
+                        tools:text="Hello"/>
 
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="10"/>
 
-        </LinearLayout>
+                    <ImageView
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:alpha=".5"
+                        android:visibility="visible"
+                        android:src="@drawable/ic_navigation_close"/>
 
-    </android.support.v7.widget.CardView>
+                </LinearLayout>
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:alpha=".4"
+            android:background="@color/light_grey"/>
+    </LinearLayout>
+
 </layout>

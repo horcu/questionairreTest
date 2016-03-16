@@ -355,7 +355,7 @@ public class MainView extends BaseView
         newGame.setInprogress(false);
         String gameId = UUID.randomUUID().toString();
         newGame.setGameId(gameId);
-
+        setGameKey(gameId);
         CheckifGameIdUniqueAsync(pvm.getModel().getToken(), mytoken);
 
         if(gamesInProgress == null)
@@ -367,14 +367,14 @@ public class MainView extends BaseView
 
         saveToDb(newGame);
         Toast.makeText(this, "saved invite to db", Toast.LENGTH_SHORT).show();
-        NavigateToGameBoard();
+        RefreshPager();
+
        // GameView gFrag = GetGameFragment(); TODO this will be a good call when you get everything to work with the invite then we can tack on the first move and update the local app to show the first move
       //  gFrag.ShowMoveOnBoard();
     }
 
-    private void NavigateToGameBoard() {
+    private void RefreshPager() {
         mViewPager.getAdapter().notifyDataSetChanged();
-        mViewPager.setCurrentItem(1);
     }
 
     private void sendGameInviteToOpponent(String token, GameEntry newGame, String opponentImgUrl) {
@@ -396,25 +396,30 @@ public class MainView extends BaseView
     }
 
     @Override
-    public void onNavigateToGame(String gameId, PlayerViewModel pvm) {
+    public void onSwitchCurrentGame(String gameId, PlayerViewModel pvm) {
         Player player = pvm.getModel();
 
-        if(IsAtLeastOneGameInProgress()) {
+      //  if(IsAtLeastOneGameInProgress()) {
+
+        if(!gameId.equals(""))
             setGameKey(gameId);
+
             UpdateOpponent(player.getUserName(),player.getImageUri(),player.getToken());
+
+            mViewPager.setCurrentItem(1);
 
         ChatView ChatFrag = GetChatFragment();
         if (ChatFrag != null) {
             ChatFrag.upDateChatPlayer(gameId, player.getUserName(),player.getToken(),player.getImageUri());
         //    ChatFrag.refreshMessagesFromDb(gameId, this);
-            mViewPager.setCurrentItem(1);
+
         }
 
         GameView GameFrag = GetGameFragment();
         if (GameFrag != null) {
             GameFrag.UpdateGameInfo(gameId, player.getUserName(),player.getToken(),player.getImageUri());
         }
-        }
+      //  }
     }
 
     @Override

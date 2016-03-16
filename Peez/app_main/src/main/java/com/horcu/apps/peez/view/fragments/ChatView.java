@@ -49,12 +49,16 @@ import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinder;
 import java.util.Date;
 import java.util.UUID;
 
+import github.ankushsachdeva.emojicon.EmojiconEditText;
 import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconsPopup;
 import github.ankushsachdeva.emojicon.emoji.Emojicon;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
+//import io.realm.Realm;
+//import io.realm.RealmConfiguration;
+//import io.realm.RealmResults;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -123,6 +127,12 @@ public class ChatView extends Fragment {
         mLogger = new LoggingService.Logger(getActivity());
         mSenders = SenderCollection.getInstance(getActivity());
         myToken = settings.getString(consts.REG_ID,"");
+
+        // Create a RealmConfiguration which is to locate Realm file in package's "files" directory.
+     //  realmConfig = new RealmConfiguration.Builder(getContext()).build();
+        // Get a Realm instance for this thread
+     //   realm = Realm.getInstance(realmConfig);
+
     }
 
     @Override
@@ -171,7 +181,7 @@ public class ChatView extends Fragment {
 
             @Override
             public void onDismiss() {
-                changeEmojiKeyboardIcon(binding.getEmojis, R.drawable.smiley);
+                changeEmojiKeyboardIcon(binding.emojiBtn, R.drawable.smiley);
             }
         });
 
@@ -180,7 +190,6 @@ public class ChatView extends Fragment {
 
             @Override
             public void onKeyboardOpen(int keyBoardHeight) {
-
             }
 
             @Override
@@ -195,16 +204,16 @@ public class ChatView extends Fragment {
 
             @Override
             public void onEmojiconClicked(Emojicon emojicon) {
-                if (binding.usersViewLastname == null || emojicon == null) {
+                if (binding.emojiconEditText == null || emojicon == null) {
                     return;
                 }
 
-                int start = binding.usersViewLastname.getSelectionStart();
-                int end = binding.usersViewLastname.getSelectionEnd();
+                int start = binding.emojiconEditText.getSelectionStart();
+                int end = binding.emojiconEditText.getSelectionEnd();
                 if (start < 0) {
-                    binding.usersViewLastname.append(emojicon.getEmoji());
+                    binding.emojiconEditText.append(emojicon.getEmoji());
                 } else {
-                    binding.usersViewLastname.getText().replace(Math.min(start, end),
+                    binding.emojiconEditText.getText().replace(Math.min(start, end),
                             Math.max(start, end), emojicon.getEmoji(), 0,
                             emojicon.getEmoji().length());
                 }
@@ -218,12 +227,12 @@ public class ChatView extends Fragment {
             public void onEmojiconBackspaceClicked(View v) {
                 KeyEvent event = new KeyEvent(
                         0, 0, 0, KeyEvent.KEYCODE_DEL, 0, 0, 0, 0, KeyEvent.KEYCODE_ENDCALL);
-                binding.usersViewLastname.dispatchKeyEvent(event);
+                binding.emojiconEditText.dispatchKeyEvent(event);
             }
         });
 
         // To toggle between text keyboard and emoji keyboard keyboard(Popup)
-        binding.getEmojis.setOnClickListener(new View.OnClickListener() {
+        binding.emojiBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -234,17 +243,17 @@ public class ChatView extends Fragment {
                     //If keyboard is visible, simply show the emoji popup
                     if(popup.isKeyBoardOpen()){
                         popup.showAtBottom();
-                        changeEmojiKeyboardIcon(binding.getEmojis, R.drawable.ic_action_keyboard);
+                        changeEmojiKeyboardIcon(binding.emojiBtn, R.drawable.ic_action_keyboard);
                     }
 
                     //else, open the text keyboard first and immediately after that show the emoji popup
                     else{
-                        binding.usersViewLastname.setFocusableInTouchMode(true);
-                        binding.usersViewLastname.requestFocus();
+                        binding.emojiconEditText.setFocusableInTouchMode(true);
+                        binding.emojiconEditText.requestFocus();
                         popup.showAtBottomPending();
                         final InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                        inputMethodManager.showSoftInput(binding.usersViewLastname, InputMethodManager.SHOW_IMPLICIT);
-                        changeEmojiKeyboardIcon(binding.getEmojis, R.drawable.ic_action_keyboard);
+                        inputMethodManager.showSoftInput(binding.emojiconEditText, InputMethodManager.SHOW_IMPLICIT);
+                        changeEmojiKeyboardIcon(binding.emojiBtn, R.drawable.ic_action_keyboard);
                     }
                 }
 
@@ -257,17 +266,13 @@ public class ChatView extends Fragment {
 
         binding.activityUsersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        refreshMessagesFromDb(gameId, getActivity());
+        //refreshMessagesFromDb(gameId, getActivity());
 
         return binding.getRoot(); //inflater.inflate(R.layout.fragment_chat_view, container, false);
     }
 
     public void refreshMessagesFromDb(final String gameId, Context ctx) {
 
-        realmConfig = new RealmConfiguration.Builder(ctx).build();
-       // realm.close();
-        //Realm.deleteRealm(realmConfig);
-        realm = Realm.getInstance(realmConfig);
         final ObservableArrayList<MessageViewModel> vms = new ObservableArrayList<>();
 
         // Query and update the result asynchronously in another thread
@@ -410,7 +415,7 @@ public class ChatView extends Fragment {
                 try {
                     Date d = new Date();
                     long time = d.getTime();
-                    String message = getStringFromEditText(binding.usersViewLastname);
+                    String message = getStringFromEditText(binding.emojiconEditText);
 
                     //build up the message oject to send to opponent
                     SmsDto dto = new SmsDto(myToken,message_recipient, message, String.valueOf(time), playerImageUri);
@@ -424,11 +429,12 @@ public class ChatView extends Fragment {
                         if (sender.SendSMS(sms)) {
                             try {
                                 // save to db
-                                realm.beginTransaction();
-                                realm.copyToRealm(me);
-                                realm.commitTransaction();
 
-                                Toast.makeText(getActivity(), "added to db!", Toast.LENGTH_SHORT).show();
+                              //  realm.beginTransaction();
+                             //   realm.copyToRealm(me);
+                              //  realm.commitTransaction();
+
+                              //  Toast.makeText(getActivity(), "added to db!", Toast.LENGTH_SHORT).show();
 
                                 //Create an entry for showing the text
                                 messagesViewModel.messageViewModels.add(new SuperMessageViewModel(me));
@@ -442,7 +448,7 @@ public class ChatView extends Fragment {
                             Toast.makeText(getActivity(), "failed ;/", Toast.LENGTH_LONG).show();
                             return;
                         }
-                        ((EditText) binding.getRoot().findViewById(R.id.users_view_lastname)).setText("");
+                        ((EmojiconEditText) binding.getRoot().findViewById(R.id.emojicon_edit_text)).setText("");
                         ((RecyclerView) binding.getRoot().findViewById(R.id.activity_users_recycler)).smoothScrollToPosition(messagesViewModel.messageViewModels.size() - 1);
 
                     } catch (Exception e) {
@@ -452,17 +458,17 @@ public class ChatView extends Fragment {
         };
     }
 
-    public View.OnClickListener onEmojiButtonClick()
-    {
-        return new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-
-            }
-        };
-    }
+//    public View.OnClickListener onEmojiButtonClick()
+//    {
+//        return new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View v)
+//            {
+//
+//            }
+//        };
+//    }
 
    public ClickHandler<MessageViewModel> clickHandler()
     {

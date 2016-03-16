@@ -27,26 +27,25 @@
         android:layout_height="match_parent"
         android:layout_marginTop="10dp">
 
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/players_recycler"
+        <com.cjj.MaterialRefreshLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:items="@{playersVM.playersVMs}"
-            app:clickHandler="@{view.playerClicked}"
-            app:itemViewBinder="@{view.itemViewBinder}">
+            android:layout_height="match_parent" >
 
-        </android.support.v7.widget.RecyclerView>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/players_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                app:items="@{playersVM.playersVMs}"
+                app:clickHandler="@{view.playerClicked}"
+                app:itemViewBinder="@{view.itemViewBinder}">
 
-        <com.wang.avi.AVLoadingIndicatorView
-        android:id="@+id/feed_loader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        app:indicator="BallPulse"
-        android:layout_centerInParent="true"
-        app:indicator_color="#898989"
-        />
+            </android.support.v7.widget.RecyclerView>
+
+        </com.cjj.MaterialRefreshLayout>
 
     </RelativeLayout>
 

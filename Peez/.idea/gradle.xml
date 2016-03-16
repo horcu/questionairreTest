@@ -14,7 +14,6 @@
             <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/emoji" />
             <option value="$PROJECT_DIR$/recyclerview-binding" />
-            <option value="$PROJECT_DIR$/sample" />
           </set>
         </option>
         <option name="myModules">
@@ -26,7 +25,6 @@
             <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/emoji" />
             <option value="$PROJECT_DIR$/recyclerview-binding" />
-            <option value="$PROJECT_DIR$/sample" />
           </set>
         </option>
       </GradleProjectSettings>

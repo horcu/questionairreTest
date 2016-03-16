@@ -52,7 +52,7 @@
             <!--android:text="@{msgVM.model.datetime}"-->
                 <!--tools:text="Hello"/>-->
 
-        <TextView
+        <github.ankushsachdeva.emojicon.EmojiconTextView
             android:id="@+id/item_user_surname"
             android:layout_weight="1"
             android:fontFamily="sans-serif-condensed"

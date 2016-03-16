@@ -252,7 +252,7 @@ public class GameView extends Fragment {
             SetPlayerDotListeners(cb,v,from);
 
             //animate the player in the tile
-            ShowPlayerDotAnimation(cb);
+            SetPlayerDotBackground(cb);
             ShowSnack(grid, message);
 
         } catch (NumberFormatException e) {
@@ -301,8 +301,6 @@ public class GameView extends Fragment {
         View playerDot = ((CardView)v).getChildAt(0);// TODO this is assuming that the first child will always be the player dot... this is not ideal. Maybe add the cards and circle dots using naming conventions so they can be found by id.. eg card_03 > cb_03 etc..
         YoYo.with(Techniques.FadeIn).duration(1000).playOn(playerDot);
         YoYo.with(Techniques.Pulse).duration(1000).playOn(playerDot);
-
-
     }
 
     private void MovePlayerFromOldLocation(View from) {
@@ -326,7 +324,6 @@ public class GameView extends Fragment {
         params.height = 40;
         params.width = 40;
         cb.setLayoutParams(params);
-
         ((CardView)v).addView(cb);
         return cb;
     }
@@ -341,14 +338,10 @@ public class GameView extends Fragment {
 
     }
 
-    private void ShowPlayerDotAnimation(CircleButton cb) {
+    private void SetPlayerDotBackground(CircleButton cb) {
         int favColor = settings.getInt(consts.FAV_COLOR, 000000);
-        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        params.width = 40;
-        params.height = 40;
         cb.setBackground(new ColorDrawable(favColor));
         cb.setColor(favColor);
-
     }
 
     private ICubeGridAnimCallback mCubeGridAnimCallback = new ICubeGridAnimCallback() {
