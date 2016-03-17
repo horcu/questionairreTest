@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -140,10 +141,9 @@ public class GameView extends Fragment {
 
                     Date d = new Date();
                     long time = d.getTime();
-                    int color = settings.getInt(consts.FAV_COLOR, Color.parseColor("#111111"));
+                    int color = GetFavoriteColor(); // getResources().getColor(settings.getInt(consts.FAV_COLOR, Color.parseColor("#551A8B")));
 
                     String collapseKey = String.valueOf(UUID.randomUUID());
-
 
                     MMDto dto = new MMDto(currentSpot, String.valueOf(finalI), "move made!", String.valueOf(time), myToken, opponent.getToken(), opponent.getImageUri(), color, collapseKey);
                     String message = MessageSender.JsonifyMoveDto(dto);
@@ -172,9 +172,22 @@ public class GameView extends Fragment {
         return root;
     }
 
+
+    @NonNull
+    private int GetFavoriteColor() {
+        if(settings == null)
+            settings = getActivity().getSharedPreferences("Peez", 0);
+
+        int savedColorIndex = settings.getInt(consts.FAV_COLOR, 0) != 0
+                ? settings.getInt(consts.FAV_COLOR, 0)
+                : Color.parseColor("#a5a5c9");
+
+        return getResources().getIntArray(R.array.Colors)[savedColorIndex];
+    }
+
     private boolean MyTurn() {
        // return playerTurn != null &&  playerTurn.equals(myToken);
-        return false;
+        return true;
     }
 
     public void setCurrentSpot(String moveTo) {
@@ -230,26 +243,25 @@ public class GameView extends Fragment {
     public void ShowMoveOnBoard(Message message) {
         try {
             int position = Integer.parseInt(message.getTo());
-            View v = grid.getChildAt(position);
-            v.setBackground(new ColorDrawable(message.getColor()));
-            View from = grid.getChildAt(Integer.parseInt(message.getFrom()));
+            CardView moveTo = (CardView) grid.getChildAt(position);
+            CardView from = (CardView) grid.getChildAt(Integer.parseInt(message.getFrom()));
 
-            from.setBackground(new ColorDrawable(message.getColor()));
+            from.setBackground(new ColorDrawable(Color.LTGRAY));
             from.setAlpha(.7f);
             from.setBackgroundResource(R.drawable.ic_mt);
 
             //create the new player dot
-            CircleButton cb = AddButtonToCard(v);
+            CircleButton cb = AddButtonToCard(moveTo);
 
             //move the player from the old spot
             if(currentSpot != "0")
             MovePlayerFromOldLocation(from);
 
             //move player to new spot
-            MovePlayerToNewLocation(v);
+            MovePlayerToNewLocation(moveTo);
 
             //set up click and drag listeners
-            SetPlayerDotListeners(cb,v,from);
+            SetPlayerDotListeners(cb,moveTo,from);
 
             //animate the player in the tile
             SetPlayerDotBackground(cb);
@@ -263,6 +275,13 @@ public class GameView extends Fragment {
     }
 
     private void SetPlayerDotListeners(CircleButton cb, View to, View from) {
+
+        cb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "clicked: " + v.getTag().toString(), Toast.LENGTH_LONG).show();
+            }
+        });
 
         cb.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -298,63 +317,59 @@ public class GameView extends Fragment {
     }
 
     private void MovePlayerToNewLocation(View v) {
-        View playerDot = ((CardView)v).getChildAt(0);// TODO this is assuming that the first child will always be the player dot... this is not ideal. Maybe add the cards and circle dots using naming conventions so they can be found by id.. eg card_03 > cb_03 etc..
-        YoYo.with(Techniques.FadeIn).duration(1000).playOn(playerDot);
-        YoYo.with(Techniques.Pulse).duration(1000).playOn(playerDot);
+        try {
+            View playerDot = ((CardView)v).getChildAt(0);// TODO this is assuming that the first child will always be the player dot... this is not ideal. Maybe add the cards and circle dots using naming conventions so they can be found by id.. eg card_03 > cb_03 etc..
+            YoYo.with(Techniques.FadeIn).duration(1000).playOn(playerDot);
+            YoYo.with(Techniques.Pulse).duration(1000).playOn(playerDot);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void MovePlayerFromOldLocation(View from) {
-        View playerDot = ((CardView)from).getChildAt(0);// TODO this is assuming that the first child will always be the player dot... this is not ideal. Maybe add the cards and circle dots using naming conventions so they can be found by id.. eg card_03 > cb_03 etc..
-        YoYo.with(Techniques.FadeOut).duration(1000).playOn(playerDot);
+        try {
+            View playerDot = ((CardView)from).getChildAt(0);// TODO this is assuming that the first child will always be the player dot... this is not ideal. Maybe add the cards and circle dots using naming conventions so they can be found by id.. eg card_03 > cb_03 etc..
+            YoYo.with(Techniques.FadeOut).duration(1000).playOn(playerDot);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    private CircleButton AddButtonToCard(View v) {
+    private CircleButton AddButtonToCard(CardView v) {
 
-        CircleButton cb = new CircleButton(getContext());
-        cb.setOnDragListener(new View.OnDragListener() {
-            @Override
-            public boolean onDrag(View v, DragEvent event) {
-                Toast.makeText(getContext(),"moving",Toast.LENGTH_SHORT).show();
-                v.setBackground(new ColorDrawable(Color.LTGRAY));
-                return true;
-            }
-        });
-
-        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.height = 40;
-        params.width = 40;
-        cb.setLayoutParams(params);
-        ((CardView)v).addView(cb);
-        return cb;
+        try {
+            CircleButton cb = new CircleButton(getContext());
+            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.height = 40;
+            params.width = 40;
+            cb.setLayoutParams(params);
+            v.addView(cb);
+            return cb;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private void ShowSnack(View parent, Message message) {
-        SpannableStringBuilder builder = new SpannableStringBuilder();
-        builder.setSpan(new ImageSpan(getActivity(), R.drawable.ic_launcher), builder.length() - 1, builder.length(), 0); //TODO user image here instead of default iconm
-        builder.append("from ").append(message.getFrom());
-        builder.append(" ");
-        builder.append("to ").append(message.getTo());
-        Snackbar.make(parent, builder, Snackbar.LENGTH_INDEFINITE).show();
+        try {
+            SpannableStringBuilder builder = new SpannableStringBuilder();
+            builder.setSpan(new ImageSpan(getActivity(), R.drawable.ic_launcher), builder.length() - 1, builder.length(), 0); //TODO user image here instead of default iconm
+            builder.append("from ").append(message.getFrom());
+            builder.append(" ");
+            builder.append("to ").append(message.getTo());
+            Snackbar.make(parent, builder, Snackbar.LENGTH_INDEFINITE).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
     private void SetPlayerDotBackground(CircleButton cb) {
-        int favColor = settings.getInt(consts.FAV_COLOR, 000000);
+        int favColor = GetFavoriteColor();
         cb.setBackground(new ColorDrawable(favColor));
         cb.setColor(favColor);
     }
-
-    private ICubeGridAnimCallback mCubeGridAnimCallback = new ICubeGridAnimCallback() {
-        @Override
-        public void onAnimStart() {
-            Toast.makeText(getActivity(), "your move!", Toast.LENGTH_LONG).show();
-        }
-
-        @Override
-        public void onAnimEnd() {
-       //     Toast.makeText(getActivity(), "ok now its your move!", Toast.LENGTH_LONG).show();
-        }
-    };
 
     /**
      * This interface must be implemented by activities that contain this

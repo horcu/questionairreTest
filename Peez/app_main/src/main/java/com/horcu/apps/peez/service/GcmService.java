@@ -77,7 +77,6 @@ public class GcmService extends GcmListenerService {
             Log.d("bitmap decoding error: ", data.toString());
             return;
         }
-
     }
 
     private void notifyUserAndLogMessage(String message, Bitmap bitmap, String messageType) {

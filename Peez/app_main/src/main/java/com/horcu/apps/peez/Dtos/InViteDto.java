@@ -1,5 +1,7 @@
 package com.horcu.apps.peez.Dtos;
 
+import android.graphics.Color;
+
 public class InviteDto {
     private final String message;
     private final String dateTime;
@@ -12,11 +14,11 @@ public class InviteDto {
     public InviteDto(String message, String dateTime, String senderToken, String receiverToken, String senderUrl, int color, String collapseKey) {
         this.message = message;
         this.dateTime = dateTime;
-        this.senderToken = senderToken;
-        this.receiverToken = receiverToken;
-        this.senderUrl = senderUrl;
-        this.color = color;
-        this.collapseKey = collapseKey;
+        this.senderToken = senderToken == null ? "" : senderToken;
+        this.receiverToken = receiverToken == null ? "" : receiverToken;
+        this.senderUrl = senderUrl == null ? "" : senderUrl;
+        this.color = color == 0 ? Color.LTGRAY : color;
+        this.collapseKey = collapseKey == null ? "987654321" : collapseKey;
     }
 
     public String getDateTime() {

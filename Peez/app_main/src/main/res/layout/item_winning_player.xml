@@ -13,85 +13,96 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="3dp"
-        app:cardElevation="0dp"
-        app:cardBackgroundColor="#fff"
-        app:contentPadding="4dp"
-        app:cardCornerRadius="2dp">
+        android:orientation="vertical" >
+
+<android.support.v7.widget.CardView
+    android:id="@+id/main_user_info"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:orientation="horizontal"
-        android:padding="2dp" >
+        android:layout_marginBottom="5dp">
 
         <com.horcu.apps.peez.custom.UserImageView
-            android:id="@+id/user_img"
             android:layout_width="38dp"
             android:layout_height="38dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="2dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="16dp"
+            android:layout_gravity="center"
             app:imageUrl="@{playerVm.model.imageUri}"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{playerVm.model.email}"
+            android:textSize="20sp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="10"
+            android:fontFamily="sans-serif-thin"
+            android:layout_gravity="center"/>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:background="@color/darkGrey"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:alpha=".3"
+            android:layout_marginRight="10dp" />
+
+
+        <at.markushi.ui.CircleButton
+            android:id="@+id/ind_on_of"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:cb_color="#9e9e9e"
+            android:layout_marginLeft="5dp"
+            android:layout_gravity="center"
+            android:foregroundGravity="center"/>
+
+        <ImageView
+            android:id="@+id/ind_message"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_message_on"/>
+
+        <ImageView
+            android:id="@+id/ind_invitation"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_notification_on"/>
+
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="15"/>
+
+
+        <ImageView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:padding="0dp"
-            android:orientation="horizontal">
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/grey_mid"
+            android:fontFamily="sans-serif-smallcaps"
+            android:layout_marginRight="16dp"
+            android:alpha=".5"
+            android:src="@drawable/ic_expand_more_black_24dp"/>
 
-        <TextView
-            android:id="@+id/item_user_surname"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-condensed"
-            android:textSize="16sp"
-            android:textColor="#ff222222"
-            android:layout_margin="2dp"
-            emojicon:emojiconAlignment="baseline"
-            android:layout_width="wrap_content"
-            android:text="@{playerVm.model.userName}"
-            android:layout_gravity="center_vertical"
-            android:layout_height="wrap_content"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/item_user_name"
-                android:fontFamily="sans-serif-thin"
-                android:textSize="15sp"
-                android:textColor="#333333"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="20dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
-                android:text="@{playerVm.model.email}"
-                tools:text="Hello"/>
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="10"/>
-
-            <ImageView
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:alpha=".5"
-                android:visibility="visible"
-                android:src="@drawable/ic_navigation_close"/>
-
-       </LinearLayout>
     </LinearLayout>
 
-    </android.support.v7.widget.CardView>
+</android.support.v7.widget.CardView>
+
 
         <View
             android:layout_width="match_parent"
@@ -100,6 +111,11 @@
             android:layout_marginEnd="32dp"
             android:alpha=".7"
             android:background="@color/light_grey"/>
+
+        <include layout="@layout/fragment_user_badge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/main_user_info"/>
     </LinearLayout>
 
 </layout>

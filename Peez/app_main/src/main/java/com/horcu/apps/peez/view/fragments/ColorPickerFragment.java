@@ -89,13 +89,14 @@ public class ColorPickerFragment extends Fragment {
             CircleButton cb = (CircleButton) grid.getChildAt(i);
             cb.setTag(color);
            //SetButtonColor(cb,i);
+            final int finalI = i;
             cb.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
                     settings.edit().putInt(consts.FAV_COLOR, color).apply();
                     Toast.makeText(getContext(), "color changed to " + color, Toast.LENGTH_LONG).show();
-                    mListener.OnColorChosen(color);
+                    mListener.OnColorChosen(finalI);
                     Toast.makeText(getContext(), "registering... " + color, Toast.LENGTH_LONG).show();
                 }
             });

@@ -67,8 +67,6 @@ public class FeedView extends Fragment {
     public static FeedView newInstance() {
         FeedView fragment = new FeedView();
         Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -261,6 +259,4 @@ public class FeedView extends Fragment {
     private boolean GameAlreadyInprogressWithPlayer() {
         return gameinProgressWithPlayerTest;
     }
-
-
 }

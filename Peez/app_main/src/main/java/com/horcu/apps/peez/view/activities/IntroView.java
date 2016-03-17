@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -110,12 +111,16 @@ public class IntroView extends IntroActivity implements OnColorChosenListener {
         };
        }
 
+
     @NonNull
     private int GetFavoriteColor() {
         if(settings == null)
             settings = getSharedPreferences("Peez", 0);
 
-       return settings.getInt(consts.FAV_COLOR, 0);
+        int color = getResources().getColor(settings.getInt(consts.FAV_COLOR, 0));
+        if(color == 0)
+            return Color.parseColor("#a5a5c9");
+        return color;
     }
 
     private boolean deviceRegistered() {
@@ -131,9 +136,7 @@ public class IntroView extends IntroActivity implements OnColorChosenListener {
         userSettingsApi = ApiServicesBuilber.BuildUserSettingsApiService();
 
         settings = getSharedPreferences("Peez", 0);
-
-            credential = GoogleAccountCredential.usingAudience(this, consts.GOOGLE_ACCOUNT_CREDENTIALS_AUDIENCE);
-
+        credential = GoogleAccountCredential.usingAudience(this, consts.GOOGLE_ACCOUNT_CREDENTIALS_AUDIENCE);
         String name = settings.getString(consts.PREF_ACCOUNT_NAME, null);
 
         if (name == null) {
@@ -240,7 +243,11 @@ public class IntroView extends IntroActivity implements OnColorChosenListener {
     }
 
     @Override
-    public void OnColorChosen(int color) {
+    public void OnColorChosen(int colorIndex) {
+        if(settings == null)
+            settings = getSharedPreferences("Peez", 0);
+        settings.edit().putInt(consts.FAV_COLOR, colorIndex).apply();
+
         CompleteRegistrationAndLogIn();
     }
 }
