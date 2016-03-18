@@ -38,48 +38,29 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{playerVm.model.email}"
-            android:textSize="20sp"
+            android:text="@{playerVm.model.userName}"
+            android:textSize="17sp"
             android:layout_marginLeft="10dp"
             android:layout_weight="10"
             android:fontFamily="sans-serif-thin"
             android:layout_gravity="center"/>
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:background="@color/darkGrey"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:alpha=".3"
-            android:layout_marginRight="10dp" />
 
+        <!--<ImageView-->
+            <!--android:id="@+id/ind_message"-->
+            <!--android:layout_width="20dp"-->
+            <!--android:layout_height="20dp"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:src="@drawable/ic_message_on"/>-->
 
-        <at.markushi.ui.CircleButton
-            android:id="@+id/ind_on_of"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            app:cb_color="#9e9e9e"
-            android:layout_marginLeft="5dp"
-            android:layout_gravity="center"
-            android:foregroundGravity="center"/>
-
-        <ImageView
-            android:id="@+id/ind_message"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_message_on"/>
-
-        <ImageView
-            android:id="@+id/ind_invitation"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginLeft="10dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_notification_on"/>
+        <!--<ImageView-->
+            <!--android:id="@+id/ind_invitation"-->
+            <!--android:layout_width="25dp"-->
+            <!--android:layout_height="25dp"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:src="@drawable/ic_notification_on"/>-->
 
 
         <Space
@@ -88,16 +69,15 @@
             android:layout_weight="15"/>
 
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/grey_mid"
-            android:fontFamily="sans-serif-smallcaps"
+        <at.markushi.ui.CircleButton
+        android:id="@+id/ind_on_of"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        app:cb_color="@color/bub"
+        android:layout_marginLeft="5dp"
             android:layout_marginRight="16dp"
-            android:alpha=".5"
-            android:src="@drawable/ic_expand_more_black_24dp"/>
+        android:layout_gravity="center"
+        android:foregroundGravity="center"/>
 
     </LinearLayout>
 
@@ -112,10 +92,10 @@
             android:alpha=".7"
             android:background="@color/light_grey"/>
 
-        <include layout="@layout/fragment_user_badge"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/main_user_info"/>
+        <!--<include layout="@layout/fragment_user_badge"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/main_user_info"/>-->
     </LinearLayout>
 
 </layout>

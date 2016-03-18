@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.DrawableWrapper;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,11 +23,14 @@ import android.widget.Toast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.horcu.apps.peez.R;
+import com.horcu.apps.peez.backend.models.gameboard.tileApi.model.Tile;
 import com.horcu.apps.peez.backend.models.playerApi.model.Player;
 import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.custom.AutoFitGridLayout;
 import com.horcu.apps.peez.Dtos.MMDto;
 import com.horcu.apps.peez.custom.MessageSender;
+import com.horcu.apps.peez.custom.TilePieceGenerator;
+import com.horcu.apps.peez.custom.TileView;
 import com.horcu.apps.peez.gcm.message.Message;
 import com.horcu.apps.peez.misc.SenderCollection;
 import com.horcu.apps.peez.service.LoggingService;
@@ -127,49 +131,52 @@ public class GameView extends Fragment {
                 setCurrentSpot("0");
 
             CardView child = (CardView) grid.getChildAt(i);
-            child.setCardElevation(0);
-
-            child.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    if(!MyTurn())
-                    {
-                        Toast.makeText(getContext(),"Not your turn",Toast.LENGTH_SHORT).show();
-                    return;
-                    }
-
-                    Date d = new Date();
-                    long time = d.getTime();
-                    int color = GetFavoriteColor(); // getResources().getColor(settings.getInt(consts.FAV_COLOR, Color.parseColor("#551A8B")));
-
-                    String collapseKey = String.valueOf(UUID.randomUUID());
-
-                    MMDto dto = new MMDto(currentSpot, String.valueOf(finalI), "move made!", String.valueOf(time), myToken, opponent.getToken(), opponent.getImageUri(), color, collapseKey);
-                    String message = MessageSender.JsonifyMoveDto(dto);
-
-                    Message moveMessage = MessageSender.BuildMoveMessage(dto, message);
-
-                    MessageSender sender = new MessageSender(getActivity(), mLogger, mSenders);
-
-                    if(opponent.getToken() == null || myToken == null){
-                        Toast.makeText(getActivity(), "no recipient chosen", Toast.LENGTH_LONG).show();
-                    }
-                    else if(opponent.getToken().equals("")){
-                        Toast.makeText(getActivity(), "no recipient chosen", Toast.LENGTH_LONG).show();
-                    }
-                    else if (sender.SendMove(moveMessage)) {
-                        ShowMoveOnBoard(moveMessage);
-                        setCurrentSpot(moveMessage.getTo());
-                        Toast.makeText(getActivity(), "sent!", Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(getActivity(), "failed ;/", Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
+            child.setCardElevation(1);
+            child.setOnClickListener(HandleTileClick(finalI));
         }
-
         return root;
+    }
+
+    @NonNull
+    private View.OnClickListener HandleTileClick(final int finalI) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(!MyTurn())
+                {
+                    Toast.makeText(getContext(),"Not your turn",Toast.LENGTH_SHORT).show();
+                return;
+                }
+
+                Date d = new Date();
+                long time = d.getTime();
+                int color = GetFavoriteColor(); // getResources().getColor(settings.getInt(consts.FAV_COLOR, Color.parseColor("#551A8B")));
+
+                String collapseKey = String.valueOf(UUID.randomUUID());
+
+                MMDto dto = new MMDto(currentSpot, String.valueOf(finalI), "move made!", String.valueOf(time), myToken, opponent.getToken(), opponent.getImageUri(), color, collapseKey);
+                String message = MessageSender.JsonifyMoveDto(dto);
+
+                Message moveMessage = MessageSender.BuildMoveMessage(dto, message);
+
+                MessageSender sender = new MessageSender(getActivity(), mLogger, mSenders);
+
+                if(opponent.getToken() == null || myToken == null){
+                    Toast.makeText(getActivity(), "no recipient chosen", Toast.LENGTH_LONG).show();
+                }
+                else if(opponent.getToken().equals("")){
+                    Toast.makeText(getActivity(), "no recipient chosen", Toast.LENGTH_LONG).show();
+                }
+                else if (sender.SendMove(moveMessage)) {
+                    ShowMoveOnBoard(moveMessage);
+                    setCurrentSpot(moveMessage.getTo());
+                    Toast.makeText(getActivity(), "sent!", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getActivity(), "failed ;/", Toast.LENGTH_LONG).show();
+                }
+            }
+        };
     }
 
 
@@ -246,13 +253,14 @@ public class GameView extends Fragment {
             CardView moveTo = (CardView) grid.getChildAt(position);
             CardView from = (CardView) grid.getChildAt(Integer.parseInt(message.getFrom()));
 
-            from.setBackground(new ColorDrawable(Color.LTGRAY));
+            from.setBackground(new ColorDrawable(Color.parseColor("#ffefefef")));
             from.setAlpha(.7f);
             from.setBackgroundResource(R.drawable.ic_mt);
 
             //create the new player dot
-            CircleButton cb = AddButtonToCard(moveTo);
+            TileView tv = AddButtonToCard(moveTo);
 
+            moveTo.setBackground(new ColorDrawable(Color.LTGRAY));
             //move the player from the old spot
             if(currentSpot != "0")
             MovePlayerFromOldLocation(from);
@@ -261,11 +269,16 @@ public class GameView extends Fragment {
             MovePlayerToNewLocation(moveTo);
 
             //set up click and drag listeners
-            SetPlayerDotListeners(cb,moveTo,from);
+            SetPlayerDotListeners(tv,moveTo,from);
 
             //animate the player in the tile
-            SetPlayerDotBackground(cb);
-            ShowSnack(grid, message);
+            SetPlayerDotBackground(tv);
+
+            //highlight the neighbours
+            //String[] neighbours = tv.getNeighbours();
+           // GlowNeighbours(neighbours);
+
+            ShowSnack(grid.getRootView(), message);
 
         } catch (NumberFormatException e) {
             e.printStackTrace();
@@ -274,16 +287,20 @@ public class GameView extends Fragment {
         }
     }
 
-    private void SetPlayerDotListeners(CircleButton cb, View to, View from) {
+    private void GlowNeighbours(String[] neighbours) {
 
-        cb.setOnClickListener(new View.OnClickListener() {
+    }
+
+    private void SetPlayerDotListeners(TileView tv, View to, View from) {
+
+        tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "clicked: " + v.getTag().toString(), Toast.LENGTH_LONG).show();
             }
         });
 
-        cb.setOnLongClickListener(new View.OnLongClickListener() {
+        tv.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 YoYo.with(Techniques.Pulse).duration(3000).playOn(v);
@@ -291,7 +308,7 @@ public class GameView extends Fragment {
             }
         });
 
-        cb.setOnDragListener(new View.OnDragListener() {
+        tv.setOnDragListener(new View.OnDragListener() {
 
             @Override
             public boolean onDrag(View v, DragEvent event) {
@@ -320,7 +337,6 @@ public class GameView extends Fragment {
         try {
             View playerDot = ((CardView)v).getChildAt(0);// TODO this is assuming that the first child will always be the player dot... this is not ideal. Maybe add the cards and circle dots using naming conventions so they can be found by id.. eg card_03 > cb_03 etc..
             YoYo.with(Techniques.FadeIn).duration(1000).playOn(playerDot);
-            YoYo.with(Techniques.Pulse).duration(1000).playOn(playerDot);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -329,22 +345,27 @@ public class GameView extends Fragment {
     private void MovePlayerFromOldLocation(View from) {
         try {
             View playerDot = ((CardView)from).getChildAt(0);// TODO this is assuming that the first child will always be the player dot... this is not ideal. Maybe add the cards and circle dots using naming conventions so they can be found by id.. eg card_03 > cb_03 etc..
-            YoYo.with(Techniques.FadeOut).duration(1000).playOn(playerDot);
+            YoYo.with(Techniques.FadeOut).duration(500).playOn(playerDot);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private CircleButton AddButtonToCard(CardView v) {
+    private TileView AddButtonToCard(CardView card) {
 
         try {
-            CircleButton cb = new CircleButton(getContext());
-            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.height = 40;
-            params.width = 40;
-            cb.setLayoutParams(params);
-            v.addView(cb);
-            return cb;
+            TileView tv = new TileView(getContext(), null);
+            tv.setBackground(getResources().getDrawable(R.drawable.ic_mt));
+            //CircleButton cb = new CircleButton(getContext());
+            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            params.height = 45;
+            params.width = 45;
+            tv.setLayoutParams(params);
+            tv.setOval(true);
+            tv.setPadding(1,1,1,1);
+            tv.setTextColor(Color.WHITE);
+            card.addView(tv);
+            return tv;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -354,7 +375,7 @@ public class GameView extends Fragment {
     private void ShowSnack(View parent, Message message) {
         try {
             SpannableStringBuilder builder = new SpannableStringBuilder();
-            builder.setSpan(new ImageSpan(getActivity(), R.drawable.ic_launcher), builder.length() - 1, builder.length(), 0); //TODO user image here instead of default iconm
+          //  builder.setSpan(new ImageSpan(getActivity(), R.mipmap.ic_launcher), builder.length() - 1, builder.length(), 0); //TODO user image here instead of default iconm
             builder.append("from ").append(message.getFrom());
             builder.append(" ");
             builder.append("to ").append(message.getTo());
@@ -365,10 +386,10 @@ public class GameView extends Fragment {
 
     }
 
-    private void SetPlayerDotBackground(CircleButton cb) {
+    private void SetPlayerDotBackground(TileView tileView) {
         int favColor = GetFavoriteColor();
-        cb.setBackground(new ColorDrawable(favColor));
-        cb.setColor(favColor);
+        tileView.setBackground(new ColorDrawable(favColor));
+        tileView.setTextColor(Color.WHITE);
     }
 
     /**

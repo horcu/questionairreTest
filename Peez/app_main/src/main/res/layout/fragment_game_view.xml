@@ -49,21 +49,22 @@
                     android:textSize="10dp"
                     android:textColor="@color/grey_500"
                     android:gravity="center"
-                    app:cardElevation="2dp"
+                    app:cardElevation="1dp"
                     app:cardBackgroundColor="@color/white">
 
-                    <at.markushi.ui.CircleButton
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        app:cb_pressedRingWidth="8dp"
-                        />
+                    <!--<at.markushi.ui.CircleButton-->
+                        <!--android:layout_width="40dp"-->
+                        <!--android:layout_height="40dp"-->
+                        <!--app:cb_pressedRingWidth="8dp"-->
+                        <!--android:layout_gravity="center"-->
+                        <!--/>-->
 
                     </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    app:cardElevation="2dp"
+                   app:cardElevation="1dp"
                     android:background="#efefef"
                     app:contentPadding="3dp"
                     app:cardBackgroundColor="@color/white"
@@ -445,7 +446,7 @@
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    app:cardElevation="2dp"
+                   app:cardElevation="1dp"
                     android:background="#efefef"
                     app:contentPadding="3dp"
                     android:gravity="center"

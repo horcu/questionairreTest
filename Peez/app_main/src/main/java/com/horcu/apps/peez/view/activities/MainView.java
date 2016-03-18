@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
 import com.google.gson.JsonSyntaxException;
 import com.horcu.apps.peez.Dtos.InviteDto;
 import com.horcu.apps.peez.Dtos.SmsDto;
@@ -27,6 +28,7 @@ import com.horcu.apps.peez.backend.models.playerApi.model.Player;
 import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.Dtos.MMDto;
 import com.horcu.apps.peez.custom.MessageSender;
+import com.horcu.apps.peez.custom.PeezViewPager;
 import com.horcu.apps.peez.gcm.core.PubSubHelper;
 import com.horcu.apps.peez.gcm.message.Message;
 import com.horcu.apps.peez.misc.SenderCollection;
@@ -44,6 +46,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 import io.realm.Realm;
@@ -60,7 +64,7 @@ public class MainView extends BaseView
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    private ViewPager mViewPager;
+    private PeezViewPager mViewPager;
     private SharedPreferences settings;
     private PubSubHelper pubsub ;
     private BroadcastReceiver mLoggerCallback;
@@ -72,6 +76,7 @@ public class MainView extends BaseView
     private ArrayList<GameEntry> gamesInProgress = null;
     public Player opponent;
     public String gameKey;
+    private boolean newGameBeingCreated;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,9 +104,16 @@ public class MainView extends BaseView
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.setCurrentItem(1);
+        try {
+            mViewPager = (PeezViewPager) findViewById(R.id.container);
+            if (mViewPager != null) {
+                mViewPager.setAdapter(mSectionsPagerAdapter);
+                mViewPager.setCurrentItem(1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         pubsub= new PubSubHelper(this);
         //pubsub.subscribeTopic(consts.SENDER_ID,settings.getString(consts.REG_ID,""),gameTopic, new Bundle());
 
@@ -134,79 +146,85 @@ public class MainView extends BaseView
                                 e.printStackTrace();
                             }
 
-                        switch (messageType)
+                        if (messageType != null) {
+                            switch (messageType)
+                            {
+                                case LoggingService.MESSAGE_TYPE_MSG :
+                                {
+                                    try {
+                                        SmsDto dto = new SmsDto(json.getString("from"),
+                                                json.getString("to"),
+                                                json.getString("message"),
+                                                json.getString("dateTime"),
+                                                json.getString("senderUrl"));
+
+                                        String jsonStr = MessageSender.JsonifySmsDto(dto);
+                                        Message sms = MessageSender.BuildSmsMessage(dto, jsonStr);
+                                        HandleSMS(sms);
+                                    } catch (JsonSyntaxException | JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    break;
+                                }
+
+                                case LoggingService.MESSAGE_TYPE_MOVE :
+                                {
+                                    try {
+                                        MMDto dto = new MMDto(
+                                                json.getString("moveFrom"),
+                                                json.getString("moveTo"),
+                                                json.getString("message"),
+                                                json.getString("dateTime"),
+                                                mytoken,
+                                                json.getString("receiverToken"),
+                                                json.getString("senderUrl"),
+                                                json.getInt("color"),
+                                                json.getString("collapseKey"));
+
+                                        String jsonStr = MessageSender.JsonifyMoveDto(dto);
+                                        Message moveMessage = MessageSender.BuildMoveMessage(dto, jsonStr);
+
+                                        HandlePlayerMove(moveMessage);
+                                    } catch (JsonSyntaxException | JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    break;
+                                }
+
+                                case LoggingService.MESSAGE_TYPE_INVITATION :
+                                {
+                                    try {
+                                        InviteDto dto = new InviteDto(
+                                                json.getString("message"),
+                                                json.getString("dateTime"),
+                                                mytoken,
+                                                json.getString("receiverToken"),
+                                                json.getString("senderUrl"),
+                                                json.getInt("color"),
+                                                json.getString("collapseKey"));
+
+                                        String jsonStr = MessageSender.JsonifyInviteDto(dto);
+                                        Message inviteMessage = MessageSender.BuildInvitationMessage(dto, jsonStr);
+
+                                        mViewPager.setCurrentItem(1);
+                                        HandleInvitation(inviteMessage);
+                                    } catch (JsonSyntaxException | JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    break;
+                                }
+
+                                case LoggingService.MESSAGE_TYPE_REMINDER:
+                                {
+                                    mViewPager.setCurrentItem(0);
+                                   // HandleReminder(newMessage);
+                                    break;
+                                }
+                            }
+                        }
+                        else
                         {
-                            case LoggingService.MESSAGE_TYPE_MSG :
-                            {
-                                try {
-                                    SmsDto dto = new SmsDto(json.getString("from"),
-                                            json.getString("to"),
-                                            json.getString("message"),
-                                            json.getString("dateTime"),
-                                            json.getString("senderUrl"));
 
-                                    String jsonStr = MessageSender.JsonifySmsDto(dto);
-                                    Message sms = MessageSender.BuildSmsMessage(dto, jsonStr);
-                                    HandleSMS(sms);
-                                } catch (JsonSyntaxException | JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                break;
-                            }
-
-                            case LoggingService.MESSAGE_TYPE_MOVE :
-                            {
-                                try {
-                                    MMDto dto = new MMDto(
-                                            json.getString("moveFrom"),
-                                            json.getString("moveTo"),
-                                            json.getString("message"),
-                                            json.getString("dateTime"),
-                                            mytoken,
-                                            json.getString("receiverToken"),
-                                            json.getString("senderUrl"),
-                                            json.getInt("color"),
-                                            json.getString("collapseKey"));
-
-                                    String jsonStr = MessageSender.JsonifyMoveDto(dto);
-                                    Message moveMessage = MessageSender.BuildMoveMessage(dto, jsonStr);
-
-                                    HandlePlayerMove(moveMessage);
-                                } catch (JsonSyntaxException | JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                break;
-                            }
-
-                            case LoggingService.MESSAGE_TYPE_INVITATION :
-                            {
-                                try {
-                                    InviteDto dto = new InviteDto(
-                                            json.getString("message"),
-                                            json.getString("dateTime"),
-                                            mytoken,
-                                            json.getString("receiverToken"),
-                                            json.getString("senderUrl"),
-                                            json.getInt("color"),
-                                            json.getString("collapseKey"));
-
-                                    String jsonStr = MessageSender.JsonifyInviteDto(dto);
-                                    Message inviteMessage = MessageSender.BuildInvitationMessage(dto, jsonStr);
-
-                                    mViewPager.setCurrentItem(1);
-                                    HandleInvitation(inviteMessage);
-                                } catch (JsonSyntaxException | JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                break;
-                            }
-
-                            case LoggingService.MESSAGE_TYPE_REMINDER:
-                            {
-                                mViewPager.setCurrentItem(0);
-                               // HandleReminder(newMessage);
-                                break;
-                            }
                         }
                 }
             }
@@ -256,6 +274,7 @@ public class MainView extends BaseView
         }
         return true;
     }
+
     private void HandleSMS(Message msg){
         if(msg.getFrom().equals(mytoken))
             return;
@@ -280,10 +299,14 @@ public class MainView extends BaseView
         goToaPage(consts.PAGE_GAME);
         GameView gameFrag = GetGameFragment();
 
-        if(InVitationAccepted())
+        Message moveMessage = InVitationAccepted(message);
+
+        //TODO -- this would get moved to the result from a dialog selection
+        if(moveMessage !=null)
         {
             GenerateInvitationRecordOnServer();
-            gameFrag.ShowMoveOnBoard(message);
+
+            gameFrag.ShowMoveOnBoard(moveMessage);
         }
         else
         {
@@ -295,8 +318,21 @@ public class MainView extends BaseView
 
     }
 
-    private boolean InVitationAccepted() {
-    return true;
+    private Message InVitationAccepted(Message message) {
+        try {
+            Message newMessage = new Message();
+            Random r = new Random(0);
+            newMessage.setType(LoggingService.MESSAGE_TYPE_MOVE);
+
+            Map<String,String> data = message.getData();
+            JSONObject json = new JSONObject(data);
+            json.put("moveFrom", "0");
+            json.put("moveTo", String.valueOf(r.nextInt(5)));
+            return newMessage;
+        } catch(JSONException e) {
+          e.printStackTrace();
+        }
+         return null;
     }
 
     private void goToaPage(int page) {
@@ -373,31 +409,45 @@ public class MainView extends BaseView
 
     }
 
-
     //From the feed fragment
     @Override
     public void onInitiateNewGame(PlayerViewModel pvm) {
-        GameEntry newGame = new GameEntry();
-        newGame.setDatetime(new Date().toString());
-        newGame.setInprogress(false);
-        String gameId = UUID.randomUUID().toString();
-        newGame.setGameId(gameId);
-        setGameKey(gameId);
-        CheckifGameIdUniqueAsync(pvm.getModel().getToken(), mytoken);
 
-        if(gamesInProgress == null)
-            gamesInProgress = new ArrayList<>();
+        try {
+            newGameBeingCreated = true;
+            GameEntry newGame = new GameEntry();
+            newGame.setDatetime(new Date().toString());
+            newGame.setInprogress(false);
+            String gameId = UUID.randomUUID().toString();
+            newGame.setGameId(gameId);
+            setGameKey(gameId);
+            CheckifGameIdUniqueAsync(pvm.getModel().getToken(), mytoken);
 
-        gamesInProgress.add(newGame);
+            if(gamesInProgress == null)
+                gamesInProgress = new ArrayList<>();
 
-        sendGameInviteToOpponent(pvm.getModel().getToken(), newGame, pvm.getModel().getImageUri());
+            gamesInProgress.add(newGame);
 
-        saveToDb(newGame);
-        Toast.makeText(this, "saved invite to db", Toast.LENGTH_SHORT).show();
-        RefreshPager();
+            //TODO - review this .. ideally we want to sent the first move along with the invitation
+            MakeFirstMove(newGame, pvm);
 
-       // GameView gFrag = GetGameFragment(); TODO this will be a good call when you get everything to work with the invite then we can tack on the first move and update the local app to show the first move
-      //  gFrag.ShowMoveOnBoard();
+            sendGameInviteToOpponent(pvm.getModel().getToken(), newGame, pvm.getModel().getImageUri());
+
+            saveToDb(newGame);
+            Toast.makeText(this, "saved invite to db", Toast.LENGTH_SHORT).show();
+            RefreshPager();
+
+            //TODO this will be a good call when you get everything to work with the invite then we can tack on the first move and update the local app to show the first move
+            // GameView gFrag = GetGameFragment();
+            // gFrag.ShowMoveOnBoard();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void MakeFirstMove(GameEntry newGame, PlayerViewModel pvm) {
+        mViewPager.onInterceptTouchEvent(null);
+        mViewPager.onTouchEvent(null);
     }
 
     private void RefreshPager() {
@@ -405,21 +455,25 @@ public class MainView extends BaseView
     }
 
     private void sendGameInviteToOpponent(String token, GameEntry newGame, String opponentImgUrl) {
-        //TODO for now we will just send a move but you need to send an invite.. get it accepted.. (with the opponents move coming with the return).. then start sending moves
-        MessageSender sender = new MessageSender(getApplicationContext(), mLogger,mSenders);
+        try {
+            //TODO for now we will just send a move but you need to send an invite.. get it accepted.. (with the opponents move coming with the return).. then start sending moves
+            MessageSender sender = new MessageSender(getApplicationContext(), mLogger,mSenders);
 
-        int color = GetFavoriteColor();
+            int color = GetFavoriteColor();
 
-        InviteDto dto = new InviteDto("wanna play ?", new Date().toString(), mytoken, token,opponentImgUrl,color ,UUID.randomUUID().toString());
-        String jsonString = MessageSender.JsonifyInviteDto(dto);
-        Message message = MessageSender.BuildInvitationMessage(dto, jsonString);
-        message.setGameId(newGame.getGameId());
-        message.setType(LoggingService.MESSAGE_TYPE_INVITATION);
+            InviteDto dto = new InviteDto("wanna play ?", new Date().toString(), mytoken, token,opponentImgUrl,color ,UUID.randomUUID().toString());
+            String jsonString = MessageSender.JsonifyInviteDto(dto);
+            Message message = MessageSender.BuildInvitationMessage(dto, jsonString);
+            message.setGameId(newGame.getGameId());
+            message.setType(LoggingService.MESSAGE_TYPE_INVITATION);
 
-        if(sender.SendInvitation(message))
-        Toast.makeText(getApplicationContext(),  "invitation sent", Toast.LENGTH_SHORT).show();
-        else
-        Toast.makeText(getApplicationContext(),  "invitation NOT sent", Toast.LENGTH_SHORT).show();
+            if(sender.SendInvitation(message))
+            Toast.makeText(getApplicationContext(),  "invitation sent", Toast.LENGTH_SHORT).show();
+            else
+            Toast.makeText(getApplicationContext(),  "invitation NOT sent", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @NonNull
@@ -457,14 +511,12 @@ public class MainView extends BaseView
         if (ChatFrag != null) {
             ChatFrag.upDateChatPlayer(gameId, player.getUserName(),player.getToken(),player.getImageUri());
         //    ChatFrag.refreshMessagesFromDb(gameId, this);
-
         }
 
         GameView GameFrag = GetGameFragment();
         if (GameFrag != null) {
             GameFrag.UpdateGameInfo(gameId, player.getUserName(),player.getToken(),player.getImageUri());
         }
-      //  }
     }
 
     @Override

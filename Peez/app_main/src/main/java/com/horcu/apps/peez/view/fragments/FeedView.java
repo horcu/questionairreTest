@@ -96,6 +96,8 @@ public class FeedView extends Fragment {
         binding.setView(this);
         binding.playersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
+       // binding.tapBarMenu.open();
+
         binding.tapBarMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

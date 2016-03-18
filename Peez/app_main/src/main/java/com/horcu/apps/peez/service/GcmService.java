@@ -82,11 +82,9 @@ public class GcmService extends GcmListenerService {
     private void notifyUserAndLogMessage(String message, Bitmap bitmap, String messageType) {
         sendNotification(bitmap, message,messageType);
         logMessage(message, bitmap);
-
     }
 
     private Bitmap getBitmap(String url) throws IOException {
-        Bitmap bitmap = null;
 
 //        bitmap = Picasso.with(this)
 //                .load(url)
