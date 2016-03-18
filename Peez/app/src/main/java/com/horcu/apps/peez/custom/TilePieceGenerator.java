@@ -4,16 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.gameboard.tileApi.TileApi;
-import com.horcu.apps.peez.common.models.gameboard.Tile;
+
+import com.horcu.apps.peez.backend.models.gameboard.tileApi.model.Tile;
 import com.squareup.picasso.Picasso;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

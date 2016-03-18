@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.horcu.apps.peez.custom.TileView
+            <com.horcu.apps.peez.custom.Gameboard.TileView
                 android:id="@+id/friend_1"
                 android:layout_height="35dp"
                 android:layout_marginRight="5dp"
@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             >
 
-            <com.horcu.apps.peez.custom.TileView
+            <com.horcu.apps.peez.custom.Gameboard.TileView
                 android:id="@+id/friend_2"
                 android:layout_height="35dp"
                 android:layout_marginRight="5dp"
@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp">
 
-            <com.horcu.apps.peez.custom.TileView
+            <com.horcu.apps.peez.custom.Gameboard.TileView
                 android:id="@+id/friend_3"
                 android:layout_height="35dp"
                 android:layout_marginRight="5dp"

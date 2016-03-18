@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 
 import com.horcu.apps.peez.R;
+import com.horcu.apps.peez.custom.Gameboard.TileView;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.DrawableWrapper;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,7 +12,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.text.SpannableStringBuilder;
-import android.text.style.ImageSpan;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,18 +21,22 @@ import android.widget.Toast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.horcu.apps.peez.R;
-import com.horcu.apps.peez.backend.models.gameboard.tileApi.model.Tile;
 import com.horcu.apps.peez.backend.models.playerApi.model.Player;
+import com.horcu.apps.peez.backend_gameboard.gameApi.model.Game;
+import com.horcu.apps.peez.chat.LeBubbleTitleTextView;
 import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.custom.AutoFitGridLayout;
 import com.horcu.apps.peez.Dtos.MMDto;
+import com.horcu.apps.peez.custom.GameBuilder;
+import com.horcu.apps.peez.custom.Gameboard.TileCard;
 import com.horcu.apps.peez.custom.MessageSender;
-import com.horcu.apps.peez.custom.TilePieceGenerator;
-import com.horcu.apps.peez.custom.TileView;
+import com.horcu.apps.peez.custom.Gameboard.TileView;
+import com.horcu.apps.peez.custom.UserImageView;
 import com.horcu.apps.peez.gcm.message.Message;
 import com.horcu.apps.peez.misc.SenderCollection;
 import com.horcu.apps.peez.service.LoggingService;
-import com.lighters.cubegridlibrary.callback.ICubeGridAnimCallback;
+
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Date;
 import java.util.UUID;
@@ -70,6 +72,15 @@ public class GameView extends Fragment {
 
     AutoFitGridLayout grid = null;
     private String playerTurn;
+
+    int[] rangeA = new int[]{0,1,6,7,12,13, 18,19, 24,25, 30,31};
+    int[] rangeB = new int[]{2,3,8,9,14,15, 20,21, 26,27, 32,33};
+    int[] rangeC = new int[]{4,5,10,11,16,17, 22,23, 28,29, 34,35};
+
+    int[] rangeTop = new int[]{2,3,8,9,14,15};
+    int[] rangeBottom = new int[]{20,21, 26,27, 32,33};
+
+    GameBuilder gameBuilder = null;
 
     public GameView() {
         // Required empty public constructor
@@ -112,6 +123,7 @@ public class GameView extends Fragment {
         mLogger = new LoggingService.Logger(getContext());
         mSenders = SenderCollection.getInstance(getActivity());
         opponent = new Player();
+        gameBuilder = new GameBuilder(getContext());
     }
 
     @Override
@@ -119,22 +131,96 @@ public class GameView extends Fragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_game_view, container, false);
          grid = (AutoFitGridLayout)root.findViewById(R.id.gameboard_grid);
+        Game game = null;
+
+        if(gameKey != null)
+        game = GameBuilder.CreateOrGetGameboard(gameKey, false);
+        else
+        game = GameBuilder.CreateOrGetGameboard("", true);
 
         settings =getActivity().getSharedPreferences("Peez", 0);
         myToken = settings.getString(consts.REG_ID,"");
 
-        for(int i = 0; i < grid.getChildCount(); i++)
-        {
-            final int finalI = i;
 
+
+        for(int i = 0; i < consts.TOTAL_TILES; i++)
+        {
+            //first move
             if(currentSpot == null)
                 setCurrentSpot("0");
 
-            CardView child = (CardView) grid.getChildAt(i);
+            //set up defaults
+            String badgeImgSrc = "";
+            String playerPieceImgSrc = "";
+            String tileInfo = "this is spot number " + i;
+
+            //the rounded image used as the badge
+            UserImageView badge = GameBuilder.BuildBadge(getContext(), null, i,badgeImgSrc);
+
+            //the player piece
+            CircleButton playerPiece = GameBuilder.BuildPlayerPiece(getContext(), null,  i,playerPieceImgSrc);
+            SetPlayerPieceBgColor(playerPiece);
+            SetLayoutParams(playerPiece);
+
+            //the bubble pop up that has all information
+            LeBubbleTitleTextView infoBox = GameBuilder.BuildBubble(getContext(),null,i, tileInfo);
+            SetBubbleArrowLocation(i, infoBox);
+
+            //the card with  all pieces
+            TileCard child = new TileCard(getContext(),badge, playerPiece, infoBox);
+
+            // CardView child = (CardView) grid.getChildAt(i);
             child.setCardElevation(1);
-            child.setOnClickListener(HandleTileClick(finalI));
+            child.setOnClickListener(HandleTileClick(i));
+            grid.addView(child);
         }
+
+        //TODO - get tile generator code from app project and fill in the tile definitions with it
+         gameBuilder.BuildTilesForGame(grid);
+
         return root;
+    }
+
+    private void SetBubbleArrowLocation(int i, LeBubbleTitleTextView infoBox) {
+        int direction = GetBubbleArrowDirectionForCurrentTile(i);
+        infoBox.setCurDirection(direction);
+    }
+
+    private int GetBubbleArrowDirectionForCurrentTile(int i) {
+
+        if(ArrayUtils.contains(rangeA, i)) // left arrow
+        {
+            return 1;
+        }
+             else if (ArrayUtils.contains(rangeB, i)) // bottom or top arrow
+             {
+
+                 if(ArrayUtils.contains(rangeTop, i)) // top
+                 {
+                 return 2;
+                 }
+                 else if(ArrayUtils.contains(rangeBottom, i)) // bottom
+                 {
+                     return 4;
+                 }
+
+             }
+             else if (ArrayUtils.contains(rangeC, i)) // right arrow
+             {
+                 return 3;
+             }
+        return 4;
+    }
+
+    private void SetLayoutParams(CircleButton playerPiece) {
+        AutoFitGridLayout.LayoutParams params = new AutoFitGridLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        params.width = 50;
+        params.height = 50;
+        playerPiece.setLayoutParams(params);
+    }
+
+    private void SetPlayerPieceBgColor(CircleButton playerPiece) {
+        playerPiece.setBackground(new ColorDrawable(Color.LTGRAY));
     }
 
     @NonNull

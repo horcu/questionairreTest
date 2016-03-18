@@ -49,6 +49,7 @@ public class LeBubbleTitleTextView extends LeBubbleView implements Runnable {
     private TextView titleTextView;
     private TextView contentTextView;
     private String titleText;
+    private int parentLocation;
 
 
     public LeBubbleTitleTextView(Context context) {
@@ -168,5 +169,13 @@ public class LeBubbleTitleTextView extends LeBubbleView implements Runnable {
 
     public View getCancelImage() {
         return cancelImage;
+    }
+
+    public void setTitle(String title) {
+        this.titleText = title;
+    }
+
+    public void setParentLocation(int i) {
+        this.parentLocation = 0;
     }
 }

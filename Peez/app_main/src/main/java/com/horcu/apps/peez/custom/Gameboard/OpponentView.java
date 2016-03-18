@@ -1,4 +1,4 @@
-package com.horcu.apps.peez.custom;
+package com.horcu.apps.peez.custom.Gameboard;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -12,7 +12,7 @@ import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.gameboard.tileApi.model.Tile;
 
 
-public class PlayerView extends TileView {
+public class OpponentView extends TileView {
 
     private char mLetter;
     private Paint mTextPaint;
@@ -23,7 +23,7 @@ public class PlayerView extends TileView {
     private int spot;
     private String mode = "" ;
 
-    public PlayerView(Context context, AttributeSet attrs) {
+    public OpponentView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
@@ -46,7 +46,7 @@ public class PlayerView extends TileView {
        // mTextPaint.setColor(mTextColor);
         mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBackgroundPaint.setStyle(Paint.Style.FILL);
-        mBackgroundPaint.setColor(getColorForPlayer("true")); //randomColor()
+        mBackgroundPaint.setColor(getColorForPlayer("false")); //randomColor()
         spot = a.getInt(R.styleable.TileView_spot, 0);
         setOval(true);
     }

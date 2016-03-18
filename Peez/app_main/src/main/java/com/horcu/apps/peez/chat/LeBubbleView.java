@@ -126,7 +126,7 @@ public class LeBubbleView extends RelativeLayout implements Runnable {
         }
     }
 
-    private void setCurDirection(int intDirection) {
+    public void setCurDirection(int intDirection) {
         switch (intDirection) {
             case 1: {
                 arrowDirection = ArrowDirection.LEFT;

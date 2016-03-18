@@ -1,4 +1,4 @@
-package com.horcu.apps.peez.custom;
+package com.horcu.apps.peez.custom.Gameboard;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -7,12 +7,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.widget.ImageView;
 
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.gameboard.tileApi.model.Tile;
 
-
-public class OpponentView extends TileView {
+public class TileView extends ImageView {
 
     private char mLetter;
     private Paint mTextPaint;
@@ -22,21 +22,39 @@ public class OpponentView extends TileView {
     private Tile tile;
     private int spot;
     private String mode = "" ;
+    private String name;
+    private String[] neighbours;
 
-    public OpponentView(Context context, AttributeSet attrs) {
+    public TileView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
-    //TODO make this a user choice eventually
-    private int getColorForPlayer(String home) {
-        if(home.equals("false"))
+    private int getColorForPieceType(String piece) {
+        switch (piece)
         {
-           return Color.RED;
+            case "MO":
+            {
+                return Color.GREEN;
+            }
+            case "MT":
+            {
+                return Color.BLUE;
+            }
+            case "BF":
+            {
+                return Color.CYAN;
+            }
+            case "GA":
+            {
+                return Color.MAGENTA;
+            }
+            case "GH":
+            {
+                return Color.RED;
+            }
         }
-        else {
-            return Color.BLACK;
-        }
+        return Color.YELLOW;
     }
 
     private void init(Context context, AttributeSet attrs) {
@@ -45,10 +63,9 @@ public class OpponentView extends TileView {
        // mTextColor = Color.;
        // mTextPaint.setColor(mTextColor);
         mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mBackgroundPaint.setStyle(Paint.Style.FILL);
-        mBackgroundPaint.setColor(getColorForPlayer("false")); //randomColor()
+        mBackgroundPaint.setStyle(Paint.Style.STROKE);
+        mBackgroundPaint.setColor(Color.parseColor("#efefef")); //randomColor()
         spot = a.getInt(R.styleable.TileView_spot, 0);
-        setOval(true);
     }
 
     public char getLetter() {
@@ -142,5 +159,21 @@ public class OpponentView extends TileView {
 
     public void setMode(String mode) {
         this.mode = mode;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String[] getNeighbours() {
+        return neighbours;
+    }
+
+    public void setNeighbours(String[] neighbours) {
+        this.neighbours = neighbours;
     }
 }

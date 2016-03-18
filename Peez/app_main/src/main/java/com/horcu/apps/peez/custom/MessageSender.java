@@ -36,12 +36,11 @@ public class MessageSender {
 
     public MessageSender(Context ctx, LoggingService.Logger logger, SenderCollection senders){
          context = ctx;
-        this.logger = logger;
-        this.senders = senders;
-        gcm = GoogleCloudMessaging.getInstance(ctx);
+         this.logger = logger;
+         this.senders = senders;
+         gcm = GoogleCloudMessaging.getInstance(ctx);
          settings= ctx.getSharedPreferences("Peez", 0);
     }
-
 
     public Boolean SendSMS(Message message) {
             final String registrationId = settings.getString(consts.REG_ID, "");
@@ -197,8 +196,5 @@ public class MessageSender {
         }
         return json.toString();
     }
-
-
-
 
 }

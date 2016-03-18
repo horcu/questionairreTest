@@ -10,7 +10,7 @@
         android:layout_height="50dp"
         android:orientation="vertical">
 
-        <com.horcu.apps.peez.custom.TileView
+        <com.horcu.apps.peez.custom.Gameboard.TileView
             android:id="@+id/sel_user"
             android:layout_width="38dp"
             android:layout_height="38dp"

@@ -22,7 +22,6 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
-        javaHeapSize "8gb"
     }
     buildTypes {
         release {
@@ -73,7 +72,6 @@ dependencies {
     compile 'cat.ereza:customactivityoncrash:1.4.0'
 
     compile project(path: ':backend', configuration: 'android-endpoints')
-    compile project(path: ':backend_gameboard', configuration: 'android-endpoints')
 
     compile project(':common')
     //compile project(':BubbleTextView')
