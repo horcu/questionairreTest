@@ -514,6 +514,7 @@
     <string name="reg_description">Device Registration</string>
     <string name="choose_color">Choose a color..</string>
     <string name="title_activity_challenge_view">ChallengeView</string>
+    <string name="tileTransition">tile_transition</string>
 
 
 </resources>

@@ -1,5 +1,6 @@
 package com.horcu.apps.peez.view.fragments;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -98,8 +99,10 @@ public class GameView extends Fragment {
             opponent.setUserName(playerName);
             opponent.setToken(token);
             this.gameKey = gameKey;
+            if(getActivity().getActionBar() != null)
+                getActivity().getActionBar().setTitle(playerName);
             return true;
-            //     getActivity().getActionBar().setTitle(playerName);
+
         } catch (Exception ex){
             ex.printStackTrace();
             return false;
@@ -110,8 +113,6 @@ public class GameView extends Fragment {
     public static GameView newInstance() {
         GameView fragment = new GameView();
         Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -120,8 +121,6 @@ public class GameView extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
         mLogger = new LoggingService.Logger(getContext());
         mSenders = SenderCollection.getInstance(getActivity());
@@ -209,11 +208,12 @@ public class GameView extends Fragment {
                     Toast.makeText(getContext(),"Not your turn",Toast.LENGTH_SHORT).show();
                 return;
                 }
-
+                String transitionName = getString(R.string.tileTransition);
+                ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(getActivity(), v, transitionName);
                 Intent intent = new Intent(getContext(), ChallengeView.class);
                 //put info to pass in here
                 intent.putExtra(consts.EXTRAS_MOVE_TO, finalI);
-                startActivityForResult(intent, consts.INTENT_TO_CHALLENGE);
+                startActivityForResult(intent, consts.INTENT_TO_CHALLENGE, transitionActivityOptions.toBundle());
             }
         };
     }

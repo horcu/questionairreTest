@@ -23,6 +23,4 @@ public class ChallengeView extends AppCompatActivity {
             moveTo = bundle.getString(consts.EXTRAS_MOVE_TO);
         }
     }
-
-
 }

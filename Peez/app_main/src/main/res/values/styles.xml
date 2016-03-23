@@ -27,6 +27,7 @@
         <item name="android:colorBackground">@color/white</item>
         <item name="android:navigationBarColor">#FF4A5F5D</item>
         <item name="android:text">#111111</item>
+        <item name="android:windowContentTransitions">true</item>
         <!--<item name="windowActionBar">false</item>-->
         <!--<item name="windowNoTitle">true</item>-->
         <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
@@ -43,6 +44,7 @@
         <item name="android:colorBackground">@color/white</item>
         <item name="android:navigationBarColor">#FF354E98</item>
         <item name="android:text">@color/bpLight_gray</item>
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
     <style name="AppTheme_brick" parent="Theme.AppCompat.Light">
@@ -55,6 +57,7 @@
         <item name="android:colorBackground">@color/white</item>
         <item name="android:navigationBarColor">#FF994E4E</item>
         <item name="android:text">@color/bpLight_gray</item>
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
 
@@ -71,6 +74,7 @@
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
         <item name="android:textColorPrimaryInverse">@color/primary_text_material_dark</item>
         <item name="android:textColorSecondary">@color/secondary_text_material_light</item>
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
     <style name="MyDropDownNav" parent="android:style/Widget.Holo.Light.Spinner">
