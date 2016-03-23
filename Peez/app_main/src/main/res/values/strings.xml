@@ -513,6 +513,7 @@
     <string name="registration_slide">Registering device...</string>
     <string name="reg_description">Device Registration</string>
     <string name="choose_color">Choose a color..</string>
+    <string name="title_activity_challenge_view">ChallengeView</string>
 
 
 </resources>

@@ -90,11 +90,12 @@ public class ColorPickerFragment extends Fragment {
             cb.setTag(color);
            //SetButtonColor(cb,i);
             final int finalI = i;
+            final int finalI1 = i;
             cb.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
-                    settings.edit().putInt(consts.FAV_COLOR, color).apply();
+                    settings.edit().putInt(consts.FAV_COLOR, finalI1).apply();
                     Toast.makeText(getContext(), "color changed to " + color, Toast.LENGTH_LONG).show();
                     mListener.OnColorChosen(finalI);
                     Toast.makeText(getContext(), "registering... " + color, Toast.LENGTH_LONG).show();

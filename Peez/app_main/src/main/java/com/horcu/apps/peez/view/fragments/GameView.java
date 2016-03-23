@@ -1,6 +1,7 @@
 package com.horcu.apps.peez.view.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.android.gms.identity.intents.AddressConstants;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.playerApi.model.Player;
 import com.horcu.apps.peez.backend_gameboard.gameApi.model.Game;
@@ -35,6 +37,7 @@ import com.horcu.apps.peez.custom.UserImageView;
 import com.horcu.apps.peez.gcm.message.Message;
 import com.horcu.apps.peez.misc.SenderCollection;
 import com.horcu.apps.peez.service.LoggingService;
+import com.horcu.apps.peez.view.activities.ChallengeView;
 
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -141,43 +144,15 @@ public class GameView extends Fragment {
         settings =getActivity().getSharedPreferences("Peez", 0);
         myToken = settings.getString(consts.REG_ID,"");
 
-
+        //first move
+        if(currentSpot == null)
+            setCurrentSpot("0");
 
         for(int i = 0; i < consts.TOTAL_TILES; i++)
         {
-            //first move
-            if(currentSpot == null)
-                setCurrentSpot("0");
-
-            //set up defaults
-            String badgeImgSrc = "";
-            String playerPieceImgSrc = "";
-            String tileInfo = "this is spot number " + i;
-
-            //the rounded image used as the badge
-            UserImageView badge = GameBuilder.BuildBadge(getContext(), null, i,badgeImgSrc);
-
-            //the player piece
-            CircleButton playerPiece = GameBuilder.BuildPlayerPiece(getContext(), null,  i,playerPieceImgSrc);
-            SetPlayerPieceBgColor(playerPiece);
-            SetLayoutParams(playerPiece);
-
-            //the bubble pop up that has all information
-            LeBubbleTitleTextView infoBox = GameBuilder.BuildBubble(getContext(),null,i, tileInfo);
-            SetBubbleArrowLocation(i, infoBox);
-
-            //the card with  all pieces
-            TileCard child = new TileCard(getContext(),badge, playerPiece, infoBox);
-
-            // CardView child = (CardView) grid.getChildAt(i);
-            child.setCardElevation(1);
-            child.setOnClickListener(HandleTileClick(i));
-            grid.addView(child);
+            grid.getChildAt(i).setTag(i);
+            grid.getChildAt(i).setOnClickListener(HandleTileClick(i));
         }
-
-        //TODO - get tile generator code from app project and fill in the tile definitions with it
-         gameBuilder.BuildTilesForGame(grid);
-
         return root;
     }
 
@@ -235,32 +210,10 @@ public class GameView extends Fragment {
                 return;
                 }
 
-                Date d = new Date();
-                long time = d.getTime();
-                int color = GetFavoriteColor(); // getResources().getColor(settings.getInt(consts.FAV_COLOR, Color.parseColor("#551A8B")));
-
-                String collapseKey = String.valueOf(UUID.randomUUID());
-
-                MMDto dto = new MMDto(currentSpot, String.valueOf(finalI), "move made!", String.valueOf(time), myToken, opponent.getToken(), opponent.getImageUri(), color, collapseKey);
-                String message = MessageSender.JsonifyMoveDto(dto);
-
-                Message moveMessage = MessageSender.BuildMoveMessage(dto, message);
-
-                MessageSender sender = new MessageSender(getActivity(), mLogger, mSenders);
-
-                if(opponent.getToken() == null || myToken == null){
-                    Toast.makeText(getActivity(), "no recipient chosen", Toast.LENGTH_LONG).show();
-                }
-                else if(opponent.getToken().equals("")){
-                    Toast.makeText(getActivity(), "no recipient chosen", Toast.LENGTH_LONG).show();
-                }
-                else if (sender.SendMove(moveMessage)) {
-                    ShowMoveOnBoard(moveMessage);
-                    setCurrentSpot(moveMessage.getTo());
-                    Toast.makeText(getActivity(), "sent!", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(getActivity(), "failed ;/", Toast.LENGTH_LONG).show();
-                }
+                Intent intent = new Intent(getContext(), ChallengeView.class);
+                //put info to pass in here
+                intent.putExtra(consts.EXTRAS_MOVE_TO, finalI);
+                startActivityForResult(intent, consts.INTENT_TO_CHALLENGE);
             }
         };
     }
@@ -331,6 +284,52 @@ public class GameView extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode)
+        {
+            case consts.INTENT_TO_CHALLENGE:
+            {
+                if(data != null) {
+                    Bundle extras = data.getExtras();
+                    SendMoveResultsToOpponent(extras.getString(consts.EXTRAS_MOVE_TO));
+                }
+            }
+        }
+    }
+
+    private void SendMoveResultsToOpponent(String moveTo) {
+
+                Date d = new Date();
+                long time = d.getTime();
+                int color = GetFavoriteColor(); // getResources().getColor(settings.getInt(consts.FAV_COLOR, Color.parseColor("#551A8B")));
+
+                String collapseKey = String.valueOf(UUID.randomUUID());
+
+                MMDto dto = new MMDto(currentSpot, moveTo, "move made!", String.valueOf(time), myToken, opponent.getToken(), opponent.getImageUri(), color, collapseKey);
+                String message = MessageSender.JsonifyMoveDto(dto);
+
+                Message moveMessage = MessageSender.BuildMoveMessage(dto, message);
+
+                MessageSender sender = new MessageSender(getActivity(), mLogger, mSenders);
+
+                if(opponent.getToken() == null || myToken == null){
+                    Toast.makeText(getActivity(), "no recipient chosen", Toast.LENGTH_LONG).show();
+                }
+                else if(opponent.getToken().equals("")){
+                    Toast.makeText(getActivity(), "no recipient chosen", Toast.LENGTH_LONG).show();
+                }
+                else if (sender.SendMove(moveMessage)) {
+                    ShowMoveOnBoard(moveMessage);
+                    setCurrentSpot(moveMessage.getTo());
+                    Toast.makeText(getActivity(), "sent!", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getActivity(), "failed ;/", Toast.LENGTH_LONG).show();
+                }
     }
 
     public void ShowMoveOnBoard(Message message) {

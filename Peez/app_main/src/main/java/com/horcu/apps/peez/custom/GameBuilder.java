@@ -7,6 +7,7 @@ import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.gameboard.tileApi.model.Tile;
 import com.horcu.apps.peez.backend_gameboard.gameApi.model.Game;
 import com.horcu.apps.peez.chat.LeBubbleTitleTextView;
+import com.horcu.apps.peez.custom.Gameboard.TileCard;
 import com.horcu.apps.peez.custom.Gameboard.TileView;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
@@ -62,34 +63,33 @@ public class GameBuilder {
         try {
 
             //setup the grids first
-            for(int g=0; g < gridTiles.size(); g++)
+            for(int g=0; g < grid.getChildCount(); g++)
             {
-
-                TileView gtile = gridTiles.get(g);
-                gtile.setSpot(g);
-                gtile.setName(tileList.get(g).getName());
-                gtile.setMode("default");
-                gtile.setTile(tileList.get(g));
-                String[] neighbours = gtile.getTile().getNeighbours().split(",");
-                gtile.setNeighbours(neighbours);
+                TileCard gtile = (TileCard) grid.getChildAt(g);
+//                gtile.setSpot(g);
+//                gtile.setName(tileList.get(g).getName());
+//                gtile.setMode("default");
+//                gtile.setTile(tileList.get(g));
+//                String[] neighbours = gtile.getTile().getNeighbours().split(",");
+//                gtile.setNeighbours(neighbours);
             }
 
-            //new game tiles will then be populated
-            for(int i =0; i < orderedTileList.size(); i++)
-            {
-                TileView tileHouse = gridTiles.get(i);
-                Tile masterListTile = orderedTileList.get(i);
-                tileHouse.getTile().setName(masterListTile.getName());
-                tileHouse.getTile().setId(String.valueOf(i));
-                tileHouse.getTile().setPiece(masterListTile.getPiece());
-                int icon = getIconForPieceType(masterListTile.getPiece());
-                Picasso.with(context).load(icon).into(tileHouse);
-            }
+//            //new game tiles will then be populated
+//            for(int i =0; i < orderedTileList.size(); i++)
+//            {
+//                TileView tileHouse = gridTiles.get(i);
+//                Tile masterListTile = orderedTileList.get(i);
+//                tileHouse.getTile().setName(masterListTile.getName());
+//                tileHouse.getTile().setId(String.valueOf(i));
+//                tileHouse.getTile().setPiece(masterListTile.getPiece());
+//                int icon = getIconForPieceType(masterListTile.getPiece());
+//                Picasso.with(context).load(icon).into(tileHouse);
+//            }
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
 
-        return gridTiles;
+        return null;//gridTiles;
     }
 
     private int getIconForPieceType(String piece) {
