@@ -22,7 +22,7 @@ import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.google.android.gms.identity.intents.AddressConstants;
+import com.github.ivbaranov.mli.MaterialLetterIcon;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.playerApi.model.Player;
 import com.horcu.apps.peez.backend_gameboard.gameApi.model.Game;
@@ -31,7 +31,6 @@ import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.custom.AutoFitGridLayout;
 import com.horcu.apps.peez.Dtos.MMDto;
 import com.horcu.apps.peez.custom.GameBuilder;
-import com.horcu.apps.peez.custom.Gameboard.TileCard;
 import com.horcu.apps.peez.custom.MessageSender;
 import com.horcu.apps.peez.custom.Gameboard.TileView;
 import com.horcu.apps.peez.custom.UserImageView;
@@ -84,7 +83,11 @@ public class GameView extends Fragment {
     int[] rangeTop = new int[]{2,3,8,9,14,15};
     int[] rangeBottom = new int[]{20,21, 26,27, 32,33};
 
+    int[] colorArray ;
+
     GameBuilder gameBuilder = null;
+
+    int chosenColorIndex = 0;
 
     public GameView() {
         // Required empty public constructor
@@ -122,10 +125,12 @@ public class GameView extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
+        settings =getActivity().getSharedPreferences(consts.PEEZ, 0);
         mLogger = new LoggingService.Logger(getContext());
         mSenders = SenderCollection.getInstance(getActivity());
         opponent = new Player();
         gameBuilder = new GameBuilder(getContext());
+        chosenColorIndex = settings.getInt(consts.FAV_COLOR, 0);
     }
 
     @Override
@@ -133,24 +138,26 @@ public class GameView extends Fragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_game_view, container, false);
          grid = (AutoFitGridLayout)root.findViewById(R.id.gameboard_grid);
-        Game game = null;
 
-        if(gameKey != null)
-        game = GameBuilder.CreateOrGetGameboard(gameKey, false);
-        else
-        game = GameBuilder.CreateOrGetGameboard("", true);
-
-        settings =getActivity().getSharedPreferences("Peez", 0);
+        Game game = GameBuilder.CreateOrGetGameboard(gameKey, false);
+        colorArray =  getActivity().getResources().getIntArray(R.array.Colors);
         myToken = settings.getString(consts.REG_ID,"");
 
         //first move
         if(currentSpot == null)
             setCurrentSpot("0");
 
-        for(int i = 0; i < consts.TOTAL_TILES; i++)
+        int halfWayMark = (consts.TOTAL_TILES / 2);
+
+        for(int i = 0; i < consts.TOTAL_TILES; i ++)
         {
-            grid.getChildAt(i).setTag(i);
-            grid.getChildAt(i).setOnClickListener(HandleTileClick(i));
+            final CardView card = (CardView) grid.getChildAt(i);
+                card.setTag(i);
+                card.setOnClickListener(HandleTileClick(i));
+            ((MaterialLetterIcon)card.getChildAt(0)).setShapeColor(colorArray[chosenColorIndex + 1]);
+
+            if((i + 1) > halfWayMark)
+             ((MaterialLetterIcon)card.getChildAt(0)).setShapeColor(colorArray[chosenColorIndex]);
         }
         return root;
     }
@@ -168,7 +175,6 @@ public class GameView extends Fragment {
         }
              else if (ArrayUtils.contains(rangeB, i)) // bottom or top arrow
              {
-
                  if(ArrayUtils.contains(rangeTop, i)) // top
                  {
                  return 2;

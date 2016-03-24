@@ -35,9 +35,10 @@ public class consts {
    public static final String STATUS_SENT = "sent";
    public static final String FAV_COLOR = "favorite_color";
    public static final int PAGE_GAME = 1;
-   public static final int TOTAL_TILES = 60;
+   public static final int TOTAL_TILES = 36;
    public static final int INTENT_TO_CHALLENGE = 60000;
    public static final String EXTRAS_MOVE_TO = "move_to";
+   public static final String PEEZ = "Peez";
    //end entity constants
 
    //turn dev mode on and off
