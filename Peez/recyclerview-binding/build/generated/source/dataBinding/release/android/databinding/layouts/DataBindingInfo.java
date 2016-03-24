@@ -2,5 +2,5 @@ package android.databinding.layouts;
 
 import android.databinding.BindingBuildInfo;
 
-@BindingBuildInfo(buildId="b6091bfe-031d-4c65-b344-56db8f36d373", modulePackage="net.droidlabs.mvvm.recyclerview", sdkRoot="E:\\Misc",layoutInfoDir="E:\\Dev\\Android\\Projects\\Peez\\Peez\\recyclerview-binding\\build\\intermediates\\data-binding-info\\release",exportClassListTo="E:\\Dev\\Android\\Projects\\Peez\\Peez\\recyclerview-binding\\build\\intermediates\\data-binding-info\\release\\_generated.txt",isLibrary=true,minSdk=21,enableDebugLogs=false,printEncodedError=true)
+@BindingBuildInfo(buildId="8cbc5e6c-0b22-4d79-a8dd-ffe473b00f6d", modulePackage="net.droidlabs.mvvm.recyclerview", sdkRoot="C:\\MyData\\AppData\\Local\\Android\\Sdk",layoutInfoDir="C:\\MyData\\StudioProjects\\Peez\\Peez\\recyclerview-binding\\build\\intermediates\\data-binding-info\\release",exportClassListTo="C:\\MyData\\StudioProjects\\Peez\\Peez\\recyclerview-binding\\build\\intermediates\\data-binding-info\\release\\_generated.txt",isLibrary=true,minSdk=21,enableDebugLogs=false,printEncodedError=true)
 public class DataBindingInfo {}

@@ -5,495 +5,559 @@
     android:layout_height="match_parent">
 
     <com.horcu.apps.peez.custom.AutoFitGridLayout
-      android:id="@+id/gameboard_grid"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:paddingBottom="2dp"
-      android:paddingTop="2dp"
-      app:columnCount="6"
-      app:paddingEnd="0dp"
-      app:paddingStart="0dp"
-      app:horizontalSpace="1dp"
-      app:verticalSpace="1dp"
-        android:layout_centerInParent="true">
+        android:id="@+id/gameboard_grid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp"
+        app:columnCount="6"
+        app:horizontalSpace="1dp"
+        app:paddingEnd="0dp"
+        app:paddingStart="0dp"
+        app:verticalSpace="1dp">
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            app:cardElevation="0dp"
-            android:transitionName="@string/tileTransition">
-            
-            <com.github.ivbaranov.mli.MaterialLetterIcon
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
-            
-            </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="0dp">
 
             <com.github.ivbaranov.mli.MaterialLetterIcon
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
-
-            <com.github.ivbaranov.mli.MaterialLetterIcon
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
-
-            <com.github.ivbaranov.mli.MaterialLetterIcon
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
-
-            <com.github.ivbaranov.mli.MaterialLetterIcon
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
-
-            <com.github.ivbaranov.mli.MaterialLetterIcon
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
 
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
 
             <com.github.ivbaranov.mli.MaterialLetterIcon
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
-
-            <com.github.ivbaranov.mli.MaterialLetterIcon
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
-
-            <com.github.ivbaranov.mli.MaterialLetterIcon
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
-
-            <com.github.ivbaranov.mli.MaterialLetterIcon
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
-
-            <com.github.ivbaranov.mli.MaterialLetterIcon
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
-
-            <com.github.ivbaranov.mli.MaterialLetterIcon
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
 
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
 
             <com.github.ivbaranov.mli.MaterialLetterIcon
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
-
-            <com.github.ivbaranov.mli.MaterialLetterIcon
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
-
-            <com.github.ivbaranov.mli.MaterialLetterIcon
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
-
-            <com.github.ivbaranov.mli.MaterialLetterIcon
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
-
-            <com.github.ivbaranov.mli.MaterialLetterIcon
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
-
-            <com.github.ivbaranov.mli.MaterialLetterIcon
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
 
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
 
             <com.github.ivbaranov.mli.MaterialLetterIcon
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
-
-            <com.github.ivbaranov.mli.MaterialLetterIcon
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
-
-            <com.github.ivbaranov.mli.MaterialLetterIcon
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
-
-            <com.github.ivbaranov.mli.MaterialLetterIcon
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
-
-            <com.github.ivbaranov.mli.MaterialLetterIcon
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
-
-            <com.github.ivbaranov.mli.MaterialLetterIcon
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
 
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
 
             <com.github.ivbaranov.mli.MaterialLetterIcon
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
-
-            <com.github.ivbaranov.mli.MaterialLetterIcon
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
-
-            <com.github.ivbaranov.mli.MaterialLetterIcon
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
-
-            <com.github.ivbaranov.mli.MaterialLetterIcon
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
-
-            <com.github.ivbaranov.mli.MaterialLetterIcon
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
-
-            <com.github.ivbaranov.mli.MaterialLetterIcon
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
 
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
 
             <com.github.ivbaranov.mli.MaterialLetterIcon
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
 
         </android.support.v7.widget.CardView>
+
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
 
             <com.github.ivbaranov.mli.MaterialLetterIcon
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
 
         </android.support.v7.widget.CardView>
+
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
 
             <com.github.ivbaranov.mli.MaterialLetterIcon
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
 
         </android.support.v7.widget.CardView>
+
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
 
             <com.github.ivbaranov.mli.MaterialLetterIcon
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
 
         </android.support.v7.widget.CardView>
+
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
 
             <com.github.ivbaranov.mli.MaterialLetterIcon
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
 
         </android.support.v7.widget.CardView>
+
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            app:cardElevation="1dp"
-            android:transitionName="@string/tileTransition">
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
 
             <com.github.ivbaranov.mli.MaterialLetterIcon
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:mli_shape_type="circle"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
 
         </android.support.v7.widget.CardView>
 
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
 
+            <com.github.ivbaranov.mli.MaterialLetterIcon
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
+
+            <com.github.ivbaranov.mli.MaterialLetterIcon
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
+
+            <com.github.ivbaranov.mli.MaterialLetterIcon
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
+
+            <com.github.ivbaranov.mli.MaterialLetterIcon
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
+
+            <com.github.ivbaranov.mli.MaterialLetterIcon
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
+
+            <com.github.ivbaranov.mli.MaterialLetterIcon
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
+
+            <com.github.ivbaranov.mli.MaterialLetterIcon
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
+
+            <com.github.ivbaranov.mli.MaterialLetterIcon
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
+
+            <com.github.ivbaranov.mli.MaterialLetterIcon
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
+
+            <com.github.ivbaranov.mli.MaterialLetterIcon
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
+
+            <com.github.ivbaranov.mli.MaterialLetterIcon
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
+
+            <com.github.ivbaranov.mli.MaterialLetterIcon
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
+
+            <com.github.ivbaranov.mli.MaterialLetterIcon
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
+
+            <com.github.ivbaranov.mli.MaterialLetterIcon
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
+
+            <com.github.ivbaranov.mli.MaterialLetterIcon
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
+
+            <com.github.ivbaranov.mli.MaterialLetterIcon
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
+
+            <com.github.ivbaranov.mli.MaterialLetterIcon
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
+
+            <com.github.ivbaranov.mli.MaterialLetterIcon
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
+
+            <com.github.ivbaranov.mli.MaterialLetterIcon
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
+
+            <com.github.ivbaranov.mli.MaterialLetterIcon
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
+
+            <com.github.ivbaranov.mli.MaterialLetterIcon
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
+
+            <com.github.ivbaranov.mli.MaterialLetterIcon
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
+
+            <com.github.ivbaranov.mli.MaterialLetterIcon
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
+
+            <com.github.ivbaranov.mli.MaterialLetterIcon
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:transitionName="@string/tileTransition"
+            app:cardElevation="1dp">
+
+            <com.github.ivbaranov.mli.MaterialLetterIcon
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                app:mli_shape_color="@color/grey_mid"
+                app:mli_shape_type="circle" />
+
+        </android.support.v7.widget.CardView>
 
 
     </com.horcu.apps.peez.custom.AutoFitGridLayout>
 
-  </RelativeLayout>
+</RelativeLayout>

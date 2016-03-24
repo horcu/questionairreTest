@@ -1,12 +1,14 @@
 package com.horcu.apps.peez.view.fragments;
 
 import android.app.ActivityOptions;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,8 +18,10 @@ import android.support.v7.widget.CardView;
 import android.text.SpannableStringBuilder;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -33,7 +37,6 @@ import com.horcu.apps.peez.Dtos.MMDto;
 import com.horcu.apps.peez.custom.GameBuilder;
 import com.horcu.apps.peez.custom.MessageSender;
 import com.horcu.apps.peez.custom.Gameboard.TileView;
-import com.horcu.apps.peez.custom.UserImageView;
 import com.horcu.apps.peez.gcm.message.Message;
 import com.horcu.apps.peez.misc.SenderCollection;
 import com.horcu.apps.peez.service.LoggingService;
@@ -42,6 +45,7 @@ import com.horcu.apps.peez.view.activities.ChallengeView;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Date;
+import java.util.Random;
 import java.util.UUID;
 
 import at.markushi.ui.CircleButton;
@@ -154,10 +158,12 @@ public class GameView extends Fragment {
             final CardView card = (CardView) grid.getChildAt(i);
                 card.setTag(i);
                 card.setOnClickListener(HandleTileClick(i));
-            ((MaterialLetterIcon)card.getChildAt(0)).setShapeColor(colorArray[chosenColorIndex + 1]);
+                card.setOnDragListener(new playerPieceDragListener());
+                card.getChildAt(0).setOnTouchListener(new TileTouchListener());
 
             if((i + 1) > halfWayMark)
              ((MaterialLetterIcon)card.getChildAt(0)).setShapeColor(colorArray[chosenColorIndex]);
+
         }
         return root;
     }
@@ -225,10 +231,90 @@ public class GameView extends Fragment {
     }
 
 
+    private final class TileTouchListener implements View.OnTouchListener {
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                ClipData data = ClipData.newPlainText("", "");
+                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+                view.startDrag(data, shadowBuilder, view, 0);
+                view.setVisibility(View.INVISIBLE);
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    class playerPieceDragListener implements View.OnDragListener {
+        Drawable enterShape = getResources().getDrawable(R.drawable.shape_droptarget);
+        Drawable normalShape = getResources().getDrawable(R.drawable.shape);
+        int colorIndex = settings.getInt(consts.FAV_COLOR,0);
+
+        int[] colorArray = getResources().getIntArray(R.array.Colors);
+        int favColor = colorArray[colorIndex];
+        int userFavColor = R.color.grey_mid;
+
+        @Override
+        public boolean onDrag(View v, DragEvent event) {
+            int action = event.getAction();
+            CardView container = (CardView)v;
+
+            switch (event.getAction()) {
+                case DragEvent.ACTION_DRAG_STARTED:
+
+                    break;
+                case DragEvent.ACTION_DRAG_ENTERED:
+                    View startView = (View) event.getLocalState();
+                    CardView parent = (CardView) startView.getParent();
+                    MaterialLetterIcon m = (MaterialLetterIcon)parent.getChildAt(0);
+                    m.setBackground(new ColorDrawable(Color.WHITE));
+                    break;
+
+                case DragEvent.ACTION_DRAG_EXITED:
+                    View startView2 = (View) event.getLocalState();
+                    CardView parent2 = (CardView) startView2.getParent();
+                    MaterialLetterIcon m2 = (MaterialLetterIcon)parent2.getChildAt(0);
+                    m2.setBackground(new ColorDrawable(getResources().getColor(userFavColor)));
+
+                    break;
+                case DragEvent.ACTION_DROP:
+
+                    View view = (View) event.getLocalState();
+                    CardView owner = (CardView) view.getParent();
+                    owner.removeView(view);
+                    container.addView(view);
+
+                    view.setVisibility(View.VISIBLE);
+                    YoYo.with(Techniques.Tada).duration(700).playOn(view);
+                    break;
+                case DragEvent.ACTION_DRAG_ENDED:
+                    View currentView = (View) event.getLocalState();
+                  Toast.makeText(getContext(), "moved to: " + (String)currentView.getTag(), Toast.LENGTH_SHORT).show();
+                default:
+                    break;
+            }
+            return true;
+        }
+    }
+
+    private View CloneLetterIconView(MaterialLetterIcon swap) {
+        Random rand = new Random(1);
+        MaterialLetterIcon icon = new MaterialLetterIcon(getContext());
+        icon.setLetterColor(swap.getLetterColor());
+        icon.setLetter(String.valueOf(rand.nextInt()));
+        icon.setShapeColor(swap.getShapeColor());
+
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        params.width = 30;
+        params.height = 30;
+        icon.setLayoutParams(params);
+        return icon;
+    }
+
     @NonNull
     private int GetFavoriteColor() {
         if(settings == null)
-            settings = getActivity().getSharedPreferences("Peez", 0);
+            settings = getActivity().getSharedPreferences(consts.PEEZ, 0);
 
         int savedColorIndex = settings.getInt(consts.FAV_COLOR, 0) != 0
                 ? settings.getInt(consts.FAV_COLOR, 0)

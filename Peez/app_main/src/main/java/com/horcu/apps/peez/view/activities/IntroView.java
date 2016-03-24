@@ -69,6 +69,8 @@ public class IntroView extends IntroActivity implements OnColorChosenListener {
         /* Enable/disable finish button */
                setFinishEnabled(false);
 
+               setFullscreen(true);
+
 //        /* Add your own page change listeners */
 //        addOnPageChangeListener(new ViewPager.OnPageChangeListener(){
 //            @Override
@@ -115,7 +117,7 @@ public class IntroView extends IntroActivity implements OnColorChosenListener {
     @NonNull
     private int GetFavoriteColor() {
         if(settings == null)
-            settings = getSharedPreferences("Peez", 0);
+            settings = getSharedPreferences(consts.PEEZ, 0);
 
         int color = getResources().getColor(settings.getInt(consts.FAV_COLOR, 0));
         if(color == 0)
@@ -125,7 +127,7 @@ public class IntroView extends IntroActivity implements OnColorChosenListener {
 
     private boolean deviceRegistered() {
         if(settings == null)
-            settings = getSharedPreferences("Peez", 0);
+            settings = getSharedPreferences(consts.PEEZ, 0);
 
         return settings.getBoolean(consts.DEVICE_REGISTERED, false);
     }
@@ -135,7 +137,7 @@ public class IntroView extends IntroActivity implements OnColorChosenListener {
         playerApi = ApiServicesBuilber.BuildPlayerApiService();
         userSettingsApi = ApiServicesBuilber.BuildUserSettingsApiService();
 
-        settings = getSharedPreferences("Peez", 0);
+        settings = getSharedPreferences(consts.PEEZ, 0);
         credential = GoogleAccountCredential.usingAudience(this, consts.GOOGLE_ACCOUNT_CREDENTIALS_AUDIENCE);
         String name = settings.getString(consts.PREF_ACCOUNT_NAME, null);
 
@@ -245,7 +247,7 @@ public class IntroView extends IntroActivity implements OnColorChosenListener {
     @Override
     public void OnColorChosen(int colorIndex) {
         if(settings == null)
-            settings = getSharedPreferences("Peez", 0);
+            settings = getSharedPreferences(consts.PEEZ, 0);
         settings.edit().putInt(consts.FAV_COLOR, colorIndex).apply();
 
         CompleteRegistrationAndLogIn();
