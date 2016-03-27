@@ -15,30 +15,50 @@
     </array>
 
     <integer-array name="Colors">
+        <item>@color/blue2</item>
         <item>@color/blue</item>
         <item>@color/light_blue</item>
+        <item>@color/light_blue2</item>
         <item>@android:color/holo_blue_dark</item>
         <item>@color/green</item>
         <item>@color/mid_green</item>
+        <item>@color/sea_green</item>
         <item>@android:color/holo_green_dark</item>
+        <item>@color/light_yellow</item>
         <item>@color/yellow</item>
-        <item>@android:color/holo_orange_dark</item>
+        <item>@color/kaki2</item>
+        <item>@color/kaki</item>
+        <item>@color/brick</item>
         <item>@color/orange</item>
         <item>@color/red</item>
-        <item>@color/brick</item>
+        <item>@android:color/holo_orange_dark</item>
+        <item>@color/salmon</item>
+        <item>@color/pink</item>
+        <item>@color/dark_purple</item>
+        <item>@color/hot_pink</item>
         <item>@android:color/holo_purple</item>
         <item>@android:color/black</item>
-        <item>@color/darkGrey</item>
         <item>@android:color/darker_gray</item>
+        <item>@color/grey_mid</item>
 
     </integer-array>
 
 
-    <color name="yellow">#ffffff00</color>
+    <color name="yellow">#CDAD00</color>
+    <color name="light_blue2">#68838B</color>
     <color name="blue">#0000ff</color>
+    <color name="blue2">#00008B</color>
     <color name="light_blue">#4663b0</color>
     <color name="green">#296876</color>
     <color name="mid_green">#37a36a</color>
+    <color name="sea_green">#698B69</color>
     <color name="orange">#f0530f</color>
     <color name="brick">#5c2222</color>
+    <color name="salmon">#CD8162</color>
+    <color name="kaki">#CDAA7D</color>
+    <color name="light_yellow">#CDCDB4</color>
+    <color name="kaki2">#8B864E</color>
+    <color name="dark_purple">#68228B</color>
+    <color name="pink">#FF1493</color>
+    <color name="hot_pink">#8B3A62</color>
 </resources>

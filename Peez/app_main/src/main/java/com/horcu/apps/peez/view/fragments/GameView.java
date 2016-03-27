@@ -3,25 +3,28 @@ package com.horcu.apps.peez.view.fragments;
 import android.app.ActivityOptions;
 import android.content.ClipData;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.text.SpannableStringBuilder;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -37,18 +40,26 @@ import com.horcu.apps.peez.Dtos.MMDto;
 import com.horcu.apps.peez.custom.GameBuilder;
 import com.horcu.apps.peez.custom.MessageSender;
 import com.horcu.apps.peez.custom.Gameboard.TileView;
+import com.horcu.apps.peez.databinding.FragmentGameViewBinding;
 import com.horcu.apps.peez.gcm.message.Message;
 import com.horcu.apps.peez.misc.SenderCollection;
 import com.horcu.apps.peez.service.LoggingService;
+import com.horcu.apps.peez.service.QuestionService;
 import com.horcu.apps.peez.view.activities.ChallengeView;
+import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
 import at.markushi.ui.CircleButton;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -68,6 +79,8 @@ public class GameView extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    protected FragmentGameViewBinding binding;
+
     private OnFragmentInteractionListener mListener;
     private LoggingService.Logger mLogger;
     private SenderCollection mSenders;
@@ -77,7 +90,6 @@ public class GameView extends Fragment {
     private Player opponent;
     private String gameKey;
 
-    AutoFitGridLayout grid = null;
     private String playerTurn;
 
     int[] rangeA = new int[]{0,1,6,7,12,13, 18,19, 24,25, 30,31};
@@ -92,6 +104,9 @@ public class GameView extends Fragment {
     GameBuilder gameBuilder = null;
 
     int chosenColorIndex = 0;
+    private Retrofit retrofit;
+    private QuestionService qService;
+    private boolean mQuestionServiceIsBusy = false;
 
     public GameView() {
         // Required empty public constructor
@@ -106,14 +121,37 @@ public class GameView extends Fragment {
             opponent.setUserName(playerName);
             opponent.setToken(token);
             this.gameKey = gameKey;
-            if(getActivity().getActionBar() != null)
-                getActivity().getActionBar().setTitle(playerName);
+
+            View layout = binding.userInfoLayout.findViewById(R.id.user_info_layout);
+
+            int chosenColor = UpdateIcon(layout);
+            UpdateOpponent(layout);
+            UpdateUserInfoSectionBGColor(chosenColor);
+
             return true;
 
         } catch (Exception ex){
             ex.printStackTrace();
             return false;
         }
+    }
+
+    private void UpdateUserInfoSectionBGColor(int col) {
+        ((ViewGroup)binding.userInfoLayout).getChildAt(0).setBackground(new ColorDrawable(col));
+    }
+
+    private void UpdateOpponent(View layout) {
+        TextView tv = (TextView) layout.findViewById(R.id.opponent_info_text);
+        tv.setText(opponent.getUserName() == null || opponent.getUserName().equals("") ? "choose your opponent.." : opponent.getUserName());
+        tv.setTextColor(Color.WHITE);
+    }
+
+    private int UpdateIcon(View layout) {
+        MaterialLetterIcon icon = (MaterialLetterIcon) layout.findViewById(R.id.opponent_img);
+        int col = getResources().getIntArray(R.array.Colors)[chosenColorIndex];
+        icon.setLetterColor(col);
+        icon.setLetter(opponent.getUserName() == null || opponent.getUserName().equals("") ? "O" : String.valueOf(opponent.getUserName().substring(0,1)));
+        return col;
     }
 
     // TODO: Rename and change types and number of parameters
@@ -135,15 +173,40 @@ public class GameView extends Fragment {
         opponent = new Player();
         gameBuilder = new GameBuilder(getContext());
         chosenColorIndex = settings.getInt(consts.FAV_COLOR, 0);
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(consts.QUESTIONS_BASE_URL)
+                .build();
+
+        qService = retrofit.create(QuestionService.class);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_game_view, container, false);
-         grid = (AutoFitGridLayout)root.findViewById(R.id.gameboard_grid);
+        binding = FragmentGameViewBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
+
+        binding.gameboardGridOpponent.setVisibility(View.VISIBLE);
+        binding.gameboardGridPlayer.setVisibility(View.VISIBLE);
+        binding.tapBarMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.viewSwitcher.showNext();
+               // YoYo.with(Techniques.SlideOutDown).duration(700).playOn(v);
+
+                for(int i = 0; i < binding.gameboardGridOpponent.getChildCount(); i ++)
+                {
+                    CardView cv = (CardView) binding.gameboardGridOpponent.getChildAt(i);
+                    MaterialLetterIcon icon = (MaterialLetterIcon) cv.getChildAt(0);
+                  YoYo.with(Techniques.Wave).duration(700).playOn(icon);
+                }
+            }
+        });
 
         Game game = GameBuilder.CreateOrGetGameboard(gameKey, false);
+        //TODO then set the binding for the viewmodel for the game board
+
         colorArray =  getActivity().getResources().getIntArray(R.array.Colors);
         myToken = settings.getString(consts.REG_ID,"");
 
@@ -153,19 +216,57 @@ public class GameView extends Fragment {
 
         int halfWayMark = (consts.TOTAL_TILES / 2);
 
+        Random rand = new Random(0);
+        int min = 0;
+        int max = colorArray.length - 1;
+        int randIndex =  GetRandomColorndex(min, max);
+
+        while (randIndex == chosenColorIndex)
+            randIndex = GetRandomColorndex(min, max);
+
         for(int i = 0; i < consts.TOTAL_TILES; i ++)
         {
-            final CardView card = (CardView) grid.getChildAt(i);
-                card.setTag(i);
-                card.setOnClickListener(HandleTileClick(i));
-                card.setOnDragListener(new playerPieceDragListener());
-                card.getChildAt(0).setOnTouchListener(new TileTouchListener());
+            final CardView card = (CardView) binding.gameboardGrid.getChildAt(i);
+            SetCardTagsAndListeners(i, card, consts.CARD_TYPE_GAMEBOARD);
+            SetCardIconTagsAndListeners(i, card);
 
             if((i + 1) > halfWayMark)
-             ((MaterialLetterIcon)card.getChildAt(0)).setShapeColor(colorArray[chosenColorIndex]);
-
+                ((MaterialLetterIcon)card.getChildAt(0)).setShapeColor(colorArray[chosenColorIndex]);
+            else
+                ((MaterialLetterIcon) card.getChildAt(0)).setShapeColor(colorArray[randIndex]);
         }
+
+        for (int o = 0; o < consts.TOTAL_PLAYERS_TILES; o ++)
+        {
+            final CardView opponentCard = (CardView) binding.gameboardGridOpponent.getChildAt(o);
+            SetCardTagsAndListeners(o,opponentCard,consts.CARD_TYPE_OPPONENT_HOME);
+
+            final CardView playerCard = (CardView) binding.gameboardGridPlayer.getChildAt(o);
+            SetCardTagsAndListeners(o,playerCard,consts.CARD_TYPE_PLAYER_HOME);
+        }
+
         return root;
+    }
+
+    private int GetRandomColorndex(int min, int max) {
+        Random rand = new Random();
+        // nextInt is normally exclusive of the top value,
+        // so add 1 to make it inclusive
+        return rand.nextInt((max - min) + 1) + min;
+    }
+
+    private void SetCardIconTagsAndListeners(int i, CardView card) {
+        MaterialLetterIcon icon = (MaterialLetterIcon) card.getChildAt(0);
+        icon.setTag(i);
+
+        icon.setOnTouchListener(new TileTouchListener());
+    }
+
+    private void SetCardTagsAndListeners(int i, CardView card, String type) {
+        card.setTag(i);
+        card.setTag(R.string.gameboard_card_type, type);
+        //card.setOnClickListener(HandleTileClick(i));
+        card.setOnDragListener(new playerPieceDragListener());
     }
 
     private void SetBubbleArrowLocation(int i, LeBubbleTitleTextView infoBox) {
@@ -189,7 +290,6 @@ public class GameView extends Fragment {
                  {
                      return 4;
                  }
-
              }
              else if (ArrayUtils.contains(rangeC, i)) // right arrow
              {
@@ -230,14 +330,15 @@ public class GameView extends Fragment {
         };
     }
 
-
     private final class TileTouchListener implements View.OnTouchListener {
         public boolean onTouch(View view, MotionEvent motionEvent) {
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                 ClipData data = ClipData.newPlainText("", "");
                 View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
                 view.startDrag(data, shadowBuilder, view, 0);
-                view.setVisibility(View.INVISIBLE);
+
+                //view.setVisibility(View.INVISIBLE);
+                //SuperSizeView(view);
                 return true;
             } else {
                 return false;
@@ -245,9 +346,37 @@ public class GameView extends Fragment {
         }
     }
 
+    private void superSize(View view) {
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        params.width = params.width*2;
+        params.height = params.height*2;
+        view.setLayoutParams(params);
+    }
+
+    private void unSuperSize(View view) {
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        params.width = params.width/2;
+        params.height = params.height/2;
+        view.setLayoutParams(params);
+    }
+
+    private void SuperSizeView(View view) {
+        view.measure(View.MeasureSpec.EXACTLY, View.MeasureSpec.EXACTLY);
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        params.width = view.getMeasuredWidth()*2;
+        params.height = view.getMeasuredHeight()*2;
+        view.setLayoutParams(params);
+    }
+
+    private void UnSuperSizeView(View view) {
+        view.measure(View.MeasureSpec.EXACTLY, View.MeasureSpec.EXACTLY);
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        params.width = view.getMeasuredWidth()/2;
+        params.height = view.getMeasuredHeight()/2;
+        view.setLayoutParams(params);
+    }
+
     class playerPieceDragListener implements View.OnDragListener {
-        Drawable enterShape = getResources().getDrawable(R.drawable.shape_droptarget);
-        Drawable normalShape = getResources().getDrawable(R.drawable.shape);
         int colorIndex = settings.getInt(consts.FAV_COLOR,0);
 
         int[] colorArray = getResources().getIntArray(R.array.Colors);
@@ -258,44 +387,57 @@ public class GameView extends Fragment {
         public boolean onDrag(View v, DragEvent event) {
             int action = event.getAction();
             CardView container = (CardView)v;
+            View view = (View) event.getLocalState();
 
-            switch (event.getAction()) {
+            switch (action) {
                 case DragEvent.ACTION_DRAG_STARTED:
 
                     break;
                 case DragEvent.ACTION_DRAG_ENTERED:
-                    View startView = (View) event.getLocalState();
-                    CardView parent = (CardView) startView.getParent();
-                    MaterialLetterIcon m = (MaterialLetterIcon)parent.getChildAt(0);
-                    m.setBackground(new ColorDrawable(Color.WHITE));
-                    break;
 
+                    break;
                 case DragEvent.ACTION_DRAG_EXITED:
-                    View startView2 = (View) event.getLocalState();
-                    CardView parent2 = (CardView) startView2.getParent();
-                    MaterialLetterIcon m2 = (MaterialLetterIcon)parent2.getChildAt(0);
-                    m2.setBackground(new ColorDrawable(getResources().getColor(userFavColor)));
 
                     break;
                 case DragEvent.ACTION_DROP:
+                    try {
 
-                    View view = (View) event.getLocalState();
-                    CardView owner = (CardView) view.getParent();
-                    owner.removeView(view);
-                    container.addView(view);
+                        CardView owner = (CardView) view.getParent();
+                        owner.removeView(view);
+                        MaterialLetterIcon containericon = (MaterialLetterIcon) container.getChildAt(0);
+                        container.removeView(containericon);
+                        container.addView(view);
+                        owner.addView(containericon);
+                        YoYo.with(Techniques.Pulse).duration(1000).playOn(containericon);
+                        YoYo.with(Techniques.Pulse).duration(1000).playOn(view);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
-                    view.setVisibility(View.VISIBLE);
-                    YoYo.with(Techniques.Tada).duration(700).playOn(view);
                     break;
                 case DragEvent.ACTION_DRAG_ENDED:
-                    View currentView = (View) event.getLocalState();
-                  Toast.makeText(getContext(), "moved to: " + (String)currentView.getTag(), Toast.LENGTH_SHORT).show();
+
                 default:
                     break;
             }
             return true;
         }
     }
+
+    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    GetQuestions("");
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    dialog.dismiss();
+                    break;
+            }
+        }
+    };
 
     private View CloneLetterIconView(MaterialLetterIcon swap) {
         Random rand = new Random(1);
@@ -427,8 +569,8 @@ public class GameView extends Fragment {
     public void ShowMoveOnBoard(Message message) {
         try {
             int position = Integer.parseInt(message.getTo());
-            CardView moveTo = (CardView) grid.getChildAt(position);
-            CardView from = (CardView) grid.getChildAt(Integer.parseInt(message.getFrom()));
+            CardView moveTo = (CardView) binding.gameboardGrid.getChildAt(position);
+            CardView from = (CardView) binding.gameboardGrid.getChildAt(Integer.parseInt(message.getFrom()));
 
             from.setBackground(new ColorDrawable(Color.parseColor("#ffefefef")));
             from.setAlpha(.7f);
@@ -455,7 +597,7 @@ public class GameView extends Fragment {
             //String[] neighbours = tv.getNeighbours();
            // GlowNeighbours(neighbours);
 
-            ShowSnack(grid.getRootView(), message);
+            ShowSnack(binding.gameboardGrid.getRootView(), message);
 
         } catch (NumberFormatException e) {
             e.printStackTrace();
@@ -582,5 +724,30 @@ public class GameView extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+
+    private void GetQuestions(String url) {
+
+            Call<List<String>> questions = qService.GetQuestions(!url.equals("") ? url : consts.QUESTIONS_API_RANDOM);
+            mQuestionServiceIsBusy = true;
+            questions.enqueue(new Callback<List<String>>() {
+                @Override
+                public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                    Toast.makeText(getContext(), response.message(), Toast.LENGTH_LONG).show();
+                    mQuestionServiceIsBusy = false;
+                }
+
+                @Override
+                public void onFailure(Call<List<String>> call, Throwable t) {
+                    Toast.makeText(getContext(), "failed to get questions", Toast.LENGTH_SHORT).show();
+                    mQuestionServiceIsBusy = false;
+                }
+            });
+    }
+
+    private boolean questionServiceIsBusy() {
+
+        return mQuestionServiceIsBusy;
     }
 }

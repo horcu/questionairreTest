@@ -515,6 +515,13 @@
     <string name="choose_color">Choose a color..</string>
     <string name="title_activity_challenge_view">ChallengeView</string>
     <string name="tileTransition">tile_transition</string>
+    <string name="gameboard_card_type">card_type</string>
+    <string name="select_an_opponent">Select an opponent..</string>
+    <string name="type_message_here">type message here...</string>
+    <string name="no_mesasges_yet">no mesasges yet...</string>
+    <string name="use_system_default">Use System Default?</string>
+    <string name="no_messages_yet">no messages yet :/</string>
+    <string name="talk_smack">talk smack ...</string>
 
 
 </resources>

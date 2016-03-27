@@ -7,7 +7,6 @@
       <module fileurl="file://$PROJECT_DIR$/app_menu_bar/app_menu_bar.iml" filepath="$PROJECT_DIR$/app_menu_bar/app_menu_bar.iml" />
       <module fileurl="file://$PROJECT_DIR$/backend/backend.iml" filepath="$PROJECT_DIR$/backend/backend.iml" />
       <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
-      <module fileurl="file://$PROJECT_DIR$/emoji/emoji.iml" filepath="$PROJECT_DIR$/emoji/emoji.iml" />
       <module fileurl="file://$PROJECT_DIR$/recyclerview-binding/recyclerview-binding.iml" filepath="$PROJECT_DIR$/recyclerview-binding/recyclerview-binding.iml" />
     </modules>
   </component>

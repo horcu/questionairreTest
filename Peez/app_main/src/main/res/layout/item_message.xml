@@ -52,13 +52,13 @@
             <!--android:text="@{msgVM.model.datetime}"-->
                 <!--tools:text="Hello"/>-->
 
-        <github.ankushsachdeva.emojicon.EmojiconTextView
+        <TextView
             android:id="@+id/item_user_surname"
             android:layout_weight="1"
             android:fontFamily="sans-serif-condensed"
             android:textSize="16sp"
             android:textColor="@color/colorPrimaryDark"
-            android:layout_gravity="left"
+            android:layout_gravity="start"
             android:layout_margin="5dp"
             emojicon:emojiconAlignment="baseline"
             android:layout_width="wrap_content"

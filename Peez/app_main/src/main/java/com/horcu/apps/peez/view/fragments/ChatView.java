@@ -10,11 +10,14 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -27,10 +30,14 @@ import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.BR;
 import com.horcu.apps.peez.binder.SuperMessageBinder;
 import com.horcu.apps.peez.binder.MessageBinder;
+import com.horcu.apps.peez.chat.Actions.EmojIconActions;
+import com.horcu.apps.peez.chat.Helper.EmojiconEditText;
+import com.horcu.apps.peez.chat.Helper.EmojiconTextView;
 import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.custom.MessageSender;
-import com.horcu.apps.peez.databinding.FragmentChatViewBinding;
+//import com.horcu.apps.peez.databinding.FragmentChatViewBinding;
 
+import com.horcu.apps.peez.databinding.FragmentChatViewBinding;
 import com.horcu.apps.peez.gcm.core.PubSubHelper;
 import com.horcu.apps.peez.gcm.message.Message;
 import com.horcu.apps.peez.misc.SenderCollection;
@@ -49,16 +56,10 @@ import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinder;
 import java.util.Date;
 import java.util.UUID;
 
-import github.ankushsachdeva.emojicon.EmojiconEditText;
-import github.ankushsachdeva.emojicon.EmojiconGridView;
-import github.ankushsachdeva.emojicon.EmojiconsPopup;
-import github.ankushsachdeva.emojicon.emoji.Emojicon;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
-//import io.realm.Realm;
-//import io.realm.RealmConfiguration;
-//import io.realm.RealmResults;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -98,6 +99,14 @@ public class ChatView extends Fragment {
     private Realm realm;
     private RealmConfiguration realmConfig;
 
+    private View rootView;
+    private EmojIconActions emojIcon;
+    private ImageView emojiButton;
+    private ImageView submitButton;
+    //private EmojiconTextView resultsTextView;
+    private EmojiconEditText emojiconEditText;
+    private CheckBox mCheckBox;
+
     public ChatView() {
         // Required empty public constructor
     }
@@ -129,9 +138,9 @@ public class ChatView extends Fragment {
         myToken = settings.getString(consts.REG_ID,"");
 
         // Create a RealmConfiguration which is to locate Realm file in package's "files" directory.
-     //  realmConfig = new RealmConfiguration.Builder(getContext()).build();
+       realmConfig = new RealmConfiguration.Builder(getContext()).build();
         // Get a Realm instance for this thread
-     //   realm = Realm.getInstance(realmConfig);
+       realm = Realm.getInstance(realmConfig);
 
     }
 
@@ -159,116 +168,88 @@ public class ChatView extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-       // if(!playerName.equals(""))
-       //     getActivity().getActionBar().setTitle(playerName); //TODO add a custom actionbar so that you can add the player image there and pass in the url here
-
+        //final View rootView = inflater.inflate(R.layout.fragment_chat_view,container, false);
         binding = FragmentChatViewBinding.inflate(inflater, container, false);
-
         messagesViewModel = new MessagesViewModel();
-
         binding.setMsgViewModel(messagesViewModel);
         binding.setView(this);
+        binding.activityUsersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        refreshMessagesFromDb(gameId, getActivity());
 
-        // Give the topmost view of your activity layout hierarchy. This will be used to measure soft keyboard height
-        final EmojiconsPopup popup = new EmojiconsPopup(binding.getRoot(), getActivity());
+        rootView = binding.getRoot();
+        emojiButton = (ImageView) rootView.findViewById(R.id.emoji_btn);
+        submitButton = (ImageView) rootView.findViewById(R.id.submit_btn);
+        emojiconEditText = (EmojiconEditText) rootView.findViewById(R.id.emojicon_edit_text);
 
-        //Will automatically set size according to the soft keyboard size
-        popup.setSizeForSoftKeyboard();
+        emojIcon=new EmojIconActions(getContext(),rootView,emojiconEditText,emojiButton);
 
-        //If the emoji popup is dismissed, change emojiButton to smiley icon
-        popup.setOnDismissListener(new PopupWindow.OnDismissListener() {
+        emojIcon.ShowEmojIcon();
 
+               emojIcon.setKeyboardListener(new EmojIconActions.KeyboardListener() {
             @Override
-            public void onDismiss() {
-                changeEmojiKeyboardIcon(binding.emojiBtn, R.drawable.smiley);
-            }
-        });
-
-        //If the text keyboard closes, also dismiss the emoji popup
-        popup.setOnSoftKeyboardOpenCloseListener(new EmojiconsPopup.OnSoftKeyboardOpenCloseListener() {
-
-            @Override
-            public void onKeyboardOpen(int keyBoardHeight) {
+            public void onKeyboardOpen() {
+                Log.e("Keyboard","open");
             }
 
             @Override
             public void onKeyboardClose() {
-                if(popup.isShowing())
-                    popup.dismiss();
+                Log.e("Keyboard","close");
             }
         });
 
-        //On emoji clicked, add it to edittext
-        popup.setOnEmojiconClickedListener(new EmojiconGridView.OnEmojiconClickedListener() {
 
-            @Override
-            public void onEmojiconClicked(Emojicon emojicon) {
-                if (binding.emojiconEditText == null || emojicon == null) {
-                    return;
-                }
-
-                int start = binding.emojiconEditText.getSelectionStart();
-                int end = binding.emojiconEditText.getSelectionEnd();
-                if (start < 0) {
-                    binding.emojiconEditText.append(emojicon.getEmoji());
-                } else {
-                    binding.emojiconEditText.getText().replace(Math.min(start, end),
-                            Math.max(start, end), emojicon.getEmoji(), 0,
-                            emojicon.getEmoji().length());
-                }
-            }
-        });
-
-        //On backspace clicked, emulate the KEYCODE_DEL key event
-        popup.setOnEmojiconBackspaceClickedListener(new EmojiconsPopup.OnEmojiconBackspaceClickedListener() {
-
-            @Override
-            public void onEmojiconBackspaceClicked(View v) {
-                KeyEvent event = new KeyEvent(
-                        0, 0, 0, KeyEvent.KEYCODE_DEL, 0, 0, 0, 0, KeyEvent.KEYCODE_ENDCALL);
-                binding.emojiconEditText.dispatchKeyEvent(event);
-            }
-        });
-
-        // To toggle between text keyboard and emoji keyboard keyboard(Popup)
-        binding.emojiBtn.setOnClickListener(new View.OnClickListener() {
-
+        submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //If popup is not showing => emoji keyboard is not visible, we need to show it
-                if(!popup.isShowing()){
+                try {
 
-                    //If keyboard is visible, simply show the emoji popup
-                    if(popup.isKeyBoardOpen()){
-                        popup.showAtBottom();
-                        changeEmojiKeyboardIcon(binding.emojiBtn, R.drawable.ic_action_keyboard);
+                    String message = emojiconEditText.getText().toString();
+                    //resultsTextView.setText(message);
+                    Date d = new Date();
+                    long time = d.getTime();
+
+                    // build up the message oject to send to opponent
+                    SmsDto dto = new SmsDto(myToken,message_recipient, message, String.valueOf(time), playerImageUri);
+                    String json = MessageSender.JsonifySmsDto(dto);
+                    Message sms = MessageSender.BuildSmsMessage(dto, json);
+                    String guid = UUID.randomUUID().toString();
+
+                    MessageEntry me = new MessageEntry(String.valueOf(time), message, sms.getMessageId(),playerImageUri,myToken, message_recipient);
+
+                    MessageSender sender = new MessageSender(getActivity(), mLogger, mSenders);
+                    if (sender.SendSMS(sms)) {
+                        try {
+                            // save to db
+
+                            realm.beginTransaction();
+                            realm.copyToRealm(me);
+                            realm.commitTransaction();
+
+                            Toast.makeText(getActivity(), "added to db!", Toast.LENGTH_SHORT).show();
+
+                            // Create an entry for showing the text
+                            messagesViewModel.messageViewModels.add(new SuperMessageViewModel(me));
+                        } catch (Exception e) {
+                            Toast.makeText(getActivity(), "not added to db! " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            e.printStackTrace();
+                            return;
+                        }
+
+                    } else {
+                        Toast.makeText(getActivity(), "failed ;/", Toast.LENGTH_LONG).show();
+                        return;
                     }
+                    ((EmojiconEditText) rootView.findViewById(R.id.emojicon_edit_text)).setText("");
+                    ((RecyclerView) rootView.findViewById(R.id.activity_users_recycler)).smoothScrollToPosition(messagesViewModel.messageViewModels.size() - 1);
 
-                    //else, open the text keyboard first and immediately after that show the emoji popup
-                    else{
-                        binding.emojiconEditText.setFocusableInTouchMode(true);
-                        binding.emojiconEditText.requestFocus();
-                        popup.showAtBottomPending();
-                        final InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                        inputMethodManager.showSoftInput(binding.emojiconEditText, InputMethodManager.SHOW_IMPLICIT);
-                        changeEmojiKeyboardIcon(binding.emojiBtn, R.drawable.ic_action_keyboard);
-                    }
-                }
-
-                //If popup is showing, simply dismiss it to show the undelying text keyboard
-                else{
-                    popup.dismiss();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });
 
-        binding.activityUsersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        //refreshMessagesFromDb(gameId, getActivity());
-
-        return binding.getRoot(); //inflater.inflate(R.layout.fragment_chat_view, container, false);
+        return rootView; //inflater.inflate(R.layout.fragment_chat_view, container, false);
     }
 
     public void refreshMessagesFromDb(final String gameId, Context ctx) {
@@ -329,18 +310,18 @@ public class ChatView extends Fragment {
                 messagesViewModel.messageViewModels = new ObservableArrayList<>();
 
                 messagesViewModel.messageViewModels.addAll(vms);
-                RecyclerView.Adapter adapter = binding.activityUsersRecycler.getAdapter();
-
-                if(adapter == null)
-                    return;
-
-                int msgCount = adapter.getItemCount();
-
-                if(msgCount > 0)
-                {
-                    binding.activityUsersRecycler.smoothScrollToPosition(msgCount -1);
-                    YoYo.with(Techniques.BounceIn).duration(1000).playOn(binding.activityUsersRecycler.getChildAt(msgCount -1));
-                }
+//                RecyclerView.Adapter adapter = binding.activityUsersRecycler.getAdapter();
+//
+//                if(adapter == null)
+//                    return;
+//
+//                int msgCount = adapter.getItemCount();
+//
+//                if(msgCount > 0)
+//                {
+//                    binding.activityUsersRecycler.smoothScrollToPosition(msgCount -1);
+//                    YoYo.with(Techniques.BounceIn).duration(1000).playOn(binding.activityUsersRecycler.getChildAt(msgCount -1));
+//                }
             }
         });
     }
@@ -406,69 +387,6 @@ public class ChatView extends Fragment {
         return editable == null ? null : editable.toString();
     }
 
-    public View.OnClickListener onButtonClick()
-    {
-        return new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                try {
-                    Date d = new Date();
-                    long time = d.getTime();
-                    String message = getStringFromEditText(binding.emojiconEditText);
-
-                    //build up the message oject to send to opponent
-                    SmsDto dto = new SmsDto(myToken,message_recipient, message, String.valueOf(time), playerImageUri);
-                    String json = MessageSender.JsonifySmsDto(dto);
-                    Message sms = MessageSender.BuildSmsMessage(dto, json);
-                    String guid = UUID.randomUUID().toString();
-
-                    MessageEntry me = new MessageEntry(String.valueOf(time), message, sms.getMessageId(),playerImageUri,myToken, message_recipient);
-
-                        MessageSender sender = new MessageSender(getActivity(), mLogger, mSenders);
-                        if (sender.SendSMS(sms)) {
-                            try {
-                                // save to db
-
-                              //  realm.beginTransaction();
-                             //   realm.copyToRealm(me);
-                              //  realm.commitTransaction();
-
-                              //  Toast.makeText(getActivity(), "added to db!", Toast.LENGTH_SHORT).show();
-
-                                //Create an entry for showing the text
-                                messagesViewModel.messageViewModels.add(new SuperMessageViewModel(me));
-                            } catch (Exception e) {
-                                Toast.makeText(getActivity(), "not added to db! " + e.getMessage(), Toast.LENGTH_LONG).show();
-                                e.printStackTrace();
-                                return;
-                            }
-
-                        } else {
-                            Toast.makeText(getActivity(), "failed ;/", Toast.LENGTH_LONG).show();
-                            return;
-                        }
-                        ((EmojiconEditText) binding.getRoot().findViewById(R.id.emojicon_edit_text)).setText("");
-                        ((RecyclerView) binding.getRoot().findViewById(R.id.activity_users_recycler)).smoothScrollToPosition(messagesViewModel.messageViewModels.size() - 1);
-
-                    } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-    }
-
-//    public View.OnClickListener onEmojiButtonClick()
-//    {
-//        return new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View v)
-//            {
-//
-//            }
-//        };
-//    }
 
    public ClickHandler<MessageViewModel> clickHandler()
     {

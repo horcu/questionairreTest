@@ -17,21 +17,22 @@
         <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
     </style>
 
-    <style name="AppTheme_bub" parent="Theme.AppCompat.Light">
+    <style name="AppTheme_bub" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#FF4A5F5D</item>
-        <item name="colorPrimaryDark">#FF4A5F5D</item>
-        <item name="colorAccent">#FF4A5F5D</item>
-        <item name="android:textColor">#111111</item>
-        <item name="android:backgroundStacked">#FF4A5F5D</item>
+        <item name="colorPrimary">#444444</item>
+        <item name="colorPrimaryDark">#444444</item>
+        <item name="colorAccent">#afb4b4</item>
+        <item name="android:textColor">#444444</item>
+        <item name="android:backgroundStacked">#444444</item>
         <item name="android:colorBackground">@color/white</item>
-        <item name="android:navigationBarColor">#FF4A5F5D</item>
+        <item name="android:navigationBarColor">#444444</item>
         <item name="android:text">#111111</item>
-        <item name="android:windowContentTransitions">true</item>
+        <!--<item name="android:windowContentTransitions">true</item>-->
         <!--<item name="windowActionBar">false</item>-->
         <!--<item name="windowNoTitle">true</item>-->
         <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
-        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
+        <!--<item name="android:statusBarColor">@color/bub</item>-->
+
     </style>
 
     <style name="AppTheme_rem" parent="Theme.AppCompat.Light">
@@ -42,9 +43,9 @@
         <item name="android:textColor">#111111</item>
         <item name="android:backgroundStacked">#FF354E98</item>
         <item name="android:colorBackground">@color/white</item>
-        <item name="android:navigationBarColor">#FF354E98</item>
-        <item name="android:text">@color/bpLight_gray</item>
-        <item name="android:windowContentTransitions">true</item>
+        <!--<item name="android:navigationBarColor">#FF354E98</item>-->
+        <!--<item name="android:text">@color/bpLight_gray</item>-->
+        <!--<item name="android:windowContentTransitions">true</item>-->
     </style>
 
     <style name="AppTheme_brick" parent="Theme.AppCompat.Light">
@@ -55,26 +56,26 @@
         <item name="android:textColor">#111111</item>
         <item name="android:backgroundStacked">#FF994E4E</item>
         <item name="android:colorBackground">@color/white</item>
-        <item name="android:navigationBarColor">#FF994E4E</item>
-        <item name="android:text">@color/bpLight_gray</item>
-        <item name="android:windowContentTransitions">true</item>
+        <!--<item name="android:navigationBarColor">#FF994E4E</item>-->
+        <!--<item name="android:text">@color/bpLight_gray</item>-->
+        <!--<item name="android:windowContentTransitions">true</item>-->
     </style>
 
 
     <style name="app_default" parent="Theme.AppCompat.Light">
 
-        <item name="android:colorAccent">@color/colorPrimaryDark</item>
-        <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="android:colorPrimary">@color/colorPrimaryDark</item>
+        <!--<item name="android:colorAccent">@color/colorPrimaryDark</item>-->
+        <!--<item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <!--<item name="android:colorPrimary">@color/colorPrimaryDark</item>-->
         <item name="android:colorForeground">#756d64</item>
         <item name="android:textColorPrimary">#756d64</item>
         <item name="android:textColor">#756d64</item>
         <item name="android:colorBackground">@color/colorPrimaryDark</item>
-        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
-        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <!--<item name="android:navigationBarColor">@color/colorPrimaryDark</item>-->
+        <!--<item name="android:statusBarColor">@color/colorPrimaryDark</item>-->
         <item name="android:textColorPrimaryInverse">@color/primary_text_material_dark</item>
         <item name="android:textColorSecondary">@color/secondary_text_material_light</item>
-        <item name="android:windowContentTransitions">true</item>
+        <!--<item name="android:windowContentTransitions">true</item>-->
     </style>
 
     <style name="MyDropDownNav" parent="android:style/Widget.Holo.Light.Spinner">

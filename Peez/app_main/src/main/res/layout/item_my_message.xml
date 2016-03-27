@@ -21,6 +21,12 @@
             android:layout_weight="2"
             android:layout_height="match_parent" />
 
+        <!--<com.horcu.apps.peez.chat.LeBubbleTextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content">-->
+
+        <!--</com.horcu.apps.peez.chat.LeBubbleTextView>-->
+
         <android.support.v7.widget.CardView
             android:orientation="vertical"
             android:layout_width="wrap_content"
@@ -49,7 +55,7 @@
                 <!--android:visibility="invisible"-->
                 <!--tools:text="Hello"/>-->
 
-            <github.ankushsachdeva.emojicon.EmojiconTextView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

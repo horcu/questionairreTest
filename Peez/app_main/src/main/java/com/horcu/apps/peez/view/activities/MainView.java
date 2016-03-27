@@ -3,22 +3,22 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.android.gms.analytics.HitBuilders;
 import com.google.gson.JsonSyntaxException;
 import com.horcu.apps.peez.Dtos.InviteDto;
 import com.horcu.apps.peez.Dtos.SmsDto;
@@ -77,14 +77,19 @@ public class MainView extends BaseView
     public Player opponent;
     public String gameKey;
     private boolean newGameBeingCreated;
+    private int favoriteColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_view);
-        settings = getSharedPreferences("Peez", 0);
+        settings = getSharedPreferences(consts.PEEZ, 0);
         opponent = new Player();
         mytoken = settings.getString(consts.REG_ID,"");
+        favoriteColor = getResources().getIntArray(R.array.Colors)[settings.getInt(consts.FAV_COLOR, 0)];
+
+        if(getActionBar() != null)
+            getActionBar().hide();
 
        // realmConfig = new RealmConfiguration.Builder(this)
              //   .name("default1")
@@ -108,18 +113,29 @@ public class MainView extends BaseView
             mViewPager = (PeezViewPager) findViewById(R.id.container);
             if (mViewPager != null) {
                 mViewPager.setAdapter(mSectionsPagerAdapter);
-                mViewPager.setCurrentItem(1);
+                mViewPager.setCurrentItem(2);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
         pubsub= new PubSubHelper(this);
-        //pubsub.subscribeTopic(consts.SENDER_ID,settings.getString(consts.REG_ID,""),gameTopic, new Bundle());
 
         mLogger = new LoggingService.Logger(this);
         mSenders  = SenderCollection.getInstance(getApplicationContext());
 
+        InitBroadcastReceiver();
+        changeStatusbarAndNavigationbarColor();
+    }
+
+    private void changeStatusbarAndNavigationbarColor() {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setNavigationBarColor(favoriteColor);
+            getWindow().setStatusBarColor(favoriteColor);
+        }
+    }
+
+    private void InitBroadcastReceiver() {
         mLoggerCallback = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -258,7 +274,6 @@ public class MainView extends BaseView
         }.execute();
     }
 
-
     private Boolean saveToDb(RealmObject obj){
         try {
 
@@ -339,9 +354,7 @@ public class MainView extends BaseView
         mViewPager.setCurrentItem(page);
     }
 
-
     private void HandleReminder(Message message){}
-
 
     @Nullable
     private ChatView GetChatFragment() {
@@ -354,7 +367,6 @@ public class MainView extends BaseView
         }
         return ((ChatView)frag);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -402,7 +414,6 @@ public class MainView extends BaseView
         mLogger.unregisterCallback(mLoggerCallback);
         super.onPause();
     }
-
 
     @Override
     public void onFragmentInteraction(String newMessage) {

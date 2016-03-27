@@ -11,22 +11,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.GridLayout;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.custom.AutoFitGridLayout;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import at.markushi.ui.CircleButton;
-import petrov.kristiyan.colorpicker.ColorViewAdapter;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -81,14 +70,14 @@ public class ColorPickerFragment extends Fragment {
         AutoFitGridLayout grid = (AutoFitGridLayout) root.findViewById(R.id.colorpicker_grid);
         Resources r = getResources();
         colors = r.getIntArray(R.array.Colors);
-        int clrCount = (grid.getChildCount() -1);
+        int clrCount = (grid.getChildCount());
         grid.setBackground(new ColorDrawable(Color.WHITE));
         for(int i=0; i < clrCount ; i++)
         {
             final int color = colors[i];
             CircleButton cb = (CircleButton) grid.getChildAt(i);
             cb.setTag(color);
-           //SetButtonColor(cb,i);
+            SetButtonColor(cb,i);
             final int finalI = i;
             final int finalI1 = i;
             cb.setOnClickListener(new View.OnClickListener() {
@@ -96,9 +85,7 @@ public class ColorPickerFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     settings.edit().putInt(consts.FAV_COLOR, finalI1).apply();
-                    Toast.makeText(getContext(), "color changed to " + color, Toast.LENGTH_LONG).show();
                     mListener.OnColorChosen(finalI);
-                    Toast.makeText(getContext(), "registering... " + color, Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -106,7 +93,7 @@ public class ColorPickerFragment extends Fragment {
     }
 
     private CircleButton SetButtonColor(CircleButton cb, int  index) {
-        cb.setBackground(new ColorDrawable(GetColorFromList(index)));
+        cb.setColor(GetColorFromList(index));
         return cb;
     }
 

@@ -39,6 +39,13 @@ public class consts {
    public static final int INTENT_TO_CHALLENGE = 60000;
    public static final String EXTRAS_MOVE_TO = "move_to";
    public static final String PEEZ = "Peez";
+   public static final String QUESTIONS_BASE_URL = "http://jservice.io/";
+   public static final String QUESTIONS_API_RANDOM = "api/random?count=" + consts.TOTAL_TILES;
+   public static final int TOTAL_PLAYERS_TILES = 6;
+   public static final String CARD_TYPE_GAMEBOARD = "card_type_gameboard";
+   public static final String CARD_TYPE_OPPONENT_HOME = "card_type_opponent_home";
+   public static final String CARD_TYPE_PLAYER_HOME = "card_type_player_home";
+
    //end entity constants
 
    //turn dev mode on and off

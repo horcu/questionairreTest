@@ -53,11 +53,11 @@ public class IntroView extends IntroActivity implements OnColorChosenListener {
         int currentApiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentApiVersion <= Build.VERSION_CODES.KITKAT){
             // Do something for versions below lollipop
-           setContentView(R.layout.activity_reg);
-            CompleteRegistrationAndLogIn();
+             setContentView(R.layout.activity_reg);
+             CompleteRegistrationAndLogIn();
                   }
          else {
-            isFullscreen();
+           // isFullscreen();
             // else do the lollipop doo babeee!
             super.onCreate(savedInstanceState);
             //  setContentView(R.layout.activity_reg);
@@ -69,7 +69,7 @@ public class IntroView extends IntroActivity implements OnColorChosenListener {
         /* Enable/disable finish button */
                setFinishEnabled(false);
 
-               setFullscreen(true);
+              // setFullscreen(true);
 
 //        /* Add your own page change listeners */
 //        addOnPageChangeListener(new ViewPager.OnPageChangeListener(){
@@ -109,9 +109,9 @@ public class IntroView extends IntroActivity implements OnColorChosenListener {
                     settings.edit().putBoolean(consts.DEVICE_REGISTERED, false).apply();
                     navigateToErrorPage(msg);
                 }
-            }
+                }
         };
-       }
+    }
 
 
     @NonNull

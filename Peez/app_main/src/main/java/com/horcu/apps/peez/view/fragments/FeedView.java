@@ -3,6 +3,8 @@ package com.horcu.apps.peez.view.fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.databinding.ObservableArrayList;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,9 +12,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
+import com.github.ivbaranov.mli.MaterialLetterIcon;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.BR;
 import com.horcu.apps.peez.backend.models.playerApi.PlayerApi;
@@ -78,7 +82,7 @@ public class FeedView extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        settings = getActivity().getSharedPreferences("Peez",0);
+        settings = getActivity().getSharedPreferences(consts.PEEZ,0);
     }
 
     @Override
@@ -127,8 +131,37 @@ public class FeedView extends Fragment {
 
         // load more refresh complete
 
-
+        ChangeBackgroundColor();
         return binding.getRoot();
+
+    }
+
+    private void ChangeBackgroundColor() {
+
+        View layout = binding.feedsMain.getChildAt(0);
+
+        int chosenColor = UpdateIcon(layout);
+        UpdateOpponent(layout);
+        UpdateUserInfoSectionBGColor(chosenColor, layout);
+    }
+
+    private void UpdateUserInfoSectionBGColor(int col, View layout) {
+        ((ViewGroup)layout).setBackground(new ColorDrawable(col));
+    }
+
+    private void UpdateOpponent(View layout) {
+        TextView tv = (TextView) layout.findViewById(R.id.opponent_info_text);
+        tv.setText("Peez");
+        tv.setTextColor(Color.WHITE);
+    }
+
+    private int UpdateIcon(View layout) {
+        MaterialLetterIcon icon = (MaterialLetterIcon) layout.findViewById(R.id.opponent_img);
+        int chosenColorIndex = settings.getInt(consts.FAV_COLOR, 0);
+        int col = getResources().getIntArray(R.array.Colors)[chosenColorIndex];
+        icon.setLetterColor(col);
+        icon.setLetter("P");
+        return col;
     }
 
     private void ClearItems() {

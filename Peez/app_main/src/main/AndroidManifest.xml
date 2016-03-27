@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.horcu.apps.peez">
+    package="com.horcu.apps.peez" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -22,7 +22,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme_bub">
+        android:theme="@style/AppTheme_bub" >
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -30,7 +30,7 @@
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND">
+            android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <!-- for Gingerbread GSF backward compat -->
@@ -42,7 +42,7 @@
 
         <service
             android:name=".service.GcmService"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
@@ -53,7 +53,7 @@
         <service
             android:name=".service.TaskSchedulerService"
             android:exported="true"
-            android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE">
+            android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE" >
             <intent-filter>
                 <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY" />
 
@@ -61,21 +61,12 @@
             </intent-filter>
         </service>
 
-        <!-- <service -->
-        <!-- android:name=".registration.MyGcmListenerService" -->
-        <!-- android:exported="false" > -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="com.google.android.c2dm.intent.RECEIVE" /> -->
-        <!-- </intent-filter> -->
-        <!-- </service> -->
-
-
         <!-- [END gcm_listener] -->
         <!-- [START instanceId_listener] -->
         <service
             android:name=".registration.MyInstanceIDListenerService"
             android:exported="false"
-            android:permission="android.permission.READ_SMS">
+            android:permission="android.permission.READ_SMS" >
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
@@ -87,7 +78,7 @@
 
         <activity
             android:name=".view.activities.IntroView"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -102,10 +93,10 @@
             android:label="@string/app_name" />
         <activity
             android:name=".view.activities.MainView"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
         <activity
             android:name=".view.activities.ChallengeView"
-            android:label="@string/title_activity_challenge_view"></activity>
+            android:label="@string/app_name" />
     </application>
 
 </manifest>

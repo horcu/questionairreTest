@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:emojicon="http://schemas.android.com/tools">
+<layout >
 
     <data>
 
@@ -15,71 +13,67 @@
     </data>
 
     <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:emojicon="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
+        android:layout_height="wrap_content"
+        android:background="@color/grey_mid"
         android:orientation="vertical"
         android:clickable="true">
 
+        <include android:id="@+id/chat_info_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/layout_user_information" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/activity_users_recycler"
+            android:layout_below="@+id/chat_info_bar"
             android:scrollbars="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="50dp"
+            android:layout_marginTop="5dp"
+            app:stackFromEnd="true"
             app:items="@{msgViewModel.messageViewModels}"
             app:itemViewBinder="@{view.itemViewBinder}"
             app:clickHandler="@{view.clickHandler}"
-            app:longClickHandler="@{view.longClickHandler}"
-            android:layout_marginBottom="50dp"
-            app:stackFromEnd="true"
-            />
+            app:longClickHandler="@{view.longClickHandler}"  />
 
-        <RelativeLayout
-            android:id="@+id/root_view"
+        <ImageView
+            android:id="@+id/emoji_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:src="@drawable/smiley"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="5dp"
+            />
+        <ImageView
+            android:id="@+id/submit_btn"
+            android:src="@android:drawable/ic_menu_send"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="4dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            />
+        <com.horcu.apps.peez.chat.Helper.EmojiconEditText
+            android:id="@+id/emojicon_edit_text"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="5dp" >
-
-            <ImageView
-                android:id="@+id/emoji_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="4dp"
-                android:src="@drawable/smiley"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"/>
-
-            <ImageView
-                android:id="@+id/submit_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="4dp"
-                android:src="@drawable/ic_action_send_now"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                />
-
-            <github.ankushsachdeva.emojicon.EmojiconEditText
-                android:id="@+id/emojicon_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_toRightOf="@id/emoji_btn"
-                android:layout_toLeftOf="@id/submit_btn"
-                emojicon:emojiconSize="28sp"
-                android:textColor="#333333"
-                android:background="@android:color/transparent"
-                android:fontFamily="sans-serif-thin"
-                android:hint="write message here"/>
-
-            <ListView
-                android:id="@+id/lv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_above="@id/emojicon_edit_text"/>
-
-        </RelativeLayout>
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/grey_mid"
+            android:layout_toEndOf="@id/emoji_btn"
+            android:fontFamily="sans-serif-thin"
+            android:textSize="23sp"
+            android:text=""
+            android:gravity="center_vertical"
+            android:hint="@string/talk_smack"
+            android:layout_toStartOf="@id/submit_btn"
+            emojicon:emojiconSize="42sp" />
 
     </RelativeLayout>
 </layout>
