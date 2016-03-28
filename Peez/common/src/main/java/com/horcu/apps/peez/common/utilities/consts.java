@@ -45,6 +45,9 @@ public class consts {
    public static final String CARD_TYPE_GAMEBOARD = "card_type_gameboard";
    public static final String CARD_TYPE_OPPONENT_HOME = "card_type_opponent_home";
    public static final String CARD_TYPE_PLAYER_HOME = "card_type_player_home";
+   public static final int GAMEVIEW_MENU_INDEX = 234254324;
+   public static final int GAMEVIEW_ORIGINAL_ICON_INDEX = 919293949;
+   public static final int GAMEVIEW_CARD_INDEX = 919293948;
 
    //end entity constants
 

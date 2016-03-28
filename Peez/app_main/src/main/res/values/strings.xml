@@ -522,6 +522,9 @@
     <string name="use_system_default">Use System Default?</string>
     <string name="no_messages_yet">no messages yet :/</string>
     <string name="talk_smack">talk smack ...</string>
+    <string name="eat_tile">eat tile</string>
+    <string name="swap_tile">swap tiles</string>
+    <string name="set_trap">block</string>
 
 
 </resources>

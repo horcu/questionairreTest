@@ -51,25 +51,21 @@ public class IntroView extends IntroActivity implements OnColorChosenListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         int currentApiVersion = android.os.Build.VERSION.SDK_INT;
-        if (currentApiVersion <= Build.VERSION_CODES.KITKAT){
+        if (currentApiVersion <= Build.VERSION_CODES.KITKAT) {
             // Do something for versions below lollipop
-             setContentView(R.layout.activity_reg);
-             CompleteRegistrationAndLogIn();
-                  }
-         else {
-           // isFullscreen();
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_reg);
+
+            InitBroadcastReceiver();
+            CompleteRegistrationAndLogIn();
+          //  finish();
+        }
+       else {
+
             // else do the lollipop doo babeee!
             super.onCreate(savedInstanceState);
-            //  setContentView(R.layout.activity_reg);
-
-
-         /* Enable/disable skip button */
-               setSkipEnabled(false);
-
-        /* Enable/disable finish button */
-               setFinishEnabled(false);
-
-              // setFullscreen(true);
+            setSkipEnabled(true);
+            setFinishEnabled(true);
 
 //        /* Add your own page change listeners */
 //        addOnPageChangeListener(new ViewPager.OnPageChangeListener(){
@@ -84,17 +80,18 @@ public class IntroView extends IntroActivity implements OnColorChosenListener {
 //            }
 //        });
 
-                addSlide(new FragmentSlide.Builder()
-                        .background(R.color.white)
-                        .backgroundDark(R.color.white)
-                        .fragment(new ColorPickerFragment())
-                        .build());
-        }
+            InitBroadcastReceiver();
+            addSlide(new FragmentSlide.Builder()
+                    .background(R.color.white)
+                    .backgroundDark(R.color.white)
+                    .fragment(new ColorPickerFragment())
+                    .build());
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().hide();
-        }
 
+        }
+    }
+
+    private void InitBroadcastReceiver() {
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -109,7 +106,7 @@ public class IntroView extends IntroActivity implements OnColorChosenListener {
                     settings.edit().putBoolean(consts.DEVICE_REGISTERED, false).apply();
                     navigateToErrorPage(msg);
                 }
-                }
+            }
         };
     }
 

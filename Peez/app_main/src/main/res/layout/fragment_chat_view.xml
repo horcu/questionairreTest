@@ -35,7 +35,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="50dp"
             android:layout_marginTop="5dp"
-            app:stackFromEnd="true"
+            app:stackFromEnd="false"
             app:items="@{msgViewModel.messageViewModels}"
             app:itemViewBinder="@{view.itemViewBinder}"
             app:clickHandler="@{view.clickHandler}"

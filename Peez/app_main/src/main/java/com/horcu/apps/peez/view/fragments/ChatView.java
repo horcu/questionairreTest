@@ -3,6 +3,8 @@ package com.horcu.apps.peez.view.fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.databinding.ObservableArrayList;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,6 +23,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -34,18 +37,22 @@ import com.horcu.apps.peez.chat.Actions.EmojIconActions;
 import com.horcu.apps.peez.chat.Helper.EmojiconEditText;
 import com.horcu.apps.peez.chat.Helper.EmojiconTextView;
 import com.horcu.apps.peez.common.utilities.consts;
+import com.horcu.apps.peez.custom.CircleTransform;
 import com.horcu.apps.peez.custom.MessageSender;
 //import com.horcu.apps.peez.databinding.FragmentChatViewBinding;
 
+import com.horcu.apps.peez.custom.UserImageView;
 import com.horcu.apps.peez.databinding.FragmentChatViewBinding;
 import com.horcu.apps.peez.gcm.core.PubSubHelper;
 import com.horcu.apps.peez.gcm.message.Message;
 import com.horcu.apps.peez.misc.SenderCollection;
 import com.horcu.apps.peez.model.MessageEntry;
 import com.horcu.apps.peez.service.LoggingService;
+import com.horcu.apps.peez.utils.gameViewUtil;
 import com.horcu.apps.peez.viewmodel.SuperMessageViewModel;
 import com.horcu.apps.peez.viewmodel.MessageViewModel;
 import com.horcu.apps.peez.viewmodel.MessagesViewModel;
+import com.squareup.picasso.Picasso;
 
 
 import net.droidlabs.mvvm.recyclerview.adapter.ClickHandler;
@@ -106,6 +113,7 @@ public class ChatView extends Fragment {
     //private EmojiconTextView resultsTextView;
     private EmojiconEditText emojiconEditText;
     private CheckBox mCheckBox;
+    private View userInfoLayout;
 
     public ChatView() {
         // Required empty public constructor
@@ -138,9 +146,9 @@ public class ChatView extends Fragment {
         myToken = settings.getString(consts.REG_ID,"");
 
         // Create a RealmConfiguration which is to locate Realm file in package's "files" directory.
-       realmConfig = new RealmConfiguration.Builder(getContext()).build();
+      //. realmConfig = new RealmConfiguration.Builder(getContext()).build();
         // Get a Realm instance for this thread
-       realm = Realm.getInstance(realmConfig);
+      // realm = Realm.getInstance(realmConfig);
 
     }
 
@@ -156,6 +164,13 @@ public class ChatView extends Fragment {
             playerName = userName;
             playerImageUri  = imgUrl;
             this.gameId = gameId;
+
+            if(!token.equals(""))
+            UpdateIcon(userInfoLayout);
+
+            int chosenColor = gameViewUtil.GetFavoriteColor(getActivity());
+            UpdateOpponent(chosenColor,userInfoLayout);
+            //UpdateUserInfoSectionBGColor();
             return true;
 
        //     getActivity().getActionBar().setTitle(playerName);
@@ -165,6 +180,25 @@ public class ChatView extends Fragment {
         }
     }
 
+    private void UpdateUserInfoSectionBGColor() {
+        ((ViewGroup)userInfoLayout).getChildAt(0).setBackground(new ColorDrawable(Color.WHITE));
+    }
+
+    private void UpdateOpponent(int col, View layout) {
+        TextView tv = (TextView) layout.findViewById(R.id.opponent_info_text);
+        tv.setText(playerName == null || playerName.equals("") ? "choose your opponent.." : playerName);
+        tv.setTextColor(col);
+    }
+
+    private void UpdateIcon(View layout) {
+        UserImageView userImage = (UserImageView)layout.findViewById(R.id.opponent_img);
+        Picasso.with(getContext())
+                .load(playerImageUri)
+                .transform(new CircleTransform())
+                .into(userImage);
+    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -173,13 +207,18 @@ public class ChatView extends Fragment {
         messagesViewModel = new MessagesViewModel();
         binding.setMsgViewModel(messagesViewModel);
         binding.setView(this);
-        binding.activityUsersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        refreshMessagesFromDb(gameId, getActivity());
-
         rootView = binding.getRoot();
+        userInfoLayout = rootView.findViewById(R.id.chat_info_bar);
+        upDateChatPlayer("","choose your opponent","","");
+        binding.activityUsersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        //refreshMessagesFromDb(gameId, getActivity());
+
+
         emojiButton = (ImageView) rootView.findViewById(R.id.emoji_btn);
         submitButton = (ImageView) rootView.findViewById(R.id.submit_btn);
         emojiconEditText = (EmojiconEditText) rootView.findViewById(R.id.emojicon_edit_text);
+
+
 
         emojIcon=new EmojIconActions(getContext(),rootView,emojiconEditText,emojiButton);
 

@@ -53,61 +53,127 @@
 
     </RelativeLayout>
 
-        <com.michaldrabik.tapbarmenulib.TapBarMenu
+        <LinearLayout
             android:id="@+id/tapBarMenu"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_gravity="bottom"
-            app:tbm_backgroundColor="@android:color/transparent"
-            app:tbm_menuAnchor="bottom"
+            android:background="@color/white"
+            android:visibility="invisible"
             android:layout_alignParentBottom="true"
-            app:tbm_buttonSize="56dp"
-            >
+            app:tbm_buttonSize="56dp" >
 
-            <ImageView
-                android:id="@+id/item1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:src="@drawable/ic_location"
-                />
-            <ImageView
-                android:id="@+id/item2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:src="@drawable/ic_person"
-                />
 
-            <Space
-                android:layout_width="56dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                />
-            <ImageView
-                android:id="@+id/item3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:src="@drawable/ic_thumb_up"
-                />
+                android:layout_weight="2">
 
-            <ImageView
-                android:id="@+id/item4"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:src="@drawable/ic_thumb_down"
-                />
 
-        </com.michaldrabik.tapbarmenulib.TapBarMenu>
+                <ImageView
+                    android:id="@+id/item3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:src="@drawable/ic_block"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:fontFamily="sans-serif-thin"
+                    android:text="snag"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="2">
+
+
+                <ImageView
+                    android:id="@+id/item1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:src="@drawable/ic_used"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:fontFamily="sans-serif-thin"
+                    android:text="block"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="2">
+
+
+                <ImageView
+                    android:id="@+id/item2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:src="@drawable/ic_navigation_check"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:fontFamily="sans-serif-thin"
+                    android:text="play"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:background="#fefefe"
+                android:layout_weight="1">
+
+
+                <ImageView
+                    android:id="@+id/item4"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:paddingTop="10dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:paddingBottom="10dp"
+                    android:src="@drawable/ic_navigation_close"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
 </RelativeLayout>
     </layout>

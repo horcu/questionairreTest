@@ -10,27 +10,35 @@ import android.view.MotionEvent;
 
 public class PeezViewPager extends ViewPager {
 
+    private boolean enabled;
+
     public PeezViewPager(Context context) {
         super(context);
+        this.enabled = true;
     }
 
     public PeezViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.enabled = true;
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
-        // Never allow swiping to switch between pages if the event passed in is null
-        if(event == null)
-            return false;
+        if(this.enabled)
         return super.onInterceptTouchEvent(event);
+
+        return false;
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        // Never allow swiping to switch between pages if the event passed in is null
-        if(event == null)
-            return false;
-        return super.onTouchEvent(event);
+        if(this.enabled)
+            return super.onTouchEvent(event);
+
+        return false;
+    }
+
+    public void setPagingEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

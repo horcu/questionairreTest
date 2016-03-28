@@ -1,6 +1,5 @@
 package com.horcu.apps.peez.view.fragments;
 
-import android.app.ActivityOptions;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,21 +14,18 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.text.SpannableStringBuilder;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.github.ivbaranov.mli.MaterialLetterIcon;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.playerApi.model.Player;
 import com.horcu.apps.peez.backend_gameboard.gameApi.model.Game;
@@ -37,24 +33,30 @@ import com.horcu.apps.peez.chat.LeBubbleTitleTextView;
 import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.custom.AutoFitGridLayout;
 import com.horcu.apps.peez.Dtos.MMDto;
+import com.horcu.apps.peez.custom.CircleTransform;
 import com.horcu.apps.peez.custom.GameBuilder;
+import com.horcu.apps.peez.custom.Gameboard.GameDialogHelper;
+import com.horcu.apps.peez.custom.Gameboard.TileMover;
+import com.horcu.apps.peez.custom.MaterialLetterIcon;
 import com.horcu.apps.peez.custom.MessageSender;
 import com.horcu.apps.peez.custom.Gameboard.TileView;
+import com.horcu.apps.peez.custom.UserImageView;
 import com.horcu.apps.peez.databinding.FragmentGameViewBinding;
+import com.horcu.apps.peez.enums.MoveType;
 import com.horcu.apps.peez.gcm.message.Message;
 import com.horcu.apps.peez.misc.SenderCollection;
+import com.horcu.apps.peez.model.MoveEntry;
 import com.horcu.apps.peez.service.LoggingService;
 import com.horcu.apps.peez.service.QuestionService;
+import com.horcu.apps.peez.utils.gameViewUtil;
 import com.horcu.apps.peez.view.activities.ChallengeView;
+import com.horcu.apps.peez.view.activities.MainView;
 import com.squareup.picasso.Picasso;
-
 import org.apache.commons.lang3.ArrayUtils;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
-
 import at.markushi.ui.CircleButton;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -92,6 +94,8 @@ public class GameView extends Fragment {
 
     private String playerTurn;
 
+    private Boolean isGameMenuOpen;
+
     int[] rangeA = new int[]{0,1,6,7,12,13, 18,19, 24,25, 30,31};
     int[] rangeB = new int[]{2,3,8,9,14,15, 20,21, 26,27, 32,33};
     int[] rangeC = new int[]{4,5,10,11,16,17, 22,23, 28,29, 34,35};
@@ -107,6 +111,11 @@ public class GameView extends Fragment {
     private Retrofit retrofit;
     private QuestionService qService;
     private boolean mQuestionServiceIsBusy = false;
+    private GameDialogHelper dialogHelper;
+    private CardView CurrentOldCard;
+    private CardView CurrentNewCard;
+    private View CurrentMovingView;
+
 
     public GameView() {
         // Required empty public constructor
@@ -124,9 +133,11 @@ public class GameView extends Fragment {
 
             View layout = binding.userInfoLayout.findViewById(R.id.user_info_layout);
 
-            int chosenColor = UpdateIcon(layout);
-            UpdateOpponent(layout);
-            UpdateUserInfoSectionBGColor(chosenColor);
+            UpdateIcon(layout);
+
+            int chosenColor = gameViewUtil.GetFavoriteColor(getContext());
+            UpdateOpponent(chosenColor, layout);
+           // UpdateUserInfoSectionBGColor();
 
             return true;
 
@@ -136,22 +147,24 @@ public class GameView extends Fragment {
         }
     }
 
-    private void UpdateUserInfoSectionBGColor(int col) {
-        ((ViewGroup)binding.userInfoLayout).getChildAt(0).setBackground(new ColorDrawable(col));
+    private void UpdateUserInfoSectionBGColor() {
+        ((ViewGroup)binding.userInfoLayout).getChildAt(0).setBackgroundColor(Color.WHITE);
     }
 
-    private void UpdateOpponent(View layout) {
+    private void UpdateOpponent(int col, View layout) {
         TextView tv = (TextView) layout.findViewById(R.id.opponent_info_text);
         tv.setText(opponent.getUserName() == null || opponent.getUserName().equals("") ? "choose your opponent.." : opponent.getUserName());
-        tv.setTextColor(Color.WHITE);
+        tv.setTextColor(col);
+
+
     }
 
-    private int UpdateIcon(View layout) {
-        MaterialLetterIcon icon = (MaterialLetterIcon) layout.findViewById(R.id.opponent_img);
-        int col = getResources().getIntArray(R.array.Colors)[chosenColorIndex];
-        icon.setLetterColor(col);
-        icon.setLetter(opponent.getUserName() == null || opponent.getUserName().equals("") ? "O" : String.valueOf(opponent.getUserName().substring(0,1)));
-        return col;
+    private void UpdateIcon(View layout) {
+        UserImageView userImage = (UserImageView)layout.findViewById(R.id.opponent_img);
+        Picasso.with(getContext())
+                .load(opponent.getImageUri())
+                .transform(new CircleTransform())
+                .into(userImage);
     }
 
     // TODO: Rename and change types and number of parameters
@@ -187,22 +200,20 @@ public class GameView extends Fragment {
         binding = FragmentGameViewBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        dialogHelper = new GameDialogHelper(getContext());
+
         binding.gameboardGridOpponent.setVisibility(View.VISIBLE);
         binding.gameboardGridPlayer.setVisibility(View.VISIBLE);
+
         binding.tapBarMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 binding.viewSwitcher.showNext();
-               // YoYo.with(Techniques.SlideOutDown).duration(700).playOn(v);
-
-                for(int i = 0; i < binding.gameboardGridOpponent.getChildCount(); i ++)
-                {
-                    CardView cv = (CardView) binding.gameboardGridOpponent.getChildAt(i);
-                    MaterialLetterIcon icon = (MaterialLetterIcon) cv.getChildAt(0);
-                  YoYo.with(Techniques.Wave).duration(700).playOn(icon);
-                }
             }
         });
+
+
+
 
         Game game = GameBuilder.CreateOrGetGameboard(gameKey, false);
         //TODO then set the binding for the viewmodel for the game board
@@ -227,6 +238,8 @@ public class GameView extends Fragment {
         for(int i = 0; i < consts.TOTAL_TILES; i ++)
         {
             final CardView card = (CardView) binding.gameboardGrid.getChildAt(i);
+            card.getChildAt(0).setTag(consts.GAMEVIEW_ORIGINAL_ICON_INDEX, i);
+            card.setTag(consts.GAMEVIEW_CARD_INDEX, i);
             SetCardTagsAndListeners(i, card, consts.CARD_TYPE_GAMEBOARD);
             SetCardIconTagsAndListeners(i, card);
 
@@ -245,8 +258,95 @@ public class GameView extends Fragment {
             SetCardTagsAndListeners(o,playerCard,consts.CARD_TYPE_PLAYER_HOME);
         }
 
+        for(int i = 0 ; i < binding.tapBarMenu.getChildCount(); i++)
+        {
+            final LinearLayout layout = (LinearLayout) binding.tapBarMenu.getChildAt(i);
+            layout.setTag(consts.GAMEVIEW_MENU_INDEX, i);
+            final MoveType[] mt = {MoveType.REG};
+            layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        if(!getGameMenuIsOpen())
+                            return;
+
+                        int position = (int) v.getTag(consts.GAMEVIEW_MENU_INDEX);
+                        switch(position)
+                        {
+                            case 0:
+                                TileMover.SetSnare(CurrentOldCard, CurrentNewCard);
+                                PlaySoundEffect(MainView.SoundEffects.EFFECT_SNARE);
+                                mt[0] = MoveType.TRAP;
+                                enableSwiping();
+                                closeMenu();
+                                break;
+                            case 1:
+                                TileMover.EatTile(CurrentOldCard, CurrentNewCard);
+                                PlaySoundEffect(MainView.SoundEffects.EFFECT_EAT);
+                                mt[0] = MoveType.EAT;
+                                enableSwiping();
+                                closeMenu();
+                                break;
+                            case 2:
+                                PlaySoundEffect(MainView.SoundEffects.EFFECT_SWAP);
+                                mt[0] = MoveType.SWAP;
+                                enableSwiping();
+                                closeMenu();
+                                break;
+                            default:
+                                TileMover.ReverseLastPlay();
+                                PlaySoundEffect(MainView.SoundEffects.EFFECT_BACK);
+                                enableSwiping();
+                                closeMenu();
+                                break;
+                        }
+                        MoveEntry move = BuildMoveEntryRecord(CurrentOldCard, CurrentNewCard,mt[0], false);
+                        addMoveToDBAsync(move);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+
         return root;
     }
+
+    private void addMoveToDBAsync(MoveEntry moveEntry) {
+        //TODO to be implemented as soon s the realm issues are all resolved
+    }
+
+    private MoveEntry BuildMoveEntryRecord(CardView currentOldCard, CardView currentNewCard, MoveType type, Boolean moveAlreadyMade) {
+        String email = settings.getString(consts.PREF_ACCOUNT_NAME, "");
+        int moveFrom = (int)currentOldCard.getTag(consts.GAMEVIEW_CARD_INDEX);
+        int moveTo = (int)currentNewCard.getTag(consts.GAMEVIEW_CARD_INDEX);
+        return new MoveEntry(email,opponent.getEmail(), new Date().toString(), type, moveFrom, moveTo, moveAlreadyMade);
+    }
+
+
+    private void PlaySoundEffect(MainView.SoundEffects effect) {
+        mListener.onPlaySoundEffects(effect);
+    }
+
+    private void closeMenu() {
+        YoYo.with(Techniques.FadeOutDown).duration(250).playOn(binding.tapBarMenu);
+        isGameMenuOpen = false;
+    }
+
+
+    private boolean getGameMenuIsOpen() {
+        return isGameMenuOpen != null ? isGameMenuOpen : false;
+    }
+
+    private void setGameMenuIsOpen(){
+        isGameMenuOpen = true;
+    }
+
+    private void setGameMenuIsClosed(){
+        isGameMenuOpen = false;
+    }
+
 
     private int GetRandomColorndex(int min, int max) {
         Random rand = new Random();
@@ -321,17 +421,28 @@ public class GameView extends Fragment {
                 return;
                 }
                 String transitionName = getString(R.string.tileTransition);
-                ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(getActivity(), v, transitionName);
+              //  ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(getActivity(), v, transitionName);
                 Intent intent = new Intent(getContext(), ChallengeView.class);
                 //put info to pass in here
                 intent.putExtra(consts.EXTRAS_MOVE_TO, finalI);
-                startActivityForResult(intent, consts.INTENT_TO_CHALLENGE, transitionActivityOptions.toBundle());
+             //   startActivityForResult(intent, consts.INTENT_TO_CHALLENGE, transitionActivityOptions.toBundle());
             }
         };
     }
 
     private final class TileTouchListener implements View.OnTouchListener {
         public boolean onTouch(View view, MotionEvent motionEvent) {
+            if(getGameMenuIsOpen()) {
+                Toast.makeText(getContext(), "one move at a time", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            if(!MyTile(view))
+            {
+                Toast.makeText(getContext(), "play your own tiles", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                 ClipData data = ClipData.newPlainText("", "");
                 View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
@@ -344,6 +455,12 @@ public class GameView extends Fragment {
                 return false;
             }
         }
+    }
+
+    private boolean MyTile(View view) {
+        int index = (int)view.getTag(consts.GAMEVIEW_ORIGINAL_ICON_INDEX);
+        int myFirstSpot = consts.TOTAL_TILES/2;
+        return (index)  >= myFirstSpot;
     }
 
     private void superSize(View view) {
@@ -388,6 +505,11 @@ public class GameView extends Fragment {
             int action = event.getAction();
             CardView container = (CardView)v;
             View view = (View) event.getLocalState();
+            CardView owner = (CardView) view.getParent();
+
+            CurrentOldCard = owner;
+            CurrentNewCard = container;
+            CurrentMovingView = view;
 
             switch (action) {
                 case DragEvent.ACTION_DRAG_STARTED:
@@ -401,15 +523,17 @@ public class GameView extends Fragment {
                     break;
                 case DragEvent.ACTION_DROP:
                     try {
+                        //check if its my tile thats the destination
+                        //if yes = > then dont allow it
+                        //if no = >
+                        //check if its the opponents tile
+                             //if yes =>   then do a swap or eat
+                             //if no  =>   check if its an empty tile
+                                               //if yes => regular move or a trap
+                                               //if no  => its a homeBasedTile ... yeah!!!!
 
-                        CardView owner = (CardView) view.getParent();
-                        owner.removeView(view);
-                        MaterialLetterIcon containericon = (MaterialLetterIcon) container.getChildAt(0);
-                        container.removeView(containericon);
-                        container.addView(view);
-                        owner.addView(containericon);
-                        YoYo.with(Techniques.Pulse).duration(1000).playOn(containericon);
-                        YoYo.with(Techniques.Pulse).duration(1000).playOn(view);
+                        TileMover.SwapTiles(CurrentOldCard, CurrentNewCard);
+                        ShowBottomMenu();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -422,6 +546,21 @@ public class GameView extends Fragment {
             }
             return true;
         }
+    }
+
+    private void ShowBottomMenu() {
+        DisableSwiping();
+        YoYo.with(Techniques.SlideInUp).duration(250).playOn(binding.tapBarMenu);
+        binding.tapBarMenu.setVisibility(View.VISIBLE);
+        setGameMenuIsOpen();
+    }
+
+    private void DisableSwiping() {
+        ((MainView)getActivity()).mViewPager.setPagingEnabled(false);
+    }
+
+    private void enableSwiping() {
+        ((MainView)getActivity()).mViewPager.setPagingEnabled(true);
     }
 
     DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
@@ -453,17 +592,7 @@ public class GameView extends Fragment {
         return icon;
     }
 
-    @NonNull
-    private int GetFavoriteColor() {
-        if(settings == null)
-            settings = getActivity().getSharedPreferences(consts.PEEZ, 0);
 
-        int savedColorIndex = settings.getInt(consts.FAV_COLOR, 0) != 0
-                ? settings.getInt(consts.FAV_COLOR, 0)
-                : Color.parseColor("#a5a5c9");
-
-        return getResources().getIntArray(R.array.Colors)[savedColorIndex];
-    }
 
     private boolean MyTurn() {
        // return playerTurn != null &&  playerTurn.equals(myToken);
@@ -540,7 +669,7 @@ public class GameView extends Fragment {
 
                 Date d = new Date();
                 long time = d.getTime();
-                int color = GetFavoriteColor(); // getResources().getColor(settings.getInt(consts.FAV_COLOR, Color.parseColor("#551A8B")));
+                int color = gameViewUtil.GetFavoriteColor(getContext()); // getResources().getColor(settings.getInt(consts.FAV_COLOR, Color.parseColor("#551A8B")));
 
                 String collapseKey = String.valueOf(UUID.randomUUID());
 
@@ -706,7 +835,7 @@ public class GameView extends Fragment {
     }
 
     private void SetPlayerDotBackground(TileView tileView) {
-        int favColor = GetFavoriteColor();
+        int favColor = gameViewUtil.GetFavoriteColor(getContext());
         tileView.setBackground(new ColorDrawable(favColor));
         tileView.setTextColor(Color.WHITE);
     }
@@ -724,6 +853,7 @@ public class GameView extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+        void onPlaySoundEffects(MainView.SoundEffects effect);
     }
 
 

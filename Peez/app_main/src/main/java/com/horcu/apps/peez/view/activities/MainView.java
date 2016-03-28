@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -27,6 +28,8 @@ import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.playerApi.model.Player;
 import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.Dtos.MMDto;
+import com.horcu.apps.peez.custom.Gameboard.SoundPoolManager;
+import com.horcu.apps.peez.custom.ISoundPoolLoaded;
 import com.horcu.apps.peez.custom.MessageSender;
 import com.horcu.apps.peez.custom.PeezViewPager;
 import com.horcu.apps.peez.gcm.core.PubSubHelper;
@@ -64,7 +67,7 @@ public class MainView extends BaseView
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    private PeezViewPager mViewPager;
+    public PeezViewPager mViewPager;
     private SharedPreferences settings;
     private PubSubHelper pubsub ;
     private BroadcastReceiver mLoggerCallback;
@@ -79,6 +82,8 @@ public class MainView extends BaseView
     private boolean newGameBeingCreated;
     private int favoriteColor;
 
+    private MediaPlayer mp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +92,26 @@ public class MainView extends BaseView
         opponent = new Player();
         mytoken = settings.getString(consts.REG_ID,"");
         favoriteColor = getResources().getIntArray(R.array.Colors)[settings.getInt(consts.FAV_COLOR, 0)];
+
+        SoundPoolManager.CreateInstance();
+        List<Integer> sounds = new ArrayList<>();
+        sounds.add(R.raw.back);
+        sounds.add(R.raw.bite);
+        sounds.add(R.raw.collect);
+        sounds.add(R.raw.pop);
+        sounds.add(R.raw.regular);
+        sounds.add(R.raw.snare);
+        SoundPoolManager.getInstance().setSounds(sounds);
+        try {
+            SoundPoolManager.getInstance().InitializeSoundPool(this, new ISoundPoolLoaded() {
+                @Override
+                public void onSuccess() {
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        SoundPoolManager.getInstance().setPlaySound(true);
 
         if(getActionBar() != null)
             getActionBar().hide();
@@ -102,7 +127,7 @@ public class MainView extends BaseView
 
  //       realm = Realm.getInstance(realmConfig);
 
-        GetInProgressGamesFromDbAsync();
+       // GetInProgressGamesFromDbAsync();
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -113,7 +138,8 @@ public class MainView extends BaseView
             mViewPager = (PeezViewPager) findViewById(R.id.container);
             if (mViewPager != null) {
                 mViewPager.setAdapter(mSectionsPagerAdapter);
-                mViewPager.setCurrentItem(2);
+                mViewPager.setCurrentItem(1);
+                mViewPager.setPagingEnabled(true);
             }
 
         } catch (Exception e) {
@@ -265,10 +291,10 @@ public class MainView extends BaseView
 
             @Override
             protected void onPostExecute(String result) {
-                if (result.equals("")) {
+              //  if (result.equals("")) {
                     //we're good
-                } else {
-                }
+             //   } else {
+            //    }
 
             }
         }.execute();
@@ -396,6 +422,21 @@ public class MainView extends BaseView
     }
 
     @Override
+    public void onPlaySoundEffects(SoundEffects effect) {
+
+        if(effect == SoundEffects.EFFECT_SWAP)
+            SoundPoolManager.getInstance().playSound(R.raw.pop);
+        else if(effect == SoundEffects.EFFECT_EAT)
+            SoundPoolManager.getInstance().playSound(R.raw.bite);
+        else if(effect == SoundEffects.EFFECT_BACK)
+            SoundPoolManager.getInstance().playSound(R.raw.back);
+        else if(effect == SoundEffects.EFFECT_SNARE)
+            SoundPoolManager.getInstance().playSound(R.raw.snare);
+        else
+            SoundPoolManager.getInstance().playSound(R.raw.regular);
+    }
+
+    @Override
     protected void onDestroy() {
         mLogger.unregisterCallback(mLoggerCallback);
         super.onDestroy();
@@ -457,8 +498,8 @@ public class MainView extends BaseView
     }
 
     private void MakeFirstMove(GameEntry newGame, PlayerViewModel pvm) {
-        mViewPager.onInterceptTouchEvent(null);
-        mViewPager.onTouchEvent(null);
+//        mViewPager.onInterceptTouchEvent(null);
+//        mViewPager.onTouchEvent(null);
     }
 
     private void RefreshPager() {
@@ -521,7 +562,7 @@ public class MainView extends BaseView
         ChatView ChatFrag = GetChatFragment();
         if (ChatFrag != null) {
             ChatFrag.upDateChatPlayer(gameId, player.getUserName(),player.getToken(),player.getImageUri());
-        //    ChatFrag.refreshMessagesFromDb(gameId, this);
+           // ChatFrag.refreshMessagesFromDb(gameId, this);
         }
 
         GameView GameFrag = GetGameFragment();
@@ -628,5 +669,9 @@ public class MainView extends BaseView
             }
             return null;
         }
+    }
+
+    public enum SoundEffects{
+        EFFECT_REG, EFFECT_EAT, EFFECT_SWAP, EFFECT_BACK, EFFECT_SNARE
     }
 }

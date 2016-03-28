@@ -26,6 +26,7 @@ import com.horcu.apps.peez.binder.PlayerBinder;
 import com.horcu.apps.peez.binder.SuperPlayerBinder;
 import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.custom.ApiServicesBuilber;
+import com.horcu.apps.peez.custom.UserImageView;
 import com.horcu.apps.peez.databinding.FragmentFeedBinding;
 import com.horcu.apps.peez.viewmodel.PlayerViewModel;
 import com.horcu.apps.peez.viewmodel.PlayersViewModel;
@@ -128,9 +129,6 @@ public class FeedView extends Fragment {
 
         // refresh complete
 
-
-        // load more refresh complete
-
         ChangeBackgroundColor();
         return binding.getRoot();
 
@@ -141,26 +139,25 @@ public class FeedView extends Fragment {
         View layout = binding.feedsMain.getChildAt(0);
 
         int chosenColor = UpdateIcon(layout);
-        UpdateOpponent(layout);
-        UpdateUserInfoSectionBGColor(chosenColor, layout);
+        UpdateOpponent(chosenColor, layout);
+        //UpdateUserInfoSectionBGColor(layout);
     }
 
-    private void UpdateUserInfoSectionBGColor(int col, View layout) {
-        ((ViewGroup)layout).setBackground(new ColorDrawable(col));
+    private void UpdateUserInfoSectionBGColor(View layout) {
+        layout.setBackground(new ColorDrawable(Color.WHITE));
     }
 
-    private void UpdateOpponent(View layout) {
+    private void UpdateOpponent(int col, View layout) {
         TextView tv = (TextView) layout.findViewById(R.id.opponent_info_text);
         tv.setText("Peez");
-        tv.setTextColor(Color.WHITE);
+        tv.setTextColor(col);
     }
 
     private int UpdateIcon(View layout) {
-        MaterialLetterIcon icon = (MaterialLetterIcon) layout.findViewById(R.id.opponent_img);
+        UserImageView icon = (UserImageView) layout.findViewById(R.id.opponent_img);
         int chosenColorIndex = settings.getInt(consts.FAV_COLOR, 0);
         int col = getResources().getIntArray(R.array.Colors)[chosenColorIndex];
-        icon.setLetterColor(col);
-        icon.setLetter("P");
+        icon.setBackground(new ColorDrawable(col));
         return col;
     }
 

@@ -15,7 +15,7 @@
     <ImageView
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginRight="6dp"
+        android:layout_marginRight="16dp"
         android:layout_gravity="center"
         android:src="@drawable/ic_action_communication_chat"/>
 
