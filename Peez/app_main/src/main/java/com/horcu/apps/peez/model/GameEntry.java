@@ -2,20 +2,22 @@ package com.horcu.apps.peez.model;
 
 
 import io.realm.RealmObject;
+import io.realm.annotations.Required;
 
 public class GameEntry extends RealmObject
 {
     private  String id;
     private  String datetime;
+    @Required
     private  String gameId;
-    private Boolean inprogress;
+    private  Boolean inProgress;
 
     public GameEntry(String datetime, String gameId, Boolean inProgress)
     {
         this.datetime = datetime;
 
         this.gameId = gameId;
-        this.inprogress = inProgress;
+        this.inProgress = inProgress;
     }
 
     public GameEntry() {
@@ -48,11 +50,11 @@ public class GameEntry extends RealmObject
         this.gameId = gameId;
     }
 
-    public Boolean getInprogress() {
-        return inprogress;
+    public Boolean getInProgress() {
+        return inProgress;
     }
 
-    public void setInprogress(Boolean inprogress) {
-        this.inprogress = inprogress;
+    public void setInProgress(Boolean inProgress) {
+        this.inProgress = inProgress;
     }
 }

@@ -3,7 +3,8 @@ package com.horcu.apps.peez.backend.models;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
-import java.util.ArrayList;
+
+import misc.KeyGenerator;
 
 /**
  * Created by Horatio on 2/11/2016.
@@ -11,22 +12,29 @@ import java.util.ArrayList;
 
 @Entity
 public class Board {
-    private String boardKey;
 
     @Id
-    private String gameKey;
-    private ArrayList<Tile> tiles;
+    private String boardKey;
+    private String jsonTileDefinition;
 
-    public Board(String gameKey, ArrayList<Tile> tiles) {
-        this.gameKey = gameKey;
-        this.tiles = tiles;
+    public Board(){
+        this.boardKey = KeyGenerator.GenerateGameboardKey();
     }
 
-    public String getGameKey() {
-        return gameKey;
+    public Board(String jsonTileDefinition) {
+        this.jsonTileDefinition = jsonTileDefinition;
+        this.boardKey = KeyGenerator.GenerateGameboardKey();
     }
 
-    public ArrayList<Tile> getTiles() {
-        return tiles;
+    public String getJsonTileDefinition() {
+        return jsonTileDefinition;
+    }
+
+    public void setJsonTileDefinition(String jsonTileDefinition) {
+        this.jsonTileDefinition = jsonTileDefinition;
+    }
+
+    public String getBoardKey() {
+        return boardKey;
     }
 }

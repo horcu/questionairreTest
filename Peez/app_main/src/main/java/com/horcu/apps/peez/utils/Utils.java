@@ -11,7 +11,7 @@ import com.horcu.apps.peez.common.utilities.consts;
 /**
  * Created by Horatio on 3/27/2016.
  */
-public class gameViewUtil {
+public class Utils {
 
     private static SharedPreferences settings;
 

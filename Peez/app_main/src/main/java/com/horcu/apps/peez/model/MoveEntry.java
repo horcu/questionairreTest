@@ -1,30 +1,39 @@
 package com.horcu.apps.peez.model;
 
-import com.horcu.apps.peez.backend.models.playerApi.model.Player;
-import com.horcu.apps.peez.custom.Gameboard.GameDialogHelper;
 import com.horcu.apps.peez.enums.MoveType;
+
+import io.realm.RealmObject;
+import io.realm.annotations.Required;
 
 /**
  * Created by Horatio on 3/27/2016.
  */
-public class MoveEntry {
+public class MoveEntry extends RealmObject {
+
+    private String Id;
+    @Required
+    private String gameId;
     private String Sender;
     private String Receiver;
     private String timeStamp;
-    private MoveType moveType;
+    private String moveType;
 
-    private int MoveFromIndex;
-    private int MoveToIndex;
+    private String MoveFromIndex;
+    private String MoveToIndex;
 
     private Boolean Made;
 
-    public MoveEntry(String senderEmail, String receiverEmail, String timeStamp, MoveType moveType, int moveFromIndex, int moveToIndex, Boolean made) {
+    public MoveEntry(){}
+
+    public MoveEntry(String gameId, String moveId, String senderEmail, String receiverEmail, String timeStamp, MoveType moveType, String moveFromIndex, String moveToIndex, Boolean made) {
+        this.gameId = gameId;
         Sender = senderEmail;
         Receiver = receiverEmail;
         this.timeStamp = timeStamp;
-        this.moveType = moveType;
+        this.moveType = moveType.toString();
         MoveFromIndex = moveFromIndex;
         MoveToIndex = moveToIndex;
+        this.Id = moveId;
         Made = made;
     }
 
@@ -36,27 +45,27 @@ public class MoveEntry {
         Made = made;
     }
 
-    public int getMoveToIndex() {
+    public String getMoveToIndex() {
         return MoveToIndex;
     }
 
-    public void setMoveToIndex(int moveToIndex) {
+    public void setMoveToIndex(String moveToIndex) {
         MoveToIndex = moveToIndex;
     }
 
-    public int getMoveFromIndex() {
+    public String getMoveFromIndex() {
         return MoveFromIndex;
     }
 
-    public void setMoveFromIndex(int moveFromIndex) {
+    public void setMoveFromIndex(String moveFromIndex) {
         MoveFromIndex = moveFromIndex;
     }
 
-    public MoveType getMoveType() {
+    public String getMoveType() {
         return moveType;
     }
 
-    public void setMoveType(MoveType moveType) {
+    public void setMoveType(String moveType) {
         this.moveType = moveType;
     }
 

@@ -13,21 +13,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
+
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.horcu.apps.peez.Dtos.SmsDto;
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.BR;
@@ -35,55 +28,38 @@ import com.horcu.apps.peez.binder.SuperMessageBinder;
 import com.horcu.apps.peez.binder.MessageBinder;
 import com.horcu.apps.peez.chat.Actions.EmojIconActions;
 import com.horcu.apps.peez.chat.Helper.EmojiconEditText;
-import com.horcu.apps.peez.chat.Helper.EmojiconTextView;
 import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.custom.CircleTransform;
 import com.horcu.apps.peez.custom.MessageSender;
-//import com.horcu.apps.peez.databinding.FragmentChatViewBinding;
-
 import com.horcu.apps.peez.custom.UserImageView;
+import com.horcu.apps.peez.data.DbEntityBuilder;
+import com.horcu.apps.peez.data.DbHelper;
 import com.horcu.apps.peez.databinding.FragmentChatViewBinding;
 import com.horcu.apps.peez.gcm.core.PubSubHelper;
 import com.horcu.apps.peez.gcm.message.Message;
 import com.horcu.apps.peez.misc.SenderCollection;
 import com.horcu.apps.peez.model.MessageEntry;
 import com.horcu.apps.peez.service.LoggingService;
-import com.horcu.apps.peez.utils.gameViewUtil;
+import com.horcu.apps.peez.utils.Utils;
+import com.horcu.apps.peez.view.activities.MainView;
 import com.horcu.apps.peez.viewmodel.SuperMessageViewModel;
 import com.horcu.apps.peez.viewmodel.MessageViewModel;
 import com.horcu.apps.peez.viewmodel.MessagesViewModel;
 import com.squareup.picasso.Picasso;
-
-
 import net.droidlabs.mvvm.recyclerview.adapter.ClickHandler;
 import net.droidlabs.mvvm.recyclerview.adapter.LongClickHandler;
 import net.droidlabs.mvvm.recyclerview.adapter.binder.CompositeItemBinder;
 import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinder;
-
 import java.util.Date;
-import java.util.UUID;
-
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ChatView.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ChatView#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ChatView extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String MESSAGE_RECIPIENT = "recip";
     private static final String PLAYER_IMGURL = "img_url";
     private static final String PLAYER_USERNAME = "p_user_name";
 
-    // TODO: Rename and change types of parameters
     public String message_recipient;
     public String playerImageUri;
     public String playerName;
@@ -103,23 +79,21 @@ public class ChatView extends Fragment {
     private LoggingService.Logger mLogger;
     private SenderCollection mSenders;
 
-    private Realm realm;
-    private RealmConfiguration realmConfig;
+    //db
+    private DbHelper dbHelper;
 
+    //other
     private View rootView;
     private EmojIconActions emojIcon;
     private ImageView emojiButton;
     private ImageView submitButton;
-    //private EmojiconTextView resultsTextView;
     private EmojiconEditText emojiconEditText;
-    private CheckBox mCheckBox;
     private View userInfoLayout;
 
     public ChatView() {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
     public static ChatView newInstance(String recipient, String imgUrl, String uName) {
         ChatView fragment = new ChatView();
         Bundle args = new Bundle();
@@ -145,11 +119,104 @@ public class ChatView extends Fragment {
         mSenders = SenderCollection.getInstance(getActivity());
         myToken = settings.getString(consts.REG_ID,"");
 
-        // Create a RealmConfiguration which is to locate Realm file in package's "files" directory.
-      //. realmConfig = new RealmConfiguration.Builder(getContext()).build();
-        // Get a Realm instance for this thread
-      // realm = Realm.getInstance(realmConfig);
+        dbHelper = new DbHelper(getRealm());
+    }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        //final View rootView = inflater.inflate(R.layout.fragment_chat_view,container, false);
+        binding = FragmentChatViewBinding.inflate(inflater, container, false);
+        messagesViewModel = new MessagesViewModel();
+        binding.setMsgViewModel(messagesViewModel);
+        binding.setView(this);
+        rootView = binding.getRoot();
+        userInfoLayout = rootView.findViewById(R.id.chat_info_bar);
+        upDateChatPlayer("","choose your opponent","","");
+        binding.activityUsersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        //refreshMessagesFromDb(gameId, getActivity());
+
+
+        emojiButton = (ImageView) rootView.findViewById(R.id.emoji_btn);
+        submitButton = (ImageView) rootView.findViewById(R.id.submit_btn);
+        emojiconEditText = (EmojiconEditText) rootView.findViewById(R.id.emojicon_edit_text);
+
+
+
+        emojIcon=new EmojIconActions(getContext(),rootView,emojiconEditText,emojiButton);
+
+        emojIcon.ShowEmojIcon();
+
+        emojIcon.setKeyboardListener(new EmojIconActions.KeyboardListener() {
+            @Override
+            public void onKeyboardOpen() {
+                Log.e("Keyboard","open");
+            }
+
+            @Override
+            public void onKeyboardClose() {
+                Log.e("Keyboard","close");
+            }
+        });
+
+
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                try {
+
+                    String message = emojiconEditText.getText().toString();
+                    //resultsTextView.setText(message);
+                    Date d = new Date();
+                    long time = d.getTime();
+
+                    // build up the message oject to send to opponent
+                    if(gameId.equals(""))
+                    {
+                        Toast.makeText(getActivity(),"no game selected.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    SmsDto dto = new SmsDto(gameId, myToken,message_recipient, message, String.valueOf(time), playerImageUri);
+                    String json = MessageSender.JsonifySmsDto(dto);
+                    Message sms = MessageSender.BuildSmsMessage(dto, json);
+
+                    MessageEntry me = DbEntityBuilder.BuildMessageEntryRecord(sms, getRealm());// new MessageEntry(String.valueOf(time), message, sms.getMessageId(),playerImageUri,myToken, message_recipient);
+
+                    MessageSender sender = new MessageSender(getActivity(), mLogger, mSenders);
+                    if (sender.SendSMS(sms)) {
+                        try {
+
+                            dbHelper.saveToDb(me);
+                            Toast.makeText(getActivity(), "added to db!", Toast.LENGTH_SHORT).show();
+
+                            // Create an entry for showing the text
+                            messagesViewModel.messageViewModels.add(new SuperMessageViewModel(me));
+                        } catch (Exception e) {
+                            Toast.makeText(getActivity(), "not added to db! " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            e.printStackTrace();
+                            return;
+                        }
+
+                    } else {
+                        Toast.makeText(getActivity(), "failed ;/", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    ((EmojiconEditText) rootView.findViewById(R.id.emojicon_edit_text)).setText("");
+                    ((RecyclerView) rootView.findViewById(R.id.activity_users_recycler)).smoothScrollToPosition(messagesViewModel.messageViewModels.size() - 1);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        return rootView;
+    }
+
+    private Realm getRealm() {
+        return ((MainView)getActivity()).getRealm();
     }
 
     @Override
@@ -168,7 +235,7 @@ public class ChatView extends Fragment {
             if(!token.equals(""))
             UpdateIcon(userInfoLayout);
 
-            int chosenColor = gameViewUtil.GetFavoriteColor(getActivity());
+            int chosenColor = Utils.GetFavoriteColor(getActivity());
             UpdateOpponent(chosenColor,userInfoLayout);
             //UpdateUserInfoSectionBGColor();
             return true;
@@ -198,105 +265,13 @@ public class ChatView extends Fragment {
                 .into(userImage);
     }
 
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        //final View rootView = inflater.inflate(R.layout.fragment_chat_view,container, false);
-        binding = FragmentChatViewBinding.inflate(inflater, container, false);
-        messagesViewModel = new MessagesViewModel();
-        binding.setMsgViewModel(messagesViewModel);
-        binding.setView(this);
-        rootView = binding.getRoot();
-        userInfoLayout = rootView.findViewById(R.id.chat_info_bar);
-        upDateChatPlayer("","choose your opponent","","");
-        binding.activityUsersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        //refreshMessagesFromDb(gameId, getActivity());
-
-
-        emojiButton = (ImageView) rootView.findViewById(R.id.emoji_btn);
-        submitButton = (ImageView) rootView.findViewById(R.id.submit_btn);
-        emojiconEditText = (EmojiconEditText) rootView.findViewById(R.id.emojicon_edit_text);
-
-
-
-        emojIcon=new EmojIconActions(getContext(),rootView,emojiconEditText,emojiButton);
-
-        emojIcon.ShowEmojIcon();
-
-               emojIcon.setKeyboardListener(new EmojIconActions.KeyboardListener() {
-            @Override
-            public void onKeyboardOpen() {
-                Log.e("Keyboard","open");
-            }
-
-            @Override
-            public void onKeyboardClose() {
-                Log.e("Keyboard","close");
-            }
-        });
-
-
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                try {
-
-                    String message = emojiconEditText.getText().toString();
-                    //resultsTextView.setText(message);
-                    Date d = new Date();
-                    long time = d.getTime();
-
-                    // build up the message oject to send to opponent
-                    SmsDto dto = new SmsDto(myToken,message_recipient, message, String.valueOf(time), playerImageUri);
-                    String json = MessageSender.JsonifySmsDto(dto);
-                    Message sms = MessageSender.BuildSmsMessage(dto, json);
-                    String guid = UUID.randomUUID().toString();
-
-                    MessageEntry me = new MessageEntry(String.valueOf(time), message, sms.getMessageId(),playerImageUri,myToken, message_recipient);
-
-                    MessageSender sender = new MessageSender(getActivity(), mLogger, mSenders);
-                    if (sender.SendSMS(sms)) {
-                        try {
-                            // save to db
-
-                            realm.beginTransaction();
-                            realm.copyToRealm(me);
-                            realm.commitTransaction();
-
-                            Toast.makeText(getActivity(), "added to db!", Toast.LENGTH_SHORT).show();
-
-                            // Create an entry for showing the text
-                            messagesViewModel.messageViewModels.add(new SuperMessageViewModel(me));
-                        } catch (Exception e) {
-                            Toast.makeText(getActivity(), "not added to db! " + e.getMessage(), Toast.LENGTH_LONG).show();
-                            e.printStackTrace();
-                            return;
-                        }
-
-                    } else {
-                        Toast.makeText(getActivity(), "failed ;/", Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                    ((EmojiconEditText) rootView.findViewById(R.id.emojicon_edit_text)).setText("");
-                    ((RecyclerView) rootView.findViewById(R.id.activity_users_recycler)).smoothScrollToPosition(messagesViewModel.messageViewModels.size() - 1);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        return rootView; //inflater.inflate(R.layout.fragment_chat_view, container, false);
-    }
-
     public void refreshMessagesFromDb(final String gameId, Context ctx) {
 
         final ObservableArrayList<MessageViewModel> vms = new ObservableArrayList<>();
 
+        Realm mRealm = getRealm();
         // Query and update the result asynchronously in another thread
-        realm.executeTransaction(new Realm.Transaction() {
+        mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 try {
@@ -320,20 +295,17 @@ public class ChatView extends Fragment {
                         if(MessageAlreadyAdded(m.getId()))
                             continue;
 
-                        String message = m.getMessage();
-                        MessageEntry messageEntry = new MessageEntry(String.valueOf(new Date()), message, m.getId(), m.getImgUrl(), m.getFrom(), m.getTo());
-                        String from = m.getFrom();
                         SuperMessageViewModel su;
                         MessageViewModel su2;
 
-                        if(from.equals(myToken))
+                        if(m.getFrom().equals(myToken))
                         {
-                         su = new SuperMessageViewModel(messageEntry);
+                         su = new SuperMessageViewModel(m);
                           vms.add(su);
                         }
                         else
                         {
-                         su2 = new MessageViewModel(messageEntry);
+                         su2 = new MessageViewModel(m);
                           vms.add(su2);
                         }
                     }
@@ -349,18 +321,7 @@ public class ChatView extends Fragment {
                 messagesViewModel.messageViewModels = new ObservableArrayList<>();
 
                 messagesViewModel.messageViewModels.addAll(vms);
-//                RecyclerView.Adapter adapter = binding.activityUsersRecycler.getAdapter();
-//
-//                if(adapter == null)
-//                    return;
-//
-//                int msgCount = adapter.getItemCount();
-//
-//                if(msgCount > 0)
-//                {
-//                    binding.activityUsersRecycler.smoothScrollToPosition(msgCount -1);
-//                    YoYo.with(Techniques.BounceIn).duration(1000).playOn(binding.activityUsersRecycler.getChildAt(msgCount -1));
-//                }
+
             }
         });
     }

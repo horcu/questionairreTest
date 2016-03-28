@@ -12,19 +12,20 @@ public class Game {
 
     @Id
     private String gameId;
-    private final Player[] players;
+    private final String sender;
+    private final String receiver;
     private String boardKey;
     private String inviteKey;
-    private Player PlayerTurn;
+    private String PlayerTurn;
 
-    public Game(String gameId, Player[] players, String boardKey, String inviteKey, Player playerTurn) {
+    public Game(String gameId, String senderEmail, String receiverEmail, String boardKey, String inviteKey, String playerTurn) {
 
         this.gameId = gameId;
-        this.players = players;
         this.boardKey = boardKey;
         this.inviteKey = inviteKey;
-
-        PlayerTurn = playerTurn;
+        this.sender = senderEmail;
+        this.receiver = receiverEmail;
+        this.PlayerTurn = playerTurn;
     }
 
     public String getGameId() {
@@ -33,10 +34,6 @@ public class Game {
 
     public void setGameId(String gameId) {
         this.gameId = gameId;
-    }
-
-    public Player[] getPlayers() {
-        return players;
     }
 
     public String getBoardKey() {
@@ -55,11 +52,20 @@ public class Game {
         this.inviteKey = inviteKey;
     }
 
-    public Player getPlayerTurn() {
+
+    public String getPlayerTurn() {
         return PlayerTurn;
     }
 
-    public void setPlayerTurn(Player playerTurn) {
+    public void setPlayerTurn(String playerTurn) {
         PlayerTurn = playerTurn;
+    }
+
+    public String getReceiver() {
+        return receiver;
+    }
+
+    public String getSender() {
+        return sender;
     }
 }

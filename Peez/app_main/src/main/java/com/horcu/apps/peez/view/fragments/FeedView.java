@@ -28,6 +28,7 @@ import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.custom.ApiServicesBuilber;
 import com.horcu.apps.peez.custom.UserImageView;
 import com.horcu.apps.peez.databinding.FragmentFeedBinding;
+import com.horcu.apps.peez.view.activities.MainView;
 import com.horcu.apps.peez.viewmodel.PlayerViewModel;
 import com.horcu.apps.peez.viewmodel.PlayersViewModel;
 import com.michaldrabik.tapbarmenulib.TapBarMenu;
@@ -36,39 +37,22 @@ import net.droidlabs.mvvm.recyclerview.adapter.binder.CompositeItemBinder;
 import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinder;
 import java.io.IOException;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FeedView.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FeedView#newInstance} factory method to
- * create an instance of this fragment.
- */
+import io.realm.Realm;
+
 public class FeedView extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
         FragmentFeedBinding binding;
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
     private SharedPreferences settings;
     private PlayersViewModel playersViewModel;
     ObservableArrayList<PlayerViewModel> vms = null;
 
-    //TODO - remove below ... for testing only
     private boolean gameinProgressWithPlayerTest;
 
     public FeedView() {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
     public static FeedView newInstance() {
         FeedView fragment = new FeedView();
         Bundle args = new Bundle();
@@ -80,8 +64,7 @@ public class FeedView extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
         settings = getActivity().getSharedPreferences(consts.PEEZ,0);
     }
@@ -101,16 +84,12 @@ public class FeedView extends Fragment {
         binding.setView(this);
         binding.playersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
-       // binding.tapBarMenu.open();
-
         binding.tapBarMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((TapBarMenu)v).toggle();
             }
         });
-       // Picasso.with(getContext()).load(R.drawable.joe).into(userIng);
-
         binding.refresh.setMaterialRefreshListener(new MaterialRefreshListener() {
                @Override
                public void onRefresh(final MaterialRefreshLayout materialRefreshLayout) {
@@ -125,13 +104,12 @@ public class FeedView extends Fragment {
 //               }
            });
 
-     //   binding.refresh.setLoadMore(true);
-
-        // refresh complete
-
         ChangeBackgroundColor();
         return binding.getRoot();
+    }
 
+    private Realm getRealm() {
+        return ((MainView)getActivity()).getRealm();
     }
 
     private void ChangeBackgroundColor() {
@@ -274,8 +252,7 @@ public class FeedView extends Fragment {
              }
                 else
                 {
-                   mListener.onInitiateNewGame(playerVm);
-                    mListener.onSwitchCurrentGame("", playerVm);
+                    mListener.onInitiateNewGame(playerVm);
                     gameinProgressWithPlayerTest = true;
                     mListener.onSetPlayerTurn(playerVm);
                 }

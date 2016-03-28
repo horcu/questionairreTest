@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -14,48 +13,49 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.horcu.apps.peez.Dtos.InviteDto;
 import com.horcu.apps.peez.Dtos.SmsDto;
 import com.horcu.apps.peez.R;
-
+import com.horcu.apps.peez.backend.models.boardApi.model.Board;
+import com.horcu.apps.peez.backend.models.moveApi.model.Move;
 import com.horcu.apps.peez.backend.models.playerApi.model.Player;
+import com.horcu.apps.peez.backend_gameboard.gameApi.model.Game;
 import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.Dtos.MMDto;
 import com.horcu.apps.peez.custom.Gameboard.SoundPoolManager;
 import com.horcu.apps.peez.custom.ISoundPoolLoaded;
 import com.horcu.apps.peez.custom.MessageSender;
 import com.horcu.apps.peez.custom.PeezViewPager;
+import com.horcu.apps.peez.data.DbEntityBuilder;
+import com.horcu.apps.peez.data.DbHelper;
 import com.horcu.apps.peez.gcm.core.PubSubHelper;
 import com.horcu.apps.peez.gcm.message.Message;
 import com.horcu.apps.peez.misc.SenderCollection;
 import com.horcu.apps.peez.model.GameEntry;
+import com.horcu.apps.peez.model.MessageEntry;
 import com.horcu.apps.peez.service.LoggingService;
 import com.horcu.apps.peez.view.fragments.SettingsView;
 import com.horcu.apps.peez.view.fragments.ChatView;
 import com.horcu.apps.peez.view.fragments.FeedView;
 import com.horcu.apps.peez.view.fragments.GameView;
 import com.horcu.apps.peez.viewmodel.PlayerViewModel;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
-
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
-import io.realm.RealmObject;
 import io.realm.RealmResults;
 
 public class MainView extends BaseView
@@ -73,16 +73,17 @@ public class MainView extends BaseView
     private BroadcastReceiver mLoggerCallback;
     private LoggingService.Logger mLogger;
     private SenderCollection mSenders;
-    private Realm realm;
-    private RealmConfiguration realmConfig;
+
     private String mytoken;
     private ArrayList<GameEntry> gamesInProgress = null;
     public Player opponent;
     public String gameKey;
-    private boolean newGameBeingCreated;
     private int favoriteColor;
 
-    private MediaPlayer mp;
+    private boolean newGameBeingCreated;
+    private RealmConfiguration realmConfig;
+    public  Realm realm;
+    private DbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +93,20 @@ public class MainView extends BaseView
         opponent = new Player();
         mytoken = settings.getString(consts.REG_ID,"");
         favoriteColor = getResources().getIntArray(R.array.Colors)[settings.getInt(consts.FAV_COLOR, 0)];
+
+
+
+        realmConfig = new RealmConfiguration.Builder(getApplicationContext())
+                .deleteRealmIfMigrationNeeded()
+                .name(consts.REALM_CONFIG_NAME)
+                .schemaVersion(consts.REALM_SCHEMA_VERSION)
+                .setModules(Realm.getDefaultModule())
+                //.migration(new MyRealmMigration())
+                .build();
+
+        realm = Realm.getInstance(realmConfig);
+
+        dbHelper = new DbHelper(realm);
 
         SoundPoolManager.CreateInstance();
         List<Integer> sounds = new ArrayList<>();
@@ -116,17 +131,6 @@ public class MainView extends BaseView
         if(getActionBar() != null)
             getActionBar().hide();
 
-       // realmConfig = new RealmConfiguration.Builder(this)
-             //   .name("default1")
-            //    .schemaVersion(1)
-                //.migration(new Migration()) //TODO fill out the migration options and uncomment.. thisi s the proper way to migrate dbs and/or specify diff versions
-           //     .build();
-
-       // if(consts.DEV_MODE)
-//        Realm.deleteRealm(realmConfig);
-
- //       realm = Realm.getInstance(realmConfig);
-
        // GetInProgressGamesFromDbAsync();
 
         // Create the adapter that will return a fragment for each of the three
@@ -138,7 +142,7 @@ public class MainView extends BaseView
             mViewPager = (PeezViewPager) findViewById(R.id.container);
             if (mViewPager != null) {
                 mViewPager.setAdapter(mSectionsPagerAdapter);
-                mViewPager.setCurrentItem(1);
+                mViewPager.setCurrentItem(0);
                 mViewPager.setPagingEnabled(true);
             }
 
@@ -175,8 +179,11 @@ public class MainView extends BaseView
 
                         String messageType = intent.getStringExtra(LoggingService.MESSAGE_TYPE);
 
-                        if(messageJson.contains("multicast_id")) //return its the last message you sent out
+                        if(messageJson.contains("multicast_id")) //return its the last message you sent out. use it to update whether the message was sent successfully or not
+                        {
+                            UpdateUI(messageJson);
                             return;
+                        }
 
                         JSONObject json = null;
 
@@ -194,11 +201,16 @@ public class MainView extends BaseView
                                 case LoggingService.MESSAGE_TYPE_MSG :
                                 {
                                     try {
-                                        SmsDto dto = new SmsDto(json.getString("from"),
-                                                json.getString("to"),
-                                                json.getString("message"),
-                                                json.getString("dateTime"),
-                                                json.getString("senderUrl"));
+                                        SmsDto dto = null;
+                                        if (json != null) {
+                                            dto = new SmsDto(
+                                                    json.getString("gameId"),
+                                                    json.getString("from"),
+                                                    json.getString("to"),
+                                                    json.getString("message"),
+                                                    json.getString("dateTime"),
+                                                    json.getString("senderUrl"));
+                                        }
 
                                         String jsonStr = MessageSender.JsonifySmsDto(dto);
                                         Message sms = MessageSender.BuildSmsMessage(dto, jsonStr);
@@ -241,7 +253,9 @@ public class MainView extends BaseView
                                                 json.getString("dateTime"),
                                                 mytoken,
                                                 json.getString("receiverToken"),
+                                                json.getString("invitationToken"),
                                                 json.getString("senderUrl"),
+                                                json.getString("move"),
                                                 json.getInt("color"),
                                                 json.getString("collapseKey"));
 
@@ -273,6 +287,10 @@ public class MainView extends BaseView
         };
     }
 
+    private void UpdateUI(String messageJson) {
+
+    }
+
     private void GetInProgressGamesFromDbAsync() {
 
         new AsyncTask<Void, Void, String>() {
@@ -300,32 +318,17 @@ public class MainView extends BaseView
         }.execute();
     }
 
-    private Boolean saveToDb(RealmObject obj){
-        try {
-
-            realmConfig = new RealmConfiguration.Builder(this).build();
-            realm = Realm.getInstance(realmConfig);
-            realm.beginTransaction();
-            realm.copyToRealm(obj);
-            realm.commitTransaction();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
     private void HandleSMS(Message msg){
         if(msg.getFrom().equals(mytoken))
             return;
 
         ChatView ChatFrag = GetChatFragment();
-        //saveToDb(msg);
+        MessageEntry me = DbEntityBuilder.BuildMessageEntryRecord(msg, realm);
+        dbHelper.saveToDb(me);
 
-     //  if (ChatFrag != null) {
-     //       ChatFrag.refreshMessagesFromDb(mytoken,this);
-    //    }
+       if (ChatFrag != null) {
+            ChatFrag.refreshMessagesFromDb(mytoken,this);
+        }
     }
 
     private void HandlePlayerMove(Message move){
@@ -439,6 +442,7 @@ public class MainView extends BaseView
     @Override
     protected void onDestroy() {
         mLogger.unregisterCallback(mLoggerCallback);
+        realm.close();
         super.onDestroy();
     }
 
@@ -467,57 +471,109 @@ public class MainView extends BaseView
 
         try {
             newGameBeingCreated = true;
-            GameEntry newGame = new GameEntry();
-            newGame.setDatetime(new Date().toString());
-            newGame.setInprogress(false);
+
+            String me = GetPlayerId();
+
+            //generate new board
+            Board board = BuildNewBoard();
+
+            //get a new game Id
             String gameId = UUID.randomUUID().toString();
-            newGame.setGameId(gameId);
-            setGameKey(gameId);
-            CheckifGameIdUniqueAsync(pvm.getModel().getToken(), mytoken);
 
-            if(gamesInProgress == null)
-                gamesInProgress = new ArrayList<>();
+            //build the new game object
+            Game game = BuildGame(gameId, board.getBoardKey(),me,  pvm.getModel().getEmail());
 
-            gamesInProgress.add(newGame);
+            //build the invitation object
+            String newInvitationId = BuildInvitation(board.getBoardKey(),gameId, me, pvm.getModel());
 
-            //TODO - review this .. ideally we want to sent the first move along with the invitation
-            MakeFirstMove(newGame, pvm);
+            //build Db record
+            GameEntry newGame = DbEntityBuilder.BuildGameEntryRecord(game, realm);
 
-            sendGameInviteToOpponent(pvm.getModel().getToken(), newGame, pvm.getModel().getImageUri());
+            //set the global current game variable
+            setGameKey(game.getGameId());
 
-            saveToDb(newGame);
-            Toast.makeText(this, "saved invite to db", Toast.LENGTH_SHORT).show();
-            RefreshPager();
+            //move to that tab
+            mViewPager.setCurrentItem(1);
 
-            //TODO this will be a good call when you get everything to work with the invite then we can tack on the first move and update the local app to show the first move
-            // GameView gFrag = GetGameFragment();
-            // gFrag.ShowMoveOnBoard();
+            //update to the current opponent
+            GameView gameFrag = GetGameFragment();
+            if(gameFrag !=null)
+                gameFrag.UpdateGameInfo(gameId,pvm.getModel().getUserName(), pvm.getModel().getToken(),pvm.getModel().getImageUri(), true);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void MakeFirstMove(GameEntry newGame, PlayerViewModel pvm) {
-//        mViewPager.onInterceptTouchEvent(null);
-//        mViewPager.onTouchEvent(null);
+    private void PlayMove(Boolean first, Move move){
+
+//        Move move = MakeFirstMove(game, pvm);
+//
+//        sendGameInviteToOpponent(newInvitationId, move);
+//
+//        dbHelper.saveToDb(DbEntityBuilder.BuildGameEntryRecord(game, realm));
+//
+//        Toast.makeText(this, "saved invite to db", Toast.LENGTH_SHORT).show();
+//        RefreshPager();
+//
+//        //TODO this will be a good call when you get everything to work with the invite then we can tack on the first move and update the local app to show the first move
+//        // GameView gFrag = GetGameFragment();
+//        // gFrag.ShowMoveOnBoard();
+    }
+
+
+    private String GetPlayerId() {
+        return settings.getString(consts.PREF_ACCOUNT_NAME, "user");
+    }
+
+    private Board BuildNewBoard() {
+        Board board = new Board();
+        String jsonDef = GenerateGameboardJsonDefinition();
+        board.setJsonTileDefinition(jsonDef);
+        return board;
+    }
+
+    private String GenerateGameboardJsonDefinition() {
+
+        return "";
+    }
+
+    private String BuildInvitation(String boardId, String gameId, String newBoardId, Player model) {
+        return "";
+    }
+
+    private Game BuildGame(String gameId, String boardId, String senderEmail, String receiverEmail) {
+        Game game = new Game();
+        game.setGameId(gameId);
+        game.setBoardKey(boardId);
+        game.setSender(senderEmail);
+        game.setReceiver(receiverEmail);
+        game.setPlayerTurn(receiverEmail);
+        return game;
+    }
+
+    private Move MakeFirstMove(Game newGame, PlayerViewModel pvm) {
+
+
+        return null;
     }
 
     private void RefreshPager() {
         mViewPager.getAdapter().notifyDataSetChanged();
     }
 
-    private void sendGameInviteToOpponent(String token, GameEntry newGame, String opponentImgUrl) {
+    private void sendGameInviteToOpponent(String invitationToken, Move move) {
         try {
-            //TODO for now we will just send a move but you need to send an invite.. get it accepted.. (with the opponents move coming with the return).. then start sending moves
+
             MessageSender sender = new MessageSender(getApplicationContext(), mLogger,mSenders);
 
             int color = GetFavoriteColor();
+            String moveString = new Gson().toJson(move);
 
-            InviteDto dto = new InviteDto("wanna play ?", new Date().toString(), mytoken, token,opponentImgUrl,color ,UUID.randomUUID().toString());
+            String collapseKey = UUID.randomUUID().toString();
+            InviteDto dto = new InviteDto("wanna play ?", new Date().toString(), mytoken, opponent.getToken(), invitationToken, "", moveString,color ,collapseKey);
             String jsonString = MessageSender.JsonifyInviteDto(dto);
             Message message = MessageSender.BuildInvitationMessage(dto, jsonString);
-            message.setGameId(newGame.getGameId());
-            message.setType(LoggingService.MESSAGE_TYPE_INVITATION);
 
             if(sender.SendInvitation(message))
             Toast.makeText(getApplicationContext(),  "invitation sent", Toast.LENGTH_SHORT).show();
@@ -559,6 +615,7 @@ public class MainView extends BaseView
 
             goToaPage(1);
 
+
         ChatView ChatFrag = GetChatFragment();
         if (ChatFrag != null) {
             ChatFrag.upDateChatPlayer(gameId, player.getUserName(),player.getToken(),player.getImageUri());
@@ -567,7 +624,7 @@ public class MainView extends BaseView
 
         GameView GameFrag = GetGameFragment();
         if (GameFrag != null) {
-            GameFrag.UpdateGameInfo(gameId, player.getUserName(),player.getToken(),player.getImageUri());
+            GameFrag.UpdateGameInfo(gameId, player.getUserName(),player.getToken(),player.getImageUri(), false);
         }
     }
 
@@ -619,6 +676,10 @@ public class MainView extends BaseView
             }
         }
         return ((GameView) frag);
+    }
+
+    public Realm getRealm() {
+        return realm;
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {

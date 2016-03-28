@@ -16,6 +16,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.text.SpannableStringBuilder;
 import android.view.DragEvent;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.horcu.apps.peez.R;
+import com.horcu.apps.peez.backend.models.moveApi.model.Move;
 import com.horcu.apps.peez.backend.models.playerApi.model.Player;
 import com.horcu.apps.peez.backend_gameboard.gameApi.model.Game;
 import com.horcu.apps.peez.chat.LeBubbleTitleTextView;
@@ -35,12 +37,13 @@ import com.horcu.apps.peez.custom.AutoFitGridLayout;
 import com.horcu.apps.peez.Dtos.MMDto;
 import com.horcu.apps.peez.custom.CircleTransform;
 import com.horcu.apps.peez.custom.GameBuilder;
-import com.horcu.apps.peez.custom.Gameboard.GameDialogHelper;
 import com.horcu.apps.peez.custom.Gameboard.TileMover;
 import com.horcu.apps.peez.custom.MaterialLetterIcon;
 import com.horcu.apps.peez.custom.MessageSender;
 import com.horcu.apps.peez.custom.Gameboard.TileView;
 import com.horcu.apps.peez.custom.UserImageView;
+import com.horcu.apps.peez.data.DbEntityBuilder;
+import com.horcu.apps.peez.data.DbHelper;
 import com.horcu.apps.peez.databinding.FragmentGameViewBinding;
 import com.horcu.apps.peez.enums.MoveType;
 import com.horcu.apps.peez.gcm.message.Message;
@@ -48,9 +51,11 @@ import com.horcu.apps.peez.misc.SenderCollection;
 import com.horcu.apps.peez.model.MoveEntry;
 import com.horcu.apps.peez.service.LoggingService;
 import com.horcu.apps.peez.service.QuestionService;
-import com.horcu.apps.peez.utils.gameViewUtil;
+import com.horcu.apps.peez.utils.Utils;
 import com.horcu.apps.peez.view.activities.ChallengeView;
 import com.horcu.apps.peez.view.activities.MainView;
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.OnItemClickListener;
 import com.squareup.picasso.Picasso;
 import org.apache.commons.lang3.ArrayUtils;
 import java.util.Date;
@@ -58,28 +63,14 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 import at.markushi.ui.CircleButton;
+import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link GameView.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link GameView#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class GameView extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class GameView extends Fragment {
 
     protected FragmentGameViewBinding binding;
 
@@ -111,34 +102,52 @@ public class GameView extends Fragment {
     private Retrofit retrofit;
     private QuestionService qService;
     private boolean mQuestionServiceIsBusy = false;
-    private GameDialogHelper dialogHelper;
     private CardView CurrentOldCard;
     private CardView CurrentNewCard;
     private View CurrentMovingView;
+    private DbHelper dbHelper;
 
 
     public GameView() {
         // Required empty public constructor
     }
 
-    public Boolean UpdateGameInfo(String gameKey, String playerName, String token, String playerImageUrl){
+    public Boolean UpdateGameInfo(String gameKey, String playerName, String token, String playerImageUrl, Boolean newGame){
         try {
-            opponent.setCanBeMessaged(true);
-            opponent.setCurrentlyOnLine(true);
-            opponent.setCurrentlyPlaying(true);
-            opponent.setImageUri(playerImageUrl);
-            opponent.setUserName(playerName);
-            opponent.setToken(token);
-            this.gameKey = gameKey;
+            if(newGame) {
+                DisableSwiping();
 
-            View layout = binding.userInfoLayout.findViewById(R.id.user_info_layout);
+                DialogPlus dialog = DialogPlus.newDialog(getActivity())
+                        //.setAdapter(adapter)
+                        .setContentHeight(400)
+                        .setGravity(Gravity.TOP)
+                        .setCancelable(true)
+                        .setContentBackgroundResource(R.layout.new_game_message)
+                        .setContentWidth(ViewGroup.LayoutParams.MATCH_PARENT)
+                        .setOnItemClickListener(new OnItemClickListener() {
+                            @Override
+                            public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+                            }
+                        })
+                        .setExpanded(true)  // This will enable the expand feature, (similar to android L share dialog)
+                        .create();
+                dialog.show();
+            }
+            else {
 
-            UpdateIcon(layout);
+                opponent.setImageUri(playerImageUrl);
+                opponent.setUserName(playerName);
+                opponent.setToken(token);
+                this.gameKey = gameKey;
 
-            int chosenColor = gameViewUtil.GetFavoriteColor(getContext());
-            UpdateOpponent(chosenColor, layout);
-           // UpdateUserInfoSectionBGColor();
+                View layout = binding.userInfoLayout.findViewById(R.id.user_info_layout);
 
+                UpdateIcon(layout);
+
+                int chosenColor = Utils.GetFavoriteColor(getContext());
+                UpdateOpponent(chosenColor, layout);
+                // UpdateUserInfoSectionBGColor();
+            }
             return true;
 
         } catch (Exception ex){
@@ -151,12 +160,14 @@ public class GameView extends Fragment {
         ((ViewGroup)binding.userInfoLayout).getChildAt(0).setBackgroundColor(Color.WHITE);
     }
 
+    private Realm getRealm() {
+        return ((MainView)getActivity()).getRealm();
+    }
+
     private void UpdateOpponent(int col, View layout) {
         TextView tv = (TextView) layout.findViewById(R.id.opponent_info_text);
         tv.setText(opponent.getUserName() == null || opponent.getUserName().equals("") ? "choose your opponent.." : opponent.getUserName());
         tv.setTextColor(col);
-
-
     }
 
     private void UpdateIcon(View layout) {
@@ -167,7 +178,6 @@ public class GameView extends Fragment {
                 .into(userImage);
     }
 
-    // TODO: Rename and change types and number of parameters
     public static GameView newInstance() {
         GameView fragment = new GameView();
         Bundle args = new Bundle();
@@ -187,11 +197,15 @@ public class GameView extends Fragment {
         gameBuilder = new GameBuilder(getContext());
         chosenColorIndex = settings.getInt(consts.FAV_COLOR, 0);
 
-        retrofit = new Retrofit.Builder()
-                .baseUrl(consts.QUESTIONS_BASE_URL)
-                .build();
-
+        retrofit = new Retrofit.Builder().baseUrl(consts.QUESTIONS_BASE_URL).build();
         qService = retrofit.create(QuestionService.class);
+
+        dbHelper = new DbHelper(getRealm());
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
     }
 
     @Override
@@ -199,8 +213,6 @@ public class GameView extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentGameViewBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
-        dialogHelper = new GameDialogHelper(getContext());
 
         binding.gameboardGridOpponent.setVisibility(View.VISIBLE);
         binding.gameboardGridPlayer.setVisibility(View.VISIBLE);
@@ -212,11 +224,7 @@ public class GameView extends Fragment {
             }
         });
 
-
-
-
         Game game = GameBuilder.CreateOrGetGameboard(gameKey, false);
-        //TODO then set the binding for the viewmodel for the game board
 
         colorArray =  getActivity().getResources().getIntArray(R.array.Colors);
         myToken = settings.getString(consts.REG_ID,"");
@@ -227,7 +235,6 @@ public class GameView extends Fragment {
 
         int halfWayMark = (consts.TOTAL_TILES / 2);
 
-        Random rand = new Random(0);
         int min = 0;
         int max = colorArray.length - 1;
         int randIndex =  GetRandomColorndex(min, max);
@@ -243,16 +250,20 @@ public class GameView extends Fragment {
             SetCardTagsAndListeners(i, card, consts.CARD_TYPE_GAMEBOARD);
             SetCardIconTagsAndListeners(i, card);
 
-            if((i + 1) > halfWayMark)
-                ((MaterialLetterIcon)card.getChildAt(0)).setShapeColor(colorArray[chosenColorIndex]);
-            else
+            if((i + 1) > halfWayMark) {
+                ((MaterialLetterIcon) card.getChildAt(0)).setShapeColor(colorArray[chosenColorIndex]);
+            }
+            else {
+                ((MaterialLetterIcon) card.getChildAt(0)).setShapeType(MaterialLetterIcon.SHAPE_RECT);
                 ((MaterialLetterIcon) card.getChildAt(0)).setShapeColor(colorArray[randIndex]);
+            }
         }
 
         for (int o = 0; o < consts.TOTAL_PLAYERS_TILES; o ++)
         {
             final CardView opponentCard = (CardView) binding.gameboardGridOpponent.getChildAt(o);
             SetCardTagsAndListeners(o,opponentCard,consts.CARD_TYPE_OPPONENT_HOME);
+            ((MaterialLetterIcon)opponentCard.getChildAt(0)).setShapeType(MaterialLetterIcon.SHAPE_RECT);
 
             final CardView playerCard = (CardView) binding.gameboardGridPlayer.getChildAt(o);
             SetCardTagsAndListeners(o,playerCard,consts.CARD_TYPE_PLAYER_HOME);
@@ -300,8 +311,12 @@ public class GameView extends Fragment {
                                 closeMenu();
                                 break;
                         }
-                        MoveEntry move = BuildMoveEntryRecord(CurrentOldCard, CurrentNewCard,mt[0], false);
-                        addMoveToDBAsync(move);
+                        Move move = new Move();
+                        //move.setMoveFrom();
+                        MoveEntry moveEntry = DbEntityBuilder.BuildMoveEntryRecord(move, ((MainView)getActivity()).realm);
+
+                        // BuildMoveEntryRecord(CurrentOldCard, CurrentNewCard,mt[0], false, "12345678"); //TODO store a global variable with the gameId in it
+                        addMoveToDBAsync(moveEntry);
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -316,14 +331,6 @@ public class GameView extends Fragment {
     private void addMoveToDBAsync(MoveEntry moveEntry) {
         //TODO to be implemented as soon s the realm issues are all resolved
     }
-
-    private MoveEntry BuildMoveEntryRecord(CardView currentOldCard, CardView currentNewCard, MoveType type, Boolean moveAlreadyMade) {
-        String email = settings.getString(consts.PREF_ACCOUNT_NAME, "");
-        int moveFrom = (int)currentOldCard.getTag(consts.GAMEVIEW_CARD_INDEX);
-        int moveTo = (int)currentNewCard.getTag(consts.GAMEVIEW_CARD_INDEX);
-        return new MoveEntry(email,opponent.getEmail(), new Date().toString(), type, moveFrom, moveTo, moveAlreadyMade);
-    }
-
 
     private void PlaySoundEffect(MainView.SoundEffects effect) {
         mListener.onPlaySoundEffects(effect);
@@ -669,7 +676,7 @@ public class GameView extends Fragment {
 
                 Date d = new Date();
                 long time = d.getTime();
-                int color = gameViewUtil.GetFavoriteColor(getContext()); // getResources().getColor(settings.getInt(consts.FAV_COLOR, Color.parseColor("#551A8B")));
+                int color = Utils.GetFavoriteColor(getContext()); // getResources().getColor(settings.getInt(consts.FAV_COLOR, Color.parseColor("#551A8B")));
 
                 String collapseKey = String.valueOf(UUID.randomUUID());
 
@@ -728,9 +735,7 @@ public class GameView extends Fragment {
 
             ShowSnack(binding.gameboardGrid.getRootView(), message);
 
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        } catch (Resources.NotFoundException e) {
+        } catch (NumberFormatException | Resources.NotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -835,7 +840,7 @@ public class GameView extends Fragment {
     }
 
     private void SetPlayerDotBackground(TileView tileView) {
-        int favColor = gameViewUtil.GetFavoriteColor(getContext());
+        int favColor = Utils.GetFavoriteColor(getContext());
         tileView.setBackground(new ColorDrawable(favColor));
         tileView.setTextColor(Color.WHITE);
     }

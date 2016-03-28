@@ -12,9 +12,11 @@ public class SmsDto{
     private final String message;
     private final String dateTime;
     private final String senderUrl;
+    private final String gameId;
 
-    public SmsDto(String from, String to, String message, String dateTime, String senderUrl) {
+    public SmsDto(String gameId, String from, String to, String message, String dateTime, String senderUrl) {
 
+        this.gameId = gameId;
         this.from = from;
         this.to = to;
         this.message = message;
@@ -40,5 +42,9 @@ public class SmsDto{
 
     public String getSenderUrl() {
         return senderUrl;
+    }
+
+    public String getGameId() {
+        return gameId;
     }
 }

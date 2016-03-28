@@ -60,6 +60,7 @@
             android:layout_gravity="bottom"
             android:background="@color/white"
             android:visibility="invisible"
+            android:elevation="20dp"
             android:layout_alignParentBottom="true"
             app:tbm_buttonSize="56dp" >
 

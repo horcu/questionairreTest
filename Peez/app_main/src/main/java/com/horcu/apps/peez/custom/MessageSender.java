@@ -9,7 +9,6 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.horcu.apps.peez.Dtos.InviteDto;
 import com.horcu.apps.peez.Dtos.MMDto;
 import com.horcu.apps.peez.Dtos.SmsDto;
-import com.horcu.apps.peez.backend.models.playerApi.model.Player;
 import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.gcm.core.GcmServerSideSender;
 import com.horcu.apps.peez.gcm.message.Message;
@@ -20,6 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -166,6 +166,7 @@ public class MessageSender {
     public static String JsonifySmsDto(SmsDto dto) {
         JSONObject json = new JSONObject();
         try {
+            json.put("gameId", dto.getGameId());
             json.put("message", dto.getMessage());
             json.put("senderToken", dto.getFrom());
             json.put("receiverToken", dto.getTo());
@@ -189,6 +190,8 @@ public class MessageSender {
             json.put("senderUrl", dto.getSenderUrl());
             json.put("collapseKey", dto.getCollapseKey());
             json.put("dateTime", dto.getDateTime());
+            json.put("move", dto.getMove());
+            json.put("invitationToken", dto.getInvitationToken());
             json.put("type", LoggingService.MESSAGE_TYPE_INVITATION);
         } catch (JSONException e) {
             e.printStackTrace();

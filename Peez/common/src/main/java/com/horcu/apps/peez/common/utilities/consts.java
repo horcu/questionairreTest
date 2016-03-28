@@ -48,6 +48,8 @@ public class consts {
    public static final int GAMEVIEW_MENU_INDEX = 234254324;
    public static final int GAMEVIEW_ORIGINAL_ICON_INDEX = 919293949;
    public static final int GAMEVIEW_CARD_INDEX = 919293948;
+   public static final String REALM_CONFIG_NAME = "realm_v_0.0.1";
+   public static final long REALM_SCHEMA_VERSION = 1;
 
    //end entity constants
 

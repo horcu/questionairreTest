@@ -21,7 +21,8 @@
                 com.horcu.apps.peez.backend.endpoints.misc.GameEndpoint,
                 com.horcu.apps.peez.backend.endpoints.gameboard.BoardEndpoint,
                 com.horcu.apps.peez.backend.endpoints.gameboard.InvitationEndpoint,
-                com.horcu.apps.peez.backend.endpoints.misc.PlayerEndpoint</param-value>
+                com.horcu.apps.peez.backend.endpoints.misc.PlayerEndpoint,
+                com.horcu.apps.peez.backend.endpoints.gameboard.MoveEndpoint</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>

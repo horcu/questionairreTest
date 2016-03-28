@@ -3,27 +3,27 @@ package com.horcu.apps.peez.model;
 import com.horcu.apps.peez.common.utilities.consts;
 
 import io.realm.RealmObject;
+import io.realm.annotations.Required;
 
 public class MessageEntry extends RealmObject
 {
+    @Required
     private  String id;
     private  String datetime;
     private  String message;
     private  String status;
-    private String imgUrl;
     private String from;
     private String to;
 
     public MessageEntry(){}
 
-    public MessageEntry(String datetime, String message, String messageId, String imgUrl, String from, String to)
+    public MessageEntry(String messageId, String to,String from, String datetime, String message)
     {
         this.datetime = datetime;
         this.message = message;
-        this.imgUrl = imgUrl;
         this.from = from;
         this.to = to;
-        this.status = consts.STATUS_NOT_SENT;
+        this.status = Status.NOT_SENT.toString();
         this.id = messageId;
     }
 
@@ -47,12 +47,12 @@ public class MessageEntry extends RealmObject
         this.message = message;
     }
 
-    public String getStatus() {
-        return status;
+    public Status getStatus() {
+        return Status.valueOf(status);
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatus(Status status) {
+        this.status = status.toString();
     }
 
     public String getId() {
@@ -61,14 +61,6 @@ public class MessageEntry extends RealmObject
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
     }
 
     public String getFrom() {
@@ -85,5 +77,9 @@ public class MessageEntry extends RealmObject
 
     public void setTo(String to) {
         this.to = to;
+    }
+
+    public enum Status{
+        SEEN,NOT_SEEN, SENT,NOT_SENT
     }
 }
