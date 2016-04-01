@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ import com.horcu.apps.peez.custom.AutoFitGridLayout;
 import com.horcu.apps.peez.Dtos.MMDto;
 import com.horcu.apps.peez.custom.CircleTransform;
 import com.horcu.apps.peez.custom.GameBuilder;
+
 import com.horcu.apps.peez.custom.Gameboard.TileMover;
 import com.horcu.apps.peez.custom.MaterialLetterIcon;
 import com.horcu.apps.peez.custom.MessageSender;
@@ -224,6 +226,33 @@ public class GameView extends Fragment {
             }
         });
 
+        binding.gameboardGrid.setOnTouchListener(new View.OnTouchListener() {
+            final int[] location = new int[2];
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getActionMasked()) {
+                    case MotionEvent.ACTION_DOWN:
+                        v.getLocationOnScreen(location);
+                        binding.gameboardGrid.startX = location[0];
+                        binding.gameboardGrid.startY = location[1];
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        v.getLocationOnScreen(location);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                            Rect r = new Rect();
+                            r.left = (int) binding.gameboardGrid.startX;
+                            r.top = (int) binding.gameboardGrid.startY;
+                            v.getLocationInWindow(location);
+                            r.right = location[0];
+                            r.bottom = location[1];
+                            binding.gameboardGrid.addLine(r);
+                }
+                return false;
+            }
+        });
+
         Game game = GameBuilder.CreateOrGetGameboard(gameKey, false);
 
         colorArray =  getActivity().getResources().getIntArray(R.array.Colors);
@@ -245,28 +274,41 @@ public class GameView extends Fragment {
         for(int i = 0; i < consts.TOTAL_TILES; i ++)
         {
             final CardView card = (CardView) binding.gameboardGrid.getChildAt(i);
-            card.getChildAt(0).setTag(consts.GAMEVIEW_ORIGINAL_ICON_INDEX, i);
+            MaterialLetterIcon icon = (MaterialLetterIcon) card.getChildAt(0);
+            icon.setTag(consts.GAMEVIEW_ORIGINAL_ICON_INDEX, i);
+            icon.setShapeColor(Color.parseColor("#e9e9e9"));
             card.setTag(consts.GAMEVIEW_CARD_INDEX, i);
             SetCardTagsAndListeners(i, card, consts.CARD_TYPE_GAMEBOARD);
-            SetCardIconTagsAndListeners(i, card);
+           // SetCardIconTagsAndListeners(i, card);
 
-            if((i + 1) > halfWayMark) {
-                ((MaterialLetterIcon) card.getChildAt(0)).setShapeColor(colorArray[chosenColorIndex]);
-            }
-            else {
-                ((MaterialLetterIcon) card.getChildAt(0)).setShapeType(MaterialLetterIcon.SHAPE_RECT);
-                ((MaterialLetterIcon) card.getChildAt(0)).setShapeColor(colorArray[randIndex]);
-            }
         }
 
-        for (int o = 0; o < consts.TOTAL_PLAYERS_TILES; o ++)
-        {
-            final CardView opponentCard = (CardView) binding.gameboardGridOpponent.getChildAt(o);
-            SetCardTagsAndListeners(o,opponentCard,consts.CARD_TYPE_OPPONENT_HOME);
-            ((MaterialLetterIcon)opponentCard.getChildAt(0)).setShapeType(MaterialLetterIcon.SHAPE_RECT);
+        for (int x = 0; x < consts.TOTAL_PLAYERS_TILES; x ++) {
+            final CardView playerCard = (CardView) binding.gameboardGridPlayer.getChildAt(x);
+            SetCardTagsAndListeners(x,playerCard,consts.CARD_TYPE_PLAYER_HOME);
 
-            final CardView playerCard = (CardView) binding.gameboardGridPlayer.getChildAt(o);
-            SetCardTagsAndListeners(o,playerCard,consts.CARD_TYPE_PLAYER_HOME);
+            final CardView opponentCard = (CardView) binding.gameboardGridOpponent.getChildAt(x);
+            SetCardTagsAndListeners(x,opponentCard,consts.CARD_TYPE_OPPONENT_HOME);
+
+
+            if(x == 2)
+            {
+                //players starting spot
+                ((MaterialLetterIcon)opponentCard.getChildAt(0)).setShapeColor(colorArray[chosenColorIndex]);
+                ((MaterialLetterIcon)opponentCard.getChildAt(0)).setShapeType(MaterialLetterIcon.SHAPE_CIRCLE);
+                SetCardIconTagsAndListeners(x, opponentCard);
+            }
+            else if(x == 3)
+            {
+                //opponents starting spot
+                ((MaterialLetterIcon)opponentCard.getChildAt(0)).setShapeColor(colorArray[randIndex]);
+                ((MaterialLetterIcon)opponentCard.getChildAt(0)).setShapeType(MaterialLetterIcon.SHAPE_CIRCLE);
+                SetCardIconTagsAndListeners(x, opponentCard);
+            }
+            else
+            {
+                opponentCard.getChildAt(0).setVisibility(View.INVISIBLE);
+            }
         }
 
         for(int i = 0 ; i < binding.tapBarMenu.getChildCount(); i++)
@@ -293,20 +335,20 @@ public class GameView extends Fragment {
                                 break;
                             case 1:
                                 TileMover.EatTile(CurrentOldCard, CurrentNewCard);
-                                PlaySoundEffect(MainView.SoundEffects.EFFECT_EAT);
+                                PlaySoundEffect(MainView.SoundEffects.EFFECT_SNARE);
                                 mt[0] = MoveType.EAT;
                                 enableSwiping();
                                 closeMenu();
                                 break;
                             case 2:
-                                PlaySoundEffect(MainView.SoundEffects.EFFECT_SWAP);
+                                PlaySoundEffect(MainView.SoundEffects.EFFECT_SNARE);
                                 mt[0] = MoveType.SWAP;
                                 enableSwiping();
                                 closeMenu();
                                 break;
                             default:
                                 TileMover.ReverseLastPlay();
-                                PlaySoundEffect(MainView.SoundEffects.EFFECT_BACK);
+                                PlaySoundEffect(MainView.SoundEffects.EFFECT_SWAP);
                                 enableSwiping();
                                 closeMenu();
                                 break;
@@ -427,36 +469,30 @@ public class GameView extends Fragment {
                     Toast.makeText(getContext(),"Not your turn",Toast.LENGTH_SHORT).show();
                 return;
                 }
-                String transitionName = getString(R.string.tileTransition);
-              //  ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(getActivity(), v, transitionName);
-                Intent intent = new Intent(getContext(), ChallengeView.class);
-                //put info to pass in here
-                intent.putExtra(consts.EXTRAS_MOVE_TO, finalI);
-             //   startActivityForResult(intent, consts.INTENT_TO_CHALLENGE, transitionActivityOptions.toBundle());
+
             }
         };
     }
 
     private final class TileTouchListener implements View.OnTouchListener {
+        final int[] location = new int[2];
+
         public boolean onTouch(View view, MotionEvent motionEvent) {
             if(getGameMenuIsOpen()) {
                 Toast.makeText(getContext(), "one move at a time", Toast.LENGTH_SHORT).show();
                 return false;
             }
-
-            if(!MyTile(view))
-            {
-                Toast.makeText(getContext(), "play your own tiles", Toast.LENGTH_SHORT).show();
-                return false;
-            }
+//
+//            if(!MyTile(view))
+//            {
+//                Toast.makeText(getContext(), "play your own tiles", Toast.LENGTH_SHORT).show();
+//                return false;
+//            }
 
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                 ClipData data = ClipData.newPlainText("", "");
                 View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
                 view.startDrag(data, shadowBuilder, view, 0);
-
-                //view.setVisibility(View.INVISIBLE);
-                //SuperSizeView(view);
                 return true;
             } else {
                 return false;

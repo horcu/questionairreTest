@@ -59,6 +59,7 @@ public class LoggingService extends IntentService {
     public static final String MESSAGE_TYPE_INVITATION = "message_type_invitation";
     public static final String MESSAGE_TYPE_REMINDER = "message_type_reminder";
     public static final String MESSAGE_TYPE_FEED = "message_type_feed";
+    public static final Object MESSAGE_TYPE_CHAT = "message_type_chat";
 
     public LoggingService() {
         super("LoggingService");
@@ -122,13 +123,13 @@ public class LoggingService extends IntentService {
             mContext = context;
         }
 
-        public void log(int level, String msg, String sender) {
-            log(level, msg, sender, null);
+        public void log(int level, String msg, String msgType, String sender) {
+            log(level, msg, sender,msgType, null);
         }
 
-        public void log(int priority, String msg, String sender, Throwable tr) {
+        public void log(int priority, String msg, String sender, String msgType,  Throwable tr) {
             // Forward the log to LoggingService
-            Intent intent = new Intent(ACTION_LOG);
+            Intent intent = new Intent(msgType);
             intent.setClass(mContext, LoggingService.class);
             intent.putExtra(EXTRA_LOG_PRIORITY, priority);
             intent.putExtra(consts.FROM, sender);

@@ -5,6 +5,9 @@ package com.horcu.apps.peez.custom;
  */
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,30 +16,18 @@ import android.view.ViewGroup;
 import com.horcu.apps.peez.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
-
-/**
- * 支持自动填充parent的网状布局<br>
- * 可见性为gone的子View不保留布局
- * Created by liuzhuang on 11/23/15.
- */
 public class AutoFitGridLayout extends ViewGroup {
-
+    public float startX, startY, stopX, stopY;
+    private Paint mPaint = new Paint();
+    private List<Rect> lines = new ArrayList<Rect>();
 
     private int verticalSpace;
-
-
     private int horizontalSpace;
-
-
     private int columnCount;
-
-
     private int childWidth;
-
-
     private ArrayList<View> notGoneViewList;
-
 
     public AutoFitGridLayout(Context context) {
         super(context);
@@ -47,7 +38,6 @@ public class AutoFitGridLayout extends ViewGroup {
         super(context, attrs);
         init(context, attrs);
     }
-
 
     public AutoFitGridLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -109,6 +99,26 @@ public class AutoFitGridLayout extends ViewGroup {
     public void setColumnCount(int columnCount) {
         this.columnCount = columnCount;
         requestLayout();
+    }
+
+    public void setPaintColor(int color){
+        mPaint.setColor(color);
+    }
+
+
+    @Override
+    protected void dispatchDraw(Canvas canvas) {
+        super.dispatchDraw(canvas);
+        final int count = lines.size();
+        for (int i = 0; i < count; i++) {
+            final Rect r = lines.get(i);
+            canvas.drawLine(r.left, r.top, r.right, r.bottom, mPaint);
+        }
+    }
+
+    public void addLine(Rect r) {
+        lines.add(r);
+        invalidate();
     }
 
 

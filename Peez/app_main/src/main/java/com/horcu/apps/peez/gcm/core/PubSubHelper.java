@@ -58,7 +58,7 @@ public class PubSubHelper {
                     mLogger.log(Log.INFO, "topic subscription succeeded."
                             + "\ngcmToken: " + gcmToken
                             + "\ntopic: " + topic
-                            + "\nextras: " + extras, "error");
+                            + "\nextras: " + extras,"", "error");
                     // Save the token in the address book
                   //  Sender entry = mSenders.getSender(senderId);
                   //  if (entry == null) {
@@ -72,7 +72,7 @@ public class PubSubHelper {
                             + "\nerror: " + e.getMessage()
                             + "\ngcmToken: " + gcmToken
                             + "\ntopic: " + topic
-                            + "\nextras: " + extras, "error");
+                            + "\nextras: " + extras,"", "error");
                 }
                 return null;
             }
@@ -92,7 +92,7 @@ public class PubSubHelper {
                     GcmPubSub.getInstance(mContext).unsubscribe(gcmToken, topic);
                     mLogger.log(Log.INFO, "topic unsubscription succeeded."
                             + "\ngcmToken: " + gcmToken
-                            + "\ntopic: " + topic, "error");
+                            + "\ntopic: " + topic,"", "error");
                     // Save the token in the address book
                    /// Sender entry = mSenders.getSender(senderId);
                   //  if (entry == null) {
@@ -105,7 +105,7 @@ public class PubSubHelper {
                     mLogger.log(Log.INFO, "topic unsubscription failed."
                             + "\nerror: " + e.getMessage()
                             + "\ngcmToken: " + gcmToken
-                            + "\ntopic: " + topic, "error");
+                            + "\ntopic: " + topic,"", "error");
                 }
                 return null;
             }

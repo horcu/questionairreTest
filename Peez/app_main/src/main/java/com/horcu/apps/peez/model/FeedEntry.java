@@ -1,7 +1,5 @@
 package com.horcu.apps.peez.model;
 
-import com.horcu.apps.peez.view.fragments.FeedView;
-
 import io.realm.RealmObject;
 import io.realm.annotations.Required;
 

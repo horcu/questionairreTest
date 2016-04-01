@@ -41,9 +41,9 @@ import com.horcu.apps.peez.misc.SenderCollection;
 import com.horcu.apps.peez.model.GameEntry;
 import com.horcu.apps.peez.model.MessageEntry;
 import com.horcu.apps.peez.service.LoggingService;
+import com.horcu.apps.peez.view.fragments.ProfileView;
 import com.horcu.apps.peez.view.fragments.SettingsView;
 import com.horcu.apps.peez.view.fragments.ChatView;
-import com.horcu.apps.peez.view.fragments.FeedView;
 import com.horcu.apps.peez.view.fragments.GameView;
 import com.horcu.apps.peez.viewmodel.PlayerViewModel;
 import org.json.JSONException;
@@ -60,7 +60,7 @@ import io.realm.RealmResults;
 
 public class MainView extends BaseView
         implements ChatView.OnFragmentInteractionListener,
-        FeedView.OnFragmentInteractionListener, GameView.OnFragmentInteractionListener{
+        ProfileView.OnFragmentInteractionListener, GameView.OnFragmentInteractionListener{
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private String gameTopic = "test123"; //TODO this should come from a pre populated list or a variable passed in when the frag is created
@@ -89,12 +89,11 @@ public class MainView extends BaseView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_view);
+
         settings = getSharedPreferences(consts.PEEZ, 0);
         opponent = new Player();
         mytoken = settings.getString(consts.REG_ID,"");
         favoriteColor = getResources().getIntArray(R.array.Colors)[settings.getInt(consts.FAV_COLOR, 0)];
-
-
 
         realmConfig = new RealmConfiguration.Builder(getApplicationContext())
                 .deleteRealmIfMigrationNeeded()
@@ -107,6 +106,7 @@ public class MainView extends BaseView
         realm = Realm.getInstance(realmConfig);
 
         dbHelper = new DbHelper(realm);
+
 
         SoundPoolManager.CreateInstance();
         List<Integer> sounds = new ArrayList<>();
@@ -128,8 +128,11 @@ public class MainView extends BaseView
         }
         SoundPoolManager.getInstance().setPlaySound(true);
 
-        if(getActionBar() != null)
-            getActionBar().hide();
+        Bundle extras = getIntent().getExtras();
+        if(extras == null) {
+            finish();
+            return;
+        }
 
        // GetInProgressGamesFromDbAsync();
 
@@ -139,11 +142,38 @@ public class MainView extends BaseView
 
         // Set up the ViewPager with the sections adapter.
         try {
+            String pageToGoTo = extras.getString(consts.MAINVIEW_PAGE);
+            String playerEmail = extras.getString(consts.PLAYER_EMAIL);
+            String playerUserName = extras.getString(consts.PLAYER_NAME);
+            String playerImageUrl = extras.getString(consts.PLAYER_IMG_URL);
+            String playerToken = extras.getString(consts.PLAYER_TOKEN);
+
             mViewPager = (PeezViewPager) findViewById(R.id.container);
             if (mViewPager != null) {
                 mViewPager.setAdapter(mSectionsPagerAdapter);
-                mViewPager.setCurrentItem(0);
-                mViewPager.setPagingEnabled(true);
+
+                if (pageToGoTo != null) {
+                    if(pageToGoTo.equals(ChatView.class.getName()))
+                    {
+                        ChatView chatFrag = GetChatFragment();
+                        if(chatFrag !=null)
+                        {
+                            mViewPager.setCurrentItem(0);
+                            chatFrag.upDateChatPlayer("",playerUserName,playerToken,playerImageUrl);
+                            mViewPager.setPagingEnabled(true);
+                        }
+
+                    }
+                    else if(pageToGoTo.equals(GameView.class.getName()))
+                    {
+
+                    }
+                        else //profile
+                    {
+
+                    }
+                }
+
             }
 
         } catch (Exception e) {
@@ -697,7 +727,7 @@ public class MainView extends BaseView
             switch (position)
             {
                 case 0:
-                    return FeedView.newInstance();
+                    return ProfileView.newInstance();
                 case 1:
                     return GameView.newInstance();
                 case 2:

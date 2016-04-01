@@ -525,6 +525,7 @@
     <string name="eat_tile">eat tile</string>
     <string name="swap_tile">swap tiles</string>
     <string name="set_trap">block</string>
+    <string name="title_activity_landing_view">LandingView</string>
 
 
 </resources>

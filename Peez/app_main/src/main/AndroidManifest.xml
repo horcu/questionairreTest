@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.horcu.apps.peez" >
+    package="com.horcu.apps.peez">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -25,7 +25,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme_bub"
-        tools:replace="android:icon" >
+        tools:replace="android:icon">
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -33,7 +33,7 @@
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <!-- for Gingerbread GSF backward compat -->
@@ -45,7 +45,7 @@
 
         <service
             android:name=".service.GcmService"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
@@ -56,7 +56,7 @@
         <service
             android:name=".service.TaskSchedulerService"
             android:exported="true"
-            android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE" >
+            android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE">
             <intent-filter>
                 <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY" />
 
@@ -69,7 +69,7 @@
         <service
             android:name=".registration.MyInstanceIDListenerService"
             android:exported="false"
-            android:permission="android.permission.READ_SMS" >
+            android:permission="android.permission.READ_SMS">
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
@@ -81,8 +81,8 @@
 
         <activity
             android:name=".view.activities.IntroView"
-            android:label="@string/app_name"
             android:configChanges="orientation"
+            android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -92,24 +92,42 @@
         </activity>
         <activity
             android:name=".view.activities.BaseView"
-            android:label="@string/app_name"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activities.ErrorView"
-            android:label="@string/app_name"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activities.MainView"
-            android:label="@string/app_name"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activities.ChallengeView"
-            android:label="@string/app_name"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activities.LandingView"
+            android:label="@string/title_activity_landing_view"
+            android:parentActivityName=".view.activities.IntroView"
+            android:theme="@style/AppTheme_bub">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.horcu.apps.peez.view.activities.IntroView" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".view.activities.SettingsView"
+            android:label="@string/title_activity_settingsiew"></activity>
     </application>
 
 </manifest>

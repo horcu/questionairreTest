@@ -46,7 +46,7 @@ public class TaskSchedulerService extends GcmTaskService {
             task.execute(mLogger);
             tasks.updateTask(task);
         } else {
-            mLogger.log(Log.ERROR, "Could not find task with tag " + tag, "error");
+            mLogger.log(Log.ERROR, "Could not find task with tag " + tag,"", "error");
             task = TaskTracker.emptyTaskWithTag(tag);
             task.execute(mLogger);
             tasks.updateTask(task);

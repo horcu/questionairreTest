@@ -212,7 +212,7 @@ public class IntroView extends IntroActivity implements OnColorChosenListener {
     }
 
     private void navigateToApp() {
-        startActivity(new Intent(getApplicationContext(), MainView.class));
+        startActivity(new Intent(getApplicationContext(), LandingView.class));
     }
 
     void chooseAccount() {

@@ -73,7 +73,7 @@ public class TaskCollection {
             in = new FileInputStream(file);
             int bytesRead = in.read(bytes);
             if (bytesRead == -1) {
-                mLogger.log(Log.ERROR, "Failed to read tasks file.", "error");
+                mLogger.log(Log.ERROR, "Failed to read tasks file.","", "error");
             } else {
                 JSONArray tasksJson = new JSONArray(new String(bytes));
                 for (int i = 0; i < tasksJson.length(); i++) {
@@ -82,9 +82,9 @@ public class TaskCollection {
                 }
             }
         } catch (IOException e) {
-            mLogger.log(Log.ERROR, "Failed to read tasks file.", "error", e);
+            mLogger.log(Log.ERROR, "Failed to read tasks file.", "error","", e);
         } catch (JSONException e) {
-            mLogger.log(Log.ERROR, "Failed to deserialize tasks.", "error", e);
+            mLogger.log(Log.ERROR, "Failed to deserialize tasks.", "error","", e);
         } finally {
             if (in != null) {
                 try {
@@ -108,9 +108,9 @@ public class TaskCollection {
             out = new FileOutputStream(file);
             out.write(jsonArray.toString().getBytes());
         } catch (IOException e) {
-            mLogger.log(Log.ERROR, "Failed to write tasks file.", "error", e);
+            mLogger.log(Log.ERROR, "Failed to write tasks file.", "error","", e);
         } catch (JSONException e) {
-            mLogger.log(Log.ERROR, "Failed to serialize tasks.", "error", e);
+            mLogger.log(Log.ERROR, "Failed to serialize tasks.", "error","", e);
         } finally {
             if (out != null) {
                 try {

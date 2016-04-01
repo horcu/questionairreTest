@@ -50,6 +50,13 @@ public class consts {
    public static final int GAMEVIEW_CARD_INDEX = 919293948;
    public static final String REALM_CONFIG_NAME = "realm_v_0.0.1";
    public static final long REALM_SCHEMA_VERSION = 1;
+   public static final String MAINVIEW_PAGE = "mainview_page";
+   public static final String PLAYER_VM = "player_viewmodel";
+   public static final String PLAYER_NAME = "player_name";
+   public static final String PLAYER_IMG_URL = "player_img_url";
+   public static final String PLAYER_EMAIL = "player_email";
+   public static final String PLAYER_TOKEN = "player_token";
+
 
    //end entity constants
 

@@ -2,6 +2,8 @@ package com.horcu.apps.peez.viewmodel;
 
 import android.databinding.BaseObservable;
 import android.databinding.BindingAdapter;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.horcu.apps.peez.R;
 import com.horcu.apps.peez.backend.models.playerApi.model.Player;

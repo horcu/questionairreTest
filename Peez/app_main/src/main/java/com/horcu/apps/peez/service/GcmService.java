@@ -7,12 +7,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
 import com.horcu.apps.peez.R;
+import com.horcu.apps.peez.common.utilities.consts;
 import com.horcu.apps.peez.custom.notifier;
 import com.horcu.apps.peez.view.activities.MainView;
 
@@ -39,8 +41,10 @@ public class GcmService extends GcmListenerService {
     public void onMessageReceived(String from, Bundle data) {
         try {
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        wl = pm.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, "peez"); //TODO find the way to get this done pre v18 or upgrade to min being v21
-        wl.acquire();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                wl = pm.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, consts.PEEZ); //TODO find the way to get this done pre v18 or upgrade to min being v21
+            }
+            wl.acquire();
 
         String message = data.getString("message");
         JSONObject  jsonObject = null;
@@ -67,7 +71,7 @@ public class GcmService extends GcmListenerService {
             }
 
             notifyUserAndLogMessage(message, bitmap, type);
-            Log.d("sms Message received: ", data.toString());
+            Log.d("Message received: ", data.toString());
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -81,7 +85,7 @@ public class GcmService extends GcmListenerService {
 
     private void notifyUserAndLogMessage(String message, Bitmap bitmap, String messageType) {
         sendNotification(bitmap, message,messageType);
-        logMessage(message, bitmap);
+        logMessage(message, messageType, bitmap);
     }
 
     private Bitmap getBitmap(String url) throws IOException {
@@ -94,25 +98,25 @@ public class GcmService extends GcmListenerService {
 
     @Override
     public void onDeletedMessages() {
-        logMessage("Deleted messages on server", null);
+        logMessage("Deleted messages on server","", null);
     }
 
     @Override
     public void onMessageSent(String msgId) {
-        logMessage("Upstream message sent. Id=" + msgId, null);
+        logMessage("Upstream message sent. Id=" + msgId,"", null);
     }
 
     @Override
     public void onSendError(String msgId, String error) {
-        logMessage("Upstream message send error. Id=" + msgId + ", error" + error, null);
+        logMessage("Upstream message send error. Id=" + msgId + ", error" + error,"", null);
     }
 
     // Put the message into a notification and post it.
     // This is just one simple example of what you might choose to do with
     // a GCM message.
-    private void logMessage(String msg, Bitmap bitmap) {
+    private void logMessage(String msg, String msgType, Bitmap bitmap) {
 
-        logger.log(Log.INFO, msg, "error");
+        logger.log(Log.INFO, msg,msgType, "error");
     }
 
     private void sendNotification(Bitmap bitmap, String message, String type) {

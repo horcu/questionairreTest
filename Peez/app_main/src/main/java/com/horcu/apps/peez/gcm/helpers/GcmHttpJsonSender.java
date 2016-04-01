@@ -28,7 +28,7 @@ public class GcmHttpJsonSender implements GcmTokenGetterInterface {
         final String apiKey = consts.API_KEY;
         recipient = recip;
 
-        logger.log(Log.INFO, context.getText(R.string.quicktest_downstream_http_json).toString(), "error");
+        logger.log(Log.INFO, context.getText(R.string.quicktest_downstream_http_json).toString(),"", "error");
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
@@ -38,7 +38,7 @@ public class GcmHttpJsonSender implements GcmTokenGetterInterface {
                      response = sender.sendHttpJsonDownstreamMessage(messageBuilder.build());
 
                 } catch (IOException ex) {
-                    logger.log(Log.INFO, "Downstream HTTP JSON failed:\nerror: " + ex.getMessage(), "error");
+                    logger.log(Log.INFO, "Downstream HTTP JSON failed:\nerror: " + ex.getMessage(),"", "error");
                 }
                 return null;
             }

@@ -153,7 +153,7 @@
 //        }
 //    }
 //    /**/
-//    public static class FeedView extends Fragment {
+//    public static class ProfileView extends Fragment {
 //
 //
 //        FragmentFeedBinding binding = null;
@@ -163,15 +163,15 @@
 //         */
 //        private static final String ARG_SECTION_NUMBER = "section_number";
 //
-//        public FeedView() {
+//        public ProfileView() {
 //        }
 //
 //        /**
 //         * Returns a new instance of this fragment for the given section
 //         * number.
 //         */
-//        public static FeedView newInstance() {
-//            FeedView fragment = new FeedView();
+//        public static ProfileView newInstance() {
+//            ProfileView fragment = new ProfileView();
 //            Bundle args = new Bundle();
 //            args.putInt(ARG_SECTION_NUMBER, 0);
 //            fragment.setArguments(args);
@@ -180,7 +180,7 @@
 //
 //        @Override
 //        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//            binding = DataBindingUtil.setContentView(getActivity(), R.layout.fragment_feed); // FragmentFeedBinding.inflate(inflater,container,false); //
+//            binding = DataBindingUtil.setContentView(getActivity(), R.layout.fragment_profile); // FragmentFeedBinding.inflate(inflater,container,false); //
 //            View rootView = binding.getRoot();
 //            binding.setViewModel(new ViewModel(true, true));
 //            GetFriendsAsync();
@@ -270,7 +270,7 @@
 //        public Fragment getItem(int position) {
 //            switch (position) {
 //                case 0:
-//                    return  FeedView.newInstance();
+//                    return  ProfileView.newInstance();
 //                case 1:
 //                    return  GameboardFragment.newInstance();
 //                default:
