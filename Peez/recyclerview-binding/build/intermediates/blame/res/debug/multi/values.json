@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\recyclerview-binding\\build\\intermediates\\res\\merged\\debug\\values\\values.xml",
+        "outputFile": "C:\\MyData\\StudioProjects\\Peez\\Peez\\recyclerview-binding\\build\\intermediates\\res\\merged\\debug\\values\\values.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 91
                 },
                 "from": {
-                    "file": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\recyclerview-binding\\build\\intermediates\\exploded-aar\\com.android.databinding\\library\\1.1\\res\\values\\values.xml",
+                    "file": "C:\\MyData\\StudioProjects\\Peez\\Peez\\recyclerview-binding\\build\\intermediates\\exploded-aar\\com.android.databinding\\library\\1.1\\res\\values\\values.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -30,7 +30,7 @@
                     "endOffset": 148
                 },
                 "from": {
-                    "file": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\recyclerview-binding\\build\\intermediates\\exploded-aar\\com.android.databinding\\adapters\\1.1\\res\\values\\values.xml",
+                    "file": "C:\\MyData\\StudioProjects\\Peez\\Peez\\recyclerview-binding\\build\\intermediates\\exploded-aar\\com.android.databinding\\adapters\\1.1\\res\\values\\values.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -49,7 +49,7 @@
                     "endOffset": 191
                 },
                 "from": {
-                    "file": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\recyclerview-binding\\build\\intermediates\\exploded-aar\\com.android.databinding\\adapters\\1.1\\res\\values\\values.xml",
+                    "file": "C:\\MyData\\StudioProjects\\Peez\\Peez\\recyclerview-binding\\build\\intermediates\\exploded-aar\\com.android.databinding\\adapters\\1.1\\res\\values\\values.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
@@ -68,7 +68,7 @@
                     "endOffset": 232
                 },
                 "from": {
-                    "file": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\recyclerview-binding\\build\\intermediates\\exploded-aar\\com.android.databinding\\adapters\\1.1\\res\\values\\values.xml",
+                    "file": "C:\\MyData\\StudioProjects\\Peez\\Peez\\recyclerview-binding\\build\\intermediates\\exploded-aar\\com.android.databinding\\adapters\\1.1\\res\\values\\values.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -87,13 +87,13 @@
                     "endOffset": 291
                 },
                 "from": {
-                    "file": "E:\\Dev\\Android\\Projects\\Peez\\Peez\\recyclerview-binding\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\MyData\\StudioProjects\\Peez\\Peez\\recyclerview-binding\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 1,
                         "startColumn": 4,
-                        "startOffset": 16,
+                        "startOffset": 17,
                         "endColumn": 58,
-                        "endOffset": 70
+                        "endOffset": 71
                     }
                 }
             }

@@ -59,7 +59,9 @@ import com.horcu.apps.peez.view.activities.MainView;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnItemClickListener;
 import com.squareup.picasso.Picasso;
+
 import org.apache.commons.lang3.ArrayUtils;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
