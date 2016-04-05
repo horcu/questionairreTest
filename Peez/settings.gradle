@@ -1,4 +1,0 @@
-include ':common', ':app_main', ':recyclerview-binding'
-include ':app_menu_bar'
-include ':backend'
-//include ':BubbleTextView'
