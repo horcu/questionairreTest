@@ -13,8 +13,10 @@ import android.widget.TextView;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONException;
 
 import java.util.ArrayList;
@@ -53,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
 
         final AutoFitGridLayout clueGrid = (AutoFitGridLayout)findViewById(R.id.clue_tiles);
 
+
+
         final ImageView questionsGet = (ImageView) findViewById(R.id.get_q);
         final ImageView answerGet = (ImageView) findViewById(R.id.get_a);
 
@@ -83,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
 
                                 if(response.isSuccessful())
                                 {
-
                                     try {
+
                                         List<Question> questions = response.body();
 
                                         String question = questions.get(0).getQuestion();
@@ -92,13 +96,18 @@ public class MainActivity extends AppCompatActivity {
                                         String category = questions.get(0).getCategory().getTitle();
                                         int value = questions.get(0).getValue();
 
-                                        if(getActionBar() !=null) {
-                                            getActionBar().setTitle(category);
-                                            getActionBar().setSubtitle(String.valueOf(value));
+                                        answer = SanitizeAnswer(answer);
+
+                                        //set actionbar title and sub title
+                                        if(getSupportActionBar() !=null) {
+                                            getSupportActionBar().setTitle(category);
+                                            getSupportActionBar().setSubtitle(String.valueOf(value));
                                         }
 
+                                        //get the random spaces to amitt in the answer
                                         ArrayList<Integer> spaceIndexes = GetRandomSpaceIndexes(answer);
 
+                                        //purge views from grid
                                         if (answerGrid != null) {
                                             answerGrid.removeAllViews();
                                             answerGrid.setColumnCount(answer.length());
@@ -144,16 +153,26 @@ public class MainActivity extends AppCompatActivity {
                                         //set up the clue gridlayout
                                         for(int i = 0 ; i < gameReadyString.length(); i ++ )
                                         {
-                                            char l = gameReadyString.charAt(i);
-                                            MaterialLetterIcon icon = null;
+
+                                            ImageView icon = null;
                                             if (clueGrid != null) {
-                                                icon = (MaterialLetterIcon) clueGrid.getChildAt(i);
+                                                icon = (ImageView) clueGrid.getChildAt(i);
                                             }
-                                            if (icon != null) {
-                                                icon.setLetter(String.valueOf(l));
-                                            }
+
+
+
                                             //todo play sound as they get added..
                                         }
+
+                                        for(int i =0; i < clueGrid.getChildCount(); i++ ){
+                                            char l = gameReadyString.charAt(i);
+
+                                            //get all the clue letters from the server
+                                            String url = getLetterUrl(i, l);
+                                            if(!url.equals(""))
+                                                Picasso.with(getApplicationContext()).load(url).into((ImageView) clueGrid.getChildAt(i));
+                                        }
+
 
                                         questionsTv.setText(question);
                                         if (answerTv != null) {
@@ -183,14 +202,39 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private String SanitizeAnswer(String answer) {
+        String result1 = answer.replace("<i>","");
+        String result2 = result1.replace("(", "");
+        String result3 = result2.replace(")", "");
+        String result4 = result3.replace("</i>", "");
+        String result5 = result4.replace(".", "");
+        String result6 = result5.replace(".", "");
+
+        return result6;
+    }
+
+    private String getLetterUrl(int index, char letter) {
+      String pre = "https://storage.googleapis.com/ballrz/icons/";
+      String mid =  String.valueOf(letter).toUpperCase() ;
+      String postLower = "%20Lowercase-52.png";
+      String postUpper = "-52.png";
+
+        String url = new StringBuilder()
+                        .append(pre)
+                        .append(mid)
+                        .append(index == 0 ? postUpper : postLower)
+                        .toString();
+        return url;
+    }
+
     @NonNull
     private MaterialLetterIcon getMaterialLetterIcon(String letter) {
         MaterialLetterIcon icon = new MaterialLetterIcon(getApplicationContext());
-        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 200);
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 150);
         params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        params.height = 200;
-        icon.setMinimumHeight(200);
-        icon.setMinimumWidth(200);
+        params.height = 150;
+        icon.setMinimumHeight(150);
+        icon.setMinimumWidth(150);
 
         if(letter == null)
         {

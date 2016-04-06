@@ -28,8 +28,6 @@
             android:layout_weight="10"/>
 
 
-
-
         <ImageView
             android:id="@+id/get_q"
             android:layout_width="50dp"
@@ -40,17 +38,15 @@
             android:src="@drawable/ic_refresh"
             android:text="New question"/>
 
-
-
     </LinearLayout>
 
-
-
     <RelativeLayout
+        android:id="@+id/q_and_a"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="20dp"
         android:layout_below="@+id/info_bar">
 
         <TextView
@@ -60,8 +56,8 @@
             android:fontFamily="sans-serif-thin"
             android:textSize="24sp"
             android:textColor="#222222"
-            android:gravity="center_horizontal"
-            android:text="click the refresh icon to fetch a new question" />
+            android:gravity="left"
+            android:text="click the refresh icon to fetch a new question \r\n  \r\n  \r\n To reveal the answer click the check icon " />
 
         <TextView
             android:id="@+id/answers"
@@ -77,91 +73,188 @@
             android:gravity="center_horizontal"
             android:fontFamily="sans-serif-thin" />
 
-
-
-
     </RelativeLayout>
 
-
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_above="@+id/clue_tiles"
-    android:fadeScrollbars="true">
-
-    <com.example.hcummings.questionairretest.AutoFitGridLayout
-        android:id="@+id/answer_tiles"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
+        android:layout_above="@+id/clue_tiles">
 
-        android:scrollbars="horizontal"
-        android:scrollbarStyle="insideOverlay"
-        app:columnCount="20"
-         >
+        <com.example.hcummings.questionairretest.AutoFitGridLayout
+            android:id="@+id/answer_tiles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:scrollbars="horizontal"
+            android:scrollbarStyle="insideOverlay"
+            app:columnCount="8" >
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:alpha=".7"
+                android:background="#ebebeb"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:alpha=".7"
+                android:background="#ebebeb"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:alpha=".7"
+                android:background="#ebebeb"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:alpha=".7"
+                android:background="#ebebeb"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:alpha=".7"
+                android:background="#ebebeb"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:alpha=".7"
+                android:background="#ebebeb"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:alpha=".7"
+                android:background="#ebebeb"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:alpha=".7"
+                android:background="#ebebeb"
+                />
 
         </com.example.hcummings.questionairretest.AutoFitGridLayout>
 
-</ScrollView>
+        <com.example.hcummings.questionairretest.AutoFitGridLayout
+            android:id="@+id/answer_tiles2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:scrollbars="horizontal"
+            android:scrollbarStyle="insideOverlay"
+            app:columnCount="8" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:alpha=".7"
+                android:background="#ebebeb"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:alpha=".7"
+                android:background="#ebebeb"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:alpha=".7"
+                android:background="#ebebeb"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:alpha=".7"
+                android:background="#ebebeb"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:alpha=".7"
+                android:background="#ebebeb"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:alpha=".7"
+                android:background="#ebebeb"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:alpha=".7"
+                android:background="#ebebeb"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:alpha=".7"
+                android:background="#ebebeb"
+                />
+
+        </com.example.hcummings.questionairretest.AutoFitGridLayout>
+
+    </RelativeLayout>
+
     <com.example.hcummings.questionairretest.AutoFitGridLayout
         android:id="@+id/clue_tiles"
         android:layout_width="match_parent"
-       android:layout_alignParentBottom="true"
-        android:layout_height="150dp"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
         app:horizontalSpace="1dp"
         app:verticalSpace="1dp"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:background="@android:color/transparent"
         app:columnCount="8">
 
-        <com.example.hcummings.questionairretest.MaterialLetterIcon
+        <ImageView
             android:layout_width="match_parent"
-            app:mli_shape_color="#f9f9f9"
-            app:mli_letter_color="#222222"
-            android:layout_height="150dp" />
+            android:layout_height="100dp"
+            android:alpha=".7"
+            />
 
-        <com.example.hcummings.questionairretest.MaterialLetterIcon
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            app:mli_letter_color="#222222"
-            app:mli_shape_color="#f9f9f9"/>
+            android:layout_height="100dp"
+            android:alpha=".7"
+            />
 
-        <com.example.hcummings.questionairretest.MaterialLetterIcon
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            app:mli_letter_color="#222222"
-            app:mli_shape_color="#f9f9f9"/>
+            android:layout_height="100dp"
+            android:alpha=".7"
+            />
 
-        <com.example.hcummings.questionairretest.MaterialLetterIcon
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            app:mli_letter_color="#222222"
-            app:mli_shape_color="#f9f9f9"/>
+            android:layout_height="100dp"
+            android:alpha=".7"/>
 
-        <com.example.hcummings.questionairretest.MaterialLetterIcon
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            app:mli_letter_color="#222222"
-            app:mli_shape_color="#f9f9f9" />
-        <com.example.hcummings.questionairretest.MaterialLetterIcon
+            android:layout_height="100dp"
+            android:alpha=".7"/>
+        <ImageView
             android:layout_width="match_parent"
-            app:mli_shape_color="#f9f9f9"
-            app:mli_letter_color="#222222"
-            android:layout_height="150dp" />
+            android:layout_height="100dp"
+            android:alpha=".7"/>
 
-        <com.example.hcummings.questionairretest.MaterialLetterIcon
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            app:mli_letter_color="#222222"
-            app:mli_shape_color="#f9f9f9"/>
+            android:layout_height="100dp"
+            android:alpha=".7"/>
 
-        <com.example.hcummings.questionairretest.MaterialLetterIcon
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            app:mli_letter_color="#222222"
-            app:mli_shape_color="#f9f9f9"/>
-
+            android:layout_height="100dp"
+            android:alpha=".7"/>
 
         </com.example.hcummings.questionairretest.AutoFitGridLayout>.
-
 
 </RelativeLayout>
