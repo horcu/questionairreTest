@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">questionairreTest</string>
     <string name="alphabet">abcdefghijklmnopqrstuvwxyz</string>
+    <string name="instructions">click the refresh icon to get a new question then click the lock to reveal its answer after the time expires</string>
 </resources>

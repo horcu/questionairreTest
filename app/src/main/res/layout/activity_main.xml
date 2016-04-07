@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#ffffff"
     tools:context="com.example.hcummings.questionairretest.MainActivity">
 
     <LinearLayout
@@ -12,21 +13,31 @@
         android:layout_height="50dp"
         android:background="#ebebeb">
 
-        <ImageView
-            android:id="@+id/get_a"
+        <TextView
+            android:id="@+id/my_score"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@android:color/transparent"
             android:layout_gravity="right"
-            android:src="@drawable/ic_action_done"
-            android:text="New question"/>
 
+            android:text="0"/>
 
         <Space
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="10"/>
 
+        <TextView
+            android:id="@+id/timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"/>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="10"/>
 
         <ImageView
             android:id="@+id/get_q"
@@ -35,7 +46,7 @@
             android:background="@android:color/transparent"
             android:layout_gravity="right"
             android:layout_marginRight="16dp"
-            android:src="@drawable/ic_refresh"
+            android:src="@drawable/ic_refresh_48"
             android:text="New question"/>
 
     </LinearLayout>
@@ -43,27 +54,28 @@
     <RelativeLayout
         android:id="@+id/q_and_a"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/info_bar"
+        android:background="@color/dc_white"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/info_bar">
+        android:layout_marginTop="20dp">
 
         <TextView
             android:id="@+id/questions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-thin"
-            android:textSize="24sp"
-            android:textColor="#222222"
+            android:textSize="25sp"
+            android:textColor="#111111"
             android:gravity="left"
-            android:text="click the refresh icon to fetch a new question \r\n  \r\n  \r\n To reveal the answer click the check icon " />
+            android:text="@string/instructions" />
 
         <TextView
             android:id="@+id/answers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="19sp"
+            android:textSize="25sp"
             android:layout_marginTop="50dp"
             android:layout_below="@+id/questions"
             android:textStyle="bold"
@@ -71,190 +83,490 @@
             android:visibility="invisible"
             android:textColor="#222222"
             android:gravity="center_horizontal"
-            android:fontFamily="sans-serif-thin" />
+            android:fontFamily="sans-serif-medium" />
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <View
+        android:id="@+id/clue_tiles_sep"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:alpha=".1"
+        android:layout_above="@+id/answer_grids"
+        android:background="#888888" />
+
+    <LinearLayout
+        android:id="@+id/answer_grids"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/clue_tiles">
+        android:gravity="bottom"
+        android:layout_marginBottom="76dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:background="#ffffff">
 
         <com.example.hcummings.questionairretest.AutoFitGridLayout
             android:id="@+id/answer_tiles"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:scrollbars="horizontal"
-            android:scrollbarStyle="insideOverlay"
-            app:columnCount="8" >
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:alpha=".7"
-                android:background="#ebebeb"
-                />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:alpha=".7"
-                android:background="#ebebeb"
-                />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:alpha=".7"
-                android:background="#ebebeb"
-                />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:alpha=".7"
-                android:background="#ebebeb"
-                />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:alpha=".7"
-                android:background="#ebebeb"
-                />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:alpha=".7"
-                android:background="#ebebeb"
-                />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:alpha=".7"
-                android:background="#ebebeb"
-                />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:alpha=".7"
-                android:background="#ebebeb"
-                />
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@android:color/transparent"
+            app:columnCount="10">
 
+            <android.support.v7.widget.CardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                app:cardElevation="0dp">
+
+                <com.example.hcummings.questionairretest.TileView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:padding="3dp"
+                    android:alpha=".7" />
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                app:cardElevation="0dp">
+
+                <com.example.hcummings.questionairretest.TileView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:padding="3dp"
+                    android:alpha=".7" />
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                app:cardElevation="0dp">
+
+                <com.example.hcummings.questionairretest.TileView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:padding="3dp"
+                    android:alpha=".7" />
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                app:cardElevation="0dp">
+
+                <com.example.hcummings.questionairretest.TileView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:padding="3dp"
+                    android:alpha=".7" />
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <com.example.hcummings.questionairretest.TileView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:padding="3dp"
+                    android:alpha=".7" />
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <com.example.hcummings.questionairretest.TileView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:padding="3dp"
+                    android:alpha=".7" />
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <com.example.hcummings.questionairretest.TileView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:padding="3dp"
+                    android:alpha=".7" />
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <com.example.hcummings.questionairretest.TileView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:padding="3dp"
+                    android:alpha=".7" />
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <com.example.hcummings.questionairretest.TileView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:padding="3dp"
+                    android:alpha=".7" />
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <com.example.hcummings.questionairretest.TileView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:padding="3dp"
+                    android:alpha=".7" />
+            </android.support.v7.widget.CardView>
         </com.example.hcummings.questionairretest.AutoFitGridLayout>
 
         <com.example.hcummings.questionairretest.AutoFitGridLayout
             android:id="@+id/answer_tiles2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:scrollbars="horizontal"
-            android:scrollbarStyle="insideOverlay"
-            app:columnCount="8" >
+            android:visibility="gone"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@android:color/transparent"
+            app:columnCount="10">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:alpha=".7"
-                android:background="#ebebeb"
-                />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:alpha=".7"
-                android:background="#ebebeb"
-                />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:alpha=".7"
-                android:background="#ebebeb"
-                />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:alpha=".7"
-                android:background="#ebebeb"
-                />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:alpha=".7"
-                android:background="#ebebeb"
-                />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:alpha=".7"
-                android:background="#ebebeb"
-                />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:alpha=".7"
-                android:background="#ebebeb"
-                />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:alpha=".7"
-                android:background="#ebebeb"
-                />
+            <android.support.v7.widget.CardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <com.example.hcummings.questionairretest.TileView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:padding="3dp"
+                    android:alpha=".7" />
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <com.example.hcummings.questionairretest.TileView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:padding="3dp"
+                    android:alpha=".7" />
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <com.example.hcummings.questionairretest.TileView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:padding="3dp"
+                    android:alpha=".7" />
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <com.example.hcummings.questionairretest.TileView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:padding="3dp"
+                    android:alpha=".7" />
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <com.example.hcummings.questionairretest.TileView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:padding="3dp"
+                    android:alpha=".7" />
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <com.example.hcummings.questionairretest.TileView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:padding="3dp"
+                    android:alpha=".7" />
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <com.example.hcummings.questionairretest.TileView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:padding="3dp"
+                    android:alpha=".7" />
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <com.example.hcummings.questionairretest.TileView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:padding="3dp"
+                    android:alpha=".7" />
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <com.example.hcummings.questionairretest.TileView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:padding="3dp"
+                    android:alpha=".7" />
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <com.example.hcummings.questionairretest.TileView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:padding="3dp"
+                    android:alpha=".7" />
+            </android.support.v7.widget.CardView>
 
         </com.example.hcummings.questionairretest.AutoFitGridLayout>
 
-    </RelativeLayout>
+        <com.example.hcummings.questionairretest.AutoFitGridLayout
+            android:id="@+id/answer_tiles3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@android:color/transparent"
+            app:columnCount="10">
+
+            <android.support.v7.widget.CardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <com.example.hcummings.questionairretest.TileView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:padding="3dp"
+                    android:alpha=".7" />
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <com.example.hcummings.questionairretest.TileView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:padding="3dp"
+                    android:alpha=".7" />
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <com.example.hcummings.questionairretest.TileView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:padding="3dp"
+                    android:alpha=".7" />
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <com.example.hcummings.questionairretest.TileView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:padding="3dp"
+                    android:alpha=".7" />
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <com.example.hcummings.questionairretest.TileView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:padding="3dp"
+                    android:alpha=".7" />
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <com.example.hcummings.questionairretest.TileView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:padding="3dp"
+                    android:alpha=".7" />
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <com.example.hcummings.questionairretest.TileView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:padding="3dp"
+                    android:alpha=".7" />
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <com.example.hcummings.questionairretest.TileView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:padding="3dp"
+                    android:alpha=".7" />
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <com.example.hcummings.questionairretest.TileView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:padding="3dp"
+                    android:alpha=".7" />
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <com.example.hcummings.questionairretest.TileView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:padding="3dp"
+                    android:alpha=".7" />
+            </android.support.v7.widget.CardView>
+
+        </com.example.hcummings.questionairretest.AutoFitGridLayout>
+
+    </LinearLayout>
+
+
 
     <com.example.hcummings.questionairretest.AutoFitGridLayout
-        android:id="@+id/clue_tiles"
-        android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_height="wrap_content"
-        app:horizontalSpace="1dp"
-        app:verticalSpace="1dp"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:background="@android:color/transparent"
-        app:columnCount="8">
-
-        <ImageView
+            android:id="@+id/clue_tiles"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:alpha=".7"
-            />
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:layout_alignParentBottom="true"
+            app:columnCount="10">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:alpha=".7"
-            />
+        <android.support.v7.widget.CardView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:alpha=".7"
-            />
+            <com.example.hcummings.questionairretest.TileView
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:padding="3dp"
+                android:alpha=".7" />
+        </android.support.v7.widget.CardView>
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:alpha=".7"/>
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:alpha=".7"/>
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:alpha=".7"/>
+        <android.support.v7.widget.CardView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:alpha=".7"/>
+            <com.example.hcummings.questionairretest.TileView
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:padding="3dp"
+                android:alpha=".7" />
+        </android.support.v7.widget.CardView>
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:alpha=".7"/>
+        <android.support.v7.widget.CardView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
 
-        </com.example.hcummings.questionairretest.AutoFitGridLayout>.
+            <com.example.hcummings.questionairretest.TileView
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:padding="3dp"
+                android:alpha=".7" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+
+            <com.example.hcummings.questionairretest.TileView
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:padding="3dp"
+                android:alpha=".7" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+
+            <com.example.hcummings.questionairretest.TileView
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:padding="3dp"
+                android:alpha=".7" />
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+
+            <com.example.hcummings.questionairretest.TileView
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:padding="3dp"
+                android:alpha=".7" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+
+            <com.example.hcummings.questionairretest.TileView
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:padding="3dp"
+                android:alpha=".7" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+
+            <com.example.hcummings.questionairretest.TileView
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:padding="3dp"
+                android:alpha=".7" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+
+            <com.example.hcummings.questionairretest.TileView
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:padding="3dp"
+                android:alpha=".7" />
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+
+            <com.example.hcummings.questionairretest.TileView
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:padding="3dp"
+                android:alpha=".7" />
+        </android.support.v7.widget.CardView>
+
+        </com.example.hcummings.questionairretest.AutoFitGridLayout>
 
 </RelativeLayout>
