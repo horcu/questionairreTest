@@ -104,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void GenerateNewQuestion() {
         ResetAnswerGrids();
-        StartTimer();
         ShowQuestionSection();
         // questionsGet.setVisibility(View.INVISIBLE);
         answerTv.setVisibility(View.INVISIBLE);
@@ -124,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
 
                     if(response.isSuccessful())
                     {
+                        StartTimer();
                         try {
 
                             List<Question> questions = response.body();
@@ -165,8 +165,12 @@ public class MainActivity extends AppCompatActivity {
                                 //and add them to the clues grid
                                 CardView card =  (CardView)clueGrid.getChildAt(i);
                                 card.setCardElevation(0);
-                                TileView icon =   (TileView)card.getChildAt(0);
-                                icon.setTag(l);
+                                TileView icon;
+
+                                if(card.getChildCount() < 1)
+                               continue;
+
+                                icon =   (TileView)card.getChildAt(0);
 
                                card.setOnDragListener(new LetterDragListener());
                                 icon.setOnTouchListener(new GridTouchListener());
@@ -186,7 +190,6 @@ public class MainActivity extends AppCompatActivity {
                                 char letter = answer.charAt(i);
 
                                 icon = getImageViewForLetter(i);
-                                icon.setTag(letter);
 
                                 CardView card = (CardView) icon.getParent();
 
@@ -194,14 +197,14 @@ public class MainActivity extends AppCompatActivity {
                                 card.setCardElevation(0);
                                 icon.setOnTouchListener(new GridTouchListener());
 
-                                if(icon != null) {
+
 
                                     if(answer.charAt(i) == ' ') {
                                        // icon.setBackground(new ColorDrawable(Color.parseColor("#efefef")));
                                     }
                                     else if(spaceIndexes.contains(i)){
                                         String url = getLetterUrl(false,'-', true);
-
+                                        icon.setTag('-');
                                         if (!url.equals(""))
                                             Picasso.with(getApplicationContext())
                                                     .load(url)
@@ -209,13 +212,13 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                     else {
                                         String url = getLetterUrl(false, letter, false);
+                                        icon.setTag(letter);
 
                                         if (!url.equals(""))
                                             Picasso.with(getApplicationContext())
                                                     .load(url)
                                                     .into(icon);
                                     }
-                                }
                             }
 
                             questionsTv.setText(question);
@@ -238,6 +241,7 @@ public class MainActivity extends AppCompatActivity {
                     questionsTv.setText(t.getMessage());
                     Log.d("QUESTION GET FAILED: ", t.getMessage());
                     Log.d("QUESTION GET FAILED: ", t.getStackTrace().toString());
+                    cdTimer = null;
                 }
             }
         });
@@ -531,7 +535,12 @@ public class MainActivity extends AppCompatActivity {
              {
                  CardView card = (CardView) grid.getChildAt(g);
                  TileView tile = (TileView) card.getChildAt(0);
-                 builder.append(tile.getTag());
+
+                 if(tile == null || tile.getTag() == null)
+                     continue;
+
+                 char tagLetter = (char) tile.getTag();
+                 builder.append(tagLetter);
              }
         }
         String saneAnswer = answer.replaceAll("\\s+","");
