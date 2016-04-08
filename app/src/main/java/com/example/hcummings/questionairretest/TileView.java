@@ -58,7 +58,7 @@ public class TileView extends ImageView {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TileView);
         mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mTextPaint.setTypeface(Typeface.SANS_SERIF);
-        mTextColor = Color.parseColor("#333333");
+        mTextColor = Color.parseColor("#777777");
         mTextPaint.setColor(mTextColor);
         mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBackgroundPaint.setStyle(Paint.Style.FILL_AND_STROKE);

@@ -18,19 +18,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="88ec8806-3d3b-4879-a35f-28379385d24d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.11/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.11/taskArtifacts/cache.properties.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.11/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.11/taskArtifacts/fileHashes.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.11/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.11/taskArtifacts/fileSnapshots.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.11/taskArtifacts/outputFileStates.bin" afterPath="$PROJECT_DIR$/.gradle/2.11/taskArtifacts/outputFileStates.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.11/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.11/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/hcummings/questionairretest/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/hcummings/questionairretest/MainActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/hcummings/questionairretest/TileView.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/hcummings/questionairretest/TileView.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/local.properties" afterPath="$PROJECT_DIR$/local.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/questionairreTest.iml" afterPath="$PROJECT_DIR$/questionairreTest.iml" />
     </list>
     <ignored path="questionairreTest.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -78,17 +68,15 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="activity_main.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="activity_main.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.060606">
-              <caret line="843" column="43" selection-start-line="843" selection-start-column="16" selection-end-line="843" selection-end-column="43" />
+            <state vertical-scroll-proportion="-4.537037">
+              <caret line="642" column="57" selection-start-line="642" selection-start-column="57" selection-end-line="642" selection-end-column="57" />
               <folding>
                 <element signature="e#2694#2716#0" expanded="true" />
-                <element signature="e#4186#9793#0" expanded="false" />
-                <element signature="e#9803#15286#0" expanded="false" />
-                <element signature="e#15296#20779#0" expanded="false" />
-                <element signature="e#20789#26272#0" expanded="false" />
+                <element signature="e#3797#26255#0" expanded="false" />
+                <element signature="e#4188#9785#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -117,11 +105,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TileView.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TileView.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/hcummings/questionairretest/TileView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.35714287">
-              <caret line="59" column="52" selection-start-line="59" selection-start-column="52" selection-end-line="59" selection-end-column="52" />
+            <state vertical-scroll-proportion="0.3828829">
+              <caret line="60" column="46" selection-start-line="60" selection-start-column="46" selection-end-line="60" selection-end-column="46" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -1841,9 +1829,9 @@
         <option value="$PROJECT_DIR$/app/src/main/res/values/attrs.xml" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/hcummings/questionairretest/TileView.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/hcummings/questionairretest/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/hcummings/questionairretest/TileView.java" />
       </list>
     </option>
   </component>
@@ -2425,7 +2413,13 @@
       <option name="project" value="LOCAL" />
       <updated>1459892736843</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="sync">
+      <created>1460126705697</created>
+      <option name="number" value="00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1460126705697</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -2434,13 +2428,13 @@
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.11745828" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.11745828" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20527045" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="DrawableViewer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38418862" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38418862" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3370319" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
@@ -2554,10 +2548,8 @@
           <caret line="658" column="0" selection-start-line="658" selection-start-column="0" selection-end-line="658" selection-end-column="0" />
           <folding>
             <element signature="e#2694#2716#0" expanded="true" />
-            <element signature="e#4186#9793#0" expanded="false" />
-            <element signature="e#9803#15286#0" expanded="false" />
-            <element signature="e#15296#20779#0" expanded="false" />
-            <element signature="e#20789#26272#0" expanded="false" />
+            <element signature="e#3797#26255#0" expanded="false" />
+            <element signature="e#4188#9785#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2649,10 +2641,8 @@
           <caret line="20" column="37" selection-start-line="20" selection-start-column="37" selection-end-line="20" selection-end-column="37" />
           <folding>
             <element signature="e#2694#2716#0" expanded="true" />
-            <element signature="e#4186#9793#0" expanded="false" />
-            <element signature="e#9803#15286#0" expanded="false" />
-            <element signature="e#15296#20779#0" expanded="false" />
-            <element signature="e#20789#26272#0" expanded="false" />
+            <element signature="e#3797#26255#0" expanded="false" />
+            <element signature="e#4188#9785#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2736,10 +2726,8 @@
           <caret line="137" column="18" selection-start-line="137" selection-start-column="18" selection-end-line="137" selection-end-column="18" />
           <folding>
             <element signature="e#2694#2716#0" expanded="true" />
-            <element signature="e#4186#9793#0" expanded="false" />
-            <element signature="e#9803#15286#0" expanded="false" />
-            <element signature="e#15296#20779#0" expanded="false" />
-            <element signature="e#20789#26272#0" expanded="false" />
+            <element signature="e#3797#26255#0" expanded="false" />
+            <element signature="e#4188#9785#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2821,10 +2809,8 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#2694#2716#0" expanded="true" />
-            <element signature="e#4186#9793#0" expanded="false" />
-            <element signature="e#9803#15286#0" expanded="false" />
-            <element signature="e#15296#20779#0" expanded="false" />
-            <element signature="e#20789#26272#0" expanded="false" />
+            <element signature="e#3797#26255#0" expanded="false" />
+            <element signature="e#4188#9785#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2976,16 +2962,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/hcummings/questionairretest/TileView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.35714287">
-          <caret line="59" column="52" selection-start-line="59" selection-start-column="52" selection-end-line="59" selection-end-column="52" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/hcummings/questionairretest/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-9.142858">
@@ -3006,19 +2982,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.060606">
-          <caret line="843" column="43" selection-start-line="843" selection-start-column="16" selection-end-line="843" selection-end-column="43" />
+        <state vertical-scroll-proportion="-4.537037">
+          <caret line="642" column="57" selection-start-line="642" selection-start-column="57" selection-end-line="642" selection-end-column="57" />
           <folding>
             <element signature="e#2694#2716#0" expanded="true" />
-            <element signature="e#4186#9793#0" expanded="false" />
-            <element signature="e#9803#15286#0" expanded="false" />
-            <element signature="e#15296#20779#0" expanded="false" />
-            <element signature="e#20789#26272#0" expanded="false" />
+            <element signature="e#3797#26255#0" expanded="false" />
+            <element signature="e#4188#9785#0" expanded="false" />
           </folding>
         </state>
       </provider>
       <provider editor-type-id="android-designer">
         <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/hcummings/questionairretest/TileView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3828829">
+          <caret line="60" column="46" selection-start-line="60" selection-start-column="46" selection-end-line="60" selection-end-column="46" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
       </provider>
     </entry>
   </component>
