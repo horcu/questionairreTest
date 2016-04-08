@@ -2,6 +2,10 @@ package com.example.hcummings.questionairretest;
 
 import android.annotation.TargetApi;
 import android.content.ClipData;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
@@ -13,6 +17,7 @@ import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private AutoFitGridLayout answerGrid;
     private AutoFitGridLayout answerGrid2;
     private AutoFitGridLayout answerGrid3;
+    private AutoFitGridLayout answerGrid4;
     private String question;
     private String answer;
     private String category;
@@ -54,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
     private RelativeLayout questionAndAnswer;
     private CountDownTimer cdTimer;
     private int value;
+    private static int runningTotal = 0;
+    private LinearLayout answerGrids;
     // private CardView questionCard;
 
     @Override
@@ -74,8 +82,10 @@ public class MainActivity extends AppCompatActivity {
         answerGrid = (AutoFitGridLayout)findViewById(R.id.answer_tiles);
         answerGrid2 = (AutoFitGridLayout)findViewById(R.id.answer_tiles2);
         answerGrid3 = (AutoFitGridLayout)findViewById(R.id.answer_tiles3);
+        answerGrid4 = (AutoFitGridLayout)findViewById(R.id.answer_tiles4);
         questionAndAnswer = (RelativeLayout)findViewById(R.id.q_and_a);
         clueGrid = (AutoFitGridLayout)findViewById(R.id.clue_tiles);
+        answerGrids = (LinearLayout)findViewById(R.id.answer_grids);
 
          timer = (TextView) findViewById(R.id.timer);
 
@@ -83,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         myScoreText = (TextView) findViewById(R.id.my_score);
 
         if (questionsGet != null) {
-            questionsGet.setOnClickListener(NewQuestionListener(questionsApi, answerTv, clueGrid));
+            questionsGet.setOnClickListener(NewQuestionListener());
         }
     }
 
@@ -93,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @NonNull
-    private View.OnClickListener NewQuestionListener(final QuestionApi questionsApi, final TextView answerTv, final AutoFitGridLayout clueGrid) {
+    private View.OnClickListener NewQuestionListener() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,13 +114,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void GenerateNewQuestion() {
         ResetAnswerGrids();
-        ShowQuestionSection();
-        // questionsGet.setVisibility(View.INVISIBLE);
         answerTv.setVisibility(View.INVISIBLE);
-
+        answerGrids.setVisibility(View.VISIBLE);
+        clueGrid.setVisibility(View.VISIBLE);
         questionsTv.setText("loading.....");
         Map<String, String> qStringOptions = new HashMap<>();
-        qStringOptions.put("count","1");
+        qStringOptions.put("count","20");
         String path = "random";
 
         Call<List<Question>> questions = questionsApi.getRandomQuestions(path, qStringOptions);
@@ -134,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
                              value = questions.get(0).getValue();
 
                             answer = SanitizeAnswer(answer);
+                            answer = makeUpper(answer);
 
                             //set actionbar title and sub title
                             if(getSupportActionBar() !=null) {
@@ -143,14 +153,12 @@ public class MainActivity extends AppCompatActivity {
 
                             ArrayList<Integer> spaceIndexes = GetRandomSpaceIndexes(answer);
 
-                            ShowAnswerGrids(answer.length());
-
                             String alphabet = getString(R.string.alphabet);
 
                             char[] clueLetters = GetLettersToOmit(answer, spaceIndexes);
 
                             int remSize = 10 - spaceIndexes.size();
-                            char[] remLetters = GetRandomLetters(remSize, alphabet);
+                            char[] remLetters = GetRandomLetters(remSize, alphabet.toUpperCase());
 
                             char[] gameString = ArrayUtils.addAll(remLetters, clueLetters);
 
@@ -164,24 +172,25 @@ public class MainActivity extends AppCompatActivity {
                                 //get all the clue letters from the server
                                 //and add them to the clues grid
                                 CardView card =  (CardView)clueGrid.getChildAt(i);
-                                card.setCardElevation(0);
+                                card.setCardElevation(1);
                                 TileView icon;
 
                                 if(card.getChildCount() < 1)
                                continue;
 
                                 icon =   (TileView)card.getChildAt(0);
-
-                               card.setOnDragListener(new LetterDragListener());
+                                icon.setLetter(l);
+                                card.setOnDragListener(new LetterDragListener());
                                 icon.setOnTouchListener(new GridTouchListener());
 
-                                String url = getLetterUrl(false, l, false);
-                                if(!url.equals(""))
-                                    Picasso
-                                    .with(getApplicationContext())
-                                    .load(url)
-                                    .placeholder(R.drawable.ic_more_48)
-                                    .into(icon);
+                                icon.setLetter(l);
+//                                String url = getLetterUrl(false, l, false);
+//                                if(!url.equals(""))
+//                                    Picasso
+//                                    .with(getApplicationContext())
+//                                    .load(url)
+//                                    .placeholder(R.drawable.ic_more_48)
+//                                    .into(icon);
                             }
 
                             //add the letters to the grid
@@ -190,37 +199,36 @@ public class MainActivity extends AppCompatActivity {
                                 char letter = answer.charAt(i);
 
                                 icon = getImageViewForLetter(i);
-
+                              //  icon.setBackgroundColor(Color.parseColor("#efefef"));
                                 CardView card = (CardView) icon.getParent();
-
+                                //card.setBackground(new ColorDrawable(Color.TRANSPARENT));
                                 card.setOnDragListener(new LetterDragListener());
-                                card.setCardElevation(0);
+                                card.setCardElevation(1);
                                 icon.setOnTouchListener(new GridTouchListener());
 
-
-
                                     if(answer.charAt(i) == ' ') {
-                                       // icon.setBackground(new ColorDrawable(Color.parseColor("#efefef")));
+                                        icon.setLetter(' ');
                                     }
                                     else if(spaceIndexes.contains(i)){
                                         String url = getLetterUrl(false,'-', true);
-                                        icon.setTag('-');
-                                        if (!url.equals(""))
-                                            Picasso.with(getApplicationContext())
-                                                    .load(url)
-                                                    .into(icon);
+                                        icon.setLetter('_');
+//                                        if (!url.equals(""))
+//                                            Picasso.with(getApplicationContext())
+//                                                    .load(url)
+//                                                    .into(icon);
                                     }
                                     else {
                                         String url = getLetterUrl(false, letter, false);
-                                        icon.setTag(letter);
+                                        icon.setLetter(letter);
 
-                                        if (!url.equals(""))
-                                            Picasso.with(getApplicationContext())
-                                                    .load(url)
-                                                    .into(icon);
+//                                        if (!url.equals(""))
+//                                            Picasso.with(getApplicationContext())
+//                                                    .load(url)
+//                                                    .into(icon);
                                     }
                             }
 
+                            ShowAnswerGrids(answer.length());
                             questionsTv.setText(question);
                             if (answerTv != null) {
                                 answerTv.setText(answer);
@@ -231,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
                             Log.d(QUESTION_GET, e.getMessage() + " : " + Arrays.toString(e.getStackTrace()));
                         }
                     }
-                    Log.d(QUESTION_GET, response.message() + ": " + response.body().toString());
+                    Log.d(QUESTION_GET, response.message());
                 }
             }
 
@@ -245,6 +253,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private String makeUpper(String answer) {
+        return answer.toUpperCase();
     }
 
     private final class GridTouchListener implements View.OnTouchListener {
@@ -264,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void ShowQuestionSection() {
-      //  YoYo.with(Techniques.FadeIn).duration(700).playOn(questionAndAnswer);
+        YoYo.with(Techniques.FadeIn).duration(700).playOn(questionAndAnswer);
     }
 
     private void StartTimer() {
@@ -286,12 +298,15 @@ public class MainActivity extends AppCompatActivity {
 
     private TileView getImageViewForLetter(int i) {
         TileView icon;
-        if(i < 10)               // first row
+        if(i >= 0 && i < 10)               // first row
             icon = (TileView)((CardView)answerGrid.getChildAt(i)).getChildAt(0);
         else if(i > 9 && i < 20) // second row
             icon = (TileView)((CardView)answerGrid2.getChildAt(i - 10)).getChildAt(0);
-        else                     // third row
+        else if(i > 19 && i < 30) // third row
             icon = (TileView)((CardView) answerGrid3.getChildAt(i - 20)).getChildAt((0));
+        else
+            icon = (TileView)((CardView) answerGrid4.getChildAt(i - 30)).getChildAt((0));
+
         return icon;
     }
 
@@ -311,26 +326,41 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void ResetAnswerGrids() {
-        answerGrid2.setVisibility(View.GONE);
-        answerGrid3.setVisibility(View.GONE);
 
         for(int i = 0; i < answerGrid.getChildCount(); i ++){
             CardView container = (CardView)answerGrid.getChildAt(i);
+            container.setBackgroundColor(Color.LTGRAY);
             ((TileView)container.getChildAt(0)).setImageDrawable(null);
+            ((TileView)container.getChildAt(0)).setLetter(' ');
         }
 
         for(int i = 0; i < answerGrid2.getChildCount(); i ++){
             CardView container = (CardView)answerGrid2.getChildAt(i);
+            container.setBackgroundColor(Color.LTGRAY);
             ((TileView)container.getChildAt(0)).setImageDrawable(null);
+            ((TileView)container.getChildAt(0)).setLetter(' ');
         }
 
         for(int i = 0; i < answerGrid3.getChildCount(); i ++){
             CardView container = (CardView)answerGrid3.getChildAt(i);
+            container.setBackgroundColor(Color.LTGRAY);
             ((TileView)container.getChildAt(0)).setImageDrawable(null);
+            ((TileView)container.getChildAt(0)).setLetter(' ');
         }
+
+        for(int i = 0; i < answerGrid4.getChildCount(); i ++){
+            CardView container = (CardView)answerGrid4.getChildAt(i);
+            container.setBackgroundColor(Color.LTGRAY);
+            ((TileView)container.getChildAt(0)).setImageDrawable(null);
+            ((TileView)container.getChildAt(0)).setLetter(' ');
+        }
+         answerGrid.setVisibility(View.GONE);
+        answerGrid3.setVisibility(View.GONE);
+        answerGrid3.setVisibility(View.GONE);
+        answerGrid4.setVisibility(View.GONE);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+
     private void ShowAnswerGrids(int length) {
         answerGrid.setVisibility(View.VISIBLE);
 
@@ -361,19 +391,30 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        if(length > 30) {
+            answerGrid4.setVisibility(View.VISIBLE);
+            for(int i = 0; i < answerGrid4.getChildCount(); i ++){
+                CardView container = (CardView)answerGrid4.getChildAt(i);
+                container.setCardElevation(0);
+                container.setOnDragListener(new LetterDragListener());
+                container.getChildAt(0).setOnTouchListener(new GridTouchListener());
+            }
+        }
+
     }
 
     private String SanitizeAnswer(String answer) {
-        String result1 = answer.replace("<i>","");
-        String result2 = result1.replace("(", "");
-        String result3 = result2.replace(")", "");
-        String result4 = result3.replace("</i>", "");
-        String result5 = result4.replace(".", "");
-        String result6 = result5.replace(",", "");
-        String result7 = result6.replace("\\'", "");
-        String result8 = result7.replace('"', ' ');
-
-        return result8.trim();
+        return answer
+                .replace("<i>","")
+                .replace("(", "")
+                .replace(")", "")
+                .replace("</i>", "")
+                .replace(".", "")
+                .replace(",", "")
+                .replace("\\'", "")
+                .replace('"', ' ')
+                .replace("\\[", "")
+                .replace("\\]", "");
     }
 
     private String getLetterUrl(boolean firstLetter, char letter, boolean blocked) {
@@ -382,10 +423,6 @@ public class MainActivity extends AppCompatActivity {
       String postLower = "%20Lowercase-52.png";
       String postUpper = "-52.png";
       String blank = "Minus-48.png";
-        if(letter == 'u')
-        {
-
-        }
 
         if(blocked)
         {
@@ -510,8 +547,8 @@ public class MainActivity extends AppCompatActivity {
         oldCard.removeView(movingIcon);
         ImageView containerIcon = (ImageView) newCard.getChildAt(0);
         newCard.removeView(containerIcon);
-        newCard.addView(movingIcon);
-        oldCard.addView(containerIcon);
+        newCard.addView(movingIcon,0);
+        oldCard.addView(containerIcon,0);
 //        YoYo.with(Techniques.Pulse).duration(700).playOn(containerIcon);
 //        YoYo.with(Techniques.Pulse).duration(700).playOn(movingIcon);
     }
@@ -528,37 +565,56 @@ public class MainActivity extends AppCompatActivity {
         if(answer.length() > 20)
             playedAnswer.add(answerGrid3);
 
+        if(answer.length() > 30)
+            playedAnswer.add(answerGrid4);
+
         for(int i=0; i < playedAnswer.size(); i++){
 
+            Log.d("ValidatePlay:", "checking all answer grids to get the full answer char list ");
             AutoFitGridLayout grid = playedAnswer.get(i);
-             for(int g =0; g < grid.getChildCount(); g++)
+
+            Log.d("ValidatePlay:", "iterating grids children");
+             for(int g = 0; g < grid.getChildCount(); g++)
              {
                  CardView card = (CardView) grid.getChildAt(g);
                  TileView tile = (TileView) card.getChildAt(0);
 
-                 if(tile == null || tile.getTag() == null)
-                     continue;
+//                 if(tile.getLetter() == ' ')
+//                     continue;
 
-                 char tagLetter = (char) tile.getTag();
+                 char tagLetter = tile.getLetter();
+
+                 Log.d("ValidatePlay:", "tag letter is " + tagLetter + " it's the char at index "+ g);
                  builder.append(tagLetter);
+
              }
         }
-        String saneAnswer = answer.replaceAll("\\s+","");
-        String saneBuilder = builder.toString().replaceAll("\\s+","");
+        Log.d("ValidatePlay:", "done iterating grids children");
+        Log.d("ValidatePlay:", "raw answer value:" + answer);
 
-            if(saneAnswer.equals(saneBuilder)){
-            Toast.makeText(getApplicationContext(), "correct!", Toast.LENGTH_LONG).show();
-                CalculateScores();
+        String guessedString = builder.toString().replaceAll("[^\\p{L}\\p{Nd}]+", "").trim();
+        String answerParsed = answer.replaceAll("[^\\p{L}\\p{Nd}]+", "").trim();
+        Log.d("ValidatePlay: builder", guessedString);
+
+            if(answerParsed.equalsIgnoreCase(guessedString) || guessedString.contentEquals(answerParsed) || guessedString.contains(answerParsed)){
+            Toast.makeText(getApplicationContext(), "correct", Toast.LENGTH_LONG).show();
+                CalculateScores();//todo call this async maybe from the postExecute function in the async to be called for the validate method
                 ResetTimer();
-                GenerateNewQuestion(); //todo call this async
+                ShowAnswer();
+                GenerateNewQuestion();
         }
     }
 
     private void CalculateScores() {
 
-        int currentScore = Integer.parseInt(myScoreText.getText().toString());
-        int result = currentScore + value;
-        myScoreText.setText(result);
+        try {
+            int currentScore = runningTotal;
+            int result = currentScore + value;
+            myScoreText.setText(String.valueOf(result));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            Log.d("calculating score: ", e.getMessage());
+        }
     }
 
     private void ResetTimer() {

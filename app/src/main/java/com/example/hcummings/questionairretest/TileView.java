@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
@@ -56,13 +57,13 @@ public class TileView extends ImageView {
     private void init(Context context, AttributeSet attrs) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TileView);
         mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-       // mTextColor = Color.;
-       // mTextPaint.setColor(mTextColor);
+        mTextPaint.setTypeface(Typeface.SANS_SERIF);
+        mTextColor = Color.parseColor("#333333");
+        mTextPaint.setColor(mTextColor);
         mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mBackgroundPaint.setStyle(Paint.Style.STROKE);
-        mBackgroundPaint.setColor(Color.parseColor("#efefef")); //randomColor()
+        mBackgroundPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        mBackgroundPaint.setColor(Color.parseColor("#ffffff")); //randomColor()
         spot = a.getInt(R.styleable.TileView_spot, 0);
-        setOval(true);
     }
 
     public char getLetter() {
