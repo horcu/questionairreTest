@@ -58,11 +58,11 @@ public class TileView extends ImageView {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TileView);
         mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mTextPaint.setTypeface(Typeface.SANS_SERIF);
-        mTextColor = Color.parseColor("#777777");
+        mTextColor = Color.parseColor("#ffffff");
         mTextPaint.setColor(mTextColor);
         mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBackgroundPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        mBackgroundPaint.setColor(Color.parseColor("#ffffff")); //randomColor()
+        mBackgroundPaint.setColor(getResources().getColor(R.color.colorPrimary)); //randomColor()
         spot = a.getInt(R.styleable.TileView_spot, 0);
     }
 

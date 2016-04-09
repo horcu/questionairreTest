@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private int value;
     private static int runningTotal = 0;
     private LinearLayout answerGrids;
+    private ImageView showAnswer;
     // private CardView questionCard;
 
     @Override
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         questionAndAnswer = (RelativeLayout)findViewById(R.id.q_and_a);
         clueGrid = (AutoFitGridLayout)findViewById(R.id.clue_tiles);
         answerGrids = (LinearLayout)findViewById(R.id.answer_grids);
-
+        showAnswer = (ImageView)findViewById(R.id.show_answer);
          timer = (TextView) findViewById(R.id.timer);
 
         questionsGet = (ImageView) findViewById(R.id.get_q);
@@ -114,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void GenerateNewQuestion() {
         ResetAnswerGrids();
+        showAnswer.setOnClickListener(null);
         answerTv.setVisibility(View.INVISIBLE);
         answerGrids.setVisibility(View.VISIBLE);
         clueGrid.setVisibility(View.VISIBLE);
@@ -172,6 +174,8 @@ public class MainActivity extends AppCompatActivity {
                                 //get all the clue letters from the server
                                 //and add them to the clues grid
                                 CardView card =  (CardView)clueGrid.getChildAt(i);
+
+                                card.setCardBackgroundColor(R.color.colorPrimary);
                                 card.setCardElevation(1);
                                 TileView icon;
 
@@ -199,9 +203,7 @@ public class MainActivity extends AppCompatActivity {
                                 char letter = answer.charAt(i);
 
                                 icon = getImageViewForLetter(i);
-                              //  icon.setBackgroundColor(Color.parseColor("#efefef"));
                                 CardView card = (CardView) icon.getParent();
-                                //card.setBackground(new ColorDrawable(Color.TRANSPARENT));
                                 card.setOnDragListener(new LetterDragListener());
                                 card.setCardElevation(1);
                                 icon.setOnTouchListener(new GridTouchListener());
@@ -287,10 +289,16 @@ public class MainActivity extends AppCompatActivity {
             }
 
             public void onFinish() {
-                timer.setText("time's up!");
+                timer.setText(R.string.time_up);
                 //StopRound();
                 questionsGet.setVisibility(View.VISIBLE);
-                ShowAnswer();
+                showAnswer.setAlpha(1);
+                showAnswer.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ShowAnswer();
+                    }
+                });
             }
         };
         cdTimer.start();
@@ -329,28 +337,28 @@ public class MainActivity extends AppCompatActivity {
 
         for(int i = 0; i < answerGrid.getChildCount(); i ++){
             CardView container = (CardView)answerGrid.getChildAt(i);
-            container.setBackgroundColor(Color.LTGRAY);
+            container.setBackgroundColor(Color.parseColor("#ebebeb"));
             ((TileView)container.getChildAt(0)).setImageDrawable(null);
             ((TileView)container.getChildAt(0)).setLetter(' ');
         }
 
         for(int i = 0; i < answerGrid2.getChildCount(); i ++){
             CardView container = (CardView)answerGrid2.getChildAt(i);
-            container.setBackgroundColor(Color.LTGRAY);
+            container.setBackgroundColor(Color.parseColor("#ebebeb"));
             ((TileView)container.getChildAt(0)).setImageDrawable(null);
             ((TileView)container.getChildAt(0)).setLetter(' ');
         }
 
         for(int i = 0; i < answerGrid3.getChildCount(); i ++){
             CardView container = (CardView)answerGrid3.getChildAt(i);
-            container.setBackgroundColor(Color.LTGRAY);
+            container.setBackgroundColor(Color.parseColor("#ebebeb"));
             ((TileView)container.getChildAt(0)).setImageDrawable(null);
             ((TileView)container.getChildAt(0)).setLetter(' ');
         }
 
         for(int i = 0; i < answerGrid4.getChildCount(); i ++){
             CardView container = (CardView)answerGrid4.getChildAt(i);
-            container.setBackgroundColor(Color.LTGRAY);
+            container.setBackgroundColor(Color.parseColor("#ebebeb"));
             ((TileView)container.getChildAt(0)).setImageDrawable(null);
             ((TileView)container.getChildAt(0)).setLetter(' ');
         }
@@ -600,7 +608,14 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "correct", Toast.LENGTH_LONG).show();
                 CalculateScores();//todo call this async maybe from the postExecute function in the async to be called for the validate method
                 ResetTimer();
-                ShowAnswer();
+                //ShowAnswer();
+                showAnswer.setAlpha(1f);
+                showAnswer.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ShowAnswer();
+                    }
+                });
                 GenerateNewQuestion();
         }
     }
@@ -618,6 +633,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void ResetTimer() {
+        cdTimer.cancel();
         cdTimer = null;
         timer.setText("get ready..");
         StartTimer();
